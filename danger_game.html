@@ -47,7 +47,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.1.6 automatic furigana ===== */
+/* ===== Ver.1.7 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -85,7 +85,7 @@ ruby.autoRuby rt{
 </head>
 <body>
 
-<div class="top"><div class="wrap nav"><a href="index.html">← TOP</a><span class="pill">にじフラ Ver.1.6</span></div></div>
+<div class="top"><div class="wrap nav"><a href="index.html">← TOP</a><span class="pill">にじフラ Ver.1.7</span></div></div>
 <main class="wrap">
 <section class="panel">
   <div class="status">
@@ -136,8 +136,22 @@ function speakText(text){
   speechSynthesis.cancel();speechSynthesis.speak(u);
 }
 
+
+function makeUniqueDeck(){
+  const seen = new Set();
+  const unique = [];
+  shuffle(DATA).forEach(q=>{
+    const key = String(q[0] || "").trim();
+    if(!seen.has(key)){
+      seen.add(key);
+      unique.push(q);
+    }
+  });
+  return unique.slice(0,10);
+}
+
 function start(){
-  deck = shuffle(DATA).slice(0,10);
+  deck = makeUniqueDeck();
   index=0; miss=0; correct=0; done=[];
   document.getElementById("miss").textContent=miss;
   document.getElementById("report").classList.add("hidden");
