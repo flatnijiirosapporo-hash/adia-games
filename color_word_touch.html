@@ -34,27 +34,245 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+.wordStage{
+  margin-top:16px;
+  padding:20px;
+  border-radius:30px;
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+  border:4px solid #fff;
+  box-shadow:inset 0 0 0 2px #dbeafe,0 12px 28px rgba(30,41,59,.10);
+}
+.bigWord{
+  font-size:clamp(58px,16vw,120px);
+  line-height:1.1;
+  font-weight:1000;
+  text-align:center;
+  margin:10px 0;
+  letter-spacing:.05em;
+}
+.taskBox{
+  text-align:center;
+  background:#eef2ff;
+  color:#3730a3;
+  border-radius:24px;
+  padding:14px;
+  font-weight:900;
+  font-size:clamp(22px,4vw,32px);
+}
+.answerGrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+.answerBtn{
+  background:white;
+  border:5px solid #dbeafe;
+  border-radius:24px;
+  padding:20px 10px;
+  font-size:clamp(24px,5vw,38px);
+  font-weight:1000;
+  text-align:center;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(30,41,59,.10);
+}
+.redText{color:#ef4444}.blueText{color:#2563eb}.yellowText{color:#ca8a04}.greenText{color:#16a34a}.purpleText{color:#9333ea}.orangeText{color:#ea580c}.blackText{color:#111827}
+.modeChip{display:inline-block;background:#fff7ed;color:#9a3412;border-radius:999px;padding:8px 14px;font-weight:900}
+@media(min-width:760px){.answerGrid{grid-template-columns:repeat(3,1fr)}}
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge">正解 <span id="score">0</span></span><span class="badge" id="cat"></span></div>
-<div id="illust" class="illust">🌈</div><h1 style="text-align:center">色ことば</h1><p class="lead" style="text-align:center">文字を見て選びます。</p>
-<div id="scene" class="scene">スタート</div>
-<div class="actions"><button onclick="readQ()">🔊 よみあげ</button><button class="light" onclick="start()">もう一回</button></div>
-<div id="choices" class="choices"></div><div id="msg" class="message"></div><div id="tip" class="tip hidden"></div><div id="report" class="report hidden"></div>
-</section></main><script>
+  <div class="status">
+    <span class="badge">問題 <span id="num">0</span>/20</span>
+    <span class="badge">正解 <span id="score">0</span></span>
+    <span class="badge">ミス <span id="miss">0</span></span>
+    <span class="badge">モード <span id="modeName">-</span></span>
+  </div>
+
+  <div class="illust">🌈</div>
+  <h1 style="text-align:center">色ことば</h1>
+  <p class="lead" style="text-align:center">
+    色の「ことば」と「文字の色」を切り替えて見るゲームです。<br>
+    漢字・ひらがな・カタカナのひっかけがあります。
+  </p>
+
+  <div class="actions">
+    <button onclick="start()">スタート</button>
+    <button class="light" onclick="readQ()">🔊 よみあげ</button>
+  </div>
+
+  <div class="wordStage">
+    <div id="task" class="taskBox">スタートを押してね</div>
+    <div id="word" class="bigWord blackText">色</div>
+    <div id="kana" style="text-align:center;color:#64748b;font-weight:900"></div>
+    <div id="answers" class="answerGrid"></div>
+  </div>
+
+  <div id="msg" class="message"></div>
+  <div id="report" class="report hidden"></div>
+</section></main>
+<script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
-const DATA=[{"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}, {"cat": "色", "illust": "🌈", "scene": "「あか」を選ぼう。", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "ゆっくり見て選ぼう。"}];
-let deck=[],i=0,score=0,wrong=[],answered=false,current='';
-function start(){deck=shuffle(DATA).slice(0,10);i=0;score=0;wrong=[];answered=false;document.getElementById('score').textContent=score;document.getElementById('report').classList.add('hidden');document.getElementById('report').innerHTML='';show()}
-function show(){answered=false;document.getElementById('msg').textContent='';document.getElementById('tip').classList.add('hidden');if(i>=deck.length){finish();return}const q=deck[i];current=q.scene;document.getElementById('num').textContent=i+1;document.getElementById('cat').textContent=q.cat||'';document.getElementById('illust').textContent=q.illust||'🌈';document.getElementById('scene').textContent=q.scene;const box=document.getElementById('choices');box.innerHTML='';shuffle(q.choices).forEach(c=>{let d=document.createElement('div');d.className='choice';d.textContent=c.text;d.onclick=()=>answer(c,d);box.appendChild(d)})}
-function answer(c,d){if(answered)return;answered=true;document.querySelectorAll('.choice').forEach(x=>x.style.pointerEvents='none');const q=deck[i];if(c.ok){score++;document.getElementById('score').textContent=score;d.classList.add('correct');document.getElementById('msg').innerHTML='<span class="ok">いいね！</span>'}else{d.classList.add('wrong');let good=q.choices.find(x=>x.ok);wrong.push({cat:q.cat,illust:q.illust,scene:q.scene,selected:c.text,correct:good?good.text:'',tip:q.tip});document.getElementById('msg').innerHTML='<span class="ng">もう一回考えよう</span>'}document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<b>ポイント</b><br>'+esc(q.tip||'');setTimeout(()=>{i++;show()},1500)}
-function finish(){document.getElementById('num').textContent=10;document.getElementById('illust').textContent='⭐';document.getElementById('scene').textContent='おしまい！\n'+score+' / 10 問できました';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.add('hidden');const r=document.getElementById('report');r.classList.remove('hidden');let h='<h2>ふりかえりレポート</h2>';if(wrong.length===0){h+='<p>まちがえた問題はありませんでした。</p>'}else{h+='<p>まちがえた問題だけを表示します。</p>';wrong.forEach((w,n)=>{h+='<div class="reportItem"><div style="font-size:52px;text-align:center">'+esc(w.illust||'')+'</div><b>'+(n+1)+'. まちがえた問題</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>ポイント：</b><br>'+esc(w.tip||'')+'</p></div>'})}h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';r.innerHTML=h}
-function readQ(){speakText(current||document.getElementById('scene').textContent)}
-start();
+const colors = [
+  {key:"red", jp:"赤", hira:"あか", kata:"アカ", css:"redText", speak:"あか"},
+  {key:"blue", jp:"青", hira:"あお", kata:"アオ", css:"blueText", speak:"あお"},
+  {key:"yellow", jp:"黄", hira:"きいろ", kata:"キイロ", css:"yellowText", speak:"きいろ"},
+  {key:"green", jp:"緑", hira:"みどり", kata:"ミドリ", css:"greenText", speak:"みどり"},
+  {key:"purple", jp:"紫", hira:"むらさき", kata:"ムラサキ", css:"purpleText", speak:"むらさき"},
+  {key:"orange", jp:"橙", hira:"だいだい", kata:"オレンジ", css:"orangeText", speak:"オレンジ"}
+];
+
+const modeList = [
+  {id:"readWord", name:"文字を読む", task:"書いてある色ことばを選ぼう"},
+  {id:"inkColor", name:"色を見る", task:"文字の色を選ぼう"},
+  {id:"reverse", name:"逆ストループ", task:"ことばにまどわされず、文字の色を選ぼう"},
+  {id:"reading", name:"読み方", task:"読み方が同じ色を選ぼう"}
+];
+
+let deck=[], i=0, score=0, miss=0, wrong=[], currentText="", answered=false;
+
+function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+function makeDeck(){
+  let d=[];
+  for(let r=0;r<7;r++){
+    colors.forEach(word=>{
+      const ink = rand(colors.filter(c=>c.key!==word.key));
+      d.push({mode:"readWord", word, ink});
+      d.push({mode:"inkColor", word, ink});
+      d.push({mode:"reverse", word, ink});
+      d.push({mode:"reading", word, ink});
+    });
+  }
+  return shuffle(d);
+}
+
+function notation(c){
+  const n=rand(["jp","hira","kata"]);
+  return {main:c[n], sub:n==="jp"?c.hira:c.jp, type:n};
+}
+
+function start(){
+  deck=makeDeck().slice(0,20);
+  i=0; score=0; miss=0; wrong=[];
+  document.getElementById("score").textContent=score;
+  document.getElementById("miss").textContent=miss;
+  document.getElementById("report").classList.add("hidden");
+  document.getElementById("report").innerHTML="";
+  show();
+}
+
+function show(){
+  answered=false;
+  document.getElementById("msg").textContent="";
+  document.getElementById("answers").innerHTML="";
+  if(i>=deck.length){finish();return;}
+
+  const q=deck[i];
+  const mode=modeList.find(m=>m.id===q.mode);
+  const note=notation(q.word);
+  const correct = (q.mode==="readWord" || q.mode==="reading") ? q.word : q.ink;
+
+  document.getElementById("num").textContent=i+1;
+  document.getElementById("modeName").textContent=mode.name;
+  document.getElementById("task").innerHTML='<span class="modeChip">'+mode.name+'</span><br>'+mode.task;
+  document.getElementById("word").className="bigWord "+q.ink.css;
+  document.getElementById("word").textContent=note.main;
+  document.getElementById("kana").textContent="よみ："+note.sub;
+
+  currentText = mode.task + "。表示は " + q.word.speak + "。";
+
+  const answers=shuffle(colors).slice(0,6);
+  if(!answers.some(c=>c.key===correct.key))answers[0]=correct;
+
+  shuffle(answers).forEach(c=>{
+    const btn=document.createElement("div");
+    btn.className="answerBtn";
+    btn.innerHTML='<span class="'+c.css+'">'+esc(c.jp)+'</span><br><span style="font-size:16px;color:#64748b">'+esc(c.hira)+' / '+esc(c.kata)+'</span>';
+    btn.onclick=()=>answer(btn,c,correct,q,mode,note);
+    document.getElementById("answers").appendChild(btn);
+  });
+}
+
+function answer(btn,c,correct,q,mode,note){
+  if(answered)return;
+  answered=true;
+  document.querySelectorAll(".answerBtn").forEach(x=>x.style.pointerEvents="none");
+
+  if(c.key===correct.key){
+    score++;
+    document.getElementById("score").textContent=score;
+    btn.classList.add("correct");
+    document.getElementById("msg").innerHTML='<span class="ok">いいね！切り替えて見られました</span>';
+  }else{
+    miss++;
+    document.getElementById("miss").textContent=miss;
+    btn.classList.add("wrong");
+    wrong.push({
+      mode:mode.name,
+      task:mode.task,
+      display:note.main,
+      displayRead:q.word.jp+"（"+q.word.hira+"）",
+      ink:q.ink.jp+"（"+q.ink.hira+"）",
+      selected:c.jp+"（"+c.hira+"）",
+      correct:correct.jp+"（"+correct.hira+"）",
+      point: pointText(q.mode)
+    });
+    document.getElementById("msg").innerHTML='<span class="ng">もう一回、見る場所を確認しよう</span>';
+  }
+
+  setTimeout(()=>{i++;show();},1300);
+}
+
+function pointText(mode){
+  if(mode==="readWord") return "文字の色ではなく、書いてある色ことばを読む問題です。";
+  if(mode==="inkColor") return "書いてある文字ではなく、文字そのものの色を見る問題です。";
+  if(mode==="reverse") return "ことばに引っぱられず、文字の色へ注意を切り替える問題です。";
+  if(mode==="reading") return "漢字・ひらがな・カタカナの読み方を結びつける問題です。";
+  return "見るポイントを切り替える問題です。";
+}
+
+function finish(){
+  document.getElementById("task").textContent="おしまい！";
+  document.getElementById("word").className="bigWord blackText";
+  document.getElementById("word").textContent="⭐";
+  document.getElementById("kana").textContent="";
+  document.getElementById("answers").innerHTML="";
+  document.getElementById("msg").innerHTML='<span class="ok">'+score+' / 20 問できました</span>';
+
+  const r=document.getElementById("report");
+  r.classList.remove("hidden");
+
+  let h='<h2>色ことば レポート</h2>';
+  h+='<p>文字の意味・文字の色・読み方を切り替える力を見るゲームです。</p>';
+  h+='<div class="reportItem"><b>結果</b><br>正解 '+score+' / 20　ミス '+miss+'</div>';
+
+  if(wrong.length){
+    h+='<h3>まちがえた問題</h3>';
+    wrong.forEach((w,n)=>{
+      h+='<div class="reportItem">';
+      h+='<b>'+(n+1)+'. '+esc(w.mode)+'</b><br>';
+      h+='<b>お題：</b>'+esc(w.task)+'<br>';
+      h+='<b>表示：</b>'+esc(w.display)+' ／ 読み '+esc(w.displayRead)+'<br>';
+      h+='<b>文字の色：</b>'+esc(w.ink)+'<br>';
+      h+='<span class="ng"><b>選んだ答え：</b>'+esc(w.selected)+'</span><br>';
+      h+='<span class="ok"><b>よい答え：</b>'+esc(w.correct)+'</span><br>';
+      h+='<b>ポイント：</b>'+esc(w.point);
+      h+='</div>';
+    });
+  }else{
+    h+='<div class="reportItem">まちがえた問題はありませんでした。</div>';
+  }
+
+  h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';
+  r.innerHTML=h;
+}
+
+function readQ(){speakText(currentText || document.getElementById("task").textContent)}
 </script>
 </body></html>

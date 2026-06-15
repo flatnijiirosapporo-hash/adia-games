@@ -34,23 +34,263 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+.colorBoard{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:16px;
+}
+.colorCard{
+  min-height:115px;
+  border-radius:26px;
+  background:white;
+  border:5px solid #dbeafe;
+  box-shadow:0 10px 24px rgba(30,41,59,.10);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  cursor:pointer;
+  padding:12px;
+}
+.colorWord{
+  font-size:clamp(34px,8vw,58px);
+  line-height:1.1;
+}
+.colorKana{
+  font-size:16px;
+  color:#64748b;
+  margin-top:6px;
+}
+.modeLine{
+  background:#eef2ff;
+  color:#3730a3;
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:900;
+  display:inline-block;
+}
+.redText{color:#ef4444}.blueText{color:#2563eb}.yellowText{color:#ca8a04}.greenText{color:#16a34a}.purpleText{color:#9333ea}.orangeText{color:#ea580c}.blackText{color:#111827}
+.redBg{background:#fee2e2}.blueBg{background:#dbeafe}.yellowBg{background:#fef3c7}.greenBg{background:#dcfce7}.purpleBg{background:#f3e8ff}.orangeBg{background:#ffedd5}
+@media(min-width:760px){.colorBoard{grid-template-columns:repeat(3,1fr)}}
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">残り <span id="time">20</span>秒</span><span class="badge">点 <span id="score">0</span></span></div>
-<div class="illust">🎨</div><h1 style="text-align:center">色タッチ</h1>
-<div class="scene">赤（あか）をタップしよう</div>
-<div class="actions"><button onclick="start()">スタート</button></div>
-<div id="area" class="choices"></div><div id="msg" class="message"></div>
-</section></main><script>
+  <div class="status">
+    <span class="badge">問題 <span id="num">0</span>/20</span>
+    <span class="badge">正解 <span id="score">0</span></span>
+    <span class="badge">ミス <span id="miss">0</span></span>
+    <span class="badge">モード <span id="modeName">色</span></span>
+  </div>
+
+  <div class="illust">🎨</div>
+  <h1 style="text-align:center">色タッチ</h1>
+  <p class="lead" style="text-align:center">
+    文字にまどわされず、よく見て選びます。<br>
+    漢字・ひらがな・カタカナ・文字色のひっかけがあります。
+  </p>
+
+  <div class="actions">
+    <button onclick="start()">スタート</button>
+    <button class="light" onclick="readQ()">🔊 よみあげ</button>
+  </div>
+
+  <div id="instruction" class="scene">スタートを押してね</div>
+  <div id="hint" style="text-align:center"></div>
+  <div id="board" class="colorBoard"></div>
+  <div id="msg" class="message"></div>
+  <div id="report" class="report hidden"></div>
+</section></main>
+<script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
-const colors=[['red','赤'],['blue','青'],['yellow','黄'],['green','緑'],['purple','紫'],['orange','橙']];
-let score=0,time=20,timer=null,running=false;
-function start(){score=0;time=20;running=true;document.getElementById('score').textContent=score;document.getElementById('time').textContent=time;draw();clearInterval(timer);timer=setInterval(()=>{time--;document.getElementById('time').textContent=time;if(time<=0)finish()},1000)}
-function draw(){const area=document.getElementById('area');area.innerHTML='';let arr=shuffle(colors).slice(0,6);if(!arr.some(c=>c[0]=='red'))arr[0]=['red','赤'];shuffle(arr).forEach(c=>{let d=document.createElement('div');d.className='tile '+c[0];d.textContent='';d.onclick=()=>{if(!running)return;if(c[0]=='red'){score++;document.getElementById('score').textContent=score;d.classList.add('correct');setTimeout(draw,180)}else{d.classList.add('wrong')}};area.appendChild(d)})}
-function finish(){running=false;clearInterval(timer);document.getElementById('area').innerHTML='';document.getElementById('msg').innerHTML='<span class="ok">おしまい！ '+score+' 点</span>'}
-</script></body></html>
+const colors = [
+  {key:"red", jp:"赤", hira:"あか", kata:"アカ", css:"redText", bg:"redBg", speak:"あか"},
+  {key:"blue", jp:"青", hira:"あお", kata:"アオ", css:"blueText", bg:"blueBg", speak:"あお"},
+  {key:"yellow", jp:"黄", hira:"きいろ", kata:"キイロ", css:"yellowText", bg:"yellowBg", speak:"きいろ"},
+  {key:"green", jp:"緑", hira:"みどり", kata:"ミドリ", css:"greenText", bg:"greenBg", speak:"みどり"},
+  {key:"purple", jp:"紫", hira:"むらさき", kata:"ムラサキ", css:"purpleText", bg:"purpleBg", speak:"むらさき"},
+  {key:"orange", jp:"橙", hira:"だいだい", kata:"オレンジ", css:"orangeText", bg:"orangeBg", speak:"オレンジ"}
+];
+
+const modes = [
+  {id:"meaning", name:"文字の意味", text:"文字の意味で選ぼう"},
+  {id:"ink", name:"文字の色", text:"文字の色で選ぼう"},
+  {id:"kana", name:"かな", text:"同じ読み方を選ぼう"},
+  {id:"mixed", name:"まぜまぜ", text:"お題をよく読んで選ぼう"}
+];
+
+let deck=[], i=0, score=0, miss=0, answered=false, wrong=[], currentText="";
+
+function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
+function makeDeck(){
+  const d=[];
+  for(let r=0;r<6;r++){
+    colors.forEach(c=>{
+      d.push({mode:"meaning", target:c});
+      d.push({mode:"ink", target:c});
+      d.push({mode:"kana", target:c});
+      d.push({mode:"mixed", target:c});
+    });
+  }
+  return shuffle(d);
+}
+
+function start(){
+  deck=makeDeck().slice(0,20);
+  i=0; score=0; miss=0; wrong=[];
+  document.getElementById("score").textContent=score;
+  document.getElementById("miss").textContent=miss;
+  document.getElementById("report").classList.add("hidden");
+  document.getElementById("report").innerHTML="";
+  show();
+}
+
+function show(){
+  answered=false;
+  document.getElementById("msg").textContent="";
+  document.getElementById("board").innerHTML="";
+  document.getElementById("hint").innerHTML="";
+  if(i>=deck.length){finish();return;}
+
+  const q=deck[i];
+  document.getElementById("num").textContent=i+1;
+
+  let mode=q.mode;
+  if(mode==="mixed") mode=rand(["meaning","ink","kana"]);
+  const modeObj=modes.find(m=>m.id===mode);
+  document.getElementById("modeName").textContent=modeObj.name;
+
+  let instruction="";
+  if(mode==="meaning"){
+    instruction="「"+q.target.jp+"（"+q.target.hira+"）」を選ぼう";
+    currentText=q.target.speak+"を選ぼう";
+  }
+  if(mode==="ink"){
+    instruction="文字の色が「"+q.target.jp+"（"+q.target.hira+"）」のものを選ぼう";
+    currentText="文字の色が"+q.target.speak+"のものを選ぼう";
+  }
+  if(mode==="kana"){
+    instruction="読み方が「"+q.target.hira+"」のものを選ぼう";
+    currentText="読み方が"+q.target.speak+"のものを選ぼう";
+  }
+
+  document.getElementById("instruction").textContent=instruction;
+  document.getElementById("hint").innerHTML='<span class="modeLine">'+modeObj.text+'</span>';
+
+  const cards=makeCards(q.target, mode);
+  cards.forEach(card=>addCard(card, q.target, mode, instruction));
+}
+
+function makeCards(target, mode){
+  const picked=shuffle(colors).slice(0,6);
+  if(!picked.some(c=>c.key===target.key)) picked[0]=target;
+
+  return shuffle(picked.map(c=>{
+    const ink=rand(colors);
+    const notation=rand(["jp","hira","kata"]);
+    let label=c[notation];
+    let sub=notation==="jp" ? c.hira : c.jp;
+
+    // ensure correct exists for ink mode
+    let inkColor=ink;
+    if(mode==="ink" && c.key===target.key){
+      inkColor=target;
+    }
+
+    // for some decoys, create Stroop conflict intentionally
+    if(mode==="meaning" && c.key===target.key){
+      inkColor=rand(colors.filter(x=>x.key!==target.key));
+    }
+
+    return {
+      meaning:c.key,
+      ink:inkColor.key,
+      label,
+      sub,
+      textColor:inkColor.css,
+      bg:rand(colors).bg
+    };
+  }));
+}
+
+function addCard(card, target, mode, instruction){
+  const div=document.createElement("div");
+  div.className="colorCard "+card.bg;
+  div.innerHTML='<div class="colorWord '+card.textColor+'">'+esc(card.label)+'</div><div class="colorKana">'+esc(card.sub)+'</div>';
+  div.onclick=()=>answer(div, card, target, mode, instruction);
+  document.getElementById("board").appendChild(div);
+}
+
+function answer(div, card, target, mode, instruction){
+  if(answered)return;
+  answered=true;
+  document.querySelectorAll(".colorCard").forEach(x=>x.style.pointerEvents="none");
+
+  let ok=false;
+  if(mode==="meaning") ok = card.meaning===target.key;
+  if(mode==="ink") ok = card.ink===target.key;
+  if(mode==="kana") ok = card.meaning===target.key;
+
+  if(ok){
+    score++;
+    document.getElementById("score").textContent=score;
+    div.classList.add("correct");
+    document.getElementById("msg").innerHTML='<span class="ok">いいね！ よく見ました</span>';
+  }else{
+    miss++;
+    document.getElementById("miss").textContent=miss;
+    div.classList.add("wrong");
+    wrong.push({
+      instruction,
+      mode,
+      selected:card.label,
+      target:target.jp+"（"+target.hira+"）",
+      point: mode==="ink" ? "文字の意味ではなく、文字の色を見る問題でした。" :
+             mode==="meaning" ? "文字の色ではなく、文字の意味を見る問題でした。" :
+             "漢字・ひらがな・カタカナの読み方を見る問題でした。"
+    });
+    document.getElementById("msg").innerHTML='<span class="ng">もう一回見てみよう</span>';
+  }
+
+  setTimeout(()=>{i++;show();},1200);
+}
+
+function finish(){
+  document.getElementById("instruction").textContent="おしまい！";
+  document.getElementById("hint").innerHTML="";
+  document.getElementById("board").innerHTML="";
+  document.getElementById("msg").innerHTML='<span class="ok">'+score+' / 20 問できました</span>';
+
+  const r=document.getElementById("report");
+  r.classList.remove("hidden");
+  let h="<h2>色タッチ レポート</h2>";
+  h+="<p>文字の意味・文字の色・読み方を切り替えて見る練習です。</p>";
+  h+='<div class="reportItem"><b>結果</b><br>正解 '+score+' / 20　ミス '+miss+'</div>';
+
+  if(wrong.length){
+    h+="<h3>まちがえた問題</h3>";
+    wrong.forEach((w,n)=>{
+      h+='<div class="reportItem">';
+      h+='<b>'+(n+1)+'. '+esc(w.instruction)+'</b><br>';
+      h+='<span class="ng">選んだもの：</span>'+esc(w.selected)+'<br>';
+      h+='<span class="ok">見るポイント：</span>'+esc(w.point);
+      h+='</div>';
+    });
+  }else{
+    h+='<div class="reportItem">まちがえた問題はありませんでした。</div>';
+  }
+
+  h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';
+  r.innerHTML=h;
+}
+
+function readQ(){speakText(currentText || document.getElementById("instruction").textContent)}
+</script>
+</body></html>
