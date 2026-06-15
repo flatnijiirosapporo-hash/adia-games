@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10分認知チェック</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f8fafc;
+      color: #1f2937;
+      text-align: center;
+      user-select: none;
+    }
+
+    header {
+      background: white;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    }
+
+    .big {
+      font-size: 34px;
+      font-weight: bold;
+      margin: 14px 0;
+    }
+
+    button {
+      font-size: 21px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 999px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      margin: 6px;
+    }
+
+    button.secondary {
+      background: #64748b;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .choice {
+      background: #fff;
+      border: 5px solid #e5e7eb;
+      border-radius: 22px;
+      padding: 22px 10px;
+      font-size: 34px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+    }
+
+    .choice:active {
+      transform: scale(0.97);
+    }
+
+    .bar-wrap {
+      text-align: left;
+      margin: 12px 0;
+    }
+
+    .bar-label {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .bar-bg {
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 24px;
+    }
+
+    .bar {
+      height: 24px;
+      background: #2563eb;
+      width: 0%;
+    }
+
+    .report {
+      text-align: left;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .status {
+      font-size: 18px;
+      margin-top: 8px;
+    }
+
+    @media print {
+      button { display: none; }
+      body { background: white; }
+      .card { box-shadow: none; border: 1px solid #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧠10分認知チェック</h1>
+    <div class="note">
+      これはWISCなどの正式検査ではありません。<br>
+      療育・家庭支援のための簡易的な認知特性チェックです。
+    </div>
+  </header>
+
+  <main>
+    <section id="start" class="card">
+      <h2>チェック内容</h2>
+      <p>ことば・記憶・反応・図形・総合の5つをゲーム形式で確認します。</p>
+      <p>最後に保護者向けレポートを表示します。</p>
+      <button onclick="startCheck()">スタート</button>
+    </section>
+
+    <section id="quiz" class="card hidden">
+      <div class="status">
+        <span id="sectionName"></span><br>
+        問題 <span id="qNum">1</span> / <span id="qTotal">20</span>
+      </div>
+      <div id="question" class="big"></div>
+      <div id="choices" class="choices"></div>
+      <div id="message" class="status"></div>
+    </section>
+
+    <section id="result" class="card hidden">
+      <h2>保護者向けレポート</h2>
+      <div id="scoreBars"></div>
+      <div id="reportText" class="report"></div>
+      <button onclick="window.print()">レポートを印刷 / PDF保存</button>
+      <button class="secondary" onclick="restart()">もう一回</button>
+    </section>
+  </main>
+
+  <script>
+    const startEl = document.getElementById("start");
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const sectionNameEl = document.getElementById("sectionName");
+    const qNumEl = document.getElementById("qNum");
+    const qTotalEl = document.getElementById("qTotal");
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const messageEl = document.getElementById("message");
+    const scoreBarsEl = document.getElementById("scoreBars");
+    const reportTextEl = document.getElementById("reportText");
+
+    const scores = {
+      word: 0,
+      memory: 0,
+      speed: 0,
+      visual: 0,
+      mixed: 0
+    };
+
+    const labels = {
+      word: "ことば理解",
+      memory: "記憶力",
+      speed: "反応・注意",
+      visual: "図形認識",
+      mixed: "総合判断"
+    };
+
+    let questions = [];
+    let current = 0;
+    let reactionStart = 0;
+    let memorySequence = [];
+
+    function startCheck() {
+      scores.word = 0;
+      scores.memory = 0;
+      scores.speed = 0;
+      scores.visual = 0;
+      scores.mixed = 0;
+      current = 0;
+      questions = buildQuestions();
+      qTotalEl.textContent = questions.length;
+
+      startEl.classList.add("hidden");
+      resultEl.classList.add("hidden");
+      quizEl.classList.remove("hidden");
+
+      showQuestion();
+    }
+
+    function buildQuestions() {
+      return [
+        {type:"word", section:"ことば", q:"りんごはどれ？", choices:["🍎","🚗","🐶","🌂"], a:"🍎"},
+        {type:"word", section:"ことば", q:"のりものはどれ？", choices:["🚗","🍌","🐱","⭐"], a:"🚗"},
+        {type:"word", section:"ことば", q:"どうぶつはどれ？", choices:["🐶","🍎","✏️","☂️"], a:"🐶"},
+        {type:"word", section:"ことば", q:"たべものはどれ？", choices:["🍙","🚲","👟","📘"], a:"🍙"},
+
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🐶","🐱"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🍎","⭐","🐸"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🚗","🐰","🍌"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🐼","⭐","🐶","🍎"]},
+
+        {type:"speed", section:"反応・注意", q:"赤を押して！", choices:["赤","青","黄","緑"], a:"赤"},
+        {type:"speed", section:"反応・注意", q:"青を押して！", choices:["赤","青","黄","緑"], a:"青"},
+        {type:"speed", section:"反応・注意", q:"黄色を押して！", choices:["赤","青","黄","緑"], a:"黄"},
+        {type:"speed", section:"反応・注意", q:"緑を押して！", choices:["赤","青","黄","緑"], a:"緑"},
+
+        {type:"visual", section:"図形", q:"同じ形はどれ？ ▲", choices:["▲","●","■","★"], a:"▲"},
+        {type:"visual", section:"図形", q:"同じ形はどれ？ ■", choices:["●","■","▲","★"], a:"■"},
+        {type:"visual", section:"図形", q:"同じ並びはどれ？ 🔴🔵", choices:["🔴🔵","🔵🔴","🟢🔴","🔵🟢"], a:"🔴🔵"},
+        {type:"visual", section:"図形", q:"同じ並びはどれ？ ⭐⭐●", choices:["⭐●⭐","⭐⭐●","●⭐⭐","⭐●●"], a:"⭐⭐●"},
+
+        {type:"mixed", section:"総合", q:"文字ではなく、色で選んでね：赤", choices:["赤","青","黄","緑"], a:"赤"},
+        {type:"mixed", section:"総合", q:"最初の絵はどれ？ 🐶 → 🐱 → 🐸", choices:["🐶","🐱","🐸","🐰"], a:"🐶"},
+        {type:"mixed", section:"総合", q:"仲間はずれはどれ？", choices:["🐶","🐱","🐰","🚗"], a:"🚗"},
+        {type:"mixed", section:"総合", q:"同じ順番はどれ？ 🍎⭐", choices:["⭐🍎","🍎⭐","🍌⭐","🍎🍎"], a:"🍎⭐"}
+      ];
+    }
+
+    function showQuestion() {
+      messageEl.textContent = "";
+      const item = questions[current];
+
+      sectionNameEl.textContent = item.section;
+      qNumEl.textContent = current + 1;
+      questionEl.textContent = item.q;
+      choicesEl.innerHTML = "";
+
+      if (item.type === "memory") {
+        showMemory(item);
+        return;
+      }
+
+      reactionStart = Date.now();
+
+      shuffle(item.choices).forEach(choice => {
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.textContent = choice;
+        div.onclick = () => answer(choice === item.a, item.type);
+        choicesEl.appendChild(div);
+      });
+    }
+
+    function showMemory(item) {
+      choicesEl.innerHTML = "";
+      memorySequence = item.seq.slice();
+      let i = 0;
+
+      questionEl.textContent = "よく見てね";
+      const timer = setInterval(() => {
+        if (i < memorySequence.length) {
+          questionEl.textContent = memorySequence[i];
+          i++;
+        } else {
+          clearInterval(timer);
+          questionEl.textContent = "順番に押してね";
+          memoryInput(item);
+        }
+      }, 800);
+    }
+
+    function memoryInput(item) {
+      let index = 0;
+      const all = ["🐶","🐱","🐸","🐰","🍎","⭐","🚗","🍌","🐼"];
+      choicesEl.innerHTML = "";
+
+      all.forEach(choice => {
+        const div = document.createElement("div");
+        div.className = "choice";
+        div.textContent = choice;
+        div.onclick = () => {
+          if (choice === memorySequence[index]) {
+            index++;
+            messageEl.textContent = "いいね";
+            if (index >= memorySequence.length) {
+              answer(true, "memory");
+            }
+          } else {
+            answer(false, "memory");
+          }
+        };
+        choicesEl.appendChild(div);
+      });
+    }
+
+    function answer(correct, type) {
+      const time = Date.now() - reactionStart;
+
+      if (correct) {
+        let point = 20;
+        if (type === "speed" && time < 1500) point = 25;
+        scores[type] += point;
+        messageEl.textContent = "正解！";
+      } else {
+        messageEl.textContent = "ちがうよ";
+      }
+
+      setTimeout(() => {
+        current++;
+        if (current >= questions.length) showResult();
+        else showQuestion();
+      }, 500);
+    }
+
+    function showResult() {
+      quizEl.classList.add("hidden");
+      resultEl.classList.remove("hidden");
+
+      scoreBarsEl.innerHTML = "";
+      Object.keys(scores).forEach(key => {
+        const value = Math.min(100, scores[key]);
+        scoreBarsEl.innerHTML += `
+          <div class="bar-wrap">
+            <div class="bar-label">${labels[key]}：${value}点</div>
+            <div class="bar-bg"><div class="bar" style="width:${value}%"></div></div>
+          </div>
+        `;
+      });
+
+      const best = Object.keys(scores).sort((a,b) => scores[b] - scores[a])[0];
+      const weak = Object.keys(scores).sort((a,b) => scores[a] - scores[b])[0];
+
+      reportTextEl.innerHTML = `
+        <h3>結果の見方</h3>
+        <p>
+          今回の結果では、<strong>${labels[best]}</strong>が比較的得意な傾向として見られました。
+          一方で、<strong>${labels[weak]}</strong>は少し負荷がかかりやすい可能性があります。
+        </p>
+
+        <h3>得意な力</h3>
+        <p>
+          得意な課題は、遊びや学習の入口として使いやすい力です。
+          まず得意な活動から始めることで、安心して取り組みやすくなります。
+        </p>
+
+        <h3>伸ばしたい力</h3>
+        <p>
+          伸ばしたい課題は、短く・楽しく・成功しやすい形で練習することがおすすめです。
+          長い説明よりも、1つずつ短い指示で伝えると力を発揮しやすくなります。
+        </p>
+
+        <h3>おすすめ遊び</h3>
+        <ul>
+          <li>記憶力：絵カード記憶ゲーム、神経衰弱</li>
+          <li>反応・注意：風船タップ、色タッチ</li>
+          <li>ことば理解：絵カード選び、仲間探し</li>
+          <li>図形認識：パズル、同じ形探し</li>
+        </ul>
+
+        <h3>注意</h3>
+        <p>
+          この結果は診断や知能指数を示すものではありません。
+          正式な評価が必要な場合は、心理士・医師・専門機関にご相談ください。
+        </p>
+      `;
+    }
+
+    function restart() {
+      resultEl.classList.add("hidden");
+      startEl.classList.remove("hidden");
+    }
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+  </script>
+</body>
+</html>
