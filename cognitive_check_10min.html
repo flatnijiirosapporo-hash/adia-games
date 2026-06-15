@@ -34,26 +34,119 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge">正解 <span id="score">0</span></span><span class="badge" id="cat"></span></div>
-<div id="illust" class="illust">🌈</div><h1 style="text-align:center">10分チェック</h1><p class="lead" style="text-align:center">WISCの5指標を参考にした簡易チェックです。診断・IQ測定ではありません。</p>
+<div class="status">
+  <span class="badge">問題 <span id="num">0</span>/25</span>
+  <span class="badge">正解 <span id="score">0</span></span>
+  <span class="badge" id="cat"></span>
+</div>
+<div id="illust" class="illust">🧠</div>
+<h1 style="text-align:center">10分チェック</h1>
+<p class="lead" style="text-align:center">WISCの5指標を参考にした簡易チェックです。診断・IQ測定ではありません。</p>
 <div id="scene" class="scene">スタート</div>
 <div class="actions"><button onclick="readQ()">🔊 よみあげ</button><button class="light" onclick="start()">もう一回</button></div>
-<div id="choices" class="choices"></div><div id="msg" class="message"></div><div id="tip" class="tip hidden"></div><div id="report" class="report hidden"></div>
-</section></main><script>
+<div id="choices" class="choices"></div>
+<div id="msg" class="message"></div>
+<div id="tip" class="tip hidden"></div>
+<div id="report" class="report hidden"></div>
+</section></main>
+<script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
-const DATA=[{"cat": "言語理解 VCI", "illust": "💬", "scene": "「りんご」と同じ仲間はどれ？", "choices": [{"text": "みかん", "ok": true}, {"text": "くるま", "ok": false}, {"text": "いす", "ok": false}, {"text": "くつ", "ok": false}], "tip": "言葉の意味や仲間分けを見る問題です。"}, {"cat": "視空間 VSI", "illust": "🧩", "scene": "同じ形の組み合わせはどれ？", "choices": [{"text": "◼️＋◼️", "ok": true}, {"text": "🔺＋⭕", "ok": false}, {"text": "⭐＋🌙", "ok": false}, {"text": "⭕＋⭕", "ok": false}], "tip": "形や位置を見て考える問題です。"}, {"cat": "流動性推理 FRI", "illust": "🔍", "scene": "次にくるものは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つける問題です。"}, {"cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n🐶 → 🐱", "choices": [{"text": "🐶 → 🐱", "ok": true}, {"text": "🐱 → 🐶", "ok": false}, {"text": "🐰 → 🐶", "ok": false}, {"text": "🐸 → 🐱", "ok": false}], "tip": "少しの間、順番を覚える問題です。"}, {"cat": "処理速度 PSI", "illust": "⚡", "scene": "赤い丸を早く選ぼう", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "見つけて早く選ぶ問題です。"}, {"cat": "言語理解 VCI", "illust": "💬", "scene": "「りんご」と同じ仲間はどれ？", "choices": [{"text": "みかん", "ok": true}, {"text": "くるま", "ok": false}, {"text": "いす", "ok": false}, {"text": "くつ", "ok": false}], "tip": "言葉の意味や仲間分けを見る問題です。"}, {"cat": "視空間 VSI", "illust": "🧩", "scene": "同じ形の組み合わせはどれ？", "choices": [{"text": "◼️＋◼️", "ok": true}, {"text": "🔺＋⭕", "ok": false}, {"text": "⭐＋🌙", "ok": false}, {"text": "⭕＋⭕", "ok": false}], "tip": "形や位置を見て考える問題です。"}, {"cat": "流動性推理 FRI", "illust": "🔍", "scene": "次にくるものは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つける問題です。"}, {"cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n🐶 → 🐱", "choices": [{"text": "🐶 → 🐱", "ok": true}, {"text": "🐱 → 🐶", "ok": false}, {"text": "🐰 → 🐶", "ok": false}, {"text": "🐸 → 🐱", "ok": false}], "tip": "少しの間、順番を覚える問題です。"}, {"cat": "処理速度 PSI", "illust": "⚡", "scene": "赤い丸を早く選ぼう", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "見つけて早く選ぶ問題です。"}, {"cat": "言語理解 VCI", "illust": "💬", "scene": "「りんご」と同じ仲間はどれ？", "choices": [{"text": "みかん", "ok": true}, {"text": "くるま", "ok": false}, {"text": "いす", "ok": false}, {"text": "くつ", "ok": false}], "tip": "言葉の意味や仲間分けを見る問題です。"}, {"cat": "視空間 VSI", "illust": "🧩", "scene": "同じ形の組み合わせはどれ？", "choices": [{"text": "◼️＋◼️", "ok": true}, {"text": "🔺＋⭕", "ok": false}, {"text": "⭐＋🌙", "ok": false}, {"text": "⭕＋⭕", "ok": false}], "tip": "形や位置を見て考える問題です。"}, {"cat": "流動性推理 FRI", "illust": "🔍", "scene": "次にくるものは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つける問題です。"}, {"cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n🐶 → 🐱", "choices": [{"text": "🐶 → 🐱", "ok": true}, {"text": "🐱 → 🐶", "ok": false}, {"text": "🐰 → 🐶", "ok": false}, {"text": "🐸 → 🐱", "ok": false}], "tip": "少しの間、順番を覚える問題です。"}, {"cat": "処理速度 PSI", "illust": "⚡", "scene": "赤い丸を早く選ぼう", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "見つけて早く選ぶ問題です。"}, {"cat": "言語理解 VCI", "illust": "💬", "scene": "「りんご」と同じ仲間はどれ？", "choices": [{"text": "みかん", "ok": true}, {"text": "くるま", "ok": false}, {"text": "いす", "ok": false}, {"text": "くつ", "ok": false}], "tip": "言葉の意味や仲間分けを見る問題です。"}, {"cat": "視空間 VSI", "illust": "🧩", "scene": "同じ形の組み合わせはどれ？", "choices": [{"text": "◼️＋◼️", "ok": true}, {"text": "🔺＋⭕", "ok": false}, {"text": "⭐＋🌙", "ok": false}, {"text": "⭕＋⭕", "ok": false}], "tip": "形や位置を見て考える問題です。"}, {"cat": "流動性推理 FRI", "illust": "🔍", "scene": "次にくるものは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つける問題です。"}, {"cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n🐶 → 🐱", "choices": [{"text": "🐶 → 🐱", "ok": true}, {"text": "🐱 → 🐶", "ok": false}, {"text": "🐰 → 🐶", "ok": false}, {"text": "🐸 → 🐱", "ok": false}], "tip": "少しの間、順番を覚える問題です。"}, {"cat": "処理速度 PSI", "illust": "⚡", "scene": "赤い丸を早く選ぼう", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "見つけて早く選ぶ問題です。"}];
-let deck=[],i=0,score=0,wrong=[],answered=false,current='';
-function start(){deck=shuffle(DATA).slice(0,10);i=0;score=0;wrong=[];answered=false;document.getElementById('score').textContent=score;document.getElementById('report').classList.add('hidden');document.getElementById('report').innerHTML='';show()}
-function show(){answered=false;document.getElementById('msg').textContent='';document.getElementById('tip').classList.add('hidden');if(i>=deck.length){finish();return}const q=deck[i];current=q.scene;document.getElementById('num').textContent=i+1;document.getElementById('cat').textContent=q.cat||'';document.getElementById('illust').textContent=q.illust||'🌈';document.getElementById('scene').textContent=q.scene;const box=document.getElementById('choices');box.innerHTML='';shuffle(q.choices).forEach(c=>{let d=document.createElement('div');d.className='choice';d.textContent=c.text;d.onclick=()=>answer(c,d);box.appendChild(d)})}
-function answer(c,d){if(answered)return;answered=true;document.querySelectorAll('.choice').forEach(x=>x.style.pointerEvents='none');const q=deck[i];if(c.ok){score++;document.getElementById('score').textContent=score;d.classList.add('correct');document.getElementById('msg').innerHTML='<span class="ok">いいね！</span>'}else{d.classList.add('wrong');let good=q.choices.find(x=>x.ok);wrong.push({cat:q.cat,illust:q.illust,scene:q.scene,selected:c.text,correct:good?good.text:'',tip:q.tip});document.getElementById('msg').innerHTML='<span class="ng">もう一回考えよう</span>'}document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<b>ポイント</b><br>'+esc(q.tip||'');setTimeout(()=>{i++;show()},1500)}
-function finish(){document.getElementById('num').textContent=10;document.getElementById('illust').textContent='⭐';document.getElementById('scene').textContent='おしまい！\n'+score+' / 10 問できました';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.add('hidden');const r=document.getElementById('report');r.classList.remove('hidden');let h='<h2>ふりかえりレポート</h2>';if(wrong.length===0){h+='<p>まちがえた問題はありませんでした。</p>'}else{h+='<p>まちがえた問題だけを表示します。</p>';wrong.forEach((w,n)=>{h+='<div class="reportItem"><div style="font-size:52px;text-align:center">'+esc(w.illust||'')+'</div><b>'+(n+1)+'. まちがえた問題</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>ポイント：</b><br>'+esc(w.tip||'')+'</p></div>'})}h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';r.innerHTML=h}
+const DATA=[{"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "りんご・みかん・ぶどうの仲間は？", "choices": [{"text": "果物", "ok": true}, {"text": "乗り物", "ok": false}, {"text": "色", "ok": false}, {"text": "道具", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "犬・猫・うさぎの仲間は？", "choices": [{"text": "動物", "ok": true}, {"text": "食べ物", "ok": false}, {"text": "服", "ok": false}, {"text": "数字", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "「大きい」の反対は？", "choices": [{"text": "小さい", "ok": true}, {"text": "速い", "ok": false}, {"text": "長い", "ok": false}, {"text": "丸い", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "「寒い」の反対は？", "choices": [{"text": "暑い", "ok": true}, {"text": "暗い", "ok": false}, {"text": "軽い", "ok": false}, {"text": "近い", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "はさみは何に使う？", "choices": [{"text": "切る", "ok": true}, {"text": "飲む", "ok": false}, {"text": "走る", "ok": false}, {"text": "寝る", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "傘は何の時に使う？", "choices": [{"text": "雨", "ok": true}, {"text": "給食", "ok": false}, {"text": "読書", "ok": false}, {"text": "入浴", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "時計は何を見る物？", "choices": [{"text": "時間", "ok": true}, {"text": "におい", "ok": false}, {"text": "音", "ok": false}, {"text": "味", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "言語理解 VCI", "cat": "言語理解 VCI", "illust": "💬", "scene": "「ありがとう」はどんな時に言う？", "choices": [{"text": "助けてもらった時", "ok": true}, {"text": "怒った時", "ok": false}, {"text": "眠い時", "ok": false}, {"text": "走る時", "ok": false}], "tip": "言葉の意味、仲間分け、説明する力を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "同じ形を選ぼう：◼️", "choices": [{"text": "◼️", "ok": true}, {"text": "🔺", "ok": false}, {"text": "⭕", "ok": false}, {"text": "⭐", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "同じ形を選ぼう：🔺", "choices": [{"text": "🔺", "ok": true}, {"text": "◼️", "ok": false}, {"text": "⭕", "ok": false}, {"text": "🌙", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "上と下で同じ並びは？\n🔴🔵🟢", "choices": [{"text": "🔴🔵🟢", "ok": true}, {"text": "🔵🔴🟢", "ok": false}, {"text": "🟢🔵🔴", "ok": false}, {"text": "🔴🟢🔵", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "同じ向きはどれ？\n➡️", "choices": [{"text": "➡️", "ok": true}, {"text": "⬅️", "ok": false}, {"text": "⬆️", "ok": false}, {"text": "⬇️", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "2つ合わせると四角になるのは？", "choices": [{"text": "◧＋◨", "ok": true}, {"text": "⭕＋⭐", "ok": false}, {"text": "🔺＋⭕", "ok": false}, {"text": "🌙＋⭐", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "同じ絵のペアは？", "choices": [{"text": "🐶🐶", "ok": true}, {"text": "🐶🐱", "ok": false}, {"text": "🐰🐸", "ok": false}, {"text": "🐼🦁", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "左にあるものは？\n⭐　🌙", "choices": [{"text": "⭐", "ok": true}, {"text": "🌙", "ok": false}, {"text": "どちらでもない", "ok": false}, {"text": "わからない", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "視空間 VSI", "cat": "視空間 VSI", "illust": "🧩", "scene": "大きい丸はどれ？", "choices": [{"text": "⭕ 大", "ok": true}, {"text": "○ 小", "ok": false}, {"text": "△", "ok": false}, {"text": "□", "ok": false}], "tip": "形、向き、位置関係を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "次にくるのは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "次にくるのは？\n🐶 🐱 🐶 🐱 ？", "choices": [{"text": "🐶", "ok": true}, {"text": "🐱", "ok": false}, {"text": "🐰", "ok": false}, {"text": "🐸", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "仲間はずれは？\nりんご・みかん・車・ぶどう", "choices": [{"text": "車", "ok": true}, {"text": "りんご", "ok": false}, {"text": "みかん", "ok": false}, {"text": "ぶどう", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "仲間はずれは？\n犬・猫・鉛筆・うさぎ", "choices": [{"text": "鉛筆", "ok": true}, {"text": "犬", "ok": false}, {"text": "猫", "ok": false}, {"text": "うさぎ", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "1、2、3、次は？", "choices": [{"text": "4", "ok": true}, {"text": "1", "ok": false}, {"text": "2", "ok": false}, {"text": "5", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "小・中・大、次に大きいのは？", "choices": [{"text": "大", "ok": true}, {"text": "小", "ok": false}, {"text": "中", "ok": false}, {"text": "同じ", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "雨の日に必要なのは？", "choices": [{"text": "傘", "ok": true}, {"text": "水着", "ok": false}, {"text": "虫取り網", "ok": false}, {"text": "サンダルだけ", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "流動性推理 FRI", "cat": "流動性推理 FRI", "illust": "🔍", "scene": "暗い部屋で使うのは？", "choices": [{"text": "電気", "ok": true}, {"text": "氷", "ok": false}, {"text": "帽子", "ok": false}, {"text": "スプーン", "ok": false}], "tip": "きまりを見つける力、理由を考える力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n🐶 → 🐱", "choices": [{"text": "🐶 → 🐱", "ok": true}, {"text": "🐱 → 🐶", "ok": false}, {"text": "🐰 → 🐶", "ok": false}, {"text": "🐸 → 🐱", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n🔴 → 🔵", "choices": [{"text": "🔴 → 🔵", "ok": true}, {"text": "🔵 → 🔴", "ok": false}, {"text": "🟢 → 🔴", "ok": false}, {"text": "🔴 → 🟢", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\nあ → い", "choices": [{"text": "あ → い", "ok": true}, {"text": "い → あ", "ok": false}, {"text": "う → あ", "ok": false}, {"text": "あ → う", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "覚えて選ぼう\n1 → 3", "choices": [{"text": "1 → 3", "ok": true}, {"text": "3 → 1", "ok": false}, {"text": "1 → 2", "ok": false}, {"text": "2 → 3", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "最初の絵は？\n🐰 🐸 🐶", "choices": [{"text": "🐰", "ok": true}, {"text": "🐸", "ok": false}, {"text": "🐶", "ok": false}, {"text": "🐱", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "最後の絵は？\n⭐ 🌙 ☀️", "choices": [{"text": "☀️", "ok": true}, {"text": "⭐", "ok": false}, {"text": "🌙", "ok": false}, {"text": "🍀", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "2番目は？\n赤・青・緑", "choices": [{"text": "青", "ok": true}, {"text": "赤", "ok": false}, {"text": "緑", "ok": false}, {"text": "黄", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "ワーキングメモリ WMI", "cat": "ワーキングメモリ WMI", "illust": "🧠", "scene": "聞いた順番は？\n犬・猫・鳥", "choices": [{"text": "犬・猫・鳥", "ok": true}, {"text": "猫・犬・鳥", "ok": false}, {"text": "鳥・猫・犬", "ok": false}, {"text": "犬・鳥・猫", "ok": false}], "tip": "短い間覚えて、順番を保つ力を見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "すばやく選ぼう：赤い丸", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "すばやく選ぼう：青い丸", "choices": [{"text": "🔵", "ok": true}, {"text": "🔴", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "すばやく選ぼう：星", "choices": [{"text": "⭐", "ok": true}, {"text": "🌙", "ok": false}, {"text": "☀️", "ok": false}, {"text": "⭕", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "すばやく選ぼう：犬", "choices": [{"text": "🐶", "ok": true}, {"text": "🐱", "ok": false}, {"text": "🐰", "ok": false}, {"text": "🐸", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "同じものを早く選ぼう\n見本：🍎", "choices": [{"text": "🍎", "ok": true}, {"text": "🍌", "ok": false}, {"text": "🍇", "ok": false}, {"text": "🍊", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "同じものを早く選ぼう\n見本：🚗", "choices": [{"text": "🚗", "ok": true}, {"text": "🚌", "ok": false}, {"text": "🚲", "ok": false}, {"text": "✈️", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "数字の3を選ぼう", "choices": [{"text": "3", "ok": true}, {"text": "2", "ok": false}, {"text": "5", "ok": false}, {"text": "8", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}, {"idx": "処理速度 PSI", "cat": "処理速度 PSI", "illust": "⚡", "scene": "ひらがな「あ」を選ぼう", "choices": [{"text": "あ", "ok": true}, {"text": "め", "ok": false}, {"text": "ぬ", "ok": false}, {"text": "ね", "ok": false}], "tip": "見つける速さ、目と手の素早さを見ます。"}];
+const indices=["言語理解 VCI","視空間 VSI","流動性推理 FRI","ワーキングメモリ WMI","処理速度 PSI"];
+let deck=[],i=0,score=0,answered=false,current="",wrong=[],result={};
+function start(){
+  deck=[];
+  indices.forEach(idx=>{
+    const pool=shuffle(DATA.filter(q=>q.idx===idx)).slice(0,5);
+    deck=deck.concat(pool);
+  });
+  deck=shuffle(deck);
+  i=0;score=0;wrong=[];result={};
+  indices.forEach(idx=>result[idx]={ok:0,total:0});
+  document.getElementById('score').textContent=score;
+  document.getElementById('report').classList.add('hidden');
+  document.getElementById('report').innerHTML='';
+  show();
+}
+function show(){
+  answered=false;
+  document.getElementById('msg').textContent='';
+  document.getElementById('tip').classList.add('hidden');
+  if(i>=deck.length){finish();return}
+  const q=deck[i];current=q.scene;
+  document.getElementById('num').textContent=i+1;
+  document.getElementById('cat').textContent=q.idx;
+  document.getElementById('illust').textContent=q.illust;
+  document.getElementById('scene').textContent=q.scene;
+  const box=document.getElementById('choices');box.innerHTML='';
+  shuffle(q.choices).forEach(c=>{
+    let d=document.createElement('div');
+    d.className='choice';
+    d.textContent=c.text;
+    d.onclick=()=>answer(c,d);
+    box.appendChild(d);
+  });
+}
+function answer(c,d){
+  if(answered)return;answered=true;
+  document.querySelectorAll('.choice').forEach(x=>x.style.pointerEvents='none');
+  const q=deck[i];
+  result[q.idx].total++;
+  if(c.ok){
+    score++; result[q.idx].ok++;
+    document.getElementById('score').textContent=score;
+    d.classList.add('correct');
+    document.getElementById('msg').innerHTML='<span class="ok">いいね！</span>';
+  }else{
+    d.classList.add('wrong');
+    let good=q.choices.find(x=>x.ok);
+    wrong.push({idx:q.idx,illust:q.illust,scene:q.scene,selected:c.text,correct:good?good.text:'',tip:q.tip});
+    document.getElementById('msg').innerHTML='<span class="ng">もう一回考えよう</span>';
+  }
+  document.getElementById('tip').classList.remove('hidden');
+  document.getElementById('tip').innerHTML='<b>ポイント</b><br>'+esc(q.tip);
+  setTimeout(()=>{i++;show()},1400);
+}
+function levelText(ok,total){
+  const p=total?ok/total:0;
+  if(p>=0.8)return "得意に見えます";
+  if(p>=0.5)return "練習中です";
+  return "支援があると取り組みやすいです";
+}
+function finish(){
+  document.getElementById('num').textContent=25;
+  document.getElementById('illust').textContent='📋';
+  document.getElementById('scene').textContent='チェック終了\n総合評価レポート';
+  document.getElementById('choices').innerHTML='';
+  document.getElementById('tip').classList.add('hidden');
+  const r=document.getElementById('report');r.classList.remove('hidden');
+  let h='<h2>総合評価レポート</h2>';
+  h+='<p>これは診断ではありません。日々の支援で見るための簡易チェックです。</p>';
+  h+='<div class="reportItem"><b>総合</b><br>'+score+' / 25 問 正解</div>';
+  indices.forEach(idx=>{
+    const v=result[idx];
+    h+='<div class="reportItem"><b>'+esc(idx)+'</b><br>'+v.ok+' / '+v.total+' 問　'+levelText(v.ok,v.total)+'</div>';
+  });
+  if(wrong.length){
+    h+='<h3>まちがえた問題</h3>';
+    wrong.forEach((w,n)=>{
+      h+='<div class="reportItem"><div style="font-size:44px;text-align:center">'+esc(w.illust)+'</div><b>'+(n+1)+'. '+esc(w.idx)+'</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>見るポイント：</b><br>'+esc(w.tip)+'</p></div>';
+    });
+  }else{
+    h+='<div class="reportItem">まちがえた問題はありませんでした。</div>';
+  }
+  h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';
+  r.innerHTML=h;
+}
 function readQ(){speakText(current||document.getElementById('scene').textContent)}
 start();
 </script>

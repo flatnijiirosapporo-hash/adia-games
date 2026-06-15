@@ -34,23 +34,80 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+
+.holeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:520px;margin:20px auto}
+.hole{height:115px;border-radius:50%;background:radial-gradient(circle at center,#4b2e20 0,#4b2e20 42%,#2f1d14 43%,#2f1d14 70%,#8b5e34 71%);display:flex;align-items:center;justify-content:center;font-size:58px;box-shadow:inset 0 12px 18px rgba(0,0,0,.35),0 8px 18px rgba(30,41,59,.16);cursor:pointer}
+.hole.empty span{opacity:0}
+.hole.hit{background:#dcfce7!important}
+
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">残り <span id="time">20</span>秒</span><span class="badge">点 <span id="score">0</span></span></div>
-<div class="illust">🦫</div><h1 style="text-align:center">もぐらたたき</h1>
-<p class="lead" style="text-align:center">同じものをタップしてください。</p>
+<div class="status"><span class="badge">残り <span id="time">30</span>秒</span><span class="badge">点 <span id="score">0</span></span><span class="badge">ミス <span id="miss">0</span></span></div>
+<div class="illust">🕳️</div>
+<h1 style="text-align:center">もぐらたたき</h1>
+<p class="lead" style="text-align:center">穴から出たもぐらをタップします。</p>
 <div class="actions"><button onclick="start()">スタート</button></div>
-<div id="area" class="choices"></div><div id="msg" class="message"></div>
-</section></main><script>
+<div id="holes" class="holeGrid"></div>
+<div id="msg" class="message"></div>
+</section></main>
+<script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
-const ITEMS=["🦫", "🕳️", "🐰", "🐶", "🐱", "🐸", "⭐"]; const TARGET="🦫";
-let score=0,time=20,timer=null,running=false;
-function start(){score=0;time=20;running=true;document.getElementById('score').textContent=score;document.getElementById('time').textContent=time;document.getElementById('msg').textContent='';draw();clearInterval(timer);timer=setInterval(()=>{time--;document.getElementById('time').textContent=time;if(time<=0)finish()},1000)}
-function draw(){const area=document.getElementById('area');area.innerHTML='';let arr=shuffle(ITEMS).slice(0,6);if(!arr.includes(TARGET))arr[0]=TARGET;shuffle(arr).forEach(x=>{let d=document.createElement('div');d.className='tile';d.textContent=x;d.onclick=()=>{if(!running)return;if(x===TARGET){score++;document.getElementById('score').textContent=score;d.classList.add('correct');setTimeout(draw,180)}else{d.classList.add('wrong')}};area.appendChild(d)})}
-function finish(){running=false;clearInterval(timer);document.getElementById('area').innerHTML='';document.getElementById('msg').innerHTML='<span class="ok">おしまい！ '+score+' 点</span>'}
-</script></body></html>
+let score=0,miss=0,time=30,timer=null,running=false,current=-1,moveTimer=null;
+function setup(){
+  const box=document.getElementById("holes");
+  box.innerHTML="";
+  for(let i=0;i<9;i++){
+    const h=document.createElement("div");
+    h.className="hole empty";
+    h.innerHTML="<span>🦫</span>";
+    h.onclick=()=>tap(i,h);
+    box.appendChild(h);
+  }
+}
+function start(){
+  score=0;miss=0;time=30;running=true;current=-1;
+  document.getElementById("score").textContent=score;
+  document.getElementById("miss").textContent=miss;
+  document.getElementById("time").textContent=time;
+  document.getElementById("msg").textContent="";
+  setup();showMole();
+  clearInterval(timer);
+  timer=setInterval(()=>{time--;document.getElementById("time").textContent=time;if(time<=0)finish()},1000);
+}
+function showMole(){
+  if(!running)return;
+  document.querySelectorAll(".hole").forEach(h=>{h.className="hole empty";});
+  current=Math.floor(Math.random()*9);
+  const h=document.querySelectorAll(".hole")[current];
+  h.className="hole";
+  clearTimeout(moveTimer);
+  moveTimer=setTimeout(showMole,850);
+}
+function tap(i,h){
+  if(!running)return;
+  if(i===current){
+    score++;
+    document.getElementById("score").textContent=score;
+    h.className="hole hit";
+    current=-1;
+    clearTimeout(moveTimer);
+    setTimeout(showMole,180);
+  }else{
+    miss++;
+    document.getElementById("miss").textContent=miss;
+  }
+}
+function finish(){
+  running=false;clearInterval(timer);clearTimeout(moveTimer);
+  document.querySelectorAll(".hole").forEach(h=>h.className="hole empty");
+  document.getElementById("msg").innerHTML='<span class="ok">おしまい！ '+score+' 点</span>';
+}
+setup();
+</script>
+</body></html>
