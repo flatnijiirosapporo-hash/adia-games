@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>記憶ゲーム</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f5f3ff;
+      text-align: center;
+      user-select: none;
+    }
+
+    header {
+      padding: 14px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 4px;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      background: #7c3aed;
+      color: white;
+      cursor: pointer;
+      margin: 4px;
+    }
+
+    #message {
+      font-size: 22px;
+      margin: 10px;
+      color: #333;
+      min-height: 34px;
+    }
+
+    #showArea {
+      font-size: 70px;
+      height: 90px;
+      margin: 12px;
+    }
+
+    #game {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 20px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .card {
+      height: 100px;
+      border-radius: 24px;
+      border: 6px solid white;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      transition: transform 0.08s, background 0.15s;
+    }
+
+    .card:active {
+      transform: scale(0.95);
+    }
+
+    .disabled {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧠記憶ゲーム</h1>
+    <div class="info">出た絵を、最初から順番に押そう！</div>
+    <div class="info">レベル：<span id="level">1</span>　成功：<span id="score">0</span></div>
+    <button onclick="startGame()">スタート</button>
+    <button onclick="showSequence()">もう一回見る</button>
+    <div id="message">絵の順番を覚えよう！</div>
+  </header>
+
+  <div id="showArea"></div>
+  <main id="game"></main>
+
+  <script>
+    const game = document.getElementById("game");
+    const showArea = document.getElementById("showArea");
+    const levelText = document.getElementById("level");
+    const scoreText = document.getElementById("score");
+    const message = document.getElementById("message");
+
+    const pictures = ["🐶", "🐱", "🐰", "🐸", "🐼", "🦁", "🐵", "🐧", "🐟"];
+
+    let sequence = [];
+    let playerIndex = 0;
+    let level = 1;
+    let score = 0;
+    let playing = false;
+    let showing = false;
+
+    function startGame() {
+      level = 1;
+      score = 0;
+      playing = true;
+      levelText.textContent = level;
+      scoreText.textContent = score;
+      message.textContent = "よく見て覚えてね";
+      makeCards();
+      makeSequence();
+      showSequence();
+    }
+
+    function makeCards() {
+      game.innerHTML = "";
+
+      pictures.forEach(pic => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.textContent = pic;
+
+        card.addEventListener("click", () => {
+          if (!playing || showing) return;
+          checkAnswer(pic);
+        });
+
+        game.appendChild(card);
+      });
+    }
+
+    function makeSequence() {
+      sequence = [];
+      for (let i = 0; i < level; i++) {
+        const pic = pictures[Math.floor(Math.random() * pictures.length)];
+        sequence.push(pic);
+      }
+      playerIndex = 0;
+    }
+
+    function showSequence() {
+      if (!playing || showing) return;
+
+      showing = true;
+      playerIndex = 0;
+      disableCards(true);
+      message.textContent = "覚えてね";
+
+      let i = 0;
+      showArea.textContent = "";
+
+      const timer = setInterval(() => {
+        if (i < sequence.length) {
+          showArea.textContent = sequence[i];
+          i++;
+        } else {
+          clearInterval(timer);
+          showArea.textContent = "";
+          message.textContent = "順番に押してね";
+          disableCards(false);
+          showing = false;
+        }
+      }, 850);
+    }
+
+    function checkAnswer(pic) {
+      if (pic === sequence[playerIndex]) {
+        playerIndex++;
+        message.textContent = "いいね！";
+
+        if (playerIndex >= sequence.length) {
+          score++;
+          level++;
+          scoreText.textContent = score;
+          levelText.textContent = level;
+          message.textContent = "成功！次は少し長くなるよ";
+
+          setTimeout(() => {
+            makeSequence();
+            showSequence();
+          }, 900);
+        }
+      } else {
+        message.textContent = "ちがうよ。もう一回見てみよう";
+        setTimeout(() => {
+          showSequence();
+        }, 900);
+      }
+    }
+
+    function disableCards(flag) {
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        if (flag) card.classList.add("disabled");
+        else card.classList.remove("disabled");
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>もぐらたたき</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #e9f8e6;
+      text-align: center;
+      user-select: none;
+    }
+
+    header {
+      padding: 14px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 4px;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+    }
+
+    #game {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 20px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .hole {
+      height: 110px;
+      border-radius: 20px;
+      background: #8b5a2b;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 8px 0 rgba(0,0,0,0.15);
+    }
+
+    .mole {
+      font-size: 58px;
+      position: absolute;
+      left: 50%;
+      bottom: -80px;
+      transform: translateX(-50%);
+      transition: bottom 0.12s;
+      cursor: pointer;
+    }
+
+    .mole.show {
+      bottom: 16px;
+    }
+
+    #message {
+      font-size: 22px;
+      margin: 10px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐸もぐらたたき</h1>
+    <div class="info">残り時間：<span id="time">30</span> 秒</div>
+    <div class="info">スコア：<span id="score">0</span></div>
+    <button onclick="startGame()">スタート</button>
+    <div id="message">キャラが出たらタップ！</div>
+  </header>
+
+  <main id="game"></main>
+
+  <script>
+    const game = document.getElementById("game");
+    const timeText = document.getElementById("time");
+    const scoreText = document.getElementById("score");
+    const message = document.getElementById("message");
+
+    let score = 0;
+    let timeLeft = 30;
+    let gameTimer = null;
+    let moleTimer = null;
+    let playing = false;
+    let currentMole = null;
+
+    for (let i = 0; i < 9; i++) {
+      const hole = document.createElement("div");
+      hole.className = "hole";
+
+      const mole = document.createElement("div");
+      mole.className = "mole";
+      mole.textContent = "🐸";
+
+      mole.addEventListener("click", () => {
+        if (!playing || !mole.classList.contains("show")) return;
+        score++;
+        scoreText.textContent = score;
+        mole.classList.remove("show");
+        message.textContent = "できた！";
+      });
+
+      hole.appendChild(mole);
+      game.appendChild(hole);
+    }
+
+    const moles = document.querySelectorAll(".mole");
+
+    function startGame() {
+      score = 0;
+      timeLeft = 30;
+      playing = true;
+
+      scoreText.textContent = score;
+      timeText.textContent = timeLeft;
+      message.textContent = "よく見てタップ！";
+
+      clearInterval(gameTimer);
+      clearTimeout(moleTimer);
+      hideAll();
+
+      gameTimer = setInterval(() => {
+        timeLeft--;
+        timeText.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+
+      showRandomMole();
+    }
+
+    function showRandomMole() {
+      if (!playing) return;
+
+      hideAll();
+
+      const index = Math.floor(Math.random() * moles.length);
+      currentMole = moles[index];
+      currentMole.classList.add("show");
+
+      const showTime = 600 + Math.random() * 700;
+      moleTimer = setTimeout(showRandomMole, showTime);
+    }
+
+    function hideAll() {
+      moles.forEach(mole => mole.classList.remove("show"));
+    }
+
+    function endGame() {
+      playing = false;
+      clearInterval(gameTimer);
+      clearTimeout(moleTimer);
+      hideAll();
+      message.textContent = "おしまい！スコアは " + score + " 点 ⭐";
+    }
+  </script>
+</body>
+</html>

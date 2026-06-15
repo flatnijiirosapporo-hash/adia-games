@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>アディア ミニゲーム</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(180deg, #eff6ff, #fff7ed);
+      text-align: center;
+      color: #1f2937;
+      user-select: none;
+    }
+
+    header {
+      padding: 28px 16px 18px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      font-size: 18px;
+      color: #4b5563;
+    }
+
+    main {
+      padding: 22px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .menu {
+      display: grid;
+      gap: 14px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.12);
+      border: 5px solid white;
+      text-align: left;
+      transition: transform 0.08s;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .title {
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #111827;
+    }
+
+    .desc {
+      font-size: 16px;
+      color: #4b5563;
+      line-height: 1.5;
+    }
+
+    .footer {
+      margin-top: 22px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌈アディア ミニゲーム</h1>
+    <div class="subtitle">遊びながら、見る・聞く・覚える・反応する</div>
+  </header>
+
+  <main>
+    <div class="menu">
+      <a href="balloon_tap.html">
+        <div class="card">
+          <div class="title">🎈風船タップ</div>
+          <div class="desc">風船が出たらすぐタップ。反応速度と注意力を育てます。</div>
+        </div>
+      </a>
+
+      <a href="mogura_tataki.html">
+        <div class="card">
+          <div class="title">🐸もぐらたたき</div>
+          <div class="desc">出てきたキャラをタップ。目と手の協調を育てます。</div>
+        </div>
+      </a>
+
+      <a href="color_touch.html">
+        <div class="card">
+          <div class="title">🔴色タッチ</div>
+          <div class="desc">赤だけタップ。他の色は押さない判断ゲームです。</div>
+        </div>
+      </a>
+
+      <a href="color_word_touch.html">
+        <div class="card">
+          <div class="title">🎨色ことばタッチ</div>
+          <div class="desc">文字と色を見分けてタップ。判断力を育てます。</div>
+        </div>
+      </a>
+
+      <a href="hiragana_touch.html">
+        <div class="card">
+          <div class="title">🔤ひらがなタッチ</div>
+          <div class="desc">言われたひらがなを探してタップ。文字認識を育てます。</div>
+        </div>
+      </a>
+
+      <a href="memory_game.html">
+        <div class="card">
+          <div class="title">🧠記憶ゲーム</div>
+          <div class="desc">出た絵を覚えて、最初から順番に押します。</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer">GitHub Pages用：このフォルダをそのままアップロードできます。</div>
+  </main>
+</body>
+</html>

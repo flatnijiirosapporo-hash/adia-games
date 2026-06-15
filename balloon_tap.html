@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>風船タップ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #eaf7ff;
+      text-align: center;
+      user-select: none;
+    }
+
+    header {
+      padding: 16px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 4px;
+    }
+
+    #game {
+      position: relative;
+      height: calc(100vh - 150px);
+      overflow: hidden;
+    }
+
+    #balloon {
+      position: absolute;
+      width: 90px;
+      height: 120px;
+      border-radius: 50% 50% 45% 45%;
+      background: #ff6b8a;
+      display: none;
+      cursor: pointer;
+      box-shadow: inset -10px -15px 0 rgba(0,0,0,0.08);
+    }
+
+    #balloon::after {
+      content: "";
+      position: absolute;
+      left: 38px;
+      bottom: -18px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 20px solid #ff6b8a;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    #message {
+      font-size: 22px;
+      margin-top: 12px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎈風船タップ</h1>
+    <div class="info">反応時間：<span id="time">-</span></div>
+    <div class="info">成功：<span id="score">0</span> 回</div>
+    <button onclick="startGame()">スタート</button>
+    <div id="message">風船が出たらすぐタップ！</div>
+  </header>
+
+  <main id="game">
+    <div id="balloon"></div>
+  </main>
+
+  <script>
+    const balloon = document.getElementById("balloon");
+    const game = document.getElementById("game");
+    const timeText = document.getElementById("time");
+    const scoreText = document.getElementById("score");
+    const message = document.getElementById("message");
+
+    let startTime = 0;
+    let score = 0;
+    let timer = null;
+    let waiting = false;
+
+    function startGame() {
+      score = 0;
+      scoreText.textContent = score;
+      timeText.textContent = "-";
+      message.textContent = "準備してね…";
+      hideBalloon();
+      nextBalloon();
+    }
+
+    function nextBalloon() {
+      waiting = true;
+      const delay = 800 + Math.random() * 1800;
+
+      timer = setTimeout(() => {
+        showBalloon();
+      }, delay);
+    }
+
+    function showBalloon() {
+      const gameRect = game.getBoundingClientRect();
+      const sizeW = 90;
+      const sizeH = 120;
+
+      const x = Math.random() * (gameRect.width - sizeW);
+      const y = Math.random() * (gameRect.height - sizeH);
+
+      balloon.style.left = x + "px";
+      balloon.style.top = y + "px";
+      balloon.style.display = "block";
+
+      startTime = Date.now();
+      message.textContent = "タップ！";
+    }
+
+    function hideBalloon() {
+      balloon.style.display = "none";
+    }
+
+    balloon.addEventListener("click", () => {
+      if (!waiting) return;
+
+      const reaction = Date.now() - startTime;
+      timeText.textContent = reaction + " ms";
+      score++;
+      scoreText.textContent = score;
+
+      hideBalloon();
+      message.textContent = "できた！";
+
+      if (score >= 10) {
+        message.textContent = "おしまい！よくできました ⭐";
+        waiting = false;
+        return;
+      }
+
+      nextBalloon();
+    });
+  </script>
+</body>
+</html>

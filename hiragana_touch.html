@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ひらがなタッチ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f0f9ff;
+      text-align: center;
+      user-select: none;
+    }
+
+    header {
+      padding: 14px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 4px;
+    }
+
+    #target {
+      font-size: 34px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #2563eb;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      margin: 4px;
+    }
+
+    #message {
+      font-size: 22px;
+      margin: 10px;
+      color: #333;
+      min-height: 32px;
+    }
+
+    #game {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding: 20px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .kana-card {
+      height: 100px;
+      border-radius: 24px;
+      border: 6px solid white;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 46px;
+      font-weight: bold;
+      color: #111827;
+      transition: transform 0.08s;
+    }
+
+    .kana-card:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔤ひらがなタッチ</h1>
+    <div class="info">言われたひらがなをタップ！</div>
+    <div id="target">スタートしてね</div>
+    <div class="info">残り時間：<span id="time">30</span> 秒</div>
+    <div class="info">正解：<span id="score">0</span>　ミス：<span id="miss">0</span>　レベル：<span id="level">1</span></div>
+    <button onclick="startGame()">スタート</button>
+    <button onclick="speakTarget()">もう一回きく</button>
+    <div id="message">文字をよく見よう！</div>
+  </header>
+
+  <main id="game"></main>
+
+  <script>
+    const game = document.getElementById("game");
+    const targetText = document.getElementById("target");
+    const timeText = document.getElementById("time");
+    const scoreText = document.getElementById("score");
+    const missText = document.getElementById("miss");
+    const levelText = document.getElementById("level");
+    const message = document.getElementById("message");
+
+    const kanaGroups = [
+      ["あ", "い", "う", "え", "お"],
+      ["か", "き", "く", "け", "こ"],
+      ["さ", "し", "す", "せ", "そ"],
+      ["た", "ち", "つ", "て", "と"],
+      ["な", "に", "ぬ", "ね", "の"],
+      ["は", "ひ", "ふ", "へ", "ほ"],
+      ["ま", "み", "む", "め", "も"],
+      ["や", "ゆ", "よ"],
+      ["ら", "り", "る", "れ", "ろ"],
+      ["わ", "を", "ん"]
+    ];
+
+    const kanaAll = kanaGroups.flat();
+
+    let targetKana = "";
+    let score = 0;
+    let miss = 0;
+    let level = 1;
+    let timeLeft = 30;
+    let playing = false;
+    let gameTimer = null;
+
+    function startGame() {
+      score = 0;
+      miss = 0;
+      level = 1;
+      timeLeft = 30;
+      playing = true;
+
+      scoreText.textContent = score;
+      missText.textContent = miss;
+      levelText.textContent = level;
+      timeText.textContent = timeLeft;
+      message.textContent = "正しいひらがなをタップ！";
+
+      clearInterval(gameTimer);
+
+      gameTimer = setInterval(() => {
+        timeLeft--;
+        timeText.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+
+      nextQuestion();
+    }
+
+    function updateLevel() {
+      if (score >= 15) level = 4;
+      else if (score >= 10) level = 3;
+      else if (score >= 5) level = 2;
+      else level = 1;
+
+      levelText.textContent = level;
+      game.style.gridTemplateColumns = level >= 3 ? "repeat(3, 1fr)" : "repeat(2, 1fr)";
+    }
+
+    function nextQuestion() {
+      if (!playing) return;
+
+      updateLevel();
+
+      const pool = level === 1 ? kanaGroups[0]
+                 : level === 2 ? kanaGroups[0].concat(kanaGroups[1], kanaGroups[2])
+                 : level === 3 ? kanaGroups[0].concat(kanaGroups[1], kanaGroups[2], kanaGroups[3], kanaGroups[4])
+                 : kanaAll;
+
+      targetKana = pool[Math.floor(Math.random() * pool.length)];
+      targetText.textContent = "「" + targetKana + "」はどれ？";
+
+      makeCards(pool);
+      speakTarget();
+    }
+
+    function makeCards(pool) {
+      game.innerHTML = "";
+
+      const count = level >= 3 ? 9 : 4;
+      const choices = [targetKana];
+
+      while (choices.length < count) {
+        const kana = pool[Math.floor(Math.random() * pool.length)];
+        if (!choices.includes(kana)) {
+          choices.push(kana);
+        }
+      }
+
+      shuffle(choices);
+
+      choices.forEach(kana => {
+        const card = document.createElement("div");
+        card.className = "kana-card";
+        card.textContent = kana;
+
+        card.addEventListener("click", () => {
+          if (!playing) return;
+
+          if (kana === targetKana) {
+            score++;
+            scoreText.textContent = score;
+            message.textContent = "正解！";
+          } else {
+            miss++;
+            missText.textContent = miss;
+            message.textContent = "ちがうよ。もう一回見よう";
+          }
+
+          nextQuestion();
+        });
+
+        game.appendChild(card);
+      });
+    }
+
+    function speakTarget() {
+      if (!targetKana || !("speechSynthesis" in window)) return;
+
+      const text = targetKana;
+      const voice = new SpeechSynthesisUtterance(text);
+      voice.lang = "ja-JP";
+      voice.rate = 0.8;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(voice);
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function endGame() {
+      playing = false;
+      clearInterval(gameTimer);
+      game.innerHTML = "";
+      targetText.textContent = "おしまい";
+      message.textContent = "正解 " + score + " 回 / ミス " + miss + " 回 ⭐";
+    }
+  </script>
+</body>
+</html>

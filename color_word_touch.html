@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>色ことばタッチ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #fff7ed;
+      text-align: center;
+      user-select: none;
+    }
+
+    header {
+      padding: 14px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 4px;
+    }
+
+    #target {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 999px;
+      background: #ef4444;
+      color: white;
+      cursor: pointer;
+    }
+
+    #message {
+      font-size: 22px;
+      margin: 10px;
+      color: #333;
+      min-height: 32px;
+    }
+
+    #game {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding: 20px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .card {
+      height: 95px;
+      border-radius: 24px;
+      border: 6px solid white;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: bold;
+      transition: transform 0.08s;
+    }
+
+    .card:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎨色ことばタッチ</h1>
+    <div class="info">伝えられた色をタップ！</div>
+    <div id="target">スタートしてね</div>
+    <div class="info">残り時間：<span id="time">30</span> 秒</div>
+    <div class="info">正解：<span id="score">0</span>　ミス：<span id="miss">0</span>　レベル：<span id="level">1</span></div>
+    <button onclick="startGame()">スタート</button>
+    <div id="message">色をよく見よう！</div>
+  </header>
+
+  <main id="game"></main>
+
+  <script>
+    const game = document.getElementById("game");
+    const targetText = document.getElementById("target");
+    const timeText = document.getElementById("time");
+    const scoreText = document.getElementById("score");
+    const missText = document.getElementById("miss");
+    const levelText = document.getElementById("level");
+    const message = document.getElementById("message");
+
+    const colors = [
+      { key: "red", jp: "あか", kata: "アカ", kanji: "赤", code: "#ef4444" },
+      { key: "blue", jp: "あお", kata: "アオ", kanji: "青", code: "#3b82f6" },
+      { key: "yellow", jp: "きいろ", kata: "キイロ", kanji: "黄色", code: "#facc15" },
+      { key: "green", jp: "みどり", kata: "ミドリ", kanji: "緑", code: "#22c55e" }
+    ];
+
+    let targetColor = null;
+    let score = 0;
+    let miss = 0;
+    let level = 1;
+    let timeLeft = 30;
+    let playing = false;
+    let gameTimer = null;
+
+    function startGame() {
+      score = 0;
+      miss = 0;
+      level = 1;
+      timeLeft = 30;
+      playing = true;
+
+      scoreText.textContent = score;
+      missText.textContent = miss;
+      levelText.textContent = level;
+      timeText.textContent = timeLeft;
+      message.textContent = "指定された色をタップ！";
+
+      clearInterval(gameTimer);
+
+      gameTimer = setInterval(() => {
+        timeLeft--;
+        timeText.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      if (!playing) return;
+
+      updateLevel();
+      targetColor = colors[Math.floor(Math.random() * colors.length)];
+
+      const targetWord = getWord(targetColor);
+      targetText.textContent = targetWord + " をタップ";
+      targetText.style.color = targetColor.code;
+
+      makeCards();
+    }
+
+    function updateLevel() {
+      if (score >= 15) level = 4;
+      else if (score >= 10) level = 3;
+      else if (score >= 5) level = 2;
+      else level = 1;
+
+      levelText.textContent = level;
+
+      if (level === 1) {
+        game.style.gridTemplateColumns = "repeat(2, 1fr)";
+      } else {
+        game.style.gridTemplateColumns = "repeat(3, 1fr)";
+      }
+    }
+
+    function getWord(color) {
+      if (level === 1) return color.jp;
+
+      const types = [color.jp, color.kata, color.kanji];
+      return types[Math.floor(Math.random() * types.length)];
+    }
+
+    function makeCards() {
+      game.innerHTML = "";
+
+      const count = level === 1 ? 4 : 9;
+      const correctIndex = Math.floor(Math.random() * count);
+
+      for (let i = 0; i < count; i++) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const wordColor = colors[Math.floor(Math.random() * colors.length)];
+        const textColor = colors[Math.floor(Math.random() * colors.length)];
+
+        if (i === correctIndex) {
+          card.dataset.answer = targetColor.key;
+
+          if (level <= 2) {
+            card.textContent = getWord(targetColor);
+            card.style.color = targetColor.code;
+          } else {
+            card.textContent = getWord(wordColor);
+            card.style.color = targetColor.code;
+          }
+        } else {
+          let wrongColor = colors[Math.floor(Math.random() * colors.length)];
+          while (wrongColor.key === targetColor.key) {
+            wrongColor = colors[Math.floor(Math.random() * colors.length)];
+          }
+
+          card.dataset.answer = wrongColor.key;
+
+          if (level <= 2) {
+            card.textContent = getWord(wrongColor);
+            card.style.color = wrongColor.code;
+          } else {
+            card.textContent = getWord(wordColor);
+            card.style.color = wrongColor.code;
+          }
+        }
+
+        card.addEventListener("click", () => {
+          if (!playing) return;
+
+          if (card.dataset.answer === targetColor.key) {
+            score++;
+            scoreText.textContent = score;
+            message.textContent = "正解！";
+          } else {
+            miss++;
+            missText.textContent = miss;
+            message.textContent = "ちがうよ。色を見よう";
+          }
+
+          nextQuestion();
+        });
+
+        game.appendChild(card);
+      }
+    }
+
+    function endGame() {
+      playing = false;
+      clearInterval(gameTimer);
+      game.innerHTML = "";
+      targetText.textContent = "おしまい";
+      targetText.style.color = "#333";
+      message.textContent = "正解 " + score + " 回 / ミス " + miss + " 回 ⭐";
+    }
+  </script>
+</body>
+</html>
