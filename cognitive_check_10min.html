@@ -48,6 +48,21 @@ button.gray{background:#64748b}
 .scoreLiveHide{display:none!important}
 
 .liveResultHide{display:none!important}
+
+.questionHiddenHalf{
+  opacity:0!important;
+  visibility:hidden!important;
+}
+.questionHiddenNotice{
+  text-align:center;
+  font-weight:1000;
+  color:#dc2626;
+  background:#fff7ed;
+  border:3px solid #fed7aa;
+  border-radius:18px;
+  padding:10px;
+  margin:10px 0;
+}
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap">
 <section id="gameScreen" class="panel">
@@ -62,7 +77,7 @@ button.gray{background:#64748b}
 <h1 style="text-align:center">10分チェック</h1>
 <p class="lead" style="text-align:center">WISC風の下位検査カテゴリを参考にした簡易チェックです。診断・IQ測定ではありません。</p>
 <div id="sub" class="subLabel" style="text-align:center"></div>
-<div id="scene" class="scene">スタート</div>
+<div id="scene" class="scene">スタート</div><div id="hideNotice" class="questionHiddenNotice hidden">問題文は見えなくなりました。覚えて答えよう。</div>
 <div class="actions noPrint">
   <button onclick="readQ()">🔊 よみあげ</button>
   <button class="light" onclick="start()">最初から</button>
@@ -115,7 +130,10 @@ function show(){
   document.getElementById("cat").textContent=q.idx;
   document.getElementById("sub").textContent="下位カテゴリ："+q.sub;
   document.getElementById("illust").textContent=q.illust;
+  document.getElementById("scene").classList.remove("questionHiddenHalf");
   document.getElementById("scene").textContent=q.scene;
+  const hideNotice=document.getElementById("hideNotice");
+  if(hideNotice)hideNotice.classList.add("hidden");
   const box=document.getElementById("choices");
   box.innerHTML="";
   shuffle(q.choices).forEach(c=>{
@@ -133,8 +151,25 @@ function ensureSub(q){
 }
 
 function startQuestionTimer(sec){
-  totalTime=sec;timeLeft=sec;updateTimerBar();
-  tickTimer=setInterval(()=>{timeLeft-=0.2;if(timeLeft<0)timeLeft=0;updateTimerBar();},200);
+  totalTime=sec;timeLeft=sec;
+  const sceneEl=document.getElementById("scene");
+  const noticeEl=document.getElementById("hideNotice");
+  if(sceneEl)sceneEl.classList.remove("questionHiddenHalf");
+  if(noticeEl)noticeEl.classList.add("hidden");
+  updateTimerBar();
+
+  tickTimer=setInterval(()=>{
+    timeLeft-=0.2;
+    if(timeLeft<0)timeLeft=0;
+
+    if(timeLeft <= totalTime/2){
+      if(sceneEl)sceneEl.classList.add("questionHiddenHalf");
+      if(noticeEl)noticeEl.classList.remove("hidden");
+    }
+
+    updateTimerBar();
+  },200);
+
   qTimer=setTimeout(()=>timeoutQuestion(),sec*1000);
 }
 function updateTimerBar(){
@@ -223,6 +258,9 @@ function totalComment(){
 
 function finish(){
   clearTimers();
+  document.getElementById("scene").classList.remove("questionHiddenHalf");
+  const finishNotice=document.getElementById("hideNotice");
+  if(finishNotice)finishNotice.classList.add("hidden");
   document.getElementById("gameScreen").classList.add("hidden");
   const r=document.getElementById("reportScreen");
   r.classList.remove("hidden");
