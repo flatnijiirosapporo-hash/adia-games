@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SST 100問</title><style>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SST</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -36,27 +36,422 @@ button.gray{background:#64748b}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
 
 .scoreLiveHide{display:none!important}
+
+textarea,input,select{
+  width:100%;
+  font-size:20px;
+  border:3px solid #dbeafe;
+  border-radius:20px;
+  padding:14px;
+  font-family:inherit;
+  background:white;
+}
+textarea{min-height:120px;resize:vertical}
+.modeTabs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.tabBtn{
+  background:white;
+  color:#334155;
+  border:3px solid #dbeafe;
+  border-radius:22px;
+  box-shadow:0 8px 18px rgba(30,41,59,.08);
+}
+.tabBtn.active{
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+}
+.formGrid{display:grid;grid-template-columns:1fr;gap:16px}
+.stepBox{
+  background:#fff;
+  border:3px solid #e0e7ff;
+  border-radius:28px;
+  padding:18px;
+  margin:16px 0;
+  box-shadow:0 10px 25px rgba(30,41,59,.08);
+}
+.stepTitle{font-size:24px;font-weight:1000;color:#3730a3;margin-bottom:8px}
+.emotionGrid,.choiceGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.emotionBtn,.smallChoice{
+  background:#fff;
+  color:#334155;
+  border:3px solid #dbeafe;
+  border-radius:20px;
+  box-shadow:0 8px 18px rgba(30,41,59,.08);
+  padding:12px;
+}
+.emotionBtn.selected,.smallChoice.selected{
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:#fff;
+}
+.reportScreen{background:#fff;border-radius:34px;padding:26px;box-shadow:0 18px 55px rgba(30,41,59,.12);margin:22px 0 38px}
+.reportItem{page-break-inside:avoid;background:#fff;border:3px solid #fed7aa;border-radius:22px;padding:16px;margin:14px 0}
+.reportLabel{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:5px 12px;font-weight:900;margin:4px 0}
+.parentNote{background:#f8fafc;border-left:8px solid #06b6d4;padding:14px;border-radius:16px}
+.quizCard{background:#fff;border:3px solid #e0e7ff;border-radius:28px;padding:18px;margin:16px 0}
+.quizScene{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
+.quizChoices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.quizChoice{background:#fff;border:4px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(20px,4vw,26px);font-weight:900;text-align:center;white-space:pre-line;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer}
+.quizChoice.correct{border-color:#86efac;background:#f0fdf4}
+.quizChoice.wrong{border-color:#fca5a5;background:#fef2f2}
+@media(min-width:760px){
+  .formGrid{grid-template-columns:1fr 1fr}
+  .emotionGrid,.choiceGrid{grid-template-columns:repeat(4,1fr)}
+  .quizChoices{grid-template-columns:1fr 1fr}
+}
+@media print{
+  .top,.noPrint,.actions{display:none!important}
+  body{background:white}
+  .reportScreen{box-shadow:none;margin:0}
+}
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
-<main class="wrap"><section class="panel">
-<div class="status"><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge scoreLiveHide">正解 <span id="score">0</span></span><span class="badge" id="cat"></span></div>
-<div id="illust" class="illust">🌈</div><h1 style="text-align:center">SST 100問</h1><p class="lead" style="text-align:center">場面を見て、よい行動を選びます。</p>
-<div id="scene" class="scene">スタート</div>
-<div class="actions"><button onclick="readQ()">🔊 よみあげ</button><button class="light" onclick="start()">もう一回</button></div>
-<div id="choices" class="choices"></div><div id="msg" class="message"></div><div id="tip" class="tip hidden"></div><div id="report" class="report hidden"></div>
-</section></main><script>
+<main class="wrap">
+<section id="mainScreen" class="panel">
+  <div class="status">
+    <span class="badge">SST</span>
+    <span class="badge">問題形式</span>
+    <span class="badge">今日のふりかえり</span>
+  </div>
+
+  <div class="illust">💬</div>
+  <h1 style="text-align:center">SST</h1>
+  <p class="lead" style="text-align:center">
+    「問題形式」と「今日あったことのふりかえり」を選べます。
+  </p>
+
+  <div class="modeTabs noPrint">
+    <button id="tabQuiz" class="tabBtn active" onclick="showMode('quiz')">問題形式SST</button>
+    <button id="tabReflect" class="tabBtn" onclick="showMode('reflect')">今日のふりかえり</button>
+  </div>
+
+  <section id="quizMode">
+    <div class="quizCard">
+      <div class="status">
+        <span class="badge">問題 <span id="qNum">0</span>/10</span>
+        <span class="badge">途中の正解数は表示しません</span>
+        <span class="badge" id="qCat">SST</span>
+      </div>
+      <div id="qIllust" class="illust">🌈</div>
+      <div id="qScene" class="quizScene">スタート</div>
+      <div class="actions noPrint">
+        <button onclick="startQuiz()">問題をはじめる</button>
+        <button class="light" onclick="readQuiz()">🔊 よみあげ</button>
+      </div>
+      <div id="qChoices" class="quizChoices"></div>
+      <div id="qMsg" class="message"></div>
+      <div id="qTip" class="tip hidden"></div>
+    </div>
+  </section>
+
+  <section id="reflectMode" class="hidden">
+    <div class="stepBox">
+      <div class="stepTitle">1. 今日あったこと</div>
+      <label>いつ・どこで・だれと・何があった？</label>
+      <textarea id="eventText" placeholder="例：公園で、友だちが先にすべり台を使っていて、ぼくも使いたかった。"></textarea>
+    </div>
+
+    <div class="stepBox">
+      <div class="stepTitle">2. 登場人物</div>
+      <div class="formGrid">
+        <div><label>自分</label><input id="meName" value="自分"></div>
+        <div><label>相手・登場人物</label><input id="otherName" placeholder="例：友だち、先生、弟、知らない子"></div>
+      </div>
+    </div>
+
+    <div class="stepBox">
+      <div class="stepTitle">3. 自分の気持ち</div>
+      <p>その時、自分はどんな気持ちだった？</p>
+      <div id="myEmotionBtns" class="emotionGrid"></div>
+      <textarea id="myEmotionReason" placeholder="どうしてその気持ちになった？"></textarea>
+    </div>
+
+    <div class="stepBox">
+      <div class="stepTitle">4. 相手の気持ち・考え</div>
+      <p>相手はどんな気持ち・考えだったか、置き換えて考えてみよう。</p>
+      <div id="otherEmotionBtns" class="emotionGrid"></div>
+      <textarea id="otherThought" placeholder="例：まだ遊びたかったのかもしれない。順番を知らなかったのかもしれない。"></textarea>
+    </div>
+
+    <div class="stepBox">
+      <div class="stepTitle">5. 次にできる行動</div>
+      <p>次に同じことがあったら、どうできそう？</p>
+      <div id="actionBtns" class="choiceGrid"></div>
+      <textarea id="nextActionText" placeholder="例：『次、使ってもいい？』と聞く。先生に相談する。"></textarea>
+    </div>
+
+    <div class="stepBox">
+      <div class="stepTitle">6. 今日のまとめ</div>
+      <textarea id="summaryText" placeholder="今日できたこと、次に練習したいことを書こう。"></textarea>
+    </div>
+
+    <div class="actions noPrint">
+      <button onclick="saveReflection()">この内容を記録</button>
+      <button class="light" onclick="clearForm()">入力を消す</button>
+      <button class="light" onclick="readReflectPrompt()">🔊 よみあげ</button>
+    </div>
+  </section>
+
+  <div class="actions noPrint">
+    <button class="light" onclick="showReport()">SSTレポートを見る</button>
+  </div>
+  <div id="msg" class="message"></div>
+</section>
+
+<section id="reportScreen" class="reportScreen hidden"></section>
+</main>
+<script>
+function esc(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
-const DATA=[{"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "困っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "困っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "困っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "困っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "困っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "困っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "困っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "困っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "困っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "困っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "止まって考え、言葉で伝えよう。"}];
-let deck=[],i=0,score=0,wrong=[],answered=false,current='';
-function start(){deck=shuffle(DATA).slice(0,10);i=0;score=0;wrong=[];answered=false;document.getElementById('score').textContent=score;document.getElementById('report').classList.add('hidden');document.getElementById('report').innerHTML='';show()}
-function show(){answered=false;document.getElementById('msg').textContent='';document.getElementById('tip').classList.add('hidden');if(i>=deck.length){finish();return}const q=deck[i];current=q.scene;document.getElementById('num').textContent=i+1;document.getElementById('cat').textContent=q.cat||'';document.getElementById('illust').textContent=q.illust||'🌈';document.getElementById('scene').textContent=q.scene;const box=document.getElementById('choices');box.innerHTML='';shuffle(q.choices).forEach(c=>{let d=document.createElement('div');d.className='choice';d.textContent=c.text;d.onclick=()=>answer(c,d);box.appendChild(d)})}
-function answer(c,d){if(answered)return;answered=true;document.querySelectorAll('.choice').forEach(x=>x.style.pointerEvents='none');const q=deck[i];if(c.ok){score++;document.getElementById('score').textContent=score;d.classList.add('correct');document.getElementById('msg').innerHTML='<span class="ok">いいね！</span>'}else{d.classList.add('wrong');let good=q.choices.find(x=>x.ok);wrong.push({cat:q.cat,illust:q.illust,scene:q.scene,selected:c.text,correct:good?good.text:'',tip:q.tip});document.getElementById('msg').innerHTML='<span class="ng">もう一回考えよう</span>'}document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<b>ポイント</b><br>'+esc(q.tip||'');setTimeout(()=>{i++;show()},1500)}
-function finish(){document.getElementById('num').textContent=10;document.getElementById('illust').textContent='⭐';document.getElementById('scene').textContent='おしまい！\n'+score+' / 10 問できました';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.add('hidden');const r=document.getElementById('report');r.classList.remove('hidden');let h='<h2>ふりかえりレポート</h2>';if(wrong.length===0){h+='<p>まちがえた問題はありませんでした。</p>'}else{h+='<p>まちがえた問題だけを表示します。</p>';wrong.forEach((w,n)=>{h+='<div class="reportItem"><div style="font-size:52px;text-align:center">'+esc(w.illust||'')+'</div><b>'+(n+1)+'. まちがえた問題</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>ポイント：</b><br>'+esc(w.tip||'')+'</p></div>'})}h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';r.innerHTML=h}
-function readQ(){speakText(current||document.getElementById('scene').textContent)}
-start();
+const QUIZ_DATA = [{"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "困っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "困っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "困っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "困っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "困っています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "仲直り", "illust": "🤝😊🌈", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "ごめんねと言って戻る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "トラブルのあとに戻る練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "困っています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "聞く", "illust": "👂🧒💬", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "最後まで聞く", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "相手の話を最後まで聞く練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "困っています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "伝える", "illust": "🗣️🧒✨", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "言葉で伝える", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "気持ちやお願いを言葉で伝える練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "けんかになりました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "困っています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "友だちが泣いています。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "もう一回やりたいです。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "大きな声が苦手です。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "ぶつかってしまいました。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "遊びに入れてほしいです。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "断る", "illust": "🙅🧒🛑", "scene": "貸してほしい物があります。\nどうする？", "choices": [{"text": "やさしく断る", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "嫌な時に、相手を傷つけすぎずに断る練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "友だちが使っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "ルールがわかりません。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "いやなことをされました。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}, {"cat": "相談", "illust": "🙋👩‍🏫💬", "scene": "順番で待っています。\nどうする？", "choices": [{"text": "先生に相談する", "ok": true}, {"text": "怒る", "ok": false}, {"text": "取る", "ok": false}, {"text": "走って逃げる", "ok": false}], "tip": "自分だけで難しい時に、大人へ相談する練習です。"}];
+const emotions = ["😊 うれしい","😢 かなしい","😡 おこった","😨 こわい","😕 こまった","😌 あんしん","😣 くやしい","😳 はずかしい"];
+const actions = ["言葉で伝える","順番を待つ","先生に相談する","少し離れる","もう一回やってみる","相手の話を聞く","ごめんねと言う","ありがとうと言う"];
+
+let selectedMyEmotion = "";
+let selectedOtherEmotion = "";
+let selectedAction = "";
+let records = JSON.parse(localStorage.getItem("nijifla_sst_records") || "[]");
+let quizRecords = JSON.parse(localStorage.getItem("nijifla_sst_quiz_records") || "[]");
+
+let qDeck=[], qIndex=0, qScore=0, qWrong=[], qAll=[], qAnswered=false, qCurrent="";
+
+function showMode(mode){
+  document.getElementById("quizMode").classList.toggle("hidden", mode!=="quiz");
+  document.getElementById("reflectMode").classList.toggle("hidden", mode!=="reflect");
+  document.getElementById("tabQuiz").classList.toggle("active", mode==="quiz");
+  document.getElementById("tabReflect").classList.toggle("active", mode==="reflect");
+}
+
+function startQuiz(){
+  qDeck = shuffle(QUIZ_DATA).slice(0,10);
+  qIndex=0; qScore=0; qWrong=[]; qAll=[];
+  document.getElementById("qMsg").textContent="";
+  showQuiz();
+}
+
+function showQuiz(){
+  qAnswered=false;
+  document.getElementById("qMsg").textContent="";
+  document.getElementById("qTip").classList.add("hidden");
+  if(qIndex>=qDeck.length){finishQuiz();return;}
+  const q=qDeck[qIndex];
+  qCurrent=q.scene;
+  document.getElementById("qNum").textContent=qIndex+1;
+  document.getElementById("qCat").textContent=q.cat;
+  document.getElementById("qIllust").textContent=q.illust;
+  document.getElementById("qScene").textContent=q.scene;
+  const box=document.getElementById("qChoices");
+  box.innerHTML="";
+  shuffle(q.choices).forEach(c=>{
+    const d=document.createElement("div");
+    d.className="quizChoice";
+    d.textContent=c.text;
+    d.onclick=()=>answerQuiz(c,d);
+    box.appendChild(d);
+  });
+}
+
+function answerQuiz(c,d){
+  if(qAnswered)return;
+  qAnswered=true;
+  document.querySelectorAll(".quizChoice").forEach(x=>x.style.pointerEvents="none");
+  const q=qDeck[qIndex];
+  const good=q.choices.find(x=>x.ok);
+  const item={
+    no:qIndex+1,
+    cat:q.cat,
+    illust:q.illust,
+    scene:q.scene,
+    selected:c.text,
+    correct:good?good.text:"",
+    ok:c.ok,
+    tip:q.tip
+  };
+  qAll.push(item);
+  if(c.ok){
+    qScore++;
+    d.classList.add("correct");
+    document.getElementById("qMsg").innerHTML='<span class="ok">いい選び方です</span>';
+  }else{
+    qWrong.push(item);
+    d.classList.add("wrong");
+    document.getElementById("qMsg").innerHTML='<span class="ng">もう一回考えよう</span>';
+  }
+  document.getElementById("qTip").classList.remove("hidden");
+  document.getElementById("qTip").innerHTML='<b>ポイント</b><br>'+esc(q.tip);
+  setTimeout(()=>{qIndex++;showQuiz();},1300);
+}
+
+function finishQuiz(){
+  document.getElementById("qNum").textContent=10;
+  document.getElementById("qIllust").textContent="⭐";
+  document.getElementById("qScene").textContent="問題形式SST おしまい";
+  document.getElementById("qChoices").innerHTML="";
+  document.getElementById("qTip").classList.add("hidden");
+  document.getElementById("qMsg").innerHTML='<span class="ok">最後まで取り組めました</span>';
+
+  const rec={
+    date:new Date().toLocaleString("ja-JP"),
+    score:qScore,
+    total:qAll.length,
+    all:qAll,
+    wrong:qWrong
+  };
+  quizRecords.push(rec);
+  localStorage.setItem("nijifla_sst_quiz_records", JSON.stringify(quizRecords));
+}
+
+function readQuiz(){
+  speakText(qCurrent || document.getElementById("qScene").textContent);
+}
+
+/* ふりかえり入力 */
+function makeButtons(){
+  const my=document.getElementById("myEmotionBtns");
+  const other=document.getElementById("otherEmotionBtns");
+  const act=document.getElementById("actionBtns");
+  my.innerHTML=""; other.innerHTML=""; act.innerHTML="";
+
+  emotions.forEach(e=>{
+    const b=document.createElement("button");
+    b.className="emotionBtn";
+    b.textContent=e;
+    b.onclick=()=>{selectedMyEmotion=e;markSelected(my,b)};
+    my.appendChild(b);
+
+    const c=document.createElement("button");
+    c.className="emotionBtn";
+    c.textContent=e;
+    c.onclick=()=>{selectedOtherEmotion=e;markSelected(other,c)};
+    other.appendChild(c);
+  });
+
+  actions.forEach(a=>{
+    const b=document.createElement("button");
+    b.className="smallChoice";
+    b.textContent=a;
+    b.onclick=()=>{selectedAction=a;markSelected(act,b)};
+    act.appendChild(b);
+  });
+}
+
+function markSelected(parent, btn){
+  Array.from(parent.children).forEach(x=>x.classList.remove("selected"));
+  btn.classList.add("selected");
+}
+
+function val(id){return document.getElementById(id).value.trim()}
+
+function saveReflection(){
+  const rec = {
+    date: new Date().toLocaleString("ja-JP"),
+    eventText: val("eventText"),
+    meName: val("meName") || "自分",
+    otherName: val("otherName") || "相手",
+    myEmotion: selectedMyEmotion,
+    myEmotionReason: val("myEmotionReason"),
+    otherEmotion: selectedOtherEmotion,
+    otherThought: val("otherThought"),
+    selectedAction,
+    nextActionText: val("nextActionText"),
+    summaryText: val("summaryText")
+  };
+
+  if(!rec.eventText){
+    document.getElementById("msg").innerHTML='<span class="ng">今日あったことを入力してください。</span>';
+    return;
+  }
+
+  records.push(rec);
+  localStorage.setItem("nijifla_sst_records", JSON.stringify(records));
+  document.getElementById("msg").innerHTML='<span class="ok">記録しました。レポートに表示できます。</span>';
+}
+
+function clearForm(){
+  ["eventText","otherName","myEmotionReason","otherThought","nextActionText","summaryText"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("meName").value="自分";
+  selectedMyEmotion=""; selectedOtherEmotion=""; selectedAction="";
+  makeButtons();
+  document.getElementById("msg").textContent="";
+}
+
+function readReflectPrompt(){
+  speakText("今日あったことを思い出して、自分の気持ち、相手の気持ち、次にできる行動を考えます。");
+}
+
+function deleteRecords(){
+  if(!confirm("SSTの記録をすべて削除しますか？"))return;
+  records=[];
+  quizRecords=[];
+  localStorage.removeItem("nijifla_sst_records");
+  localStorage.removeItem("nijifla_sst_quiz_records");
+  showReport();
+}
+
+function showReport(){
+  document.getElementById("mainScreen").classList.add("hidden");
+  const r=document.getElementById("reportScreen");
+  r.classList.remove("hidden");
+
+  let h='<h1>SST レポート</h1>';
+  h+='<p class="lead">問題形式SSTと、今日あったことのふりかえりをまとめて表示します。</p>';
+  h+='<div class="parentNote"><b>保護者様へ</b><br>正解・不正解だけではなく、「場面を理解する」「相手の立場を考える」「次の行動を考える」ことを目的にしたSSTの記録です。</div>';
+
+  h+='<h2>問題形式SSTの記録</h2>';
+  if(quizRecords.length===0){
+    h+='<div class="reportItem">問題形式SSTの記録はまだありません。</div>';
+  }else{
+    quizRecords.forEach((rec,n)=>{
+      h+='<div class="reportItem">';
+      h+='<h3>'+(n+1)+'. '+esc(rec.date)+'</h3>';
+      h+='<div class="reportLabel">結果</div><p>'+rec.score+' / '+rec.total+' 問</p>';
+      h+='<div class="reportLabel">取り組んだ問題すべて</div>';
+      rec.all.forEach(item=>{
+        h+='<div class="reportItem">';
+        h+='<b>'+item.no+'. '+esc(item.cat)+'</b><br>';
+        h+='<div style="font-size:44px;text-align:center">'+esc(item.illust)+'</div>';
+        h+='<p>'+esc(item.scene).replaceAll("\n","<br>")+'</p>';
+        h+='<p><b>選んだ答え：</b>'+esc(item.selected)+' '+(item.ok?'<span class="ok">○</span>':'<span class="ng">△</span>')+'</p>';
+        h+='<p><b>よい答え：</b>'+esc(item.correct)+'</p>';
+        h+='<p><b>ポイント：</b>'+esc(item.tip)+'</p>';
+        h+='</div>';
+      });
+      h+='</div>';
+    });
+  }
+
+  h+='<h2>今日のふりかえり記録</h2>';
+  if(records.length===0){
+    h+='<div class="reportItem">今日のふりかえり記録はまだありません。</div>';
+  }else{
+    records.forEach((rec,n)=>{
+      h+='<div class="reportItem">';
+      h+='<h3>'+(n+1)+'. '+esc(rec.date)+'</h3>';
+      h+='<div class="reportLabel">今日あったこと</div><p>'+esc(rec.eventText).replaceAll("\n","<br>")+'</p>';
+      h+='<div class="reportLabel">登場人物</div><p>'+esc(rec.meName)+' ／ '+esc(rec.otherName)+'</p>';
+      h+='<div class="reportLabel">自分の気持ち</div><p>'+esc(rec.myEmotion||"未選択")+'<br>'+esc(rec.myEmotionReason).replaceAll("\n","<br>")+'</p>';
+      h+='<div class="reportLabel">相手の気持ち・考え</div><p>'+esc(rec.otherEmotion||"未選択")+'<br>'+esc(rec.otherThought).replaceAll("\n","<br>")+'</p>';
+      h+='<div class="reportLabel">次にできる行動</div><p>'+esc(rec.selectedAction||"未選択")+'<br>'+esc(rec.nextActionText).replaceAll("\n","<br>")+'</p>';
+      h+='<div class="reportLabel">まとめ</div><p>'+esc(rec.summaryText).replaceAll("\n","<br>")+'</p>';
+      h+='</div>';
+    });
+  }
+
+  h+='<div class="actions noPrint">';
+  h+='<button onclick="window.print()">印刷する</button>';
+  h+='<button class="light" onclick="backToMain()">入力に戻る</button>';
+  h+='<button class="light" onclick="deleteRecords()">記録を削除</button>';
+  h+='</div>';
+  r.innerHTML=h;
+}
+
+function backToMain(){
+  document.getElementById("reportScreen").classList.add("hidden");
+  document.getElementById("mainScreen").classList.remove("hidden");
+}
+
+makeButtons();
+showMode("quiz");
 </script>
 </body></html>
