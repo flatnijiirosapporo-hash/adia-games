@@ -1,4 +1,10 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SST</title><style>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SST</title>
+<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -67,7 +73,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.3 automatic furigana ===== */
+/* ===== Ver.2.4 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -94,7 +100,7 @@ ruby.autoRuby rt{
   text-align:center;
 }
 
-/* ===== Ver.2.3 top simple ===== */
+/* ===== Ver.2.4 top simple ===== */
 .topHeroCard{
   padding-top:clamp(26px,5vw,46px)!important;
 }
@@ -111,36 +117,60 @@ ruby.autoRuby rt{
 }
 
 
-
-/* ===== SST Ver.2.3 rebuild ===== */
-.sstHero{text-align:center}
-.sstMeta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0 20px}
-.sstQuestionBox{background:#f8fafc;border:2px solid #dbeafe;border-radius:28px;padding:clamp(18px,4vw,30px);box-shadow:0 10px 24px rgba(30,41,59,.08)}
-.sstQuestion{font-size:clamp(23px,5vw,38px);font-weight:1000;line-height:1.55;text-align:center;margin:10px 0}
-.sstChoices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
-.sstChoice{background:#fff;border:3px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(18px,4vw,25px);font-weight:1000;text-align:left;box-shadow:0 10px 22px rgba(30,41,59,.08);cursor:pointer}
-.sstChoice.correct{border-color:#86efac!important;background:#f0fdf4!important}
-.sstChoice.wrong{border-color:#fca5a5!important;background:#fef2f2!important}
-.sstExplain{margin-top:16px;background:#ecfdf5;border:2px solid #bbf7d0;border-radius:22px;padding:16px;font-weight:800}
-.sstReportCard{background:white;border:2px solid #fed7aa;border-radius:24px;padding:16px;margin:14px 0}
-ruby.autoRuby{ruby-position:over}
-ruby.autoRuby rt{font-size:.55em;line-height:1;color:#475569;font-weight:900;text-align:center}
-@media(max-width:640px){ruby.autoRuby rt{font-size:.48em} ruby.autoRuby{line-height:1.15} .sstChoice{text-align:center}}
-
-/* ===== Ver.2.3 common ruby fix ===== */
+/* ===== Ver.2.4 common ruby fix ===== */
 ruby.autoRuby{display:inline-ruby;line-height:1.35;}
 ruby.autoRuby rt{font-size:.48em!important;line-height:1!important;}
 
 
-/* ===== Ver.2.3 global ruby clean ===== */
+/* ===== Ver.2.4 global ruby clean ===== */
 ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3;}
 ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;}
 
-</style></head><body>
-<div class="top"><div class="wrap nav"><a href="index.html">← TOP</a><span class="pill">にじフラ Ver.2.3</span></div></div>
-<main class="wrap"><section class="panel sstHero"><div class="illust">💬</div><h1>SST</h1><p class="lead">気持ち・ことば・行動を、安心して練習します。</p>
-<div class="grid">
-<a class="card menu" href="sst_quiz.html"><div class="icon">📝</div><div class="title">問題形式SST</div><div class="desc">100問からランダム。文章問題で考える。</div></a>
-<a class="card menu" href="sst_reflection.html"><div class="icon">🌱</div><div class="title">今日のふりかえりSST</div><div class="desc">今日あったことから気持ちを考える。</div></a>
-<a class="card menu" href="sst_report.html"><div class="icon">📄</div><div class="title">SSTレポート</div><div class="desc">取り組みを保護者向けに確認する。</div></a>
-</div></section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer></body></html>
+
+
+/* ===== SST Ver.2.4 full rebuild ===== */
+.sstHero{text-align:center}
+.sstMeta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0 20px}
+.sstQuestionBox{background:#f8fafc;border:2px solid #dbeafe;border-radius:28px;padding:clamp(18px,4vw,30px);box-shadow:0 10px 24px rgba(30,41,59,.08)}
+.sstQuestion{font-size:clamp(23px,5vw,38px);font-weight:1000;line-height:1.95;text-align:center;margin:10px 0}
+.sstChoices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+.sstChoice{background:#fff;border:3px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(18px,4vw,25px);font-weight:1000;text-align:left;box-shadow:0 10px 22px rgba(30,41,59,.08);cursor:pointer;line-height:1.85}
+.sstChoice.correct{border-color:#86efac!important;background:#f0fdf4!important}
+.sstChoice.wrong{border-color:#fca5a5!important;background:#fef2f2!important}
+.sstExplain{margin-top:16px;background:#ecfdf5;border:2px solid #bbf7d0;border-radius:22px;padding:16px;font-weight:800;line-height:1.8}
+.sstReportCard{background:white;border:2px solid #fed7aa;border-radius:24px;padding:16px;margin:14px 0;line-height:1.85}
+ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.25}
+ruby.autoRuby rb{display:ruby-base}
+ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
+@media(max-width:640px){ruby.autoRuby rt{font-size:.42em!important}.sstQuestion{font-size:clamp(21px,5vw,32px)}.sstChoice{text-align:center;font-size:clamp(17px,4.2vw,23px)}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap nav"><a href="index.html">← TOP</a><span class="pill">にじフラ Ver.2.4</span></div></div>
+<main class="wrap">
+<section class="panel sstHero">
+  <div class="illust">💬</div>
+  <h1>SST</h1>
+  <p class="lead">気持ち・ことば・行動を、文章問題で練習します。</p>
+  <div class="grid">
+    <a class="card menu" href="sst_quiz.html">
+      <div class="icon">📝</div>
+      <div class="title">問題形式SST</div>
+      <div class="desc">100問からランダム。ふりがな付き文章問題。</div>
+    </a>
+    <a class="card menu" href="sst_reflection.html">
+      <div class="icon">🌱</div>
+      <div class="title">今日のふりかえりSST</div>
+      <div class="desc">今日あったことから気持ちを考える。</div>
+    </a>
+    <a class="card menu" href="sst_report.html">
+      <div class="icon">📄</div>
+      <div class="title">SSTレポート</div>
+      <div class="desc">取り組みを保護者向けに確認する。</div>
+    </a>
+  </div>
+</section>
+</main>
+<footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
+</body>
+</html>

@@ -1,10 +1,11 @@
-Ver.2.3
-SSTふりがな修正: 2段防止・rt漢字防止・誤読防止
+Ver.2.4
+問題形式SST 全面作り直し・動作安定化・ふりがな修正
 version: True
-bad_rt_dictionary_entries: 0
-no_kanji_fallback: True
-no_yomi_fallback: True
-clean_ruby_css: True
 question_count: 100
 unique_question_count: 100
+node_check: OK
+rt_dictionary_kanji_count: 0
+no_kanji_fallback: True
+no_yomi_fallback: True
+unique_deck_function: True
 リンク切れなし
