@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>記憶ゲーム</title>
+  <title>記憶（きおく）ゲーム</title>
   <style>
     body {
       margin: 0;
@@ -11,6 +11,7 @@
       background: #f5f3ff;
       text-align: center;
       user-select: none;
+      color: #1f2937;
     }
 
     header {
@@ -38,6 +39,7 @@
       color: white;
       cursor: pointer;
       margin: 4px;
+      font-weight: bold;
     }
 
     #message {
@@ -51,6 +53,13 @@
       font-size: 70px;
       height: 90px;
       margin: 12px;
+    }
+
+    #progress {
+      font-size: 20px;
+      min-height: 30px;
+      color: #4b5563;
+      margin: 6px;
     }
 
     #game {
@@ -84,24 +93,35 @@
       opacity: 0.45;
       pointer-events: none;
     }
+
+    .back {
+      display: inline-block;
+      margin: 10px;
+      color: #7c3aed;
+      font-weight: bold;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>🧠記憶ゲーム</h1>
-    <div class="info">出た絵を、最初から順番に押そう！</div>
-    <div class="info">レベル：<span id="level">1</span>　成功：<span id="score">0</span></div>
+    <h1>🧠記憶（きおく）ゲーム</h1>
+    <div class="info">出（で）た絵（え）を、最初（さいしょ）から順番（じゅんばん）に押（お）そう！</div>
+    <div class="info">レベル：<span id="level">1</span>　成功（せいこう）：<span id="score">0</span></div>
     <button onclick="startGame()">スタート</button>
-    <button onclick="showSequence()">もう一回見る</button>
-    <div id="message">絵の順番を覚えよう！</div>
+    <button onclick="repeatSequence()">もう一回（いっかい）見る</button>
+    <div id="message">絵（え）の順番（じゅんばん）を覚（おぼ）えよう！</div>
   </header>
 
   <div id="showArea"></div>
+  <div id="progress"></div>
   <main id="game"></main>
+  <a class="back" href="flatore.html">← フラトレへ</a>
 
   <script>
     const game = document.getElementById("game");
     const showArea = document.getElementById("showArea");
+    const progress = document.getElementById("progress");
     const levelText = document.getElementById("level");
     const scoreText = document.getElementById("score");
     const message = document.getElementById("message");
@@ -114,14 +134,23 @@
     let score = 0;
     let playing = false;
     let showing = false;
+    let showTimer = null;
+    let nextTimer = null;
 
     function startGame() {
+      clearTimers();
       level = 1;
       score = 0;
       playing = true;
+      showing = false;
+      playerIndex = 0;
+
       levelText.textContent = level;
       scoreText.textContent = score;
-      message.textContent = "よく見て覚えてね";
+      message.textContent = "よく見（み）て覚（おぼ）えてね";
+      showArea.textContent = "";
+      progress.textContent = "";
+
       makeCards();
       makeSequence();
       showSequence();
@@ -145,61 +174,96 @@
     }
 
     function makeSequence() {
-      sequence = [];
-      for (let i = 0; i < level; i++) {
-        const pic = pictures[Math.floor(Math.random() * pictures.length)];
-        sequence.push(pic);
-      }
+      // 修正点：
+      // 1問の中で同じ絵が重ならないようにする。
+      // 4個・5個でも、同じ絵を2回押す必要がなくなり、判定ズレを防ぐ。
+      const length = Math.min(level, pictures.length);
+      const shuffled = shuffle(pictures);
+      sequence = shuffled.slice(0, length);
       playerIndex = 0;
+      updateProgress();
     }
 
     function showSequence() {
       if (!playing || showing) return;
 
+      clearTimers();
       showing = true;
       playerIndex = 0;
+      updateProgress();
       disableCards(true);
-      message.textContent = "覚えてね";
-
-      let i = 0;
+      message.textContent = "覚（おぼ）えてね";
       showArea.textContent = "";
 
-      const timer = setInterval(() => {
+      let i = 0;
+
+      function showNext() {
         if (i < sequence.length) {
           showArea.textContent = sequence[i];
           i++;
+          showTimer = setTimeout(showNext, 850);
         } else {
-          clearInterval(timer);
           showArea.textContent = "";
-          message.textContent = "順番に押してね";
+          message.textContent = "最初（さいしょ）から順番（じゅんばん）に押（お）してね";
           disableCards(false);
           showing = false;
         }
-      }, 850);
+      }
+
+      showNext();
+    }
+
+    function repeatSequence() {
+      if (!playing) return;
+      if (showing) return;
+      showSequence();
     }
 
     function checkAnswer(pic) {
-      if (pic === sequence[playerIndex]) {
+      if (!playing || showing) return;
+
+      const correctPic = sequence[playerIndex];
+
+      if (pic === correctPic) {
         playerIndex++;
         message.textContent = "いいね！";
+        updateProgress();
 
         if (playerIndex >= sequence.length) {
+          disableCards(true);
           score++;
           level++;
           scoreText.textContent = score;
           levelText.textContent = level;
-          message.textContent = "成功！次は少し長くなるよ";
+          message.textContent = "成功（せいこう）！次（つぎ）は少（すこ）し長（なが）くなるよ";
 
-          setTimeout(() => {
+          nextTimer = setTimeout(() => {
             makeSequence();
             showSequence();
-          }, 900);
+          }, 1000);
         }
       } else {
-        message.textContent = "ちがうよ。もう一回見てみよう";
-        setTimeout(() => {
+        disableCards(true);
+        message.textContent = "ちがうよ。もう一回（いっかい）見（み）てみよう";
+        nextTimer = setTimeout(() => {
           showSequence();
         }, 900);
+      }
+    }
+
+    function updateProgress() {
+      if (!playing || sequence.length === 0) {
+        progress.textContent = "";
+        return;
+      }
+
+      const done = sequence.slice(0, playerIndex).join(" ");
+      const remaining = "○ ".repeat(sequence.length - playerIndex).trim();
+
+      if (done) {
+        progress.textContent = "押（お）した順（じゅん）： " + done + " " + remaining;
+      } else {
+        progress.textContent = "押（お）す数（かず）： " + sequence.length;
       }
     }
 
@@ -209,6 +273,22 @@
         if (flag) card.classList.add("disabled");
         else card.classList.remove("disabled");
       });
+    }
+
+    function clearTimers() {
+      if (showTimer) clearTimeout(showTimer);
+      if (nextTimer) clearTimeout(nextTimer);
+      showTimer = null;
+      nextTimer = null;
+    }
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
     }
   </script>
 </body>
