@@ -1,1 +1,76 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=sst_quiz.html"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><a href="sst_quiz.html">問題形式SSTを開く</a></body></html>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=sst_quiz.html"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><a href="sst_quiz.html">問題形式SSTを開く</a>
+<script>
+(function(){
+  const FURI = [["ワーキングメモリ", "わーきんぐめもり"], ["今日のふりかえり", "きょうのふりかえり"], ["使っています", "つかっています"], ["トレーニング", "とれーにんぐ"], ["もぐらたたき", "もぐらたたき"], ["流動性推理", "りゅうどうせいすいり"], ["ふりかえり", "ふりかえり"], ["保護者向け", "ほごしゃむけ"], ["問題形式", "もんだいけいしき"], ["登場人物", "とうじょうじんぶつ"], ["レポート", "れぽーと"], ["総合評価", "そうごうひょうか"], ["言語理解", "げんごりかい"], ["処理速度", "しょりそくど"], ["模様構成", "もようこうせい"], ["操作記憶", "そうさきおく"], ["時間切れ", "じかんぎれ"], ["保護者様", "ほごしゃさま"], ["大きな声", "おおきなこえ"], ["成長記録", "せいちょうきろく"], ["ビジョン", "びじょん"], ["色ことば", "いろことば"], ["反応時間", "はんのうじかん"], ["横断歩道", "おうだんほどう"], ["仲間外れ", "なかまはずれ"], ["出来事", "できごと"], ["気持ち", "きもち"], ["不正解", "ふせいかい"], ["選択肢", "せんたくし"], ["非表示", "ひひょうじ"], ["問題文", "もんだいぶん"], ["視空間", "しくうかん"], ["保護者", "ほごしゃ"], ["仲直り", "なかなおり"], ["友だち", "ともだち"], ["伝える", "つたえる"], ["貸して", "かして"], ["もぐら", "もぐら"], ["空振り", "からぶり"], ["読んで", "よんで"], ["答える", "こたえる"], ["覚えて", "おぼえて"], ["図書館", "としょかん"], ["共通点", "きょうつうてん"], ["乗り物", "のりもの"], ["今日", "きょう"], ["相手", "あいて"], ["考え", "かんがえ"], ["行動", "こうどう"], ["問題", "もんだい"], ["正解", "せいかい"], ["選択", "せんたく"], ["結果", "けっか"], ["表示", "ひょうじ"], ["残り", "のこり"], ["秒数", "びょうすう"], ["半分", "はんぶん"], ["最後", "さいご"], ["評価", "ひょうか"], ["点数", "てんすう"], ["得意", "とくい"], ["苦手", "にがて"], ["支援", "しえん"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["療育", "りょういく"], ["簡易", "かんい"], ["診断", "しんだん"], ["測定", "そくてい"], ["理解", "りかい"], ["推理", "すいり"], ["類似", "るいじ"], ["単語", "たんご"], ["視覚", "しかく"], ["規則", "きそく"], ["概念", "がいねん"], ["分類", "ぶんるい"], ["順唱", "じゅんしょう"], ["記号", "きごう"], ["符号", "ふごう"], ["練習", "れんしゅう"], ["印刷", "いんさつ"], ["記録", "きろく"], ["削除", "さくじょ"], ["相談", "そうだん"], ["先生", "せんせい"], ["自分", "じぶん"], ["理由", "りゆう"], ["入力", "にゅうりょく"], ["聞く", "きく"], ["断る", "ことわる"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["危険", "きけん"], ["安全", "あんぜん"], ["公園", "こうえん"], ["運動", "うんどう"], ["風船", "ふうせん"], ["記憶", "きおく"], ["見本", "みほん"], ["同じ", "おなじ"], ["早く", "はやく"], ["速く", "はやく"], ["探す", "さがす"], ["追視", "ついし"], ["平均", "へいきん"], ["成功", "せいこう"], ["ミス", "みす"], ["見え", "みえ"], ["消え", "きえ"], ["黄色", "きいろ"], ["茶色", "ちゃいろ"], ["水色", "みずいろ"], ["病院", "びょういん"], ["時計", "とけい"], ["約束", "やくそく"], ["協力", "きょうりょく"], ["勇気", "ゆうき"], ["言葉", "ことば"], ["意味", "いみ"], ["仲間", "なかま"], ["動物", "どうぶつ"], ["果物", "くだもの"], ["鉛筆", "えんぴつ"], ["左右", "さゆう"], ["本物", "ほんもの"], ["方向", "ほうこう"], ["次", "つぎ"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["紫", "むらさき"], ["白", "しろ"], ["黒", "くろ"], ["雨", "あめ"], ["雪", "ゆき"], ["車", "くるま"], ["体", "からだ"], ["本", "ほん"], ["上", "うえ"], ["下", "した"], ["左", "ひだり"], ["右", "みぎ"]];
+  const SKIP = new Set(["SCRIPT","STYLE","TEXTAREA","INPUT","SELECT","OPTION","RT","RUBY"]);
+  const storageKey = "nijifla_furigana_on";
+
+  function escapeRegExp(s){
+    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function applyFurigana(){
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        const parent = node.parentElement;
+        if(!parent) return NodeFilter.FILTER_REJECT;
+        if(SKIP.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        if(!node.nodeValue || !/[一-龯々]/.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes=[];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(node=>{
+      let text=node.nodeValue;
+      let html=escapeHtml(text);
+      let changed=false;
+
+      FURI.forEach(([word,yomi])=>{
+        if(html.includes(word)){
+          const re = new RegExp(escapeRegExp(word), "g");
+          html = html.replace(re, `<ruby class="nijiRuby">${word}<rt>${yomi}</rt></ruby>`);
+          changed=true;
+        }
+      });
+
+      if(changed){
+        const span=document.createElement("span");
+        span.innerHTML=html;
+        node.parentNode.replaceChild(span,node);
+      }
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  }
+
+  function addButton(){
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="furiToggleBtn";
+    btn.id="furiToggleBtn";
+    btn.onclick=function(){
+      document.body.classList.toggle("furi-on");
+      const on=document.body.classList.contains("furi-on");
+      localStorage.setItem(storageKey,on?"1":"0");
+      btn.textContent=on?"ふりがな ON":"ふりがな OFF";
+    };
+    document.body.appendChild(btn);
+
+    const on=localStorage.getItem(storageKey)==="1";
+    if(on)document.body.classList.add("furi-on");
+    btn.textContent=on?"ふりがな ON":"ふりがな OFF";
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    applyFurigana();
+    addButton();
+  });
+})();
+</script>
+
+</body></html>
