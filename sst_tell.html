@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🗣️ 伝（つた）える練習（れんしゅう）</title><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
+header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
+main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
+.card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
+a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
+button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:24px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.45}
+.choices{display:grid;gap:14px;margin-top:16px}.big{font-size:31px;font-weight:800;margin:20px 0;line-height:1.5}
+.hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
+.point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.7;color:#334155}
+</style></head><body>
+<header><h1>🗣️ 伝（つた）える練習（れんしゅう）</h1><div class="sub">お願（ねが）い・気持（きも）ち・困（こま）ったことを言葉（ことば）にします</div></header>
+<main><section class="card">
+<div id="scene" class="big">スタートしてね</div>
+<div id="choices" class="choices"></div>
+<div id="msg" class="big"></div>
+<div id="tip" class="card point hidden"></div>
+<button onclick="start()">スタート</button>
+</section><a class="back" href="sst.html">← SSTへ</a></main>
+<script>
+const qs=[{"scene": "おもちゃを貸（か）してほしい。どう言（い）う？", "choices": ["かして", "どけて", "取（と）る", "いやだ"], "a": 0, "tip": "「かして」「終（お）わったらかして」と短（みじか）く言えるとOK。"}, {"scene": "いやなことをされた。どう言（い）う？", "choices": ["やめて", "たたく", "投げる", "叫ぶだけ"], "a": 0, "tip": "「やめて」「いやだった」と言葉（ことば）で伝えよう。"}, {"scene": "遊びに入りたい。どう言（い）う？", "choices": ["入れて", "じゃまだよ", "怒る", "勝手に入る"], "a": 0, "tip": "「入れて」「いっしょに遊んでいい？」と言（い）ってみよう。"}];let i=0,score=0;
+function start(){i=0;score=0;show();}
+function show(){
+ document.getElementById('msg').textContent='';document.getElementById('tip').classList.add('hidden');
+ if(i>=qs.length){document.getElementById('scene').textContent='おしまい！ '+score+' / '+qs.length+' 問できました ⭐';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<div class="title">今日（きょう）のポイント</div><div class="tip">できた・できないより、「もう一回（かい）考（かんが）えた」「言い方を選べた」ことが大切です。</div>';return;}
+ const q=qs[i];document.getElementById('scene').textContent=q.scene;document.getElementById('choices').innerHTML='';
+ q.choices.forEach((c,idx)=>{const d=document.createElement('div');d.className='choice';d.textContent=c;d.onclick=()=>answer(idx===q.a,q.tip);document.getElementById('choices').appendChild(d);});
+}
+function answer(ok,tip){if(ok){score++;document.getElementById('msg').innerHTML='<span class="ok">いい言い方！</span>';}else{document.getElementById('msg').innerHTML='<span class="ng">もう一回（かい）考（かんが）えよう</span>';}document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<div class="title">練習（れんしゅう）ことば</div><div class="tip">'+tip+'</div>';setTimeout(()=>{i++;show();},1600);}
+</script>
+</body></html>

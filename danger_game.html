@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>⚠️ 危険（きけん）予知（よち）ゲーム</title><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
+header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
+main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
+.card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
+a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
+button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:22px 10px;font-size:28px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}.big{font-size:34px;font-weight:800;margin:20px 0;line-height:1.5}
+.hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
+.bar-bg{height:24px;background:#e5e7eb;border-radius:999px;overflow:hidden}.bar{height:24px;background:#22c55e}.report{text-align:left;line-height:1.8}
+@media print{button,.back{display:none}.card{box-shadow:none;border:1px solid #ddd}body{background:white}}
+</style></head><body>
+<header><h1>⚠️ 危険（きけん）予知（よち）ゲーム</h1><div class="sub">あぶない場面（ばめん）を見つけて、安全（あんぜん）な行動（こうどう）を選（えら）びます</div></header>
+<main>
+<section class="card">
+<div id="q" class="big">スタートしてね</div>
+<div id="choices" class="choices"></div>
+<div id="msg" class="big"></div>
+<button onclick="start()">スタート</button>
+</section>
+<a class="back" href="index.html">← TOPへ</a>
+</main>
+<script>
+
+const qs=[
+{q:"道路（どうろ）にボールが転がった。どうする？",choices:["すぐ走（はし）って取（と）る","車が来ないか見（み）て大人（おとな）に言（い）う","友（とも）だちを押（お）す","目（め）をつぶる"],a:1},
+{q:"すべり台（だい）を下からのぼっている子がいる。どうする？",choices:["まねする","ぶつからないように待（ま）つ","怒鳴る","走（はし）って押（お）す"],a:1},
+{q:"ブランコの前（まえ）を横切りたい。どうする？",choices:["すぐ通る","止まってから通る","目（め）をつぶって走る","近くでしゃがむ"],a:1},
+{q:"雪山で友（とも）だちが転んだ。どうする？",choices:["笑う","先生（せんせい）に知らせる・声をかける","雪を投げる","そのまま行く"],a:1}
+];
+
+let i=0,score=0;
+function start(){i=0;score=0;show();}
+function show(){
+ document.getElementById('msg').textContent='';
+ if(i>=qs.length){document.getElementById('q').textContent='おしまい！ '+score+' / '+qs.length+' 問できました ⭐';document.getElementById('choices').innerHTML='';return;}
+ let item=qs[i];document.getElementById('q').textContent=item.q;
+ document.getElementById('choices').innerHTML='';
+ item.choices.forEach((c,idx)=>{let d=document.createElement('div');d.className='choice';d.textContent=c;d.onclick=()=>ans(idx===item.a);document.getElementById('choices').appendChild(d);});
+}
+function ans(ok){if(ok){score++;document.getElementById('msg').innerHTML='<span class="ok">いい選択（せんたく）！</span>';}else{document.getElementById('msg').innerHTML='<span class="ng">もう一回（かい）考（かんが）えよう</span>';}setTimeout(()=>{i++;show();},700);}
+</script>
+</body></html>

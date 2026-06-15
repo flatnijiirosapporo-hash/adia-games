@@ -81,7 +81,7 @@
 <body>
   <header>
     <h1>🐸もぐらたたき</h1>
-    <div class="info">残り時間：<span id="time">30</span> 秒</div>
+    <div class="info">残（のこ）り時間（じかん）：<span id="time">30</span> 秒</div>
     <div class="info">スコア：<span id="score">0</span></div>
     <button onclick="startGame()">スタート</button>
     <div id="message">キャラが出たらタップ！</div>
@@ -131,7 +131,7 @@
 
       scoreText.textContent = score;
       timeText.textContent = timeLeft;
-      message.textContent = "よく見てタップ！";
+      message.textContent = "よく見（み）てタップ！";
 
       clearInterval(gameTimer);
       clearTimeout(moleTimer);
@@ -171,7 +171,7 @@
       clearInterval(gameTimer);
       clearTimeout(moleTimer);
       hideAll();
-      message.textContent = "おしまい！スコアは " + score + " 点 ⭐";
+      message.textContent = "おしまい！スコアは " + score + " 点（てん） ⭐";
     }
   </script>
 </body>

@@ -1,149 +1,27 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>アディア ミニゲーム</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: linear-gradient(180deg, #eff6ff, #fff7ed);
-      text-align: center;
-      color: #1f2937;
-      user-select: none;
-    }
-
-    header {
-      padding: 28px 16px 18px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 32px;
-    }
-
-    .subtitle {
-      margin-top: 8px;
-      font-size: 18px;
-      color: #4b5563;
-    }
-
-    main {
-      padding: 22px;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    .menu {
-      display: grid;
-      gap: 14px;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    .card {
-      background: white;
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 5px 14px rgba(0,0,0,0.12);
-      border: 5px solid white;
-      text-align: left;
-      transition: transform 0.08s;
-    }
-
-    .card:active {
-      transform: scale(0.98);
-    }
-
-    .special {
-      background: #eff6ff;
-      border-color: #bfdbfe;
-    }
-
-    .title {
-      font-size: 25px;
-      font-weight: bold;
-      margin-bottom: 6px;
-      color: #111827;
-    }
-
-    .desc {
-      font-size: 16px;
-      color: #4b5563;
-      line-height: 1.5;
-    }
-
-    .footer {
-      margin-top: 22px;
-      font-size: 14px;
-      color: #6b7280;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>🌈アディア ミニゲーム</h1>
-    <div class="subtitle">遊びながら、見る・聞く・覚える・反応する</div>
-  </header>
-
-  <main>
-    <div class="menu">
-      <a href="cognitive_check_10min.html">
-        <div class="card special">
-          <div class="title">🌟ひらがな認知チェック</div>
-          <div class="desc">小学1年生向け。ひらがなを読む・聞く・選ぶ・覚える力を確認します。</div>
-        </div>
-      </a>
-
-      <a href="balloon_tap.html">
-        <div class="card">
-          <div class="title">🎈風船タップ</div>
-          <div class="desc">風船が出たらすぐタップ。反応速度と注意力を育てます。</div>
-        </div>
-      </a>
-
-      <a href="mogura_tataki.html">
-        <div class="card">
-          <div class="title">🐸もぐらたたき</div>
-          <div class="desc">出てきたキャラをタップ。目と手の協調を育てます。</div>
-        </div>
-      </a>
-
-      <a href="color_touch.html">
-        <div class="card">
-          <div class="title">🔴色タッチ</div>
-          <div class="desc">赤だけタップ。他の色は押さない判断ゲームです。</div>
-        </div>
-      </a>
-
-      <a href="color_word_touch.html">
-        <div class="card">
-          <div class="title">🎨色ことばタッチ</div>
-          <div class="desc">文字と色を見分けてタップ。判断力を育てます。</div>
-        </div>
-      </a>
-
-      <a href="hiragana_touch.html">
-        <div class="card">
-          <div class="title">🔤ひらがなタッチ</div>
-          <div class="desc">言われたひらがなを探してタップ。文字認識を育てます。</div>
-        </div>
-      </a>
-
-      <a href="memory_game.html">
-        <div class="card">
-          <div class="title">🧠記憶ゲーム</div>
-          <div class="desc">出た絵を覚えて、最初から順番に押します。</div>
-        </div>
-      </a>
-    </div>
-
-    <div class="footer">GitHub Pages用：このフォルダをそのままアップロードできます。</div>
-  </main>
-</body>
-</html>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>にじフラチャレンジ</title><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
+header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
+main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
+.card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
+a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
+button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:22px 10px;font-size:28px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}.big{font-size:34px;font-weight:800;margin:20px 0;line-height:1.5}
+.hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
+.bar-bg{height:24px;background:#e5e7eb;border-radius:999px;overflow:hidden}.bar{height:24px;background:#22c55e}.report{text-align:left;line-height:1.8}
+@media print{button,.back{display:none}.card{box-shadow:none;border:1px solid #ddd}body{background:white}}
+</style></head><body>
+<header>
+  <h1>🌈 にじフラチャレンジ</h1>
+  <div class="sub">安心（あんしん）の中で挑戦（ちょうせん）し、挑戦（ちょうせん）の中で成長（せいちょう）する<br>にじいろクラスフラット札幌用アプリ</div>
+</header>
+<main><div class="grid">
+  <a href="flatore.html"><div class="card"><div class="title">🧠 フラトレ</div><div class="desc">集中（しゅうちゅう）・待（ま）つ・切（き）り替（か）える・戻（もど）る力（ちから）を育（そだ）てるゲーム</div></div></a>
+  <a href="movement.html"><div class="card"><div class="title">🏃 運動（うんどう）あそび</div><div class="desc">反応・目（め）と手の協調・見（み）る力（ちから）を育（そだ）てるゲーム</div></div></a>
+  <a href="park.html"><div class="card"><div class="title">🌳 公園（こうえん）チャレンジ</div><div class="desc">順番（じゅんばん）・気持（きも）ち・トラブル対応（たいおう）を考（かんが）える練習（れんしゅう）</div></div></a>
+  <a href="growth.html"><div class="card"><div class="title">⭐ 成長（せいちょう）記録（きろく）</div><div class="desc">今日（きょう）のがんばり、ポイント、バッジを記録（きろく）</div></div></a>
+  <a href="parent.html"><div class="card"><div class="title">👨‍👩‍👧 保護者（ほごしゃ）ページ</div><div class="desc">認知（にんち）チェック、保護者（ほごしゃ）向けレポート、おすすめ活動（かつどう）</div></div></a>
+  <a href="sst.html"><div class="card"><div class="title">💬 SSTトレーニング</div><div class="desc">聞（き）く・伝（つた）える・断（ことわ）る・相談（そうだん）する・仲直（なかなお）りする練習（れんしゅう）</div></div></a>
+</div></main>
+</body></html>

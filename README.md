@@ -1,13 +1,12 @@
-# アディア ミニゲーム
+# にじフラチャレンジ ふりがな対応版
 
-GitHub Pagesで公開するためのHTMLミニゲーム集です。
+にじいろクラスフラット札幌用のGitHub Pagesアプリです。
 
-## ファイル
-- index.html：TOP画面
-- cognitive_check_10min.html：ひらがな認知チェック（小学1年生向け）
-- balloon_tap.html：風船タップ
-- mogura_tataki.html：もぐらたたき
-- color_touch.html：色タッチ
-- color_word_touch.html：色ことばタッチ
-- hiragana_touch.html：ひらがなタッチ
-- memory_game.html：記憶ゲーム
+## 変更
+- 子ども向け画面は、漢字に必ずふりがなを追加
+- 職員ページは削除
+- SSTトレーニングを追加
+- 公園チャレンジ、危険予知、SSTの文言を読みやすく調整
+
+## GitHub Pages
+ZIPを解凍し、中のファイルをすべてGitHubリポジトリ直下へアップロードしてください。
