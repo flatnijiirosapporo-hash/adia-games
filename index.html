@@ -68,7 +68,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.1.1 automatic furigana ===== */
+/* ===== Ver.1.3 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -94,15 +94,29 @@ ruby.autoRuby rt{
   font-size:clamp(17px,2.5vw,22px);
   text-align:center;
 }
+
+/* ===== Ver.1.3 top simple ===== */
+.topHeroCard{
+  padding-top:clamp(26px,5vw,46px)!important;
+}
+.topHeroCard h1{
+  margin-top:8px!important;
+}
+.brandVisual,
+.brandIcon,
+.brandLogo{
+  display:none!important;
+}
+.themeText{
+  max-width:760px;
+}
+
 </style></head><body>
 <header class="wrap topHero">
 <div class="topHeroCard">
-<div class="brandVisual">
-<img alt="にじフラ アイコン" class="brandIcon" src="nijifla_icon.png"/>
-<img alt="にじいろクラスフラット札幌 ロゴ" class="brandLogo" src="nijifla_logo.png"/>
-</div>
-<div class="versionArea"><span class="versionBadge">Ver.1.1</span></div>
-<h1>にじフラチャレンジ</h1>
+
+<div class="versionArea"><span class="versionBadge">Ver.1.3</span></div>
+<h1>にじいろクラスフラット</h1>
 <p class="lead noRubyText"><ruby class="autoRuby">遊<rt>あそ</rt></ruby>びながら、<ruby class="autoRuby">見<rt>み</rt></ruby>る・<ruby class="autoRuby">聞<rt>き</rt></ruby>く・<ruby class="autoRuby">待<rt>よみ</rt></ruby>つ・<ruby class="autoRuby">伝<rt>つた</rt></ruby>えるを<ruby class="autoRuby">練習<rt>れんしゅう</rt></ruby>します。</p>
 <p class="topNote noRubyText">お<ruby class="autoRuby">子<rt>よみ</rt></ruby>さまに<ruby class="autoRuby">合<rt>ごう</rt></ruby>わせて、<ruby class="autoRuby">好<rt>よみ</rt></ruby>きなメニューから<ruby class="autoRuby">始<rt>よみ</rt></ruby>めてください。</p>
 </div>

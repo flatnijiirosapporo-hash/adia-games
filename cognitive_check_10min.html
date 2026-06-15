@@ -67,7 +67,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.1.1 automatic furigana ===== */
+/* ===== Ver.1.3 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -120,11 +120,92 @@ ruby.autoRuby rt{
 </main>
 <script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function checkRubyText(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
+
+/* ===== Ver.1.3 dynamic furigana for 10min check ===== */
+const CHECK_FURI = {
+  "安心":"あんしん","挑戦":"ちょうせん","成長":"せいちょう","今日":"きょう",
+  "問題":"もんだい","問題文":"もんだいぶん","選択肢":"せんたくし","選んだ答え":"えらんだこたえ",
+  "答え":"こたえ","正解":"せいかい","不正解":"ふせいかい","結果":"けっか","総合評価":"そうごうひょうか",
+  "評価":"ひょうか","得意":"とくい","苦手":"にがて","支援":"しえん","安心":"あんしん",
+  "言語理解":"げんごりかい","視空間":"しくうかん","流動性推理":"りゅうどうせいすいり",
+  "ワーキングメモリ":"わーきんぐめもり","処理速度":"しょりそくど","類似":"るいじ","単語":"たんご",
+  "理解":"りかい","模様構成":"もようこうせい","視覚パズル":"しかくぱずる","規則推理":"きそくすいり",
+  "概念分類":"がいねんぶんるい","順唱":"じゅんしょう","操作記憶":"そうさきおく",
+  "記号探し":"きごうさがし","符号風":"ふごうふう","下位カテゴリ":"かいかてごり",
+  "時間切れ":"じかんぎれ","見るポイント":"みるぽいんと","点数":"てんすう","指標":"しひょう",
+  "練習":"れんしゅう","診断":"しんだん","測定":"そくてい","療育":"りょういく","簡易":"かんい",
+  "果物":"くだもの","乗り物":"のりもの","動物":"どうぶつ","文房具":"ぶんぼうぐ","食べ物":"たべもの",
+  "書く物":"かくもの","飲み物":"のみもの","雨":"あめ","雪":"ゆき","空":"そら","楽器":"がっき",
+  "勇気":"ゆうき","約束":"やくそく","協力":"きょうりょく","安全":"あんぜん","意味":"いみ",
+  "横断歩道":"おうだんほどう","左右":"さゆう","車":"くるま","友だち":"ともだち","順番":"じゅんばん",
+  "先生":"せんせい","相談":"そうだん","解決":"かいけつ","形":"かたち","同じ":"おなじ","並び":"ならび",
+  "見本":"みほん","向き":"むき","矢印":"やじるし","四角":"しかく","丸":"まる","仲間":"なかま",
+  "仲間はずれ":"なかまはずれ","鉛筆":"えんぴつ","規則":"きそく","考える":"かんがえる",
+  "覚えて":"おぼえて","選ぼう":"えらぼう","逆から":"ぎゃくから","最後":"さいご","最初":"さいしょ",
+  "聞いた":"きいた","見た":"みた","順番":"じゅんばん","短い":"みじかい","情報":"じょうほう",
+  "早く":"はやく","数字":"すうじ","赤":"あか","青":"あお","緑":"みどり","黄色":"きいろ",
+  "記録":"きろく","印刷":"いんさつ","保護者":"ほごしゃ","支える":"ささえる","焦らず":"あせらず"
+};
+
+const CHECK_CHAR_FURI = {
+  "安":"あん","心":"しん","挑":"ちょう","戦":"せん","成":"せい","長":"ちょう","今":"きょう","日":"にち",
+  "問":"もん","題":"だい","文":"ぶん","選":"せん","択":"たく","肢":"し","答":"こた","正":"せい","解":"かい",
+  "結":"けっ","果":"か","総":"そう","合":"ごう","評":"ひょう","価":"か","得":"とく","意":"い","苦":"にが",
+  "支":"し","援":"えん","言":"げん","語":"ご","理":"り","視":"し","空":"くう","間":"かん","流":"りゅう",
+  "動":"どう","性":"せい","推":"すい","速":"そく","度":"ど","類":"るい","似":"じ","単":"たん","模":"も",
+  "様":"よう","構":"こう","規":"き","則":"そく","概":"がい","念":"ねん","分":"ぶん","順":"じゅん","唱":"しょう",
+  "操":"そう","作":"さ","記":"き","憶":"おく","号":"ごう","探":"さが","時":"じ","切":"き","見":"み","点":"てん",
+  "指":"し","標":"ひょう","練":"れん","習":"しゅう","診":"しん","断":"だん","測":"そく","定":"てい",
+  "療":"りょう","育":"いく","簡":"かん","易":"い","果":"くだ","物":"もの","乗":"の","動":"どう",
+  "房":"ぼう","具":"ぐ","食":"た","書":"か","飲":"の","雨":"あめ","雪":"ゆき","空":"そら","楽":"がく",
+  "器":"き","勇":"ゆう","気":"き","約":"やく","束":"そく","協":"きょう","全":"ぜん","横":"おう","歩":"ほ",
+  "道":"どう","左":"ひだり","右":"みぎ","車":"くるま","友":"とも","先":"せん","生":"せい","相":"そう",
+  "談":"だん","決":"けつ","形":"かたち","同":"おな","並":"なら","本":"ほん","向":"む","矢":"や","印":"じるし",
+  "四":"し","角":"かく","丸":"まる","仲":"なか","鉛":"えん","筆":"ぴつ","考":"かんが","覚":"おぼ","逆":"ぎゃく",
+  "最":"さい","初":"しょ","聞":"き","短":"みじか","情":"じょう","報":"ほう","早":"はや","数":"すう","字":"じ",
+  "赤":"あか","青":"あお","緑":"みどり","黄":"き","色":"いろ","録":"ろく","印":"いん","刷":"さつ",
+  "保":"ほ","護":"ご","者":"しゃ","焦":"あせ"
+};
+
+function checkEsc(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function checkFuriReading(word){
+  if(CHECK_FURI[word]) return CHECK_FURI[word];
+  let y = "";
+  for(const ch of word){ y += CHECK_CHAR_FURI[ch] || ch; }
+  return y === word ? "よみ" : y;
+}
+function checkRubyText(text){
+  const src = String(text ?? "");
+  let out = "";
+  let last = 0;
+  const re = /[一-龯々〆ヶ]+/g;
+  let m;
+  while((m = re.exec(src))){
+    out += checkEsc(src.slice(last, m.index));
+    const word = m[0];
+    out += `<ruby class="autoRuby">${checkEsc(word)}<rt>${checkEsc(checkFuriReading(word))}</rt></ruby>`;
+    last = m.index + word.length;
+  }
+  out += checkEsc(src.slice(last));
+  return out.replaceAll("\n","<br>");
+}
+function setRubyHTML(id, text){
+  const el = document.getElementById(id);
+  if(el) el.innerHTML = checkRubyText(text);
+}
+
 const DATA=[{"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "りんご と みかん は、どこが似ていますか？", "choices": [{"text": "どちらも果物", "ok": true}, {"text": "どちらも乗り物", "ok": false}, {"text": "どちらも服", "ok": false}, {"text": "どちらも数字", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "犬 と 猫 は、どこが似ていますか？", "choices": [{"text": "どちらも動物", "ok": true}, {"text": "どちらも野菜", "ok": false}, {"text": "どちらも文房具", "ok": false}, {"text": "どちらも色", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "鉛筆 と クレヨン は、どこが似ていますか？", "choices": [{"text": "どちらも書く物", "ok": true}, {"text": "どちらも食べ物", "ok": false}, {"text": "どちらも履く物", "ok": false}, {"text": "どちらも飲み物", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "雨 と 雪 は、どこが似ていますか？", "choices": [{"text": "どちらも空から降る", "ok": true}, {"text": "どちらもおもちゃ", "ok": false}, {"text": "どちらも楽器", "ok": false}, {"text": "どちらも乗り物", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「勇気」とは、どんな意味に近いですか？", "choices": [{"text": "こわくてもやってみる力", "ok": true}, {"text": "早く走る力", "ok": false}, {"text": "大きな声", "ok": false}, {"text": "眠ること", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「約束」とは、どんな意味に近いですか？", "choices": [{"text": "守ると決めたこと", "ok": true}, {"text": "好きな色", "ok": false}, {"text": "走る場所", "ok": false}, {"text": "食べる物", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「協力」とは、どんな意味に近いですか？", "choices": [{"text": "一緒に力を合わせること", "ok": true}, {"text": "一人で隠れること", "ok": false}, {"text": "物をなくすこと", "ok": false}, {"text": "すぐ怒ること", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「安全」とは、どんな意味に近いですか？", "choices": [{"text": "けがや危険が少ないこと", "ok": true}, {"text": "早いこと", "ok": false}, {"text": "大きいこと", "ok": false}, {"text": "にぎやかなこと", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "横断歩道を渡る前に、なぜ左右を見ますか？", "choices": [{"text": "車が来ていないか確かめるため", "ok": true}, {"text": "早く走るため", "ok": false}, {"text": "友だちを探すため", "ok": false}, {"text": "空を見るため", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "友だちが泣いていたら、どうするとよいですか？", "choices": [{"text": "どうしたの？と聞く", "ok": true}, {"text": "笑う", "ok": false}, {"text": "近くで大声を出す", "ok": false}, {"text": "知らんぷりする", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "順番を守るのは、なぜ大切ですか？", "choices": [{"text": "みんなが安心して使えるから", "ok": true}, {"text": "早く帰れるから", "ok": false}, {"text": "色が変わるから", "ok": false}, {"text": "音が鳴るから", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "困った時に先生に相談するのは、なぜよいですか？", "choices": [{"text": "一緒に解決しやすいから", "ok": true}, {"text": "怒られるため", "ok": false}, {"text": "隠れるため", "ok": false}, {"text": "遊びをやめるため", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n🔴 🔵 🟢", "choices": [{"text": "🔴 🔵 🟢", "ok": true}, {"text": "🔵 🔴 🟢", "ok": false}, {"text": "🟢 🔵 🔴", "ok": false}, {"text": "🔴 🟢 🔵", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n■ ▲ ●", "choices": [{"text": "■ ▲ ●", "ok": true}, {"text": "▲ ■ ●", "ok": false}, {"text": "● ▲ ■", "ok": false}, {"text": "■ ● ▲", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n🐶 🐱 🐰", "choices": [{"text": "🐶 🐱 🐰", "ok": true}, {"text": "🐱 🐶 🐰", "ok": false}, {"text": "🐰 🐱 🐶", "ok": false}, {"text": "🐶 🐰 🐱", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n1 3 5", "choices": [{"text": "1 3 5", "ok": true}, {"text": "3 1 5", "ok": false}, {"text": "5 3 1", "ok": false}, {"text": "1 5 3", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "2つ合わせると四角になるのは？", "choices": [{"text": "◧ ＋ ◨", "ok": true}, {"text": "○ ＋ △", "ok": false}, {"text": "⭐ ＋ 🌙", "ok": false}, {"text": "● ＋ ●", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "2つ合わせると丸に近い形になるのは？", "choices": [{"text": "◐ ＋ ◑", "ok": true}, {"text": "△ ＋ △", "ok": false}, {"text": "□ ＋ ☆", "ok": false}, {"text": "⬆️ ＋ ⬇️", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "同じ向きの矢印は？\n見本：➡️", "choices": [{"text": "➡️", "ok": true}, {"text": "⬅️", "ok": false}, {"text": "⬆️", "ok": false}, {"text": "⬇️", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "同じ向きの矢印は？\n見本：↗️", "choices": [{"text": "↗️", "ok": true}, {"text": "↙️", "ok": false}, {"text": "↖️", "ok": false}, {"text": "↘️", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n▲ ■ ▲ ■ ？", "choices": [{"text": "▲", "ok": true}, {"text": "■", "ok": false}, {"text": "●", "ok": false}, {"text": "★", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n1 2 3 4 ？", "choices": [{"text": "5", "ok": true}, {"text": "3", "ok": false}, {"text": "6", "ok": false}, {"text": "8", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n2 4 6 8 ？", "choices": [{"text": "10", "ok": true}, {"text": "9", "ok": false}, {"text": "12", "ok": false}, {"text": "6", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\nりんご・みかん・車・ぶどう", "choices": [{"text": "車", "ok": true}, {"text": "りんご", "ok": false}, {"text": "みかん", "ok": false}, {"text": "ぶどう", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\n犬・猫・鉛筆・うさぎ", "choices": [{"text": "鉛筆", "ok": true}, {"text": "犬", "ok": false}, {"text": "猫", "ok": false}, {"text": "うさぎ", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\n赤・青・黄色・机", "choices": [{"text": "机", "ok": true}, {"text": "赤", "ok": false}, {"text": "青", "ok": false}, {"text": "黄色", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\n走る・歩く・泳ぐ・りんご", "choices": [{"text": "りんご", "ok": true}, {"text": "走る", "ok": false}, {"text": "歩く", "ok": false}, {"text": "泳ぐ", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "ワーキングメモリ WMI", "sub": "順唱", "cat": "ワーキングメモリ WMI / 順唱", "illust": "🔢", "scene": "覚えて選ぼう\n3 → 8", "choices": [{"text": "3 → 8", "ok": true}, {"text": "8 → 3", "ok": false}, {"text": "3 → 6", "ok": false}, {"text": "6 → 8", "ok": false}], "tip": "聞いた・見た順番を一時的に覚える課題です。", "seconds": 13}, {"idx": "ワーキングメモリ WMI", "sub": "順唱", "cat": "ワーキングメモリ WMI / 順唱", "illust": "🔢", "scene": "覚えて選ぼう\n1 → 4 → 7", "choices": [{"text": "1 → 4 → 7", "ok": true}, {"text": "1 → 7 → 4", "ok": false}, {"text": "4 → 1 → 7", "ok": false}, {"text": "7 → 4 → 1", "ok": false}], "tip": "聞いた・見た順番を一時的に覚える課題です。", "seconds": 13}, {"idx": "ワーキングメモリ WMI", "sub": "順唱", "cat": "ワーキングメモリ WMI / 順唱", "illust": "🔢", "scene": "覚えて選ぼう\n🐶 → 🐱 → 🐰", "choices": [{"text": "🐶 → 🐱 → 🐰", "ok": true}, {"text": "🐱 → 🐶 → 🐰", "ok": false}, {"text": "🐰 → 🐱 → 🐶", "ok": false}, {"text": "🐶 → 🐰 → 🐱", "ok": false}], "tip": "聞いた・見た順番を一時的に覚える課題です。", "seconds": 13}, {"idx": "ワーキングメモリ WMI", "sub": "順唱", "cat": "ワーキングメモリ WMI / 順唱", "illust": "🔢", "scene": "覚えて選ぼう\n赤 → 青 → 緑", "choices": [{"text": "赤 → 青 → 緑", "ok": true}, {"text": "青 → 赤 → 緑", "ok": false}, {"text": "緑 → 青 → 赤", "ok": false}, {"text": "赤 → 緑 → 青", "ok": false}], "tip": "聞いた・見た順番を一時的に覚える課題です。", "seconds": 13}, {"idx": "ワーキングメモリ WMI", "sub": "操作記憶", "cat": "ワーキングメモリ WMI / 操作記憶", "illust": "🧠", "scene": "逆から選ぼう\n2 → 5", "choices": [{"text": "5 → 2", "ok": true}, {"text": "2 → 5", "ok": false}, {"text": "5 → 3", "ok": false}, {"text": "3 → 2", "ok": false}], "tip": "覚えた情報を頭の中で操作する課題です。", "seconds": 14}, {"idx": "ワーキングメモリ WMI", "sub": "操作記憶", "cat": "ワーキングメモリ WMI / 操作記憶", "illust": "🧠", "scene": "逆から選ぼう\n1 → 6 → 9", "choices": [{"text": "9 → 6 → 1", "ok": true}, {"text": "1 → 6 → 9", "ok": false}, {"text": "6 → 1 → 9", "ok": false}, {"text": "9 → 1 → 6", "ok": false}], "tip": "覚えた情報を頭の中で操作する課題です。", "seconds": 14}, {"idx": "ワーキングメモリ WMI", "sub": "操作記憶", "cat": "ワーキングメモリ WMI / 操作記憶", "illust": "🧠", "scene": "最後の絵は？\n⭐ 🌙 ☀️", "choices": [{"text": "☀️", "ok": true}, {"text": "⭐", "ok": false}, {"text": "🌙", "ok": false}, {"text": "🍀", "ok": false}], "tip": "覚えた情報を頭の中で操作する課題です。", "seconds": 14}, {"idx": "ワーキングメモリ WMI", "sub": "操作記憶", "cat": "ワーキングメモリ WMI / 操作記憶", "illust": "🧠", "scene": "2番目は？\n犬・猫・鳥", "choices": [{"text": "猫", "ok": true}, {"text": "犬", "ok": false}, {"text": "鳥", "ok": false}, {"text": "うさぎ", "ok": false}], "tip": "覚えた情報を頭の中で操作する課題です。", "seconds": 14}, {"idx": "処理速度 PSI", "sub": "記号探し", "cat": "処理速度 PSI / 記号探し", "illust": "⚡", "scene": "見本と同じ記号を早く選ぼう\n見本：★", "choices": [{"text": "★", "ok": true}, {"text": "☆", "ok": false}, {"text": "●", "ok": false}, {"text": "▲", "ok": false}], "tip": "素早く見つける力を見ます。", "seconds": 6}, {"idx": "処理速度 PSI", "sub": "記号探し", "cat": "処理速度 PSI / 記号探し", "illust": "⚡", "scene": "見本と同じ記号を早く選ぼう\n見本：◆", "choices": [{"text": "◆", "ok": true}, {"text": "◇", "ok": false}, {"text": "■", "ok": false}, {"text": "●", "ok": false}], "tip": "素早く見つける力を見ます。", "seconds": 6}, {"idx": "処理速度 PSI", "sub": "記号探し", "cat": "処理速度 PSI / 記号探し", "illust": "⚡", "scene": "数字の 7 を早く選ぼう", "choices": [{"text": "7", "ok": true}, {"text": "1", "ok": false}, {"text": "4", "ok": false}, {"text": "9", "ok": false}], "tip": "素早く見つける力を見ます。", "seconds": 6}, {"idx": "処理速度 PSI", "sub": "記号探し", "cat": "処理速度 PSI / 記号探し", "illust": "⚡", "scene": "ひらがな「あ」を早く選ぼう", "choices": [{"text": "あ", "ok": true}, {"text": "め", "ok": false}, {"text": "ぬ", "ok": false}, {"text": "ね", "ok": false}], "tip": "素早く見つける力を見ます。", "seconds": 6}, {"idx": "処理速度 PSI", "sub": "符号風", "cat": "処理速度 PSI / 符号風", "illust": "⏱️", "scene": "対応を覚えて選ぼう\n●＝1　▲＝2\n▲ は？", "choices": [{"text": "2", "ok": true}, {"text": "1", "ok": false}, {"text": "3", "ok": false}, {"text": "4", "ok": false}], "tip": "ルールを見て素早く対応する力を見ます。", "seconds": 7}, {"idx": "処理速度 PSI", "sub": "符号風", "cat": "処理速度 PSI / 符号風", "illust": "⏱️", "scene": "対応を覚えて選ぼう\n★＝A　◆＝B\n★ は？", "choices": [{"text": "A", "ok": true}, {"text": "B", "ok": false}, {"text": "C", "ok": false}, {"text": "D", "ok": false}], "tip": "ルールを見て素早く対応する力を見ます。", "seconds": 7}, {"idx": "処理速度 PSI", "sub": "符号風", "cat": "処理速度 PSI / 符号風", "illust": "⏱️", "scene": "同じものを早く選ぼう\n見本：🍎", "choices": [{"text": "🍎", "ok": true}, {"text": "🍌", "ok": false}, {"text": "🍇", "ok": false}, {"text": "🍊", "ok": false}], "tip": "ルールを見て素早く対応する力を見ます。", "seconds": 7}, {"idx": "処理速度 PSI", "sub": "符号風", "cat": "処理速度 PSI / 符号風", "illust": "⏱️", "scene": "同じものを早く選ぼう\n見本：🚗", "choices": [{"text": "🚗", "ok": true}, {"text": "🚌", "ok": false}, {"text": "🚲", "ok": false}, {"text": "✈️", "ok": false}], "tip": "ルールを見て素早く対応する力を見ます。", "seconds": 7}];
 const indices=["言語理解 VCI","視空間 VSI","流動性推理 FRI","ワーキングメモリ WMI","処理速度 PSI"];
 let deck=[],i=0,score=0,answered=false,current="",wrong=[],result={},qTimer=null,tickTimer=null,timeLeft=0,totalTime=0;
@@ -157,10 +238,10 @@ function show(){
   current=q.scene;
   document.getElementById("num").textContent=i+1;
   document.getElementById("cat").textContent=q.idx;
-  document.getElementById("sub").textContent="下位カテゴリ："+q.sub;
+  setRubyHTML("sub", "下位カテゴリ："+q.sub);
   document.getElementById("illust").textContent=q.illust;
   document.getElementById("scene").classList.remove("questionHiddenHalf");
-  document.getElementById("scene").textContent=q.scene;
+  setRubyHTML("scene", q.scene);
   const hideNotice=document.getElementById("hideNotice");
   if(hideNotice)hideNotice.classList.add("hidden");
   const box=document.getElementById("choices");
@@ -168,7 +249,7 @@ function show(){
   shuffle(q.choices).forEach(c=>{
     let d=document.createElement("div");
     d.className="choice";
-    d.textContent=c.text;
+    d.innerHTML=checkRubyText(c.text);
     d.onclick=()=>answer(c,d);
     box.appendChild(d);
   });
@@ -299,17 +380,17 @@ function finish(){
   h+='<h2>5指標別の結果</h2><div class="indexGrid">';
   indices.forEach(idx=>{
     const v=result[idx];const lv=levelClass(v.ok,v.total,v.timeout);
-    h+='<div class="scoreCard"><b>'+esc(idx)+'</b><div class="scoreNum">'+v.ok+' / '+v.total+'</div><div class="'+lv[1]+'"><b>'+lv[0]+'</b></div><p>'+esc(commentFor(idx,v.ok,v.total,v.timeout))+'</p>';
+    h+='<div class="scoreCard"><b>'+checkRubyText(idx)+'</b><div class="scoreNum">'+v.ok+' / '+v.total+'</div><div class="'+lv[1]+'"><b>'+lv[0]+'</b></div><p>'+checkRubyText(commentFor(idx,v.ok,v.total,v.timeout))+'</p>';
     if(v.timeout>0)h+='<p class="ng">時間切れ：'+v.timeout+'問</p>';
     h+='<details><summary>下位カテゴリ</summary>';
-    Object.keys(v.subs).forEach(s=>{const sub=v.subs[s];h+='<div>'+esc(s)+'：'+sub.ok+' / '+sub.total+(sub.timeout?'（時間切れ '+sub.timeout+'）':'')+'</div>';});
+    Object.keys(v.subs).forEach(s=>{const sub=v.subs[s];h+='<div>'+checkRubyText(s)+'：'+sub.ok+' / '+sub.total+(sub.timeout?'（時間切れ '+sub.timeout+'）':'')+'</div>';});
     h+='</details></div>';
   });
   h+='</div>';
   if(wrong.length){
     h+='<h2>まちがえた問題・時間切れの問題</h2>';
     wrong.forEach((w,n)=>{
-      h+='<div class="reportItem"><div style="font-size:44px;text-align:center">'+esc(w.illust)+'</div><b>'+(n+1)+'. '+esc(w.idx)+' / '+esc(w.sub)+'</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>見るポイント：</b><br>'+esc(w.tip)+'</p></div>';
+      h+='<div class="reportItem"><div style="font-size:44px;text-align:center">'+esc(w.illust)+'</div><b>'+(n+1)+'. '+checkRubyText(w.idx)+' / '+checkRubyText(w.sub)+'</b><div class="scene" style="font-size:22px">'+checkRubyText(w.scene)+'</div><p class="ng"><b>選んだ答え：</b><br>'+checkRubyText(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+checkRubyText(w.correct)+'</p><p><b>見るポイント：</b><br>'+checkRubyText(w.tip)+'</p></div>';
     });
   }else{
     h+='<div class="reportItem">まちがえた問題はありませんでした。</div>';
