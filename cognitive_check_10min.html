@@ -67,7 +67,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.0 automatic furigana ===== */
+/* ===== Ver.2.2 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -93,6 +93,11 @@ ruby.autoRuby rt{
   font-size:clamp(17px,2.5vw,22px);
   text-align:center;
 }
+
+/* ===== Ver.2.2 common ruby fix ===== */
+ruby.autoRuby{display:inline-ruby;line-height:1.35;}
+ruby.autoRuby rt{font-size:.48em!important;line-height:1!important;}
+
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap">
 <section class="panel" id="gameScreen">
@@ -126,7 +131,7 @@ function speakText(text){if(!("speechSynthesis" in window))return;const u=new Sp
 </script>
 <script>
 
-/* ===== Ver.2.0 dynamic furigana for 10min check ===== */
+/* ===== Ver.2.2 dynamic furigana for 10min check ===== */
 const CHECK_FURI = {
   "安心":"あんしん","挑戦":"ちょうせん","成長":"せいちょう","今日":"きょう",
   "問題":"もんだい","問題文":"もんだいぶん","選択肢":"せんたくし","選んだ答え":"えらんだこたえ",

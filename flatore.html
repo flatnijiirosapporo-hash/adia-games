@@ -42,7 +42,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.0 automatic furigana ===== */
+/* ===== Ver.2.2 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -68,6 +68,11 @@ ruby.autoRuby rt{
   font-size:clamp(17px,2.5vw,22px);
   text-align:center;
 }
+
+/* ===== Ver.2.2 common ruby fix ===== */
+ruby.autoRuby{display:inline-ruby;line-height:1.35;}
+ruby.autoRuby rt{font-size:.48em!important;line-height:1!important;}
+
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div><header class="wrap hero"><h1>フラトレ</h1></header><main class="wrap"><div class="grid"><a class="card menu" href="balloon_tap.html"><div class="icon">🎈</div><div class="title"><ruby class="autoRuby">風船<rt>ふうせん</rt></ruby>タップ</div><div class="desc"><ruby class="autoRuby">風船<rt>ふうせん</rt></ruby>をすばやくタップ</div></a><a class="card menu" href="mogura_tataki.html"><div class="icon">🕳️</div><div class="title">もぐらたたき</div><div class="desc"><ruby class="autoRuby">出<rt>で</rt></ruby>てきたもぐらをタップ</div></a><a class="card menu" href="color_touch.html"><div class="icon">🎨</div><div class="title"><ruby class="autoRuby">色<rt>いろ</rt></ruby>タッチ</div><div class="desc"><ruby class="autoRuby">指定<rt>指てい</rt></ruby>された<ruby class="autoRuby">色<rt>いろ</rt></ruby>を<ruby class="autoRuby">探<rt>さが</rt></ruby>す</div></a><a class="card menu" href="color_word_touch.html"><div class="icon">🌈</div><div class="title"><ruby class="autoRuby">色<rt>いろ</rt></ruby>ことば</div><div class="desc"><ruby class="autoRuby">色<rt>いろ</rt></ruby>と<ruby class="autoRuby">文字<rt>もじ</rt></ruby>を<ruby class="autoRuby">見分<rt>みふん</rt></ruby>ける</div></a><a class="card menu" href="hiragana_touch.html"><div class="icon">あ</div><div class="title">ひらがなタッチ</div><div class="desc"><ruby class="autoRuby">出<rt>で</rt></ruby>たひらがなを<ruby class="autoRuby">選<rt>せん</rt></ruby>ぶ</div></a><a class="card menu" href="memory_game.html"><div class="icon">🧠</div><div class="title"><ruby class="autoRuby">記憶<rt>きおく</rt></ruby>ゲーム</div><div class="desc"><ruby class="autoRuby">絵<rt>よみ</rt></ruby>の<ruby class="autoRuby">順番<rt>じゅんばん</rt></ruby>を<ruby class="autoRuby">覚<rt>おぼ</rt></ruby>える</div></a><a class="card menu" href="danger_game.html"><div class="icon">⚠️</div><div class="title"><ruby class="autoRuby">危険予知<rt>きけん予知</rt></ruby></div><div class="desc"><ruby class="autoRuby">安全<rt>あんぜん</rt></ruby>な<ruby class="autoRuby">行動<rt>こうどう</rt></ruby>を<ruby class="autoRuby">選<rt>せん</rt></ruby>ぶ</div></a></div></main><script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}

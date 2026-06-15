@@ -1,8 +1,7 @@
-Ver.2.0
-問題形式SST 100問・ふりがな・重複防止・文章問題化
-sst_question_count: 100
-sst_unique_questions: 100
-ruby_function: True
-choice_ruby: True
-question_ruby: True
+Ver.2.2
+問題形式SST ふりがな読み修正
+version: True
+no_yomi_literal_in_fallback: True
+reading_dictionary: True
+kanji_fallback: True
 リンク切れなし
