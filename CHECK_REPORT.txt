@@ -1,11 +1,8 @@
-Ver.1.9
-危険予知トレーニング Ver表記・ふりがな修正
-danger_ver_old_absent: True
-danger_ver_new_present: True
-ruby_function_present: True
-scene_ruby: True
+Ver.2.0
+問題形式SST 100問・ふりがな・重複防止・文章問題化
+sst_question_count: 100
+sst_unique_questions: 100
+ruby_function: True
 choice_ruby: True
-report_ruby: True
-data_100: True
-unique_100: True
+question_ruby: True
 リンク切れなし
