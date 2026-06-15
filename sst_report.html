@@ -1,4 +1,11 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SSTレポート</title><style>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SSTレポート</title>
+<style>
+
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -37,21 +44,55 @@ button.gray{background:#64748b}
 
 .scoreLiveHide{display:none!important}
 
+.versionBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
+}
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
+}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
+
+
 .reportScreen{background:#fff;border-radius:34px;padding:26px;box-shadow:0 18px 55px rgba(30,41,59,.12);margin:22px 0 38px}
 .reportItem{page-break-inside:avoid;background:#fff;border:3px solid #fed7aa;border-radius:22px;padding:16px;margin:14px 0}
 .reportLabel{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:5px 12px;font-weight:900;margin:4px 0}
 .parentNote{background:#f8fafc;border-left:8px solid #06b6d4;padding:14px;border-radius:16px}
 @media print{.top,.noPrint,.actions{display:none!important}body{background:white}.reportScreen{box-shadow:none;margin:0}}
-</style></head><body><div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
-<main class="wrap">
-<section id="reportScreen" class="reportScreen"></section>
-</main>
+
+
+.liveResultHide{display:none!important}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ Ver.12</span></div></div><main class="wrap"><section id="reportScreen" class="reportScreen"></section></main>
 <script>
+
 function esc(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
+function stripFurigana(text){return String(text||"").replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script><script>
+
+</script>
+<script>
+
 function deleteRecords(){
   if(!confirm("SSTの記録をすべて削除しますか？"))return;
   localStorage.removeItem("nijifla_sst_records");
@@ -91,9 +132,11 @@ function renderReport(){
       h+='<div class="reportLabel">まとめ</div><p>'+esc(rec.summaryText).replaceAll("\n","<br>")+'</p></div>';
     });
   }
-
   h+='<div class="actions noPrint"><button type="button" onclick="window.print()">印刷する</button><a class="pill" href="sst.html">SSTに戻る</a><button type="button" class="light" onclick="deleteRecords()">記録を削除</button></div>';
   r.innerHTML=h;
 }
 renderReport();
-</script></body></html>
+
+</script>
+</body>
+</html>

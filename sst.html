@@ -1,4 +1,11 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SST</title><style>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SST</title>
+<style>
+
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -37,40 +44,89 @@ button.gray{background:#64748b}
 
 .scoreLiveHide{display:none!important}
 
-.sstSelectGrid{display:grid;grid-template-columns:1fr;gap:18px;margin:24px 0}
-.sstBigCard{background:white;border:4px solid #dbeafe;border-radius:32px;padding:26px;box-shadow:0 16px 42px rgba(30,41,59,.12);display:block}
-.sstBigCard .icon{font-size:70px}
-.sstBigCard .title{font-size:30px}
+.versionBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
+}
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
+}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
+
+
+.sstSelectGrid{display:grid;grid-template-columns:1fr;gap:20px;margin:24px 0}
+.sstBigCard{display:block;background:white;border:5px solid #dbeafe;border-radius:34px;padding:28px;box-shadow:0 18px 45px rgba(30,41,59,.14);text-decoration:none;color:inherit}
+.sstBigCard:active{transform:scale(.98)}
+.sstIcon{font-size:76px;text-align:center}
+.sstTitle{font-size:30px;font-weight:1000;text-align:center;margin:8px 0}
+.sstDesc{font-size:18px;color:#64748b;text-align:center}
+.notice{background:#fff7ed;border:3px solid #fed7aa;border-radius:24px;padding:16px;margin:18px 0}
 @media(min-width:760px){.sstSelectGrid{grid-template-columns:1fr 1fr}}
-</style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
+
+
+.liveResultHide{display:none!important}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ Ver.12</span></div></div>
 <main class="wrap">
 <section class="panel">
   <div class="illust">💬</div>
   <h1 style="text-align:center">SST</h1>
-  <p class="lead" style="text-align:center">使う形式を選んでください。</p>
+  <p class="lead" style="text-align:center">下の2つから選んでください。</p>
+
+  <div class="notice">
+    この画面がSSTの入口です。<br>
+    「問題形式SST」と「今日のふりかえりSST」を別ページに分けました。
+  </div>
 
   <div class="sstSelectGrid">
     <a class="sstBigCard" href="sst_quiz.html">
-      <div class="icon">📝</div>
-      <div class="title">問題形式SST</div>
-      <div class="desc">場面を見て、よい行動を選びます。やった問題はすべてレポートに残ります。</div>
+      <div class="sstIcon">📝</div>
+      <div class="sstTitle">問題形式SST</div>
+      <div class="sstDesc">今までの選択式SSTです。やった問題を全部レポートに残します。</div>
     </a>
 
     <a class="sstBigCard" href="sst_reflection.html">
-      <div class="icon">🧒</div>
-      <div class="title">今日のふりかえりSST</div>
-      <div class="desc">今日あったことを入力して、自分の気持ち・相手の考え・次の行動を考えます。</div>
+      <div class="sstIcon">🧒</div>
+      <div class="sstTitle">今日のふりかえりSST</div>
+      <div class="sstDesc">今日あったことを入力して、自分の気持ち・相手の考え・次の行動を考えます。</div>
     </a>
   </div>
 
   <div class="actions">
-    <a class="pill" href="sst_report.html">SSTレポートを見る</a>
+    <a class="pill" href="sst_report.html">📋 SSTレポートを見る</a>
   </div>
 </section>
 </main>
+
 <script>
+
 function esc(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
+function stripFurigana(text){return String(text||"").replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
 function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script><script></script></body></html>
+
+</script>
+<script>
+
+</script>
+</body>
+</html>

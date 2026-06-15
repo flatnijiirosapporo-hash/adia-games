@@ -43,9 +43,11 @@ button.gray{background:#64748b}
 
 
 .scoreLiveHide{display:none!important}
+
+.liveResultHide{display:none!important}
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">残り <span id="time">30</span>秒</span><span class="badge scoreLiveHide">点 <span id="score">0</span></span><span class="badge">ミス <span id="miss">0</span></span></div>
+<div class="status"><span class="badge">残り <span id="time">30</span>秒</span><span class="badge scoreLiveHide">点 <span id="score">0</span></span><span class="badge liveResultHide">ミス <span id="miss">0</span></span></div>
 <div class="illust">🕳️</div>
 <h1 style="text-align:center">もぐらたたき</h1>
 <p class="lead" style="text-align:center">穴から出たもぐらをタップします。</p>
@@ -108,7 +110,7 @@ function tap(i,h){
 function finish(){
   running=false;clearInterval(timer);clearTimeout(moveTimer);
   document.querySelectorAll(".hole").forEach(h=>h.className="hole empty");
-  document.getElementById("msg").innerHTML='<span class="ok">おしまい！ '+score+' 点</span>';
+  document.getElementById("msg").innerHTML='<span class="ok">おしまい！</span><div class="report"><h2>もぐらたたき レポート</h2><p>たたけた数：'+score+'</p><p>空振り：'+miss+'</p><p>出てきたもぐらを見つけて手を動かす練習です。</p></div>';
 }
 setup();
 </script>

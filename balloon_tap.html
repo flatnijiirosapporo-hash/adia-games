@@ -42,6 +42,8 @@ button.gray{background:#64748b}
 
 
 .scoreLiveHide{display:none!important}
+
+.liveResultHide{display:none!important}
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status">
@@ -106,7 +108,7 @@ function finish(){
   running=false;clearInterval(timer);
   document.getElementById("area").innerHTML="";
   const avg=score? (totalReaction/score).toFixed(2) : "-";
-  document.getElementById("msg").innerHTML='<span class="ok">おしまい！ '+score+' 点　平均 '+avg+' 秒</span>';
+  document.getElementById("msg").innerHTML='<span class="ok">おしまい！</span><div class="report"><h2>風船チャレンジ レポート</h2><p>タップできた数：'+score+'</p><p>平均反応時間：'+avg+' 秒</p><p>画面に出たものを見つけて、すばやく手を動かす練習です。</p></div>';
 }
 </script>
 </body></html>

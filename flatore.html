@@ -36,6 +36,8 @@ button.gray{background:#64748b}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
 
 .scoreLiveHide{display:none!important}
+
+.liveResultHide{display:none!important}
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div><header class="wrap hero"><h1>フラトレ</h1></header><main class="wrap"><div class="grid"><a class="card menu" href="balloon_tap.html"><div class="icon">🎈</div><div class="title">風船タップ</div><div class="desc">風船をすばやくタップ</div></a><a class="card menu" href="mogura_tataki.html"><div class="icon">🕳️</div><div class="title">もぐらたたき</div><div class="desc">出てきたもぐらをタップ</div></a><a class="card menu" href="color_touch.html"><div class="icon">🎨</div><div class="title">色タッチ</div><div class="desc">指定された色を探す</div></a><a class="card menu" href="color_word_touch.html"><div class="icon">🌈</div><div class="title">色ことば</div><div class="desc">色と文字を見分ける</div></a><a class="card menu" href="hiragana_touch.html"><div class="icon">あ</div><div class="title">ひらがなタッチ</div><div class="desc">出たひらがなを選ぶ</div></a><a class="card menu" href="memory_game.html"><div class="icon">🧠</div><div class="title">記憶ゲーム</div><div class="desc">絵の順番を覚える</div></a><a class="card menu" href="danger_game.html"><div class="icon">⚠️</div><div class="title">危険予知</div><div class="desc">安全な行動を選ぶ</div></a></div></main><script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}

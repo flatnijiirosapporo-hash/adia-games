@@ -36,9 +36,44 @@ button.gray{background:#64748b}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
 
 .scoreLiveHide{display:none!important}
+
+.versionBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
+}
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
+}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
+
+.liveResultHide{display:none!important}
 </style></head><body>
 <header class="wrap hero">
-  <div class="brand">🌈 にじいろクラスフラット札幌</div>
+  <div class="brand">🌈 にじいろクラスフラット札幌
+
+
+<div class="versionArea">
+  <span class="versionBadge">🌈 Ver.13</span>
+  <span class="versionNote">ミス表示非表示＋最後にレポート</span>
+</div>
+</div>
   <h1>にじフラ<br>チャレンジ</h1>
   <p class="lead">遊（あそ）びながら、見る・聞く・待つ・伝えるを練習（れんしゅう）します。</p>
 </header>
