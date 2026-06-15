@@ -2,32 +2,116 @@
 body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
 header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
-main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
+main{max-width:760px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
 .card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
 a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
 button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
-.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:24px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.45}
-.choices{display:grid;gap:14px;margin-top:16px}.big{font-size:31px;font-weight:800;margin:20px 0;line-height:1.5}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55}
+.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:20px 0;line-height:1.6;white-space:pre-line}
 .hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
-.point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.7;color:#334155}
+.point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.8;color:#334155;white-space:pre-line}
+.status{font-size:18px;color:#475569;margin-top:8px}.small{font-size:15px;color:#64748b;line-height:1.6}
 </style></head><body>
-<header><h1>🙋 相談（そうだん）する練習（れんしゅう）</h1><div class="sub">困（こま）った時に先生（せんせい）や大人（おとな）へ伝（つた）える練習（れんしゅう）です</div></header>
-<main><section class="card">
-<div id="scene" class="big">スタートしてね</div>
-<div id="choices" class="choices"></div>
-<div id="msg" class="big"></div>
-<div id="tip" class="card point hidden"></div>
-<button onclick="start()">スタート</button>
-</section><a class="back" href="sst.html">← SSTへ</a></main>
+<header>
+  <h1>🙋 相談（そうだん）する練習（れんしゅう）</h1>
+  <div class="sub">問題（もんだい）はランダムに出（で）ます。正解（せいかい）判定（はんてい）を修正（しゅうせい）済（ず）みです。</div>
+</header>
+<main>
+<section class="card">
+  <div class="status">カテゴリ：<span id="cat">-</span>　問題（もんだい）：<span id="num">0</span> / <span id="total">10</span>　正解（せいかい）：<span id="score">0</span></div>
+  <div id="scene" class="big">スタートしてね</div>
+  <div id="choices" class="choices"></div>
+  <div id="msg" class="big"></div>
+  <div id="tip" class="card point hidden"></div>
+  <button onclick="start()">スタート</button>
+  <button onclick="nextQuestion()">つぎの問題（もんだい）</button>
+</section>
+<a class="back" href="sst.html">← SSTへ</a>
+</main>
 <script>
-const qs=[{"scene": "友（とも）だちと取（と）り合（あ）いになった。どうする？", "choices": ["先生（せんせい）に「困（こま）っています」と言（い）う", "たたく", "投げる", "隠れる"], "a": 0, "tip": "「先生（せんせい）、困（こま）っています」「一緒に考えてください」と伝えよう。"}, {"scene": "体（からだ）が痛（いた）い。どうする？", "choices": ["先生（せんせい）に痛（いた）い場所（ばしょ）を言（い）う", "がまんする", "走る", "友（とも）だちを押（お）す"], "a": 0, "tip": "「ここが痛（いた）いです」と場所（ばしょ）を伝えよう。"}, {"scene": "ルールがわからない。どうする？", "choices": ["もう一回（かい）教（おし）えてと言（い）う", "怒る", "やめるだけ", "じゃまする"], "a": 0, "tip": "「もう一回（かい）教（おし）えてください」と言えるとOK。"}];let i=0,score=0;
-function start(){i=0;score=0;show();}
-function show(){
- document.getElementById('msg').textContent='';document.getElementById('tip').classList.add('hidden');
- if(i>=qs.length){document.getElementById('scene').textContent='おしまい！ '+score+' / '+qs.length+' 問できました ⭐';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<div class="title">今日（きょう）のポイント</div><div class="tip">できた・できないより、「もう一回（かい）考（かんが）えた」「言い方を選べた」ことが大切です。</div>';return;}
- const q=qs[i];document.getElementById('scene').textContent=q.scene;document.getElementById('choices').innerHTML='';
- q.choices.forEach((c,idx)=>{const d=document.createElement('div');d.className='choice';d.textContent=c;d.onclick=()=>answer(idx===q.a,q.tip);document.getElementById('choices').appendChild(d);});
+const allQuestions = [{"cat": "相談する練習", "scene": "友（とも）だちと取（と）り合（あ）いになった。\nどうする？", "choices": [{"text": "先生（せんせい）に「困（こま）っています」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "体（からだ）が痛（いた）い。\nどうする？", "choices": [{"text": "痛（いた）い場所（ばしょ）を先生（せんせい）に言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "ルールがわからない。\nどうする？", "choices": [{"text": "「もう一回（いっかい）教（おし）えて」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "迷子（まいご）になりそう。\nどうする？", "choices": [{"text": "近（ちか）くの先生（せんせい）に言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "友（とも）だちが泣（な）いている。\nどうする？", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "けがをした。\nどうする？", "choices": [{"text": "先生（せんせい）にすぐ言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "お腹（なか）が痛（いた）い。\nどうする？", "choices": [{"text": "先生（せんせい）に伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "トイレに行（い）きたい。\nどうする？", "choices": [{"text": "「トイレに行（い）きたい」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "友（とも）だちに言（い）い返（かえ）せない。\nどうする？", "choices": [{"text": "先生（せんせい）に相談（そうだん）する", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "気持（きも）ちが爆発（ばくはつ）しそう。\nどうする？", "choices": [{"text": "「休（やす）みたい」と伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "宿題（しゅくだい）がわからない。\nどうする？", "choices": [{"text": "「ここがわかりません」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "忘（わす）れ物（もの）をした。\nどうする？", "choices": [{"text": "先生（せんせい）に相談（そうだん）する", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "友（とも）だちが危（あぶ）ないことをしている。\nどうする？", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "音（おと）が大（おお）きくてつらい。\nどうする？", "choices": [{"text": "「音（おと）がつらい」と伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "何（なに）をすればいいかわからない。\nどうする？", "choices": [{"text": "「次（つぎ）は何（なに）をしますか」と聞（き）く", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "約束（やくそく）を忘（わす）れた。\nどうする？", "choices": [{"text": "「もう一回（いっかい）教（おし）えて」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "友（とも）だちに入（い）れてもらえない。\nどうする？", "choices": [{"text": "先生（せんせい）に一緒（いっしょ）に考（かんが）えてもらう", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "こわいことがあった。\nどうする？", "choices": [{"text": "大人（おとな）に伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "道具（どうぐ）が壊（こわ）れた。\nどうする？", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談する練習", "scene": "気持（きも）ちを言葉（ことば）にできない。\nどうする？", "choices": [{"text": "カードや指差（ゆびさ）しで伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}];
+let deck = [];
+let index = 0;
+let score = 0;
+let answered = false;
+const total = Math.min(10, allQuestions.length);
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
-function answer(ok,tip){if(ok){score++;document.getElementById('msg').innerHTML='<span class="ok">いい言い方！</span>';}else{document.getElementById('msg').innerHTML='<span class="ng">もう一回（かい）考（かんが）えよう</span>';}document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<div class="title">練習（れんしゅう）ことば</div><div class="tip">'+tip+'</div>';setTimeout(()=>{i++;show();},1600);}
+
+function start() {
+  deck = shuffle(allQuestions).slice(0, total);
+  index = 0;
+  score = 0;
+  answered = false;
+  document.getElementById("score").textContent = score;
+  document.getElementById("total").textContent = total;
+  show();
+}
+
+function show() {
+  answered = false;
+  document.getElementById("msg").textContent = "";
+  document.getElementById("tip").classList.add("hidden");
+
+  if (index >= deck.length) {
+    document.getElementById("cat").textContent = "-";
+    document.getElementById("num").textContent = total;
+    document.getElementById("scene").textContent = "おしまい！\n" + score + " / " + total + " 問（もん）できました ⭐";
+    document.getElementById("choices").innerHTML = "";
+    document.getElementById("tip").classList.remove("hidden");
+    document.getElementById("tip").innerHTML = '<div class="title">今日（きょう）のポイント</div><div class="tip">できた・できないより、「考（かんが）えた」「戻（もど）れた」「言葉（ことば）を選（えら）べた」ことが大切（たいせつ）です。</div>';
+    return;
+  }
+
+  const q = deck[index];
+  document.getElementById("cat").textContent = q.cat;
+  document.getElementById("num").textContent = index + 1;
+  document.getElementById("scene").textContent = q.scene;
+  document.getElementById("choices").innerHTML = "";
+
+  shuffle(q.choices).forEach(item => {
+    const div = document.createElement("div");
+    div.className = "choice";
+    div.textContent = item.text;
+    div.onclick = () => answer(item.ok, q.tip);
+    document.getElementById("choices").appendChild(div);
+  });
+}
+
+function answer(ok, tip) {
+  if (answered) return;
+  answered = true;
+
+  if (ok) {
+    score++;
+    document.getElementById("score").textContent = score;
+    document.getElementById("msg").innerHTML = '<span class="ok">いい選（えら）び方（かた）！</span>';
+  } else {
+    document.getElementById("msg").innerHTML = '<span class="ng">もう一回（いっかい）考（かんが）えよう</span>';
+  }
+
+  document.getElementById("tip").classList.remove("hidden");
+  document.getElementById("tip").innerHTML = '<div class="title">練習（れんしゅう）ことば</div><div class="tip">' + tip + '</div>';
+
+  setTimeout(() => {
+    index++;
+    show();
+  }, 1700);
+}
+
+function nextQuestion() {
+  if (deck.length === 0) start();
+  else {
+    index++;
+    show();
+  }
+}
 </script>
 </body></html>

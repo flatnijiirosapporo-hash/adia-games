@@ -2,21 +2,26 @@
 body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
 header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
-main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
+main{max-width:760px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
 .card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
 a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
 button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
-.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:24px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.45}
-.choices{display:grid;gap:14px;margin-top:16px}.big{font-size:31px;font-weight:800;margin:20px 0;line-height:1.5}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55}
+.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:20px 0;line-height:1.6;white-space:pre-line}
 .hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
-.point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.7;color:#334155}
+.point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.8;color:#334155;white-space:pre-line}
+.status{font-size:18px;color:#475569;margin-top:8px}.small{font-size:15px;color:#64748b;line-height:1.6}
 </style></head><body>
-<header><h1>💬 SSTトレーニング</h1><div class="sub">ソーシャルスキルを、場面（ばめん）ごとに楽しく練習（れんしゅう）します</div></header>
+<header>
+  <h1>💬 SSTトレーニング</h1>
+  <div class="sub">問題（もんだい）は約（やく）100問（もん）。毎回（まいかい）ランダムに出（で）ます。</div>
+</header>
 <main><div class="grid">
-<a href="sst_listening.html"><div class="card"><div class="title">👂 聞（き）く練習（れんしゅう）</div><div class="desc">相手（あいて）の話（はなし）を最後（さいご）まで聞（き）く、確認（かくにん）する練習（れんしゅう）</div></div></a>
-<a href="sst_tell.html"><div class="card"><div class="title">🗣️ 伝（つた）える練習（れんしゅう）</div><div class="desc">お願（ねが）い・気持（きも）ち・困（こま）ったことを言葉（ことば）にする練習（れんしゅう）</div></div></a>
-<a href="sst_refuse.html"><div class="card"><div class="title">🙅 断（ことわ）る練習（れんしゅう）</div><div class="desc">いやな時に、やさしく断（ことわ）る練習（れんしゅう）</div></div></a>
-<a href="sst_help.html"><div class="card"><div class="title">🙋 相談（そうだん）する練習（れんしゅう）</div><div class="desc">困（こま）った時に先生（せんせい）や友（とも）だちへ伝（つた）える練習（れんしゅう）</div></div></a>
-<a href="sst_repair.html"><div class="card"><div class="title">🤝 仲直（なかなお）り練習（れんしゅう）</div><div class="desc">ぶつかった時、取（と）り合（あ）いになった時の戻（もど）り方（かた）</div></div></a>
+  <a href="sst_random.html"><div class="card"><div class="title">🎲 SSTランダム10問（もん）</div><div class="desc">聞（き）く・伝（つた）える・断（ことわ）る・相談（そうだん）・仲直（なかなお）りからランダム出題（しゅつだい）</div></div></a>
+  <a href="sst_listening.html"><div class="card"><div class="title">👂 聞（き）く練習（れんしゅう）</div><div class="desc">相手（あいて）の話（はなし）を最後（さいご）まで聞（き）く練習（れんしゅう）</div></div></a>
+  <a href="sst_tell.html"><div class="card"><div class="title">🗣️ 伝（つた）える練習（れんしゅう）</div><div class="desc">お願（ねが）い・気持（きも）ち・困（こま）ったことを言葉（ことば）にする</div></div></a>
+  <a href="sst_refuse.html"><div class="card"><div class="title">🙅 断（ことわ）る練習（れんしゅう）</div><div class="desc">いやな時（とき）に、やさしく断（ことわ）る練習（れんしゅう）</div></div></a>
+  <a href="sst_help.html"><div class="card"><div class="title">🙋 相談（そうだん）する練習（れんしゅう）</div><div class="desc">困（こま）った時（とき）に先生（せんせい）や大人（おとな）へ伝（つた）える</div></div></a>
+  <a href="sst_repair.html"><div class="card"><div class="title">🤝 仲直（なかなお）り練習（れんしゅう）</div><div class="desc">トラブルのあと、もう一回（いっかい）戻（もど）る練習（れんしゅう）</div></div></a>
 </div><a class="back" href="index.html">← TOPへ</a></main>
 </body></html>

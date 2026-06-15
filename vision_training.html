@@ -12,15 +12,15 @@ button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:
 .bar-bg{height:24px;background:#e5e7eb;border-radius:999px;overflow:hidden}.bar{height:24px;background:#22c55e}.report{text-align:left;line-height:1.8}
 @media print{button,.back{display:none}.card{box-shadow:none;border:1px solid #ddd}body{background:white}}
 </style></head><body>
-<header><h1>👀 ビジョントレーニング</h1><div class="sub">動く星（ほし）を目（め）で追ってタップします</div></header>
+<header><h1>👀 ビジョントレーニング</h1><div class="sub">動く星を目で追ってタップします</div></header>
 <main><section class="card">
-<div>残（のこ）り時間（じかん）：<span id="time">30</span> 秒　スコア：<span id="score">0</span></div>
+<div>残り時間：<span id="time">30</span> 秒　スコア：<span id="score">0</span></div>
 <button onclick="start()">スタート</button>
 <div id="area" style="height:420px;position:relative;background:#eef2ff;border-radius:24px;margin-top:14px;overflow:hidden">
 <div id="star" style="position:absolute;font-size:48px;left:20px;top:20px;display:none;cursor:pointer">⭐</div>
 </div>
 <div id="msg" class="big"></div>
-</section><a class="back" href="movement.html">← 運動（うんどう）あそびへ</a></main>
+</section><a class="back" href="movement.html">← 運動あそびへ</a></main>
 <script>
 let t=30,score=0,timer=null,move=null,x=20,y=20,dx=4,dy=3;
 const star=document.getElementById('star'),area=document.getElementById('area');
@@ -28,6 +28,6 @@ function start(){t=30;score=0;document.getElementById('time').textContent=t;docu
 timer=setInterval(()=>{t--;document.getElementById('time').textContent=t;if(t<=0)end();},1000);
 move=setInterval(()=>{let w=area.clientWidth-60,h=area.clientHeight-60;x+=dx;y+=dy;if(x<0||x>w)dx*=-1;if(y<0||y>h)dy*=-1;star.style.left=x+'px';star.style.top=y+'px';},30);}
 star.onclick=()=>{score++;document.getElementById('score').textContent=score;dx+=(dx>0?0.4:-0.4);dy+=(dy>0?0.3:-0.3);}
-function end(){clearInterval(timer);clearInterval(move);star.style.display='none';document.getElementById('msg').textContent='おしまい！ '+score+' 回（かい）タップできました ⭐';}
+function end(){clearInterval(timer);clearInterval(move);star.style.display='none';document.getElementById('msg').textContent='おしまい！ '+score+' 回タップできました ⭐';}
 </script>
 </body></html>

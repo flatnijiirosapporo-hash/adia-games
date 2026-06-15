@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>色（いろ）タッチ</title>
+  <title>色タッチ</title>
   <style>
     body {
       margin: 0;
@@ -75,10 +75,10 @@
 </head>
 <body>
   <header>
-    <h1>🔴色（いろ）タッチ</h1>
-    <div class="info">赤だけ押（お）して！</div>
-    <div class="info">残（のこ）り時間（じかん）：<span id="time">30</span> 秒</div>
-    <div class="info">正解（せいかい）：<span id="score">0</span>　ミス：<span id="miss">0</span></div>
+    <h1>🔴色タッチ</h1>
+    <div class="info">赤だけ押して！</div>
+    <div class="info">残り時間：<span id="time">30</span> 秒</div>
+    <div class="info">正解：<span id="score">0</span>　ミス：<span id="miss">0</span></div>
     <button onclick="startGame()">スタート</button>
     <div id="message">赤を見つけたらタップ！</div>
   </header>
@@ -143,7 +143,7 @@
           if (btn.dataset.color === "red") {
             score++;
             scoreText.textContent = score;
-            message.textContent = "正解（せいかい）！";
+            message.textContent = "正解！";
           } else {
             miss++;
             missText.textContent = miss;
@@ -169,7 +169,7 @@
       clearInterval(gameTimer);
       clearTimeout(changeTimer);
       game.innerHTML = "";
-      message.textContent = "おしまい！ 正解（せいかい） " + score + " 回（かい） / ミス " + miss + " 回（かい） ⭐";
+      message.textContent = "おしまい！ 正解 " + score + " 回 / ミス " + miss + " 回 ⭐";
     }
   </script>
 </body>

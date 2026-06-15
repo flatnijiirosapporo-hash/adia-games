@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>成長（せいちょう）記録（きろく）</title><style>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>成長記録</title><style>
 body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
 header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
@@ -12,19 +12,19 @@ button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:
 .bar-bg{height:24px;background:#e5e7eb;border-radius:999px;overflow:hidden}.bar{height:24px;background:#22c55e}.report{text-align:left;line-height:1.8}
 @media print{button,.back{display:none}.card{box-shadow:none;border:1px solid #ddd}body{background:white}}
 </style></head><body>
-<header><h1>⭐ 成長（せいちょう）記録（きろく）</h1><div class="sub">評価ではなく、今日（きょう）の挑戦（ちょうせん）を残します</div></header>
+<header><h1>⭐ 成長記録</h1><div class="sub">評価ではなく、今日の挑戦を残します</div></header>
 <main><section class="card report">
-<h2>今日（きょう）のがんばり</h2>
-<p>できた活動（かつどう）にチェックしてください。</p>
-<label><input type="checkbox"> フラトレに挑戦（ちょうせん）した</label><br>
-<label><input type="checkbox"> 運動（うんどう）あそびに挑戦（ちょうせん）した</label><br>
-<label><input type="checkbox"> 公園（こうえん）チャレンジに挑戦（ちょうせん）した</label><br>
-<label><input type="checkbox"> もう一回（かい）やってみた</label><br>
-<label><input type="checkbox"> 気持（きも）ちをことばにできた</label><br>
-<button onclick="save()">今日（きょう）の記録（きろく）を保存</button>
+<h2>今日のがんばり</h2>
+<p>できた活動にチェックしてください。</p>
+<label><input type="checkbox"> フラトレに挑戦した</label><br>
+<label><input type="checkbox"> 運動あそびに挑戦した</label><br>
+<label><input type="checkbox"> 公園チャレンジに挑戦した</label><br>
+<label><input type="checkbox"> もう一回やってみた</label><br>
+<label><input type="checkbox"> 気持ちをことばにできた</label><br>
+<button onclick="save()">今日の記録を保存</button>
 <div id="msg" class="big"></div>
 </section><a class="back" href="index.html">← TOPへ</a></main>
 <script>
-function save(){localStorage.setItem('nijifla_today',new Date().toLocaleString());document.getElementById('msg').textContent='保存しました ⭐ 今日（きょう）も挑戦（ちょうせん）できました！';}
+function save(){localStorage.setItem('nijifla_today',new Date().toLocaleString());document.getElementById('msg').textContent='保存しました ⭐ 今日も挑戦できました！';}
 </script>
 </body></html>

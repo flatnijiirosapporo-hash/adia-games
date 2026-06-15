@@ -1,18 +1,18 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🛝 順番（じゅんばん）待（ま）ちゲーム</title><style>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>🛝 順番待（じゅんばんま）ちゲーム</title><style>
 body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
 header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
-main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
+main{max-width:760px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
 .card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
 a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
 button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
-.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:22px 10px;font-size:28px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer}
-.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}.big{font-size:34px;font-weight:800;margin:20px 0;line-height:1.5}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55}
+.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:20px 0;line-height:1.6;white-space:pre-line}
 .hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
-.bar-bg{height:24px;background:#e5e7eb;border-radius:999px;overflow:hidden}.bar{height:24px;background:#22c55e}.report{text-align:left;line-height:1.8}
-@media print{button,.back{display:none}.card{box-shadow:none;border:1px solid #ddd}body{background:white}}
+.point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.8;color:#334155;white-space:pre-line}
+.status{font-size:18px;color:#475569;margin-top:8px}.small{font-size:15px;color:#64748b;line-height:1.6}
 </style></head><body>
-<header><h1>🛝 順番（じゅんばん）待（ま）ちゲーム</h1><div class="sub">待（ま）つ・交代（こうたい）する・もう一回（かい）戻（もど）る練習（れんしゅう）です</div></header>
+<header><h1>🛝 順番待（じゅんばんま）ちゲーム</h1><div class="sub">待（ま）つ・交代（こうたい）する練習（れんしゅう）です</div></header>
 <main>
 <section class="card">
 <div id="q" class="big">スタートしてね</div>
@@ -23,23 +23,50 @@ button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:
 <a class="back" href="index.html">← TOPへ</a>
 </main>
 <script>
+const qs = [{"q": "すべり台（だい）に友（とも）だちが並（なら）んでいます。\nどうする？", "choices": [{"text": "前（まえ）に入（はい）る", "ok": false}, {"text": "後（うし）ろに並（なら）ぶ", "ok": true}, {"text": "押（お）す", "ok": false}, {"text": "帰（かえ）る", "ok": false}]}, {"q": "ブランコを代（か）わってほしい。\nどうする？", "choices": [{"text": "勝手（かって）に止（と）める", "ok": false}, {"text": "あとで代（か）わってと言（い）う", "ok": true}, {"text": "怒（おこ）る", "ok": false}, {"text": "泣（な）く", "ok": false}]}, {"q": "自分（じぶん）の番（ばん）が終（お）わりました。\nどうする？", "choices": [{"text": "もう一回（いっかい）だけと割（わ）り込（こ）む", "ok": false}, {"text": "次（つぎ）の人（ひと）に代（か）わる", "ok": true}, {"text": "隠（かく）れる", "ok": false}, {"text": "押（お）す", "ok": false}]}, {"q": "待（ま）っている間（あいだ）、何（なに）をする？", "choices": [{"text": "数（かず）を数（かぞ）える", "ok": true}, {"text": "友（とも）だちを押（お）す", "ok": false}, {"text": "叫（さけ）ぶ", "ok": false}, {"text": "走（はし）ってぶつかる", "ok": false}]}];
+let i=0,score=0,answered=false;
 
-const qs=[
-{q:"すべり台（だい）に友（とも）だちが並（なら）んでいます。どうする？",choices:["前（まえ）に入る","後（うし）ろに並（なら）ぶ","押（お）す","帰る"],a:1},
-{q:"ブランコを代わってほしい。どうする？",choices:["勝手に止める","あとで代わってと言（い）う","怒る","泣く"],a:1},
-{q:"自分の番が終わりました。どうする？",choices:["もう一回（かい）だけと割り込む","次の人に代わる","隠れる","押（お）す"],a:1},
-{q:"待っている間、何をする？",choices:["数を数える","友（とも）だちを押（お）す","叫ぶ","走（はし）ってぶつかる"],a:0}
-];
-
-let i=0,score=0;
-function start(){i=0;score=0;show();}
-function show(){
- document.getElementById('msg').textContent='';
- if(i>=qs.length){document.getElementById('q').textContent='おしまい！ '+score+' / '+qs.length+' 問できました ⭐';document.getElementById('choices').innerHTML='';return;}
- let item=qs[i];document.getElementById('q').textContent=item.q;
- document.getElementById('choices').innerHTML='';
- item.choices.forEach((c,idx)=>{let d=document.createElement('div');d.className='choice';d.textContent=c;d.onclick=()=>ans(idx===item.a);document.getElementById('choices').appendChild(d);});
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
-function ans(ok){if(ok){score++;document.getElementById('msg').innerHTML='<span class="ok">いい選択（せんたく）！</span>';}else{document.getElementById('msg').innerHTML='<span class="ng">もう一回（かい）考（かんが）えよう</span>';}setTimeout(()=>{i++;show();},700);}
+
+function start() { i=0; score=0; show(); }
+
+function show() {
+  answered=false;
+  document.getElementById('msg').textContent='';
+  if(i>=qs.length) {
+    document.getElementById('q').textContent='おしまい！ '+score+' / '+qs.length+' 問（もん）できました ⭐';
+    document.getElementById('choices').innerHTML='';
+    return;
+  }
+  let item=qs[i];
+  document.getElementById('q').textContent=item.q;
+  document.getElementById('choices').innerHTML='';
+  shuffle(item.choices).forEach(c => {
+    let d=document.createElement('div');
+    d.className='choice';
+    d.textContent=c.text;
+    d.onclick=()=>ans(c.ok);
+    document.getElementById('choices').appendChild(d);
+  });
+}
+
+function ans(ok) {
+  if(answered) return;
+  answered=true;
+  if(ok) {
+    score++;
+    document.getElementById('msg').innerHTML='<span class="ok">いい選（えら）び方（かた）！</span>';
+  } else {
+    document.getElementById('msg').innerHTML='<span class="ng">もう一回（いっかい）考（かんが）えよう</span>';
+  }
+  setTimeout(()=>{i++;show();},700);
+}
 </script>
 </body></html>

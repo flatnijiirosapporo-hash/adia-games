@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>記憶（きおく）ゲーム</title>
+  <title>記憶ゲーム</title>
   <style>
     body {
       margin: 0;
@@ -88,12 +88,12 @@
 </head>
 <body>
   <header>
-    <h1>🧠記憶（きおく）ゲーム</h1>
-    <div class="info">出た絵を、最初（さいしょ）から順番（じゅんばん）に押そう！</div>
-    <div class="info">レベル：<span id="level">1</span>　成功（せいこう）：<span id="score">0</span></div>
+    <h1>🧠記憶ゲーム</h1>
+    <div class="info">出た絵を、最初から順番に押そう！</div>
+    <div class="info">レベル：<span id="level">1</span>　成功：<span id="score">0</span></div>
     <button onclick="startGame()">スタート</button>
-    <button onclick="showSequence()">もう一回（かい）見（み）る</button>
-    <div id="message">絵の順番（じゅんばん）を覚えよう！</div>
+    <button onclick="showSequence()">もう一回見る</button>
+    <div id="message">絵の順番を覚えよう！</div>
   </header>
 
   <div id="showArea"></div>
@@ -121,7 +121,7 @@
       playing = true;
       levelText.textContent = level;
       scoreText.textContent = score;
-      message.textContent = "よく見（み）て覚えてね";
+      message.textContent = "よく見て覚えてね";
       makeCards();
       makeSequence();
       showSequence();
@@ -171,7 +171,7 @@
         } else {
           clearInterval(timer);
           showArea.textContent = "";
-          message.textContent = "順番（じゅんばん）に押（お）してね";
+          message.textContent = "順番に押してね";
           disableCards(false);
           showing = false;
         }
@@ -188,7 +188,7 @@
           level++;
           scoreText.textContent = score;
           levelText.textContent = level;
-          message.textContent = "成功（せいこう）！次は少し長くなるよ";
+          message.textContent = "成功！次は少し長くなるよ";
 
           setTimeout(() => {
             makeSequence();
@@ -196,7 +196,7 @@
           }, 900);
         }
       } else {
-        message.textContent = "ちがうよ。もう一回（かい）見（み）てみよう";
+        message.textContent = "ちがうよ。もう一回見てみよう";
         setTimeout(() => {
           showSequence();
         }, 900);

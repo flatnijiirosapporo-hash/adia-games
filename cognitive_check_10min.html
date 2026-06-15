@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>10分認知（にんち）チェック</title>
+  <title>10分認知チェック</title>
   <style>
     body {
       margin: 0;
@@ -135,25 +135,25 @@
 </head>
 <body>
   <header>
-    <h1>🧠10分認知（にんち）チェック</h1>
+    <h1>🧠10分認知チェック</h1>
     <div class="note">
       これはWISCなどの正式検査ではありません。<br>
-      療育・家庭支援のための簡易的な認知（にんち）特性チェックです。
+      療育・家庭支援のための簡易的な認知特性チェックです。
     </div>
   </header>
 
   <main>
     <section id="start" class="card">
       <h2>チェック内容</h2>
-      <p>ことば・記憶（きおく）・反応・図形（ずけい）・総合の5つをゲーム形式で確認（かくにん）します。</p>
-      <p>最後（さいご）に保護者（ほごしゃ）向けレポートを表示（ひょうじ）します。</p>
+      <p>ことば・記憶・反応・図形・総合の5つをゲーム形式で確認します。</p>
+      <p>最後に保護者向けレポートを表示します。</p>
       <button onclick="startCheck()">スタート</button>
     </section>
 
     <section id="quiz" class="card hidden">
       <div class="status">
         <span id="sectionName"></span><br>
-        問題（もんだい） <span id="qNum">1</span> / <span id="qTotal">20</span>
+        問題 <span id="qNum">1</span> / <span id="qTotal">20</span>
       </div>
       <div id="question" class="big"></div>
       <div id="choices" class="choices"></div>
@@ -161,11 +161,11 @@
     </section>
 
     <section id="result" class="card hidden">
-      <h2>保護者（ほごしゃ）向けレポート</h2>
+      <h2>保護者向けレポート</h2>
       <div id="scoreBars"></div>
       <div id="reportText" class="report"></div>
       <button onclick="window.print()">レポートを印刷 / PDF保存</button>
-      <button class="secondary" onclick="restart()">もう一回（かい）</button>
+      <button class="secondary" onclick="restart()">もう一回</button>
     </section>
   </main>
 
@@ -192,9 +192,9 @@
 
     const labels = {
       word: "ことば理解",
-      memory: "記憶（きおく）力（ちから）",
+      memory: "記憶力",
       speed: "反応・注意",
-      visual: "図形（ずけい）認識",
+      visual: "図形認識",
       mixed: "総合判断"
     };
 
@@ -227,25 +227,25 @@
         {type:"word", section:"ことば", q:"どうぶつはどれ？", choices:["🐶","🍎","✏️","☂️"], a:"🐶"},
         {type:"word", section:"ことば", q:"たべものはどれ？", choices:["🍙","🚲","👟","📘"], a:"🍙"},
 
-        {type:"memory", section:"記憶（きおく）", q:"出た順番（じゅんばん）を覚えて押（お）してね", seq:["🐶","🐱"]},
-        {type:"memory", section:"記憶（きおく）", q:"出た順番（じゅんばん）を覚えて押（お）してね", seq:["🍎","⭐","🐸"]},
-        {type:"memory", section:"記憶（きおく）", q:"出た順番（じゅんばん）を覚えて押（お）してね", seq:["🚗","🐰","🍌"]},
-        {type:"memory", section:"記憶（きおく）", q:"出た順番（じゅんばん）を覚えて押（お）してね", seq:["🐼","⭐","🐶","🍎"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🐶","🐱"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🍎","⭐","🐸"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🚗","🐰","🍌"]},
+        {type:"memory", section:"記憶", q:"出た順番を覚えて押してね", seq:["🐼","⭐","🐶","🍎"]},
 
-        {type:"speed", section:"反応・注意", q:"赤を押（お）して！", choices:["赤","青","黄","緑"], a:"赤"},
-        {type:"speed", section:"反応・注意", q:"青を押（お）して！", choices:["赤","青","黄","緑"], a:"青"},
-        {type:"speed", section:"反応・注意", q:"黄色（いろ）を押（お）して！", choices:["赤","青","黄","緑"], a:"黄"},
-        {type:"speed", section:"反応・注意", q:"緑を押（お）して！", choices:["赤","青","黄","緑"], a:"緑"},
+        {type:"speed", section:"反応・注意", q:"赤を押して！", choices:["赤","青","黄","緑"], a:"赤"},
+        {type:"speed", section:"反応・注意", q:"青を押して！", choices:["赤","青","黄","緑"], a:"青"},
+        {type:"speed", section:"反応・注意", q:"黄色を押して！", choices:["赤","青","黄","緑"], a:"黄"},
+        {type:"speed", section:"反応・注意", q:"緑を押して！", choices:["赤","青","黄","緑"], a:"緑"},
 
-        {type:"visual", section:"図形（ずけい）", q:"同（おな）じ形はどれ？ ▲", choices:["▲","●","■","★"], a:"▲"},
-        {type:"visual", section:"図形（ずけい）", q:"同（おな）じ形はどれ？ ■", choices:["●","■","▲","★"], a:"■"},
-        {type:"visual", section:"図形（ずけい）", q:"同（おな）じ並びはどれ？ 🔴🔵", choices:["🔴🔵","🔵🔴","🟢🔴","🔵🟢"], a:"🔴🔵"},
-        {type:"visual", section:"図形（ずけい）", q:"同（おな）じ並びはどれ？ ⭐⭐●", choices:["⭐●⭐","⭐⭐●","●⭐⭐","⭐●●"], a:"⭐⭐●"},
+        {type:"visual", section:"図形", q:"同じ形はどれ？ ▲", choices:["▲","●","■","★"], a:"▲"},
+        {type:"visual", section:"図形", q:"同じ形はどれ？ ■", choices:["●","■","▲","★"], a:"■"},
+        {type:"visual", section:"図形", q:"同じ並びはどれ？ 🔴🔵", choices:["🔴🔵","🔵🔴","🟢🔴","🔵🟢"], a:"🔴🔵"},
+        {type:"visual", section:"図形", q:"同じ並びはどれ？ ⭐⭐●", choices:["⭐●⭐","⭐⭐●","●⭐⭐","⭐●●"], a:"⭐⭐●"},
 
-        {type:"mixed", section:"総合", q:"文字（もじ）ではなく、色（いろ）で選んでね：赤", choices:["赤","青","黄","緑"], a:"赤"},
-        {type:"mixed", section:"総合", q:"最初（さいしょ）の絵はどれ？ 🐶 → 🐱 → 🐸", choices:["🐶","🐱","🐸","🐰"], a:"🐶"},
+        {type:"mixed", section:"総合", q:"文字ではなく、色で選んでね：赤", choices:["赤","青","黄","緑"], a:"赤"},
+        {type:"mixed", section:"総合", q:"最初の絵はどれ？ 🐶 → 🐱 → 🐸", choices:["🐶","🐱","🐸","🐰"], a:"🐶"},
         {type:"mixed", section:"総合", q:"仲間はずれはどれ？", choices:["🐶","🐱","🐰","🚗"], a:"🚗"},
-        {type:"mixed", section:"総合", q:"同（おな）じ順番（じゅんばん）はどれ？ 🍎⭐", choices:["⭐🍎","🍎⭐","🍌⭐","🍎🍎"], a:"🍎⭐"}
+        {type:"mixed", section:"総合", q:"同じ順番はどれ？ 🍎⭐", choices:["⭐🍎","🍎⭐","🍌⭐","🍎🍎"], a:"🍎⭐"}
       ];
     }
 
@@ -279,14 +279,14 @@
       memorySequence = item.seq.slice();
       let i = 0;
 
-      questionEl.textContent = "よく見（み）てね";
+      questionEl.textContent = "よく見てね";
       const timer = setInterval(() => {
         if (i < memorySequence.length) {
           questionEl.textContent = memorySequence[i];
           i++;
         } else {
           clearInterval(timer);
-          questionEl.textContent = "順番（じゅんばん）に押（お）してね";
+          questionEl.textContent = "順番に押してね";
           memoryInput(item);
         }
       }, 800);
@@ -323,7 +323,7 @@
         let point = 20;
         if (type === "speed" && time < 1500) point = 25;
         scores[type] += point;
-        messageEl.textContent = "正解（せいかい）！";
+        messageEl.textContent = "正解！";
       } else {
         messageEl.textContent = "ちがうよ";
       }
@@ -344,7 +344,7 @@
         const value = Math.min(100, scores[key]);
         scoreBarsEl.innerHTML += `
           <div class="bar-wrap">
-            <div class="bar-label">${labels[key]}：${value}点（てん）</div>
+            <div class="bar-label">${labels[key]}：${value}点</div>
             <div class="bar-bg"><div class="bar" style="width:${value}%"></div></div>
           </div>
         `;
@@ -354,36 +354,36 @@
       const weak = Object.keys(scores).sort((a,b) => scores[a] - scores[b])[0];
 
       reportTextEl.innerHTML = `
-        <h3>結果（けっか）の見方</h3>
+        <h3>結果の見方</h3>
         <p>
-          今回（かい）の結果（けっか）では、<strong>${labels[best]}</strong>が比較的得意（とくい）な傾向として見られました。
+          今回の結果では、<strong>${labels[best]}</strong>が比較的得意な傾向として見られました。
           一方で、<strong>${labels[weak]}</strong>は少し負荷がかかりやすい可能性があります。
         </p>
 
-        <h3>得意（とくい）な力（ちから）</h3>
+        <h3>得意な力</h3>
         <p>
-          得意（とくい）な課題は、遊びや学習の入口として使いやすい力（ちから）です。
-          まず得意（とくい）な活動（かつどう）から始めることで、安心（あんしん）して取り組みやすくなります。
+          得意な課題は、遊びや学習の入口として使いやすい力です。
+          まず得意な活動から始めることで、安心して取り組みやすくなります。
         </p>
 
-        <h3>伸ばしたい力（ちから）</h3>
+        <h3>伸ばしたい力</h3>
         <p>
-          伸ばしたい課題は、短（みじか）く・楽しく・成功（せいこう）しやすい形で練習（れんしゅう）することがおすすめです。
-          長い説明（せつめい）よりも、1つずつ短い指示で伝（つた）えると力（ちから）を発揮しやすくなります。
+          伸ばしたい課題は、短く・楽しく・成功しやすい形で練習することがおすすめです。
+          長い説明よりも、1つずつ短い指示で伝えると力を発揮しやすくなります。
         </p>
 
         <h3>おすすめ遊び</h3>
         <ul>
-          <li>記憶（きおく）力（ちから）：絵カード記憶（きおく）ゲーム、神経衰弱</li>
-          <li>反応・注意：風船（ふうせん）タップ、色（いろ）タッチ</li>
-          <li>ことば理解：絵カード選（えら）び、仲間探し</li>
-          <li>図形（ずけい）認識：パズル、同（おな）じ形探し</li>
+          <li>記憶力：絵カード記憶ゲーム、神経衰弱</li>
+          <li>反応・注意：風船タップ、色タッチ</li>
+          <li>ことば理解：絵カード選び、仲間探し</li>
+          <li>図形認識：パズル、同じ形探し</li>
         </ul>
 
         <h3>注意</h3>
         <p>
-          この結果（けっか）は診断や知能指数を示すものではありません。
-          正式な評価が必要な場合は、心理士・医師・専門機関にご相談（そうだん）ください。
+          この結果は診断や知能指数を示すものではありません。
+          正式な評価が必要な場合は、心理士・医師・専門機関にご相談ください。
         </p>
       `;
     }
