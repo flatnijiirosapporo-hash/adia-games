@@ -1,5 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>公園チャレンジ</title><style>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>公園チャレンジ</title>
+<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -38,11 +43,37 @@ button.gray{background:#64748b}
 
 .scoreLiveHide{display:none!important}
 
+.versionBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
+}
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
+}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
+
 .liveResultHide{display:none!important}
 
 
 
-/* ===== Ver.1.1 automatic furigana ===== */
+/* ===== Ver.1.6 automatic furigana ===== */
 ruby.autoRuby{
   ruby-position:over;
 }
@@ -68,10 +99,36 @@ ruby.autoRuby rt{
   font-size:clamp(17px,2.5vw,22px);
   text-align:center;
 }
-</style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div><header class="wrap hero"><h1><ruby class="autoRuby">公園<rt>こうえん</rt></ruby>チャレンジ</h1></header><main class="wrap"><div class="grid"><a class="card menu" href="turn_waiting.html"><div class="icon">🛝</div><div class="title"><ruby class="autoRuby">順番待<rt>じゅんばん待</rt></ruby>ち</div><div class="desc"><ruby class="autoRuby">待<rt>よみ</rt></ruby>つ・<ruby class="autoRuby">交代<rt>よみ</rt></ruby>する<ruby class="autoRuby">練習<rt>れんしゅう</rt></ruby></div></a><a class="card menu" href="feeling_choice.html"><div class="icon">😊</div><div class="title"><ruby class="autoRuby">気持<rt>きも</rt></ruby>ち<ruby class="autoRuby">選択<rt>せんたく</rt></ruby></div><div class="desc"><ruby class="autoRuby">表情<rt>ひょう情</rt></ruby>と<ruby class="autoRuby">気持<rt>きも</rt></ruby>ちを<ruby class="autoRuby">選<rt>せん</rt></ruby>ぶ</div></a><a class="card menu" href="trouble_response.html"><div class="icon">🤝</div><div class="title">トラブル<ruby class="autoRuby">対応<rt>たいおう</rt></ruby></div><div class="desc"><ruby class="autoRuby">困<rt>よみ</rt></ruby>った<ruby class="autoRuby">時<rt>じ</rt></ruby>の<ruby class="autoRuby">戻<rt>よみ</rt></ruby>り<ruby class="autoRuby">方<rt>ほう</rt></ruby></div></a><a class="card menu" href="danger_game.html"><div class="icon">⚠️</div><div class="title"><ruby class="autoRuby">危険予知<rt>きけん予知</rt></ruby></div><div class="desc"><ruby class="autoRuby">安全<rt>あんぜん</rt></ruby>な<ruby class="autoRuby">行動<rt>こうどう</rt></ruby>を<ruby class="autoRuby">選<rt>せん</rt></ruby>ぶ</div></a></div></main><script>
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
-function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script>
-</body></html>
+
+/* ===== Ver.1.6 top simple ===== */
+.topHeroCard{
+  padding-top:clamp(26px,5vw,46px)!important;
+}
+.topHeroCard h1{
+  margin-top:8px!important;
+}
+.brandVisual,
+.brandIcon,
+.brandLogo{
+  display:none!important;
+}
+.themeText{
+  max-width:760px;
+}
+
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="panel">
+  <div class="illust">🌈</div>
+  <h1 style="text-align:center">公園チャレンジは終了しました</h1>
+  <p class="lead" style="text-align:center">TOPからメニューを選んでください。</p>
+  <div class="actions">
+    <a class="pill" href="index.html">TOPへ</a>
+    <a class="pill" href="danger_game.html">危険予知トレーニングへ</a>
+  </div>
+</section>
+</main>
+</body>
+</html>
