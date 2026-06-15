@@ -34,9 +34,11 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+.scoreLiveHide{display:none!important}
 </style></head><body><div class="top"><div class="wrap nav"><a href="park.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge">正解 <span id="score">0</span></span><span class="badge" id="cat"></span></div>
+<div class="status"><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge scoreLiveHide">正解 <span id="score">0</span></span><span class="badge" id="cat"></span></div>
 <div id="illust" class="illust">🌈</div><h1 style="text-align:center">気持ち選択 100問</h1><p class="lead" style="text-align:center">表情と場面から気持ちを選びます。</p>
 <div id="scene" class="scene">スタート</div>
 <div class="actions"><button onclick="readQ()">🔊 よみあげ</button><button class="light" onclick="start()">もう一回</button></div>

@@ -40,11 +40,13 @@ button.gray{background:#64748b}
 .balloon{position:absolute;font-size:74px;cursor:pointer;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18));animation:popIn .15s ease-out}
 @keyframes popIn{from{transform:scale(.5);opacity:.2}to{transform:scale(1);opacity:1}}
 
+
+.scoreLiveHide{display:none!important}
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status">
   <span class="badge">残り <span id="time">30</span>秒</span>
-  <span class="badge">点 <span id="score">0</span></span>
+  <span class="badge scoreLiveHide">点 <span id="score">0</span></span>
   <span class="badge">平均 <span id="avg">-</span>秒</span>
 </div>
 <div class="illust">🎈</div>

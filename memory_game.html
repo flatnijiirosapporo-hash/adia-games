@@ -34,9 +34,11 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+.scoreLiveHide{display:none!important}
 </style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">レベル <span id="level">1</span></span><span class="badge">成功 <span id="score">0</span></span></div>
+<div class="status"><span class="badge">レベル <span id="level">1</span></span><span class="badge scoreLiveHide">成功 <span id="score">0</span></span></div>
 <div class="illust" id="show">🧠</div><h1 style="text-align:center">記憶ゲーム</h1>
 <p class="lead" style="text-align:center">出た絵を順番に押します。同じ絵は続きません。</p>
 <div class="actions"><button onclick="start()">スタート</button><button class="light" onclick="showSeq()">もう一回見る</button></div>
