@@ -34,23 +34,305 @@ button.gray{background:#64748b}
 .shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+.visionArea{
+  position:relative;
+  height:58vh;
+  min-height:390px;
+  background:radial-gradient(circle at top,#eef2ff,#ffffff 65%);
+  border-radius:32px;
+  overflow:hidden;
+  border:4px solid #fff;
+  box-shadow:inset 0 0 0 2px #dbeafe,0 15px 35px rgba(30,41,59,.10);
+}
+.target{
+  position:absolute;
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  font-weight:900;
+  background:#fff;
+  border:5px solid #93c5fd;
+  box-shadow:0 10px 22px rgba(30,41,59,.18);
+  cursor:pointer;
+  transition:transform .12s, left .35s linear, top .35s linear;
+}
+.target:active{transform:scale(.9)}
+.target.good{border-color:#86efac;background:#dcfce7}
+.target.bad{border-color:#fca5a5;background:#fee2e2}
+.guideLine{
+  position:absolute;
+  height:6px;
+  background:linear-gradient(90deg,#a5b4fc,#67e8f9);
+  border-radius:999px;
+  transform-origin:left center;
+  opacity:.55;
+  pointer-events:none;
+}
+.modeCard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:12px;
+  margin:14px 0;
+}
+.modeBtn{
+  background:white;
+  color:#334155;
+  border:3px solid #dbeafe;
+  box-shadow:0 8px 18px rgba(30,41,59,.08);
+  border-radius:22px;
+}
+.modeBtn.active{
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+}
+.miniReport{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+}
 </style></head><body><div class="top"><div class="wrap nav"><a href="movement.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
-<main class="wrap"><section class="panel">
-<div class="status"><span class="badge">残り <span id="time">20</span>秒</span><span class="badge">点 <span id="score">0</span></span></div>
-<div class="illust">⭐</div><h1 style="text-align:center">ビジョントレーニング</h1>
-<p class="lead" style="text-align:center">同じものをタップしてください。</p>
-<div class="actions"><button onclick="start()">スタート</button></div>
-<div id="area" class="choices"></div><div id="msg" class="message"></div>
-</section></main><script>
+<main class="wrap">
+<section class="panel">
+  <div class="status">
+    <span class="badge">モード <span id="modeName">追視</span></span>
+    <span class="badge">残り <span id="time">45</span>秒</span>
+    <span class="badge">点 <span id="score">0</span></span>
+    <span class="badge">ミス <span id="miss">0</span></span>
+    <span class="badge">レベル <span id="level">1</span></span>
+  </div>
+
+  <div class="illust">👀</div>
+  <h1 style="text-align:center">ビジョントレーニング</h1>
+  <p class="lead" style="text-align:center">
+    目で追う・探す・順番に見る練習です。<br>
+    iPadでも押しやすい大きさにしています。
+  </p>
+
+  <div class="modeCard">
+    <button class="modeBtn active" id="btnTrack" onclick="setMode('track')">👀 追視<br>うごく星</button>
+    <button class="modeBtn" id="btnSearch" onclick="setMode('search')">🔍 探す<br>同じ絵</button>
+    <button class="modeBtn" id="btnOrder" onclick="setMode('order')">1️⃣ 順番<br>数字タッチ</button>
+  </div>
+
+  <div class="actions">
+    <button onclick="start()">スタート</button>
+    <button class="light" onclick="pauseGame()">一時停止</button>
+    <button class="light" onclick="showReport()">レポート</button>
+  </div>
+
+  <div id="instruction" class="scene">スタートを押してね</div>
+  <div id="area" class="visionArea"></div>
+  <div id="msg" class="message"></div>
+  <div id="report" class="report hidden"></div>
+</section>
+</main>
+<script>
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
-function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script>
 <script>
-const ITEMS=["⭐", "🌙", "☁️", "🍀", "🌸", "🔵", "🔴"]; const TARGET="⭐";
-let score=0,time=20,timer=null,running=false;
-function start(){score=0;time=20;running=true;document.getElementById('score').textContent=score;document.getElementById('time').textContent=time;document.getElementById('msg').textContent='';draw();clearInterval(timer);timer=setInterval(()=>{time--;document.getElementById('time').textContent=time;if(time<=0)finish()},1000)}
-function draw(){const area=document.getElementById('area');area.innerHTML='';let arr=shuffle(ITEMS).slice(0,6);if(!arr.includes(TARGET))arr[0]=TARGET;shuffle(arr).forEach(x=>{let d=document.createElement('div');d.className='tile';d.textContent=x;d.onclick=()=>{if(!running)return;if(x===TARGET){score++;document.getElementById('score').textContent=score;d.classList.add('correct');setTimeout(draw,180)}else{d.classList.add('wrong')}};area.appendChild(d)})}
-function finish(){running=false;clearInterval(timer);document.getElementById('area').innerHTML='';document.getElementById('msg').innerHTML='<span class="ok">おしまい！ '+score+' 点</span>'}
-</script></body></html>
+let mode="track";
+let running=false;
+let time=45;
+let score=0;
+let miss=0;
+let level=1;
+let timer=null;
+let moveTimer=null;
+let currentOrder=1;
+let stats={track:{ok:0,miss:0},search:{ok:0,miss:0},order:{ok:0,miss:0}};
+
+const area=()=>document.getElementById("area");
+
+function setMode(m){
+  if(running)return;
+  mode=m;
+  document.querySelectorAll(".modeBtn").forEach(b=>b.classList.remove("active"));
+  if(m==="track"){document.getElementById("btnTrack").classList.add("active");document.getElementById("modeName").textContent="追視";document.getElementById("instruction").textContent="動く星を目で追ってタップします";}
+  if(m==="search"){document.getElementById("btnSearch").classList.add("active");document.getElementById("modeName").textContent="探す";document.getElementById("instruction").textContent="見本と同じ絵を探してタップします";}
+  if(m==="order"){document.getElementById("btnOrder").classList.add("active");document.getElementById("modeName").textContent="順番";document.getElementById("instruction").textContent="1から順番に数字をタップします";}
+  area().innerHTML="";
+}
+
+function start(){
+  running=true;
+  time=45; score=0; miss=0; level=1; currentOrder=1;
+  stats={track:{ok:0,miss:0},search:{ok:0,miss:0},order:{ok:0,miss:0}};
+  update();
+  document.getElementById("report").classList.add("hidden");
+  document.getElementById("report").innerHTML="";
+  document.getElementById("msg").textContent="";
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    if(!running)return;
+    time--;
+    update();
+    if(time<=0)finish();
+  },1000);
+  nextRound();
+}
+
+function pauseGame(){
+  running=!running;
+  document.getElementById("msg").textContent=running?"再開しました":"一時停止中";
+}
+
+function update(){
+  document.getElementById("time").textContent=time;
+  document.getElementById("score").textContent=score;
+  document.getElementById("miss").textContent=miss;
+  document.getElementById("level").textContent=level;
+}
+
+function finish(){
+  running=false;
+  clearInterval(timer);
+  clearTimeout(moveTimer);
+  area().innerHTML="";
+  document.getElementById("instruction").textContent="おしまい！";
+  document.getElementById("msg").innerHTML='<span class="ok">結果：'+score+' 点　ミス '+miss+'</span>';
+  showReport();
+}
+
+function nextRound(){
+  if(!running)return;
+  clearTimeout(moveTimer);
+  area().innerHTML="";
+  if(mode==="track") makeTracking();
+  if(mode==="search") makeSearch();
+  if(mode==="order") makeOrder();
+  update();
+}
+
+function rand(max){return Math.floor(Math.random()*max)}
+function pos(el){
+  const a=area();
+  const x=rand(Math.max(20,a.clientWidth-90));
+  const y=rand(Math.max(20,a.clientHeight-90));
+  el.style.left=x+"px";
+  el.style.top=y+"px";
+}
+
+function makeTarget(text, cls="target"){
+  const d=document.createElement("div");
+  d.className=cls;
+  d.textContent=text;
+  pos(d);
+  area().appendChild(d);
+  return d;
+}
+
+/* 追視：動く星をタップ */
+function makeTracking(){
+  document.getElementById("instruction").textContent="動く星を目で追ってタップ";
+  const t=makeTarget("⭐");
+  let moves=0;
+  function move(){
+    if(!running||mode!=="track")return;
+    pos(t);
+    moves++;
+    const speed=Math.max(430,900-level*55);
+    moveTimer=setTimeout(move,speed);
+  }
+  moveTimer=setTimeout(move,400);
+  t.onclick=()=>{
+    if(!running)return;
+    score++; stats.track.ok++;
+    t.classList.add("good");
+    if(score%5===0)level++;
+    setTimeout(nextRound,120);
+  };
+  area().onclick=(e)=>{
+    if(e.target===area()){
+      miss++; stats.track.miss++;
+      update();
+    }
+  };
+}
+
+/* 探す：見本と同じ絵を探す */
+function makeSearch(){
+  const symbols=["🐶","🐱","🐰","🐸","🐼","🦁","🐵","🐧","🐟","🦊","🐻","🐨"];
+  const target=symbols[rand(symbols.length)];
+  document.getElementById("instruction").textContent="見本「"+target+"」と同じ絵を探してタップ";
+  const count=Math.min(12,6+level);
+  let pool=shuffle(symbols).slice(0,count);
+  if(!pool.includes(target))pool[0]=target;
+  shuffle(pool).forEach(s=>{
+    const d=makeTarget(s);
+    d.onclick=()=>{
+      if(!running)return;
+      if(s===target){
+        score++; stats.search.ok++;
+        d.classList.add("good");
+        if(score%5===0)level++;
+        setTimeout(nextRound,180);
+      }else{
+        miss++; stats.search.miss++;
+        d.classList.add("bad");
+        update();
+      }
+    };
+  });
+}
+
+/* 順番：1から数字を順にタップ */
+function makeOrder(){
+  currentOrder=1;
+  const maxNum=Math.min(9,3+level);
+  document.getElementById("instruction").textContent="1 から "+maxNum+" まで順番にタップ";
+  const nums=[];
+  for(let i=1;i<=maxNum;i++)nums.push(i);
+  shuffle(nums).forEach(n=>{
+    const d=makeTarget(String(n));
+    d.onclick=()=>{
+      if(!running)return;
+      if(n===currentOrder){
+        d.classList.add("good");
+        d.style.visibility="hidden";
+        currentOrder++;
+        if(currentOrder>maxNum){
+          score+=maxNum;
+          stats.order.ok++;
+          if(score%8===0)level++;
+          setTimeout(nextRound,220);
+        }
+      }else{
+        miss++; stats.order.miss++;
+        d.classList.add("bad");
+        setTimeout(()=>d.classList.remove("bad"),300);
+        update();
+      }
+    };
+  });
+}
+
+function showReport(){
+  const r=document.getElementById("report");
+  r.classList.remove("hidden");
+  const totalOk=stats.track.ok+stats.search.ok+stats.order.ok;
+  const totalMiss=stats.track.miss+stats.search.miss+stats.order.miss;
+  let comment="目で見る力を楽しく練習できました。";
+  if(totalMiss>totalOk) comment="急がず、目で追ってから押す練習がおすすめです。";
+  if(stats.order.miss>stats.order.ok) comment+=" 順番に見る課題は、数を少なくして練習すると取り組みやすいです。";
+  if(stats.search.miss>stats.search.ok) comment+=" 探す課題は、見本を確認してから選ぶ練習が合いそうです。";
+  if(stats.track.miss>stats.track.ok) comment+=" 追視課題は、動きをゆっくりにして練習するとよいです。";
+
+  r.innerHTML =
+    '<h2>ビジョントレーニング レポート</h2>'+
+    '<div class="miniReport">'+
+      '<div class="reportItem"><b>追視</b><br>成功 '+stats.track.ok+' / ミス '+stats.track.miss+'</div>'+
+      '<div class="reportItem"><b>探す</b><br>成功 '+stats.search.ok+' / ミス '+stats.search.miss+'</div>'+
+      '<div class="reportItem"><b>順番</b><br>成功 '+stats.order.ok+' / ミス '+stats.order.miss+'</div>'+
+    '</div>'+
+    '<div class="reportItem"><b>総合コメント</b><br>'+comment+'</div>'+
+    '<div class="actions"><button onclick="window.print()">印刷</button></div>';
+}
+setMode("track");
+</script>
+</body></html>
