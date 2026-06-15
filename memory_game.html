@@ -129,6 +129,7 @@
     const pictures = ["🐶", "🐱", "🐰", "🐸", "🐼", "🦁", "🐵", "🐧", "🐟"];
 
     let sequence = [];
+    let lastSequence = [];
     let playerIndex = 0;
     let level = 1;
     let score = 0;
@@ -144,6 +145,7 @@
       playing = true;
       showing = false;
       playerIndex = 0;
+      lastSequence = [];
 
       levelText.textContent = level;
       scoreText.textContent = score;
@@ -178,8 +180,28 @@
       // 1問の中で同じ絵が重ならないようにする。
       // 4個・5個でも、同じ絵を2回押す必要がなくなり、判定ズレを防ぐ。
       const length = Math.min(level, pictures.length);
-      const shuffled = shuffle(pictures);
-      sequence = shuffled.slice(0, length);
+
+      // 修正点：
+      // 前の問題と同じ絵が続かないようにする。
+      // 例：前の最後が 🐶 なら、次の最初は 🐶 にならない。
+      // また、前の問題とまったく同じ並びにもならない。
+      let tries = 0;
+      let candidate = [];
+
+      do {
+        candidate = shuffle(pictures).slice(0, length);
+        tries++;
+      } while (
+        tries < 50 &&
+        lastSequence.length > 0 &&
+        (
+          candidate[0] === lastSequence[lastSequence.length - 1] ||
+          candidate.join("") === lastSequence.join("")
+        )
+      );
+
+      sequence = candidate;
+      lastSequence = sequence.slice();
       playerIndex = 0;
       updateProgress();
     }
