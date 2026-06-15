@@ -1,22 +1,82 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>フラトレ</title><style>
-body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
-header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
-main{max-width:680px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
-.card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
-a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
-button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
-.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:22px 10px;font-size:28px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer}
-.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}.big{font-size:34px;font-weight:800;margin:20px 0;line-height:1.5}
-.hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
-.bar-bg{height:24px;background:#e5e7eb;border-radius:999px;overflow:hidden}.bar{height:24px;background:#22c55e}.report{text-align:left;line-height:1.8}
-@media print{button,.back{display:none}.card{box-shadow:none;border:1px solid #ddd}body{background:white}}
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>フラトレ</title><style>
+:root{
+  --bg1:#f8fbff; --bg2:#fff7ed; --ink:#203044; --muted:#65758b;
+  --brand:#4f46e5; --brand2:#06b6d4; --ok:#16a34a; --ng:#dc2626;
+  --card:#ffffff; --line:#e5e7eb; --soft:#eef2ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2));}
+body{font-size:18px;line-height:1.7}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(980px,92vw);margin:0 auto}
+.hero{padding:34px 0 18px}
+.brand{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.75);box-shadow:0 8px 25px rgba(30,41,59,.08);font-weight:900;color:#475569}
+h1{font-size:clamp(32px,6vw,56px);line-height:1.12;margin:18px 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);font-size:clamp(17px,3vw,22px);margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:20px 0 34px}
+.card{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.8);border-radius:30px;padding:22px;box-shadow:0 15px 45px rgba(30,41,59,.10);backdrop-filter:blur(8px)}
+.menu{transition:.15s transform,.15s box-shadow;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}
+.menu:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(79,70,229,.16)}
+.icon{font-size:52px;line-height:1.1;margin-bottom:10px}
+.title{font-size:24px;font-weight:900;line-height:1.25;margin-bottom:8px}
+.desc{font-size:16px;color:var(--muted);line-height:1.65}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(226,232,240,.85)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
+.nav a{font-weight:900;color:#475569}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:10px 14px;background:var(--soft);font-weight:900;color:#3730a3}
+.game{padding:22px 0 38px}
+.panel{background:rgba(255,255,255,.94);border-radius:34px;padding:22px;box-shadow:0 18px 55px rgba(30,41,59,.12)}
+.status{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;color:#475569;font-weight:800;margin-bottom:12px}
+.badge{padding:8px 14px;border-radius:999px;background:#f1f5f9}
+.illust{font-size:clamp(70px,16vw,128px);line-height:1.12;text-align:center;margin:8px 0 10px;white-space:pre-line}
+.scene{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+button{appearance:none;border:0;border-radius:999px;padding:13px 22px;font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.22);cursor:pointer}
+button.secondary{background:#64748b}
+button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:none}
+.choices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.choice{background:#fff;border:4px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(20px,4vw,26px);font-weight:900;line-height:1.45;text-align:center;white-space:pre-line;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer;transition:.1s transform,.1s border}
+.choice:active{transform:scale(.98)}
+.choice.correct{border-color:#86efac;background:#f0fdf4}
+.choice.wrong{border-color:#fca5a5;background:#fef2f2}
+.message{text-align:center;font-size:28px;font-weight:900;min-height:42px;margin:14px 0}
+.ok{color:var(--ok)}.ng{color:var(--ng)}
+.tip,.report{margin-top:14px;border-radius:26px;padding:18px;background:#f8fafc;border:2px solid #e2e8f0}
+.tip{background:#ecfdf5;border-color:#bbf7d0}
+.report{background:#fff7ed;border-color:#fed7aa}
+.reportItem{background:#fff;border:2px solid #fed7aa;border-radius:20px;padding:14px;margin:12px 0}
+.reportTitle{font-size:24px;font-weight:900;color:#9a3412}
+.small{font-size:15px;color:#64748b}
+.hidden{display:none!important}
+.footer{padding:24px 0 40px;color:#64748b;text-align:center;font-size:15px}
+@media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}.scene{min-height:110px}}
 </style></head><body>
-<header><h1>🧠 フラトレ</h1><div class="sub">持続・抑制／予測・判断／情動調整</div></header>
-<main><div class="grid">
-<a href="hiragana_touch.html"><div class="card"><div class="title">🔤 ひらがなタッチ</div><div class="desc">言われたひらがなを探してタップ</div></div></a>
-<a href="memory_game.html"><div class="card"><div class="title">🧠 記憶ゲーム</div><div class="desc">出た絵を最初から順番に押す</div></div></a>
-<a href="color_word_touch.html"><div class="card"><div class="title">🎨 色ことばタッチ</div><div class="desc">文字と色を見分ける判断ゲーム</div></div></a>
-<a href="danger_game.html"><div class="card"><div class="title">⚠️ 危険予知ゲーム</div><div class="desc">道路・公園・学校で「あぶない」を見つける</div></div></a>
-</div><a class="back" href="index.html">← TOPへ</a></main>
+<div class="topbar"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラチャレンジ</span></div></div><header class="wrap hero"><h1>フラトレ</h1><p class="lead">見る・聞く・覚える・判断する練習（れんしゅう）</p></header><main class="wrap"><div class="grid"><a class="card menu" href="balloon_tap.html"><div><div class="icon">🎈</div><div class="title">風船（ふうせん）タップ</div><div class="desc">出（で）た風船（ふうせん）をすばやくタップ</div></div></a><a class="card menu" href="mogura_tataki.html"><div><div class="icon">🕳️</div><div class="title">もぐらたたき</div><div class="desc">出（で）たもぐらを見（み）つけてタップ</div></div></a><a class="card menu" href="color_touch.html"><div><div class="icon">🎨</div><div class="title">色（いろ）タッチ</div><div class="desc">指定（してい）された色（いろ）を探（さが）す</div></div></a><a class="card menu" href="color_word_touch.html"><div><div class="icon">🌈</div><div class="title">色（いろ）ことば</div><div class="desc">文字（もじ）と色（いろ）を見分（みわ）ける</div></div></a><a class="card menu" href="hiragana_touch.html"><div><div class="icon">あ</div><div class="title">ひらがなタッチ</div><div class="desc">聞（き）いて、見（み）て、選（えら）ぶ</div></div></a><a class="card menu" href="memory_game.html"><div><div class="icon">🧠</div><div class="title">記憶（きおく）ゲーム</div><div class="desc">絵（え）の順番（じゅんばん）を覚（おぼ）える</div></div></a><a class="card menu" href="danger_game.html"><div><div class="icon">⚠️</div><div class="title">危険予知（きけんよち）</div><div class="desc">100問（もん）ランダム・イラスト付（つ）き</div></div></a></div></main>
+<script>
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function stripFurigana(text){
+  return String(text)
+    .replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1")
+    .replace(/（[ぁ-んァ-ンー]+）/g,"")
+    .replace(/\n/g,"。");
+}
+function speakText(text){
+  if(!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(stripFurigana(text));
+  u.lang="ja-JP"; u.rate=.82; speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function esc(str){
+  return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+</script>
+
 </body></html>

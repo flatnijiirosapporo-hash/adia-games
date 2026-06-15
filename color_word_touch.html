@@ -1,253 +1,85 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>色ことばタッチ</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #fff7ed;
-      text-align: center;
-      user-select: none;
-    }
-
-    header {
-      padding: 14px;
-      background: white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    .info {
-      font-size: 18px;
-      margin: 4px;
-    }
-
-    #target {
-      font-size: 30px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    button {
-      font-size: 22px;
-      padding: 12px 28px;
-      border: none;
-      border-radius: 999px;
-      background: #ef4444;
-      color: white;
-      cursor: pointer;
-    }
-
-    #message {
-      font-size: 22px;
-      margin: 10px;
-      color: #333;
-      min-height: 32px;
-    }
-
-    #game {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      padding: 20px;
-      max-width: 460px;
-      margin: 0 auto;
-    }
-
-    .card {
-      height: 95px;
-      border-radius: 24px;
-      border: 6px solid white;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      font-weight: bold;
-      transition: transform 0.08s;
-    }
-
-    .card:active {
-      transform: scale(0.95);
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>🎨色ことばタッチ</h1>
-    <div class="info">伝えられた色をタップ！</div>
-    <div id="target">スタートしてね</div>
-    <div class="info">残り時間：<span id="time">30</span> 秒</div>
-    <div class="info">正解：<span id="score">0</span>　ミス：<span id="miss">0</span>　レベル：<span id="level">1</span></div>
-    <button onclick="startGame()">スタート</button>
-    <div id="message">色をよく見よう！</div>
-  </header>
-
-  <main id="game"></main>
-
-  <script>
-    const game = document.getElementById("game");
-    const targetText = document.getElementById("target");
-    const timeText = document.getElementById("time");
-    const scoreText = document.getElementById("score");
-    const missText = document.getElementById("miss");
-    const levelText = document.getElementById("level");
-    const message = document.getElementById("message");
-
-    const colors = [
-      { key: "red", jp: "あか", kata: "アカ", kanji: "赤", code: "#ef4444" },
-      { key: "blue", jp: "あお", kata: "アオ", kanji: "青", code: "#3b82f6" },
-      { key: "yellow", jp: "きいろ", kata: "キイロ", kanji: "黄色", code: "#facc15" },
-      { key: "green", jp: "みどり", kata: "ミドリ", kanji: "緑", code: "#22c55e" }
-    ];
-
-    let targetColor = null;
-    let score = 0;
-    let miss = 0;
-    let level = 1;
-    let timeLeft = 30;
-    let playing = false;
-    let gameTimer = null;
-
-    function startGame() {
-      score = 0;
-      miss = 0;
-      level = 1;
-      timeLeft = 30;
-      playing = true;
-
-      scoreText.textContent = score;
-      missText.textContent = miss;
-      levelText.textContent = level;
-      timeText.textContent = timeLeft;
-      message.textContent = "指定された色をタップ！";
-
-      clearInterval(gameTimer);
-
-      gameTimer = setInterval(() => {
-        timeLeft--;
-        timeText.textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-          endGame();
-        }
-      }, 1000);
-
-      nextQuestion();
-    }
-
-    function nextQuestion() {
-      if (!playing) return;
-
-      updateLevel();
-      targetColor = colors[Math.floor(Math.random() * colors.length)];
-
-      const targetWord = getWord(targetColor);
-      targetText.textContent = targetWord + " をタップ";
-      targetText.style.color = targetColor.code;
-
-      makeCards();
-    }
-
-    function updateLevel() {
-      if (score >= 15) level = 4;
-      else if (score >= 10) level = 3;
-      else if (score >= 5) level = 2;
-      else level = 1;
-
-      levelText.textContent = level;
-
-      if (level === 1) {
-        game.style.gridTemplateColumns = "repeat(2, 1fr)";
-      } else {
-        game.style.gridTemplateColumns = "repeat(3, 1fr)";
-      }
-    }
-
-    function getWord(color) {
-      if (level === 1) return color.jp;
-
-      const types = [color.jp, color.kata, color.kanji];
-      return types[Math.floor(Math.random() * types.length)];
-    }
-
-    function makeCards() {
-      game.innerHTML = "";
-
-      const count = level === 1 ? 4 : 9;
-      const correctIndex = Math.floor(Math.random() * count);
-
-      for (let i = 0; i < count; i++) {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        const wordColor = colors[Math.floor(Math.random() * colors.length)];
-        const textColor = colors[Math.floor(Math.random() * colors.length)];
-
-        if (i === correctIndex) {
-          card.dataset.answer = targetColor.key;
-
-          if (level <= 2) {
-            card.textContent = getWord(targetColor);
-            card.style.color = targetColor.code;
-          } else {
-            card.textContent = getWord(wordColor);
-            card.style.color = targetColor.code;
-          }
-        } else {
-          let wrongColor = colors[Math.floor(Math.random() * colors.length)];
-          while (wrongColor.key === targetColor.key) {
-            wrongColor = colors[Math.floor(Math.random() * colors.length)];
-          }
-
-          card.dataset.answer = wrongColor.key;
-
-          if (level <= 2) {
-            card.textContent = getWord(wrongColor);
-            card.style.color = wrongColor.code;
-          } else {
-            card.textContent = getWord(wordColor);
-            card.style.color = wrongColor.code;
-          }
-        }
-
-        card.addEventListener("click", () => {
-          if (!playing) return;
-
-          if (card.dataset.answer === targetColor.key) {
-            score++;
-            scoreText.textContent = score;
-            message.textContent = "正解！";
-          } else {
-            miss++;
-            missText.textContent = miss;
-            message.textContent = "ちがうよ。色を見よう";
-          }
-
-          nextQuestion();
-        });
-
-        game.appendChild(card);
-      }
-    }
-
-    function endGame() {
-      playing = false;
-      clearInterval(gameTimer);
-      game.innerHTML = "";
-      targetText.textContent = "おしまい";
-      targetText.style.color = "#333";
-      message.textContent = "正解 " + score + " 回 / ミス " + miss + " 回 ⭐";
-    }
-  </script>
-</body>
-</html>
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>色（いろ）ことばタッチ</title><style>
+:root{
+  --bg1:#f8fbff; --bg2:#fff7ed; --ink:#203044; --muted:#65758b;
+  --brand:#4f46e5; --brand2:#06b6d4; --ok:#16a34a; --ng:#dc2626;
+  --card:#ffffff; --line:#e5e7eb; --soft:#eef2ff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2));}
+body{font-size:18px;line-height:1.7}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(980px,92vw);margin:0 auto}
+.hero{padding:34px 0 18px}
+.brand{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.75);box-shadow:0 8px 25px rgba(30,41,59,.08);font-weight:900;color:#475569}
+h1{font-size:clamp(32px,6vw,56px);line-height:1.12;margin:18px 0 10px;letter-spacing:.02em}
+.lead{color:var(--muted);font-size:clamp(17px,3vw,22px);margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:20px 0 34px}
+.card{background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.8);border-radius:30px;padding:22px;box-shadow:0 15px 45px rgba(30,41,59,.10);backdrop-filter:blur(8px)}
+.menu{transition:.15s transform,.15s box-shadow;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}
+.menu:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(79,70,229,.16)}
+.icon{font-size:52px;line-height:1.1;margin-bottom:10px}
+.title{font-size:24px;font-weight:900;line-height:1.25;margin-bottom:8px}
+.desc{font-size:16px;color:var(--muted);line-height:1.65}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(226,232,240,.85)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0}
+.nav a{font-weight:900;color:#475569}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:10px 14px;background:var(--soft);font-weight:900;color:#3730a3}
+.game{padding:22px 0 38px}
+.panel{background:rgba(255,255,255,.94);border-radius:34px;padding:22px;box-shadow:0 18px 55px rgba(30,41,59,.12)}
+.status{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;color:#475569;font-weight:800;margin-bottom:12px}
+.badge{padding:8px 14px;border-radius:999px;background:#f1f5f9}
+.illust{font-size:clamp(70px,16vw,128px);line-height:1.12;text-align:center;margin:8px 0 10px;white-space:pre-line}
+.scene{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+button{appearance:none;border:0;border-radius:999px;padding:13px 22px;font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 10px 25px rgba(79,70,229,.22);cursor:pointer}
+button.secondary{background:#64748b}
+button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:none}
+.choices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.choice{background:#fff;border:4px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(20px,4vw,26px);font-weight:900;line-height:1.45;text-align:center;white-space:pre-line;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer;transition:.1s transform,.1s border}
+.choice:active{transform:scale(.98)}
+.choice.correct{border-color:#86efac;background:#f0fdf4}
+.choice.wrong{border-color:#fca5a5;background:#fef2f2}
+.message{text-align:center;font-size:28px;font-weight:900;min-height:42px;margin:14px 0}
+.ok{color:var(--ok)}.ng{color:var(--ng)}
+.tip,.report{margin-top:14px;border-radius:26px;padding:18px;background:#f8fafc;border:2px solid #e2e8f0}
+.tip{background:#ecfdf5;border-color:#bbf7d0}
+.report{background:#fff7ed;border-color:#fed7aa}
+.reportItem{background:#fff;border:2px solid #fed7aa;border-radius:20px;padding:14px;margin:12px 0}
+.reportTitle{font-size:24px;font-weight:900;color:#9a3412}
+.small{font-size:15px;color:#64748b}
+.hidden{display:none!important}
+.footer{padding:24px 0 40px;color:#64748b;text-align:center;font-size:15px}
+@media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}.scene{min-height:110px}}
+</style></head><body>
+<div class="topbar"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラチャレンジ</span></div></div><main class="wrap game"><section class="panel"><div class="illust">🌈</div><h1 style="text-align:center">色（いろ）ことばタッチ</h1><p class="lead" style="text-align:center">色（いろ）と文字（もじ）を見分（みわ）けるゲーム</p><div class="scene" id="scene">スタートを押（お）してね</div><div class="actions"><button onclick="start()">スタート</button></div><div class="message" id="msg"></div></section></main>
+<script>
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function stripFurigana(text){
+  return String(text)
+    .replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1")
+    .replace(/（[ぁ-んァ-ンー]+）/g,"")
+    .replace(/\n/g,"。");
+}
+function speakText(text){
+  if(!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(stripFurigana(text));
+  u.lang="ja-JP"; u.rate=.82; speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function esc(str){
+  return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+</script>
+<script>
+let n=0;
+function start(){n++;document.getElementById("scene").textContent="よく見（み）て、ゆっくり挑戦（ちょうせん）しよう！\n"+n+" 回目（かいめ）";document.getElementById("msg").innerHTML='<span class="ok">できたら大成功（だいせいこう）！</span>'}
+</script>
+</body></html>
