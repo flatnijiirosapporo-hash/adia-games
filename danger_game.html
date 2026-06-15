@@ -1,30 +1,61 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>⚠️ 危険予知（きけんよち）ゲーム</title><style>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>⚠️ 危険予知（きけんよち）100問（もん）＋イラスト</title>
+<style>
 body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
 header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
 main{max-width:760px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
-.card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
-a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
+.card{background:white;border-radius:28px;padding:22px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
+a{text-decoration:none;color:inherit}.title{font-size:25px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
 button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
-.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55}
-.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:20px 0;line-height:1.6;white-space:pre-line}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:18px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55;white-space:pre-line}
+.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:12px 0;line-height:1.55;white-space:pre-line}
+.illust{font-size:76px;line-height:1.3;margin:10px 0;white-space:pre-line}
 .hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
 .point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.8;color:#334155;white-space:pre-line}
 .status{font-size:18px;color:#475569;margin-top:8px}.small{font-size:15px;color:#64748b;line-height:1.6}
-</style></head><body>
-<header><h1>⚠️ 危険予知（きけんよち）ゲーム</h1><div class="sub">あぶない場面（ばめん）を見（み）つけて、安全（あんぜん）な行動（こうどう）を選（えら）びます</div></header>
+.reportBox{background:#fff7ed;border-color:#fed7aa;margin-top:14px}
+.reportItem{background:#fff;border:3px solid #fed7aa;border-radius:18px;padding:14px;margin:10px 0;line-height:1.7}
+.reportTitle{font-size:22px;font-weight:800;margin-bottom:8px;color:#9a3412}
+.correctText{color:#15803d;font-weight:800}
+.wrongText{color:#b91c1c;font-weight:800}
+.printBtn{background:#64748b}
+</style>
+</head>
+<body>
+<header>
+  <h1>⚠️ 危険予知（きけんよち）100問（もん）＋イラスト</h1>
+  <div class="sub">絵（え）を見（み）て、安全（あんぜん）な行動（こうどう）を選（えら）びます</div>
+</header>
 <main>
 <section class="card">
-<div id="q" class="big">スタートしてね</div>
-<div id="choices" class="choices"></div>
-<div id="msg" class="big"></div>
-<button onclick="start()">スタート</button>
+  <div class="status">問題（もんだい）：<span id="num">0</span> / <span id="total">10</span>　正解（せいかい）：<span id="score">0</span></div>
+  <div id="cat" class="status"></div>
+  <div id="illust" class="illust">🌈</div>
+  <div id="scene" class="big">スタートしてね</div>
+  <button onclick="speakScene()">🔊 よみあげ</button>
+  <div id="choices" class="choices"></div>
+  <div id="msg" class="big"></div>
+  <div id="tip" class="card point hidden"></div>
+  <div id="report" class="card reportBox hidden"></div>
+  <button onclick="start()">スタート</button>
+  <button onclick="nextQuestion()">つぎ</button>
 </section>
 <a class="back" href="index.html">← TOPへ</a>
 </main>
 <script>
-const qs = [{"q": "道路（どうろ）にボールが転（ころ）がった。\nどうする？", "choices": [{"text": "すぐ走（はし）って取（と）る", "ok": false}, {"text": "車（くるま）が来（こ）ないか見（み）て、大人（おとな）に言（い）う", "ok": true}, {"text": "友（とも）だちを押（お）す", "ok": false}, {"text": "目（め）をつぶる", "ok": false}]}, {"q": "すべり台（だい）を下（した）からのぼっている子（こ）がいる。\nどうする？", "choices": [{"text": "まねする", "ok": false}, {"text": "ぶつからないように待（ま）つ", "ok": true}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "走（はし）って押（お）す", "ok": false}]}, {"q": "ブランコの前（まえ）を横切（よこぎ）りたい。\nどうする？", "choices": [{"text": "すぐ通（とお）る", "ok": false}, {"text": "止（と）まってから通（とお）る", "ok": true}, {"text": "目（め）をつぶって走（はし）る", "ok": false}, {"text": "近（ちか）くでしゃがむ", "ok": false}]}, {"q": "雪山（ゆきやま）で友（とも）だちが転（ころ）んだ。\nどうする？", "choices": [{"text": "笑（わら）う", "ok": false}, {"text": "先生（せんせい）に知（し）らせる・声（こえ）をかける", "ok": true}, {"text": "雪（ゆき）を投（な）げる", "ok": false}, {"text": "そのまま行（い）く", "ok": false}]}];
-let i=0,score=0,answered=false;
+const allQuestions = [{"cat": "公園（こうえん）", "illust": "🛝⬆️", "scene": "すべり台（だい）を\n下（した）からのぼっている子（こ）がいる。", "choices": [{"text": "ぶつからないように待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🎠🚶", "scene": "ブランコの前（まえ）を\n通（とお）りたい。", "choices": [{"text": "止（と）まってから通（とお）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🧗⬇️", "scene": "高（たか）い所（ところ）から\n飛（と）び降（お）りそう。", "choices": [{"text": "先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "⚽👶", "scene": "小（ちい）さい子（こ）の近（ちか）くで\nボールをけりたい。", "choices": [{"text": "広（ひろ）い場所（ばしょ）で遊（あそ）ぶ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🏃💥", "scene": "走（はし）っていたら\n友（とも）だちにぶつかりそう。", "choices": [{"text": "止（と）まって周（まわ）りを見（み）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🌳🪵", "scene": "木（き）の枝（えだ）を\n振（ふ）り回（まわ）している。", "choices": [{"text": "離（はな）れて先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🪨🦶", "scene": "石（いし）がたくさんある場所（ばしょ）で\n走（はし）りたい。", "choices": [{"text": "歩（ある）いて気（き）をつける", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🌧️🛝", "scene": "雨（あめ）で遊具（ゆうぐ）が\nぬれています。", "choices": [{"text": "滑（すべ）りやすいので気（き）をつける", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "❄️🧊", "scene": "雪（ゆき）で地面（じめん）が\nつるつるです。", "choices": [{"text": "ゆっくり歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🐝😨", "scene": "ハチが近（ちか）くにいます。", "choices": [{"text": "静（しず）かに離（はな）れる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🕳️👀", "scene": "地面（じめん）に穴（あな）があります。", "choices": [{"text": "近（ちか）づきすぎない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🛝👫", "scene": "すべり台（だい）に\n人（ひと）が並（なら）んでいる。", "choices": [{"text": "後（うし）ろに並（なら）ぶ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🎠⏳", "scene": "ブランコを\n代（か）わってほしい。", "choices": [{"text": "順番（じゅんばん）を待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🚲🏃", "scene": "自転車（じてんしゃ）が\n近（ちか）くを通（とお）る。", "choices": [{"text": "端（はし）によって待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🐕❓", "scene": "知らない犬（いぬ）が\n近（ちか）くにいる。", "choices": [{"text": "勝手（かって）に触（さわ）らない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🌊🏞️", "scene": "川（かわ）の近（ちか）くで\n遊（あそ）びたい。", "choices": [{"text": "大人（おとな）と一緒（いっしょ）に行（い）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🧒😭", "scene": "友（とも）だちが\n転（ころ）んで泣（な）いている。", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🪁🌳", "scene": "たこが木（き）に\n引（ひ）っかかった。", "choices": [{"text": "大人（おとな）に取（と）ってもらう", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🔥🚫", "scene": "公園（こうえん）で\n火（ひ）を見（み）つけた。", "choices": [{"text": "すぐ大人（おとな）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🧃🗑️", "scene": "ゴミが落（お）ちている。", "choices": [{"text": "先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🛝👟", "scene": "くつひもが\nほどけている。", "choices": [{"text": "結（むす）んでから遊（あそ）ぶ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "☀️🥵", "scene": "とても暑（あつ）い日（ひ）です。", "choices": [{"text": "水分（すいぶん）を取（と）って休（やす）む", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "❄️🥶", "scene": "とても寒（さむ）い日（ひ）です。", "choices": [{"text": "手袋（てぶくろ）や上着（うわぎ）を確認（かくにん）する", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🌪️🌳", "scene": "風（かぜ）が強（つよ）い。", "choices": [{"text": "木（き）の近（ちか）くを避（さ）ける", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🧒😡", "scene": "友（とも）だちが\n怒（おこ）って走（はし）っている。", "choices": [{"text": "距離（きょり）を取（と）って先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🎒🛝", "scene": "荷物（にもつ）を持（も）ったまま\n遊具（ゆうぐ）に登（のぼ）る。", "choices": [{"text": "荷物（にもつ）を置（お）いてから遊（あそ）ぶ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🧢💨", "scene": "帽子（ぼうし）が\n道路（どうろ）に飛（と）んだ。", "choices": [{"text": "大人（おとな）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "👀📱", "scene": "歩（ある）きながら\nスマホを見（み）ている人（ひと）がいる。", "choices": [{"text": "ぶつからないように離（はな）れる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🧒🧒💥", "scene": "友（とも）だち同士（どうし）が\n押（お）し合（あ）っている。", "choices": [{"text": "先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "公園（こうえん）", "illust": "🥎🛝", "scene": "ボールが\nすべり台（だい）の下（した）に入（はい）った。", "choices": [{"text": "周（まわ）りを見（み）てから取（と）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚗⚽", "scene": "道路（どうろ）に\nボールが出（で）た。", "choices": [{"text": "止（と）まって大人（おとな）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚦🔴", "scene": "信号（しんごう）が\n赤（あか）です。", "choices": [{"text": "止（と）まって待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚦🟢👀", "scene": "信号（しんごう）が\n青（あお）になった。", "choices": [{"text": "左右（さゆう）を見（み）て渡（わた）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚙↩️", "scene": "車（くるま）が\n曲（ま）がってきます。", "choices": [{"text": "止（と）まって待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚲💨", "scene": "自転車（じてんしゃ）が\n速（はや）く来（き）ます。", "choices": [{"text": "よけて待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚌🚶", "scene": "バスの前（まえ）を\n横切（よこぎ）りたい。", "choices": [{"text": "見（み）える場所（ばしょ）まで待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🌧️🚗", "scene": "雨（あめ）で道路（どうろ）が\n見（み）えにくい。", "choices": [{"text": "ゆっくり確認（かくにん）する", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "❄️🚶", "scene": "雪（ゆき）で道（みち）が\nすべります。", "choices": [{"text": "小（ちい）さく歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚗🚪", "scene": "止（と）まっている車（くるま）の\nドアが開（あ）きそう。", "choices": [{"text": "近（ちか）づかない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🏃‍♂️🚗", "scene": "道路（どうろ）で\n追（お）いかけっこ。", "choices": [{"text": "道路（どうろ）では遊（あそ）ばない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚙🏠", "scene": "駐車場（ちゅうしゃじょう）で\n走（はし）りたい。", "choices": [{"text": "歩（ある）いて大人（おとな）と行（い）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚗🔊", "scene": "車（くるま）の音（おと）が\n近（ちか）い。", "choices": [{"text": "止（と）まって確認（かくにん）する", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🧢🚗", "scene": "帽子（ぼうし）が\n車道（しゃどう）に落（お）ちた。", "choices": [{"text": "大人（おとな）に取（と）ってもらう", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚦👫", "scene": "友（とも）だちが\n先（さき）に渡（わた）った。", "choices": [{"text": "あわてず確認（かくにん）して渡（わた）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🌙🚶", "scene": "夜（よる）の道（みち）を\n歩（ある）きます。", "choices": [{"text": "明（あか）るい道（みち）を大人（おとな）と歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚧👷", "scene": "工事（こうじ）している道（みち）。", "choices": [{"text": "近（ちか）づかず通（とお）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚃🚧", "scene": "踏切（ふみきり）が\n鳴（な）っています。", "choices": [{"text": "止（と）まって待（ま）つ", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚶‍♂️📱", "scene": "歩（ある）きながら\n画面（がめん）を見（み）たい。", "choices": [{"text": "止（と）まってから見（み）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🚗🙈", "scene": "車（くるま）のかげで\n見（み）えにくい。", "choices": [{"text": "見（み）える場所（ばしょ）まで出（で）て確認（かくにん）する", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "道路（どうろ）", "illust": "🛴🚗", "scene": "キックボードで\n道路（どうろ）に出（で）そう。", "choices": [{"text": "安全（あんぜん）な場所（ばしょ）で使（つか）う", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🏫🏃", "scene": "廊下（ろうか）を\n走（はし）りたい。", "choices": [{"text": "歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🪜💥", "scene": "階段（かいだん）で\n押（お）されそう。", "choices": [{"text": "手（て）すりを持（も）って離（はな）れる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "✂️👀", "scene": "はさみを\n持（も）って歩（ある）く。", "choices": [{"text": "刃（は）を下（した）にして歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "📚⬇️", "scene": "高（たか）い所（ところ）の本（ほん）を\n取（と）りたい。", "choices": [{"text": "先生（せんせい）に頼（たの）む", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🚪💥", "scene": "ドアを強（つよ）く\n閉（し）めそう。", "choices": [{"text": "ゆっくり閉（し）める", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🪑🧍", "scene": "椅子（いす）の上（うえ）に\n立（た）ちたい。", "choices": [{"text": "立（た）たない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🧪🚫", "scene": "知らない液体（えきたい）がある。", "choices": [{"text": "触（さわ）らず先生（せんせい）に言（い）う", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🍵🔥", "scene": "熱（あつ）い飲（の）み物（もの）がある。", "choices": [{"text": "近（ちか）づきすぎない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🏀🏫", "scene": "教室（きょうしつ）で\nボールを投（な）げたい。", "choices": [{"text": "決（き）められた場所（ばしょ）で使（つか）う", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🧹🏃", "scene": "掃除（そうじ）中（ちゅう）に\n走（はし）りたい。", "choices": [{"text": "道具（どうぐ）に気（き）をつけて歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🪟🧒", "scene": "窓（まど）から\n身（み）を乗（の）り出（だ）す。", "choices": [{"text": "乗（の）り出（だ）さない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🎒🪜", "scene": "ランドセルを背負（せお）って\n階段（かいだん）を走（はし）る。", "choices": [{"text": "ゆっくり歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🧒💢", "scene": "友（とも）だちが\n怒（おこ）って物（もの）を投（な）げそう。", "choices": [{"text": "離（はな）れて先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🍱🤧", "scene": "給食（きゅうしょく）中（ちゅう）に\nくしゃみが出（で）そう。", "choices": [{"text": "口（くち）をおさえる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🚻💧", "scene": "トイレの床（ゆか）が\nぬれている。", "choices": [{"text": "走（はし）らず先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "📌🦶", "scene": "画びょうが\n落（お）ちている。", "choices": [{"text": "触（さわ）らず先生（せんせい）に言（い）う", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🎨🖌️", "scene": "絵（え）の具（ぐ）が\n床（ゆか）にこぼれた。", "choices": [{"text": "先生（せんせい）に伝（つた）えて拭（ふ）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🎵🔊", "scene": "音（おと）が大（おお）きくて\nつらい。", "choices": [{"text": "先生（せんせい）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "🏫👫", "scene": "下校（げこう）で\n友（とも）だちが走（はし）り出（だ）した。", "choices": [{"text": "まねせず歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "学校（がっこう）", "illust": "📦⬆️", "scene": "重（おも）い箱（はこ）を\n一人（ひとり）で持（も）ちたい。", "choices": [{"text": "大人（おとな）に手伝（てつだ）ってもらう", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🔥🍳", "scene": "コンロに\n火（ひ）がついている。", "choices": [{"text": "大人（おとな）に伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🔪✋", "scene": "包丁（ほうちょう）が\n置（お）いてある。", "choices": [{"text": "触（さわ）らない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🛁💧", "scene": "お風呂（ふろ）の床（ゆか）が\nぬれている。", "choices": [{"text": "ゆっくり歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🔌⚡", "scene": "コンセントに\n物（もの）を入（い）れたい。", "choices": [{"text": "入（い）れない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🪟⬇️", "scene": "ベランダから\n下（した）を見（み）たい。", "choices": [{"text": "乗（の）り出（だ）さない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "💊❓", "scene": "知らない薬（くすり）がある。", "choices": [{"text": "飲（の）まずに大人（おとな）に言（い）う", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "☕🔥", "scene": "熱（あつ）いお茶（ちゃ）がある。", "choices": [{"text": "近（ちか）づきすぎない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🧼👀", "scene": "洗剤（せんざい）がある。", "choices": [{"text": "触（さわ）らず大人（おとな）に言（い）う", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🪜⬆️", "scene": "高（たか）い棚（たな）の物（もの）を\n取（と）りたい。", "choices": [{"text": "大人（おとな）に頼（たの）む", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🚪👋", "scene": "ドアに指（ゆび）を\nはさみそう。", "choices": [{"text": "ゆっくり閉（し）める", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🧸🪑", "scene": "椅子（いす）の上（うえ）で\nジャンプしたい。", "choices": [{"text": "ジャンプしない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🧊💧", "scene": "床（ゆか）に水（みず）が\nこぼれている。", "choices": [{"text": "拭（ふ）いてもらう", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "📱🔋", "scene": "充電器（じゅうでんき）の線（せん）を\n引（ひ）っぱりたい。", "choices": [{"text": "引（ひ）っぱらない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🍬👶", "scene": "小（ちい）さい子（こ）に\n小（ちい）さい物（もの）を渡（わた）す。", "choices": [{"text": "大人（おとな）に確認（かくにん）する", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "家（いえ）", "illust": "🕯️🔥", "scene": "ろうそくに\n火（ひ）がついている。", "choices": [{"text": "近（ちか）づかない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🌧️⚡", "scene": "雷（かみなり）が\n鳴（な）っています。", "choices": [{"text": "建物（たてもの）の中（なか）に入（はい）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🌊⚠️", "scene": "大雨（おおあめ）で\n川（かわ）が増（ふ）えています。", "choices": [{"text": "川（かわ）に近（ちか）づかない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🏠🫨", "scene": "地震（じしん）で\n揺（ゆ）れています。", "choices": [{"text": "頭（あたま）を守（まも）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🔥🏠", "scene": "火事（かじ）を\n見（み）つけた。", "choices": [{"text": "大人（おとな）に知（し）らせて離（はな）れる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🌪️🪟", "scene": "強（つよ）い風（かぜ）で\n窓（まど）が揺（ゆ）れています。", "choices": [{"text": "窓（まど）から離（はな）れる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "❄️🚶", "scene": "大雪（おおゆき）で\n道（みち）が見（み）えにくい。", "choices": [{"text": "大人（おとな）と一緒（いっしょ）に歩（ある）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🌋😷", "scene": "煙（けむり）が\n見（み）えます。", "choices": [{"text": "口（くち）をおさえて離（はな）れる", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🚨👂", "scene": "避難（ひなん）の放送（ほうそう）が\n聞（き）こえた。", "choices": [{"text": "先生（せんせい）の話（はなし）を聞（き）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🔦🌙", "scene": "停電（ていでん）しました。", "choices": [{"text": "大人（おとな）と一緒（いっしょ）に動（うご）く", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🧯🔥", "scene": "火（ひ）が小（ちい）さく見（み）える。", "choices": [{"text": "自分（じぶん）で消（け）そうとしない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🏫🫨", "scene": "学校（がっこう）で地震（じしん）。", "choices": [{"text": "机（つくえ）の下（した）に入（はい）る", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🛗⚠️", "scene": "地震（じしん）の時（とき）に\nエレベーターに乗（の）りたい。", "choices": [{"text": "乗（の）らない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🌧️🕳️", "scene": "大雨（おおあめ）で\n道（みち）に水（みず）がたまっている。", "choices": [{"text": "近（ちか）づかない", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "🧒😨", "scene": "災害（さいがい）で\nこわくなった。", "choices": [{"text": "大人（おとな）に気持（きも）ちを伝（つた）える", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}, {"cat": "災害（さいがい）", "illust": "📱🔋", "scene": "災害（さいがい）の時（とき）に\nスマホを使（つか）いたい。", "choices": [{"text": "大人（おとな）に確認（かくにん）する", "ok": true}, {"text": "すぐ走（はし）って行（い）く", "ok": false}, {"text": "ふざける", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "安全（あんぜん）を見（み）つけて、止（と）まる・待（ま）つ・大人（おとな）に伝（つた）えるが大切（たいせつ）です。"}];
+let deck = [];
+let index = 0;
+let score = 0;
+let answered = false;
+let currentText = "";
+let wrongAnswers = [];
+const total = Math.min(10, allQuestions.length);
 
 function shuffle(arr) {
   const a = arr.slice();
@@ -35,38 +66,139 @@ function shuffle(arr) {
   return a;
 }
 
-function start() { i=0; score=0; show(); }
+function start() {
+  deck = shuffle(allQuestions).slice(0, total);
+  index = 0;
+  score = 0;
+  wrongAnswers = [];
+  document.getElementById("score").textContent = score;
+  document.getElementById("total").textContent = total;
+  document.getElementById("report").classList.add("hidden");
+  document.getElementById("report").innerHTML = "";
+  show();
+}
 
 function show() {
-  answered=false;
-  document.getElementById('msg').textContent='';
-  if(i>=qs.length) {
-    document.getElementById('q').textContent='おしまい！ '+score+' / '+qs.length+' 問（もん）できました ⭐';
-    document.getElementById('choices').innerHTML='';
+  answered = false;
+  document.getElementById("msg").textContent = "";
+  document.getElementById("tip").classList.add("hidden");
+  document.getElementById("report").classList.add("hidden");
+
+  if (index >= deck.length) {
+    document.getElementById("num").textContent = total;
+    document.getElementById("cat").textContent = "";
+    document.getElementById("illust").textContent = "⭐";
+    document.getElementById("scene").textContent = "おしまい！\n" + score + " / " + total + " 問（もん）できました";
+    document.getElementById("choices").innerHTML = "";
+    currentText = document.getElementById("scene").textContent;
+    showReport();
     return;
   }
-  let item=qs[i];
-  document.getElementById('q').textContent=item.q;
-  document.getElementById('choices').innerHTML='';
-  shuffle(item.choices).forEach(c => {
-    let d=document.createElement('div');
-    d.className='choice';
-    d.textContent=c.text;
-    d.onclick=()=>ans(c.ok);
-    document.getElementById('choices').appendChild(d);
+
+  const q = deck[index];
+  document.getElementById("num").textContent = index + 1;
+  document.getElementById("cat").textContent = q.cat || "";
+  document.getElementById("illust").textContent = q.illust || "🌈";
+  document.getElementById("scene").textContent = q.scene;
+  currentText = q.scene.replace(/[（）]/g, " ");
+  document.getElementById("choices").innerHTML = "";
+
+  shuffle(q.choices).forEach(item => {
+    const div = document.createElement("div");
+    div.className = "choice";
+    div.textContent = item.text;
+    div.onclick = () => answer(item.ok, q.tip, item.text);
+    document.getElementById("choices").appendChild(div);
   });
 }
 
-function ans(ok) {
-  if(answered) return;
-  answered=true;
-  if(ok) {
+function answer(ok, tip, selectedText) {
+  if (answered) return;
+  answered = true;
+
+  if (ok) {
     score++;
-    document.getElementById('msg').innerHTML='<span class="ok">いい選（えら）び方（かた）！</span>';
+    document.getElementById("score").textContent = score;
+    document.getElementById("msg").innerHTML = '<span class="ok">いい選（えら）び方（かた）！</span>';
   } else {
-    document.getElementById('msg').innerHTML='<span class="ng">もう一回（いっかい）考（かんが）えよう</span>';
+    document.getElementById("msg").innerHTML = '<span class="ng">もう一回（いっかい）考（かんが）えよう</span>';
+    const q = deck[index];
+    const correct = q.choices.find(c => c.ok);
+    wrongAnswers.push({
+      cat: q.cat || "",
+      illust: q.illust || "",
+      scene: q.scene || "",
+      selected: selectedText || "",
+      correct: correct ? correct.text : "",
+      tip: tip || ""
+    });
   }
-  setTimeout(()=>{i++;show();},700);
+
+  document.getElementById("tip").classList.remove("hidden");
+  document.getElementById("tip").innerHTML = '<div class="title">ポイント</div><div class="tip">' + tip + '</div>';
+
+  setTimeout(() => {
+    index++;
+    show();
+  }, 1800);
+}
+
+function nextQuestion() {
+  if (deck.length === 0) start();
+  else {
+    index++;
+    show();
+  }
+}
+
+
+function showReport() {
+  const report = document.getElementById("report");
+  report.classList.remove("hidden");
+
+  if (wrongAnswers.length === 0) {
+    report.innerHTML =
+      '<div class="reportTitle">ふりかえり</div>' +
+      '<div class="tip">不正解（ふせいかい）はありませんでした。<br>よく考（かんが）えて選（えら）べました。</div>' +
+      '<button class="printBtn" onclick="window.print()">印刷（いんさつ）する</button>';
+    return;
+  }
+
+  let html = '<div class="reportTitle">ふりかえりレポート</div>';
+  html += '<div class="tip">まちがえた問題（もんだい）だけを表示（ひょうじ）しています。<br>責（せ）めるためではなく、次（つぎ）にもう一回（いっかい）考（かんが）えるためのレポートです。</div>';
+
+  wrongAnswers.forEach((w, i) => {
+    html += '<div class="reportItem">';
+    html += '<div><strong>' + (i + 1) + '. ' + escapeHtml(w.cat) + '</strong></div>';
+    html += '<div style="font-size:48px;text-align:center;margin:6px 0;">' + escapeHtml(w.illust) + '</div>';
+    html += '<div>' + escapeHtml(w.scene).replace(/\n/g, '<br>') + '</div>';
+    html += '<div class="wrongText">選（えら）んだ答（こた）え：' + escapeHtml(w.selected) + '</div>';
+    html += '<div class="correctText">よい答（こた）え：' + escapeHtml(w.correct) + '</div>';
+    html += '<div>ポイント：' + escapeHtml(w.tip).replace(/\n/g, '<br>') + '</div>';
+    html += '</div>';
+  });
+
+  html += '<button class="printBtn" onclick="window.print()">印刷（いんさつ）する</button>';
+  report.innerHTML = html;
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function speakScene() {
+  if (!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(currentText || document.getElementById("scene").textContent);
+  u.lang = "ja-JP";
+  u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
 }
 </script>
-</body></html>
+</body>
+</html>

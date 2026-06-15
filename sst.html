@@ -1,27 +1,204 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SSTトレーニング</title><style>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>💬 SST 100問（もん）＋イラスト</title>
+<style>
 body{margin:0;font-family:system-ui,sans-serif;background:#f8fafc;color:#1f2937;text-align:center;user-select:none}
 header{background:white;padding:24px 16px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 h1{margin:0 0 8px;font-size:32px}.sub{font-size:17px;color:#64748b;line-height:1.6}
 main{max-width:760px;margin:0 auto;padding:20px}.grid{display:grid;gap:14px}
-.card{background:white;border-radius:26px;padding:20px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
-a{text-decoration:none;color:inherit}.title{font-size:24px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
+.card{background:white;border-radius:28px;padding:22px;text-align:left;box-shadow:0 5px 14px rgba(0,0,0,.12);border:5px solid white}
+a{text-decoration:none;color:inherit}.title{font-size:25px;font-weight:800;margin-bottom:6px}.desc{font-size:16px;color:#475569;line-height:1.55}
 button{font-size:22px;padding:12px 26px;border:0;border-radius:999px;background:#2563eb;color:white;font-weight:700;margin:6px;cursor:pointer}
-.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:20px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55}
-.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:20px 0;line-height:1.6;white-space:pre-line}
+.choice{background:white;border:5px solid #dbeafe;border-radius:24px;padding:18px 10px;font-size:23px;font-weight:800;box-shadow:0 3px 9px rgba(0,0,0,.12);cursor:pointer;line-height:1.55;white-space:pre-line}
+.choices{display:grid;grid-template-columns:repeat(1,1fr);gap:14px;margin-top:16px}.big{font-size:30px;font-weight:800;margin:12px 0;line-height:1.55;white-space:pre-line}
+.illust{font-size:76px;line-height:1.3;margin:10px 0;white-space:pre-line}
 .hidden{display:none}.back{display:inline-block;margin-top:16px;color:#2563eb;font-weight:700}.ok{color:#16a34a}.ng{color:#dc2626}
 .point{background:#ecfdf5;border-color:#bbf7d0}.tip{font-size:18px;line-height:1.8;color:#334155;white-space:pre-line}
 .status{font-size:18px;color:#475569;margin-top:8px}.small{font-size:15px;color:#64748b;line-height:1.6}
-</style></head><body>
+.reportBox{background:#fff7ed;border-color:#fed7aa;margin-top:14px}
+.reportItem{background:#fff;border:3px solid #fed7aa;border-radius:18px;padding:14px;margin:10px 0;line-height:1.7}
+.reportTitle{font-size:22px;font-weight:800;margin-bottom:8px;color:#9a3412}
+.correctText{color:#15803d;font-weight:800}
+.wrongText{color:#b91c1c;font-weight:800}
+.printBtn{background:#64748b}
+</style>
+</head>
+<body>
 <header>
-  <h1>💬 SSTトレーニング</h1>
-  <div class="sub">問題（もんだい）は約（やく）100問（もん）。毎回（まいかい）ランダムに出（で）ます。</div>
+  <h1>💬 SST 100問（もん）＋イラスト</h1>
+  <div class="sub">問題（もんだい）はランダムに10問（もん）出（で）ます</div>
 </header>
-<main><div class="grid">
-  <a href="sst_random.html"><div class="card"><div class="title">🎲 SSTランダム10問（もん）</div><div class="desc">聞（き）く・伝（つた）える・断（ことわ）る・相談（そうだん）・仲直（なかなお）りからランダム出題（しゅつだい）</div></div></a>
-  <a href="sst_listening.html"><div class="card"><div class="title">👂 聞（き）く練習（れんしゅう）</div><div class="desc">相手（あいて）の話（はなし）を最後（さいご）まで聞（き）く練習（れんしゅう）</div></div></a>
-  <a href="sst_tell.html"><div class="card"><div class="title">🗣️ 伝（つた）える練習（れんしゅう）</div><div class="desc">お願（ねが）い・気持（きも）ち・困（こま）ったことを言葉（ことば）にする</div></div></a>
-  <a href="sst_refuse.html"><div class="card"><div class="title">🙅 断（ことわ）る練習（れんしゅう）</div><div class="desc">いやな時（とき）に、やさしく断（ことわ）る練習（れんしゅう）</div></div></a>
-  <a href="sst_help.html"><div class="card"><div class="title">🙋 相談（そうだん）する練習（れんしゅう）</div><div class="desc">困（こま）った時（とき）に先生（せんせい）や大人（おとな）へ伝（つた）える</div></div></a>
-  <a href="sst_repair.html"><div class="card"><div class="title">🤝 仲直（なかなお）り練習（れんしゅう）</div><div class="desc">トラブルのあと、もう一回（いっかい）戻（もど）る練習（れんしゅう）</div></div></a>
-</div><a class="back" href="index.html">← TOPへ</a></main>
-</body></html>
+<main>
+<section class="card">
+  <div class="status">問題（もんだい）：<span id="num">0</span> / <span id="total">10</span>　正解（せいかい）：<span id="score">0</span></div>
+  <div id="cat" class="status"></div>
+  <div id="illust" class="illust">🌈</div>
+  <div id="scene" class="big">スタートしてね</div>
+  <button onclick="speakScene()">🔊 よみあげ</button>
+  <div id="choices" class="choices"></div>
+  <div id="msg" class="big"></div>
+  <div id="tip" class="card point hidden"></div>
+  <div id="report" class="card reportBox hidden"></div>
+  <button onclick="start()">スタート</button>
+  <button onclick="nextQuestion()">つぎ</button>
+</section>
+<a class="back" href="index.html">← TOPへ</a>
+</main>
+<script>
+const allQuestions = [{"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒🎮👂", "scene": "友（とも）だちが\n「これ使（つか）ってるよ」\nと言（い）いました。\nどうする？", "choices": [{"text": "「使（つか）ってるんだね」\nと言（い）う", "ok": true}, {"text": "聞（き）かずに取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "相手（あいて）の話（はなし）を聞（き）いてから、次（つぎ）の言葉（ことば）を選（えら）ぼう。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "👩‍🏫📢👂", "scene": "先生（せんせい）が\n説明（せつめい）しています。\nどうする？", "choices": [{"text": "最後（さいご）まで聞（き）く", "ok": true}, {"text": "大（おお）きな声（こえ）で話（はな）す", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}, {"text": "ちがう場所（ばしょ）へ行（い）く", "ok": false}], "tip": "わからない時（とき）は「もう一回（いっかい）教（おし）えて」と言（い）おう。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒😟👂", "scene": "友（とも）だちが\n困（こま）った顔（かお）をしています。\nどうする？", "choices": [{"text": "「どうしたの？」と聞（き）く", "ok": true}, {"text": "笑（わら）う", "ok": false}, {"text": "決（き）めつける", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "気持（きも）ちは聞（き）いてみるとわかりやすいです。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒💬👂", "scene": "友（とも）だちが\n話（はなし）をしている途中（とちゅう）です。\nどうする？", "choices": [{"text": "最後（さいご）まで聞（き）く", "ok": true}, {"text": "話（はなし）をさえぎる", "ok": false}, {"text": "別（べつ）の話（はなし）をする", "ok": false}, {"text": "立（た）ち去（さ）る", "ok": false}], "tip": "最後（さいご）まで聞（き）けると、相手（あいて）は安心（あんしん）します。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "❓👂👩‍🏫", "scene": "ルールを聞（き）いたけど\nよくわかりません。\nどうする？", "choices": [{"text": "「もう一回（いっかい）教（おし）えて」と言（い）う", "ok": true}, {"text": "わかったふりをする", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "やめる", "ok": false}], "tip": "聞（き）き返（かえ）すことは大切（たいせつ）な力（ちから）です。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "👫➡️👂", "scene": "先生（せんせい）が\n「順番（じゅんばん）に並（なら）んでね」\nと言（い）いました。\nどうする？", "choices": [{"text": "後（うし）ろに並（なら）ぶ", "ok": true}, {"text": "前（まえ）に入（はい）る", "ok": false}, {"text": "走（はし）る", "ok": false}, {"text": "友（とも）だちを押（お）す", "ok": false}], "tip": "聞（き）いたことを行動（こうどう）にできたら大成功（だいせいこう）。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒✋👂", "scene": "友（とも）だちが\n「やめて」と言（い）いました。\nどうする？", "choices": [{"text": "すぐやめる", "ok": true}, {"text": "もっとやる", "ok": false}, {"text": "笑（わら）う", "ok": false}, {"text": "聞（き）こえないふり", "ok": false}], "tip": "「やめて」は大切（たいせつ）な合図（あいず）です。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒🤫👂", "scene": "友（とも）だちが\n小（ちい）さい声（こえ）で話（はな）しました。\nどうする？", "choices": [{"text": "「もう一回（いっかい）言（い）って」と聞（き）く", "ok": true}, {"text": "無視（むし）する", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "まねする", "ok": false}], "tip": "聞（き）こえない時（とき）は、やさしく聞（き）き返（かえ）そう。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "⚠️🛑👂", "scene": "先生（せんせい）が\n「危（あぶ）ないから止（と）まって」\nと言（い）いました。\nどうする？", "choices": [{"text": "止（と）まる", "ok": true}, {"text": "走（はし）り続（つづ）ける", "ok": false}, {"text": "ジャンプする", "ok": false}, {"text": "ふざける", "ok": false}], "tip": "危（あぶ）ない時（とき）は、すぐ止（と）まることが大切（たいせつ）。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒💬⏳", "scene": "友（とも）だちの話（はなし）が\n長（なが）いです。\nどうする？", "choices": [{"text": "うなずいて聞（き）く", "ok": true}, {"text": "途中（とちゅう）で怒（おこ）る", "ok": false}, {"text": "ばかにする", "ok": false}, {"text": "いなくなる", "ok": false}], "tip": "うなずくと「聞（き）いてるよ」が伝（つた）わります。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧸📦👂", "scene": "「片付（かたづ）けよう」と\n言（い）われました。\nどうする？", "choices": [{"text": "使（つか）った物（もの）を戻（もど）す", "ok": true}, {"text": "まだ遊（あそ）ぶ", "ok": false}, {"text": "投（な）げる", "ok": false}, {"text": "隠（かく）す", "ok": false}], "tip": "片付（かたづ）けも次（つぎ）の活動（かつどう）の準備（じゅんび）です。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒🤝👂", "scene": "友（とも）だちが\n「一緒（いっしょ）にやろう」\nと言（い）いました。\nどうする？", "choices": [{"text": "「いいよ」と返事（へんじ）する", "ok": true}, {"text": "無視（むし）する", "ok": false}, {"text": "押（お）す", "ok": false}, {"text": "怒（おこ）る", "ok": false}], "tip": "返事（へんじ）をすると、気持（きも）ちが伝（つた）わります。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "👩‍🏫👋👂", "scene": "先生（せんせい）が\n名前（なまえ）を呼（よ）びました。\nどうする？", "choices": [{"text": "返事（へんじ）をする", "ok": true}, {"text": "隠（かく）れる", "ok": false}, {"text": "友（とも）だちを呼（よ）ぶ", "ok": false}, {"text": "走（はし）る", "ok": false}], "tip": "呼（よ）ばれたら「はい」と返事（へんじ）できると良（よ）いです。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒😣👂", "scene": "友（とも）だちが\n「痛（いた）い」と言（い）いました。\nどうする？", "choices": [{"text": "「大丈夫（だいじょうぶ）？」と聞（き）く", "ok": true}, {"text": "笑（わら）う", "ok": false}, {"text": "もっと押（お）す", "ok": false}, {"text": "知らんぷり", "ok": false}], "tip": "相手（あいて）の言葉（ことば）を聞（き）いて、心配（しんぱい）できるとすてきです。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "📢🧒👂", "scene": "活動（かつどう）のルールを\n先生（せんせい）が話（はな）しています。\nどうする？", "choices": [{"text": "手（て）を止（と）めて聞（き）く", "ok": true}, {"text": "遊（あそ）び続（つづ）ける", "ok": false}, {"text": "大声（おおごえ）を出（だ）す", "ok": false}, {"text": "寝（ね）る", "ok": false}], "tip": "聞（き）く時（とき）は体（からだ）も少（すこ）し止（と）めよう。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒🙅👂", "scene": "友（とも）だちが\n「それはいやだ」と言（い）いました。\nどうする？", "choices": [{"text": "やめる", "ok": true}, {"text": "もっとする", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "からかう", "ok": false}], "tip": "いやな気持（きも）ちを聞（き）けると、遊（あそ）びを直（なお）せます。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "⏳👩‍🏫👂", "scene": "先生（せんせい）が\n「待（ま）ってね」と言（い）いました。\nどうする？", "choices": [{"text": "待（ま）つ", "ok": true}, {"text": "走（はし）る", "ok": false}, {"text": "割（わ）り込（こ）む", "ok": false}, {"text": "泣（な）くだけ", "ok": false}], "tip": "待（ま）てたことも大切（たいせつ）な力（ちから）です。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒🧸👂", "scene": "友（とも）だちが\n「まだ使（つか）いたい」と言（い）いました。\nどうする？", "choices": [{"text": "「終（お）わったら貸（か）して」と言（い）う", "ok": true}, {"text": "取（と）る", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "隠（かく）す", "ok": false}], "tip": "相手（あいて）の話（はなし）を聞（き）いて、次（つぎ）の約束（やくそく）をしよう。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🚶👩‍🏫👂", "scene": "先生（せんせい）が\n「ここは歩（ある）こう」と言（い）いました。\nどうする？", "choices": [{"text": "歩（ある）く", "ok": true}, {"text": "走（はし）る", "ok": false}, {"text": "ジャンプする", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "場所（ばしょ）に合（あ）わせて動（うご）けると安全（あんぜん）です。"}, {"cat": "聞（き）く練習（れんしゅう）", "illust": "🧒📣👂", "scene": "友（とも）だちが\n説明（せつめい）してくれています。\nどうする？", "choices": [{"text": "最後（さいご）まで聞（き）く", "ok": true}, {"text": "途中（とちゅう）で笑（わら）う", "ok": false}, {"text": "別（べつ）の話（はなし）をする", "ok": false}, {"text": "背中（せなか）を向（む）ける", "ok": false}], "tip": "聞（き）く姿勢（しせい）は相手（あいて）へのやさしさです。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🧸🤲", "scene": "おもちゃを\n貸（か）してほしい。\nどう言（い）う？", "choices": [{"text": "「貸（か）して」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "お願（ねが）いは言葉（ことば）にすると伝（つた）わります。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "👫🎈", "scene": "遊（あそ）びに\n入（はい）りたい。\nどう言（い）う？", "choices": [{"text": "「入（い）れて」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "「一緒（いっしょ）に遊（あそ）んでいい？」も使（つか）えます。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🧒✋", "scene": "いやなことを\nされました。\nどう言（い）う？", "choices": [{"text": "「やめて」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "「やめて」「いやだった」と言葉（ことば）で伝（つた）えよう。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "😟🙋", "scene": "困（こま）っています。\nどう言（い）う？", "choices": [{"text": "「手伝（てつだ）って」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "困（こま）った時（とき）は助（たす）けを求（もと）めてOK。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "⏳🧒", "scene": "順番（じゅんばん）を\n待（ま）っています。\nどう言（い）う？", "choices": [{"text": "「次（つぎ）はぼく？」と聞（き）く", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "確認（かくにん）すると安心（あんしん）できます。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "❓🎲", "scene": "使（つか）い方（かた）が\nわかりません。\nどう言（い）う？", "choices": [{"text": "「教（おし）えて」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "わからないことは聞（き）いて大丈夫（だいじょうぶ）。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "💥🧒", "scene": "友（とも）だちに\nぶつかりました。\nどう言（い）う？", "choices": [{"text": "「ごめんね」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "ぶつかった時（とき）は「ごめんね」「大丈夫（だいじょうぶ）？」。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🔁🎮", "scene": "もう一回（いっかい）\nやりたい。\nどう言（い）う？", "choices": [{"text": "「もう一回（いっかい）やっていい？」と聞（き）く", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "お願い（ねが）いは言葉（ことば）にすると伝（つた）わります。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "😮‍💨🪑", "scene": "休（やす）みたい。\nどう言（い）う？", "choices": [{"text": "「少（すこ）し休（やす）みたい」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "体（からだ）のことを伝（つた）えるのは大切（たいせつ）。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "😣💬", "scene": "うまくできなくて\n悔（くや）しい。\nどう言（い）う？", "choices": [{"text": "「悔（くや）しい」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "気持（きも）ちを言葉（ことば）にできたら大成功（だいせいこう）。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🤫📣", "scene": "静（しず）かに\nしてほしい。\nどう言（い）う？", "choices": [{"text": "「少（すこ）し静（しず）かにして」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "やさしい声（こえ）で伝（つた）えよう。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🧒🌱", "scene": "一人（ひとり）で\nやりたい。\nどう言（い）う？", "choices": [{"text": "「今（いま）は一人（ひとり）でやりたい」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "自分（じぶん）の気持（きも）ちを伝（つた）えてOK。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "👫✨", "scene": "一緒（いっしょ）に\nやりたい。\nどう言（い）う？", "choices": [{"text": "「一緒（いっしょ）にやろう」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "誘（さそ）う言葉（ことば）を使（つか）おう。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "😢🏁", "scene": "負（ま）けて\n悲（かな）しい。\nどう言（い）う？", "choices": [{"text": "「悲（かな）しい」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "泣（な）いてもOK。言葉（ことば）にすると伝（つた）わります。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🎨➡️⚽", "scene": "違（ちが）う遊（あそ）びが\nしたい。\nどう言（い）う？", "choices": [{"text": "「別（べつ）の遊（あそ）びがしたい」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "提案（ていあん）できると話（はな）し合（あ）えます。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🚶‍♂️➡️🚶", "scene": "順番（じゅんばん）を\n抜（ぬ）かされた。\nどう言（い）う？", "choices": [{"text": "「並（なら）んでいたよ」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "怒（おこ）る前（まえ）に言葉（ことば）で伝（つた）えよう。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🧸➡️🧒", "scene": "物（もの）を\n取（と）られた。\nどう言（い）う？", "choices": [{"text": "「返（かえ）して」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "短（みじか）く、はっきり伝（つた）えよう。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "😨🌧️", "scene": "怖（こわ）いと\n感（かん）じた。\nどう言（い）う？", "choices": [{"text": "「怖（こわ）い」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "怖（こわ）い気持（きも）ちも大切（たいせつ）です。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "❓🧒", "scene": "わからなく\nなった。\nどう言（い）う？", "choices": [{"text": "「わからない」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "わからないと言（い）えることは大切（たいせつ）。"}, {"cat": "伝（つた）える練習（れんしゅう）", "illust": "🙏😊", "scene": "ありがとうを\n伝（つた）えたい。\nどう言（い）う？", "choices": [{"text": "「ありがとう」と言（い）う", "ok": true}, {"text": "黙（だま）って取（と）る", "ok": false}, {"text": "怒（おこ）る", "ok": false}, {"text": "走（はし）って逃（に）げる", "ok": false}], "tip": "感謝（かんしゃ）の言葉（ことば）は相手（あいて）をうれしくします。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🙅🎮", "scene": "したくない遊（あそ）びに\n誘（さそ）われた。\nどうする？", "choices": [{"text": "「今（いま）はやめておくね」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🧸🙅", "scene": "大事（だいじ）な物（もの）を\n貸（か）したくない。\nどうする？", "choices": [{"text": "「これは大事（だいじ）だから貸（か）せない」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "⚠️🙅", "scene": "危（あぶ）ないことに\n誘（さそ）われた。\nどうする？", "choices": [{"text": "「それは危（あぶ）ないからやめる」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "😟📛", "scene": "いやなあだ名（な）で\n呼（よ）ばれた。\nどうする？", "choices": [{"text": "「その呼（よ）び方（かた）はいや」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🏠⏰", "scene": "まだ遊（あそ）びたいけど\n帰（かえ）る時間（じかん）。\nどうする？", "choices": [{"text": "「また今度（こんど）遊（あそ）ぼう」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🪑🙅", "scene": "一人（ひとり）で\n休（やす）みたい。\nどうする？", "choices": [{"text": "「今（いま）は休（やす）みたい」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "📷🙅", "scene": "写真（しゃしん）を\n撮（と）られたくない。\nどうする？", "choices": [{"text": "「撮（と）らないで」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "✋🙅", "scene": "押（お）されたくない。\nどうする？", "choices": [{"text": "「押（お）さないで」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "📣🙉", "scene": "大（おお）きな声（こえ）が\n苦手（にがて）。\nどうする？", "choices": [{"text": "「少（すこ）し小（ちい）さい声（こえ）にして」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🚶‍♂️➡️🚶", "scene": "順番（じゅんばん）を\n抜（ぬ）かされそう。\nどうする？", "choices": [{"text": "「後（うし）ろに並（なら）んでね」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🧸✋", "scene": "使（つか）っている物（もの）を\n取（と）られそう。\nどうする？", "choices": [{"text": "「今（いま）使（つか）っているよ」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🎮⏹️", "scene": "ゲームを\nやめたくなった。\nどうする？", "choices": [{"text": "「今日（きょう）はここまでにする」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🧒🙅", "scene": "友（とも）だちの誘（さそ）いが\n強（つよ）い。\nどうする？", "choices": [{"text": "「ごめんね、やらない」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🏃🙅", "scene": "苦手（にがて）な活動（かつどう）に\n誘（さそ）われた。\nどうする？", "choices": [{"text": "「少（すこ）し見学（けんがく）する」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🧍↔️🧍", "scene": "近（ちか）くに来（こ）られすぎて\nいや。\nどうする？", "choices": [{"text": "「少（すこ）し離（はな）れて」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🔄🙅", "scene": "物（もの）を交換（こうかん）\nしたくない。\nどうする？", "choices": [{"text": "「交換（こうかん）はしない」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "😢🗯️", "scene": "からかわれている。\nどうする？", "choices": [{"text": "「やめて」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "⏱️😣", "scene": "無理（むり）に\n急（いそ）がされる。\nどうする？", "choices": [{"text": "「少（すこ）し待（ま）って」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🛝⚠️", "scene": "遊具（ゆうぐ）で危（あぶ）ない遊（あそ）びに\n誘（さそ）われた。\nどうする？", "choices": [{"text": "「危（あぶ）ないからやめる」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "断（ことわ）る練習（れんしゅう）", "illust": "🤐⚠️", "scene": "秘密（ひみつ）にしてと言（い）われたけど\n心配（しんぱい）。\nどうする？", "choices": [{"text": "「先生（せんせい）に相談（そうだん）する」と言（い）う", "ok": true}, {"text": "無理（むり）してやる", "ok": false}, {"text": "怒鳴（どな）る", "ok": false}, {"text": "押（お）す", "ok": false}], "tip": "断（ことわ）る時（とき）は、短（みじか）く、やさしく、はっきり言（い）おう。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🧸💥🙋", "scene": "友（とも）だちと\n取（と）り合（あ）いになった。\nどうする？", "choices": [{"text": "先生（せんせい）に\n「困（こま）っています」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🤕🙋", "scene": "体（からだ）が\n痛（いた）い。\nどうする？", "choices": [{"text": "痛（いた）い場所（ばしょ）を\n先生（せんせい）に言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "❓🎲🙋", "scene": "ルールが\nわからない。\nどうする？", "choices": [{"text": "「もう一回（いっかい）教（おし）えて」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🏞️😟🙋", "scene": "迷子（まいご）になりそう。\nどうする？", "choices": [{"text": "近（ちか）くの先生（せんせい）に言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "😭🧒🙋", "scene": "友（とも）だちが\n泣（な）いている。\nどうする？", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🩹🙋", "scene": "けがをした。\nどうする？", "choices": [{"text": "先生（せんせい）にすぐ言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "😣🍽️", "scene": "お腹（なか）が\n痛（いた）い。\nどうする？", "choices": [{"text": "先生（せんせい）に伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🚻🙋", "scene": "トイレに\n行（い）きたい。\nどうする？", "choices": [{"text": "「トイレに行（い）きたい」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "😶💬🙋", "scene": "友（とも）だちに\n言（い）い返（かえ）せない。\nどうする？", "choices": [{"text": "先生（せんせい）に相談（そうだん）する", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "😡💥🙋", "scene": "気持（きも）ちが\n爆発（ばくはつ）しそう。\nどうする？", "choices": [{"text": "「休（やす）みたい」と伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "📘❓🙋", "scene": "宿題（しゅくだい）が\nわからない。\nどうする？", "choices": [{"text": "「ここがわかりません」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🎒❓", "scene": "忘（わす）れ物（もの）をした。\nどうする？", "choices": [{"text": "先生（せんせい）に相談（そうだん）する", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "⚠️🧒🙋", "scene": "友（とも）だちが\n危（あぶ）ないことをしている。\nどうする？", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🙉🔊", "scene": "音（おと）が大（おお）きくて\nつらい。\nどうする？", "choices": [{"text": "「音（おと）がつらい」と伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "❓➡️🙋", "scene": "何（なに）をすればいいか\nわからない。\nどうする？", "choices": [{"text": "「次（つぎ）は何（なに）をしますか」と聞（き）く", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "📌❓", "scene": "約束（やくそく）を\n忘（わす）れた。\nどうする？", "choices": [{"text": "「もう一回（いっかい）教（おし）えて」と言（い）う", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "👫🚫🙋", "scene": "友（とも）だちに\n入（い）れてもらえない。\nどうする？", "choices": [{"text": "先生（せんせい）に一緒（いっしょ）に考（かんが）えてもらう", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "😨🙋", "scene": "こわいことがあった。\nどうする？", "choices": [{"text": "大人（おとな）に伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "🧩💔🙋", "scene": "道具（どうぐ）が\n壊（こわ）れた。\nどうする？", "choices": [{"text": "先生（せんせい）に知（し）らせる", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "相談（そうだん）する練習（れんしゅう）", "illust": "😶🃏", "scene": "気持（きも）ちを\n言葉（ことば）にできない。\nどうする？", "choices": [{"text": "カードや指差（ゆびさ）しで伝（つた）える", "ok": true}, {"text": "一人（ひとり）で我慢（がまん）する", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "隠（かく）れる", "ok": false}], "tip": "困（こま）った時（とき）は、先生（せんせい）や大人（おとな）に相談（そうだん）してOKです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "💥🧒🤝", "scene": "友（とも）だちに\nぶつかった。\nどう戻（もど）る？", "choices": [{"text": "「ごめんね。大丈夫（だいじょうぶ）？」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🧸💥🤝", "scene": "おもちゃを\n取（と）り合（あ）いした。\nどう戻（もど）る？", "choices": [{"text": "「順番（じゅんばん）に使（つか）おう」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "😣🏁🤝", "scene": "負（ま）けて\n悔（くや）しい。\nどう戻（もど）る？", "choices": [{"text": "深呼吸（しんこきゅう）して\n「もう一回（いっかい）やる」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🗯️😟🤝", "scene": "言（い）いすぎた。\nどう戻（もど）る？", "choices": [{"text": "「言（い）いすぎてごめん」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "😡🧒🤝", "scene": "友（とも）だちを\n怒（おこ）らせた。\nどう戻（もど）る？", "choices": [{"text": "「どうしたら戻（もど）れる？」と聞（き）く", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "⏳💥🤝", "scene": "順番（じゅんばん）で\nけんかになった。\nどう戻（もど）る？", "choices": [{"text": "タイマーで交代（こうたい）する", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "⚽💥🤝", "scene": "ボールを強（つよ）く\n投（な）げすぎた。\nどう戻（もど）る？", "choices": [{"text": "「ごめんね。次（つぎ）は弱（よわ）くする」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🎨💔🤝", "scene": "友（とも）だちの作品（さくひん）を\n壊（こわ）した。\nどう戻（もど）る？", "choices": [{"text": "「ごめんね。一緒（いっしょ）に直（なお）す」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🎲❓🤝", "scene": "遊（あそ）びのルールで\nもめた。\nどう戻（もど）る？", "choices": [{"text": "先生（せんせい）と一緒（いっしょ）に確認（かくにん）する", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "😭🤝", "scene": "泣（な）いてしまった。\nどう戻（もど）る？", "choices": [{"text": "落（お）ち着（つ）いてから話（はな）す", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "😡➡️🤝", "scene": "怒（おこ）って\n離（はな）れた。\nどう戻（もど）る？", "choices": [{"text": "戻（もど）って「さっきはごめん」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🏆😤🤝", "scene": "勝（か）った時（とき）に\n自慢（じまん）しすぎた。\nどう戻（もど）る？", "choices": [{"text": "「一緒（いっしょ）にできて楽（たの）しかった」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "⏳🙏", "scene": "友（とも）だちを\n待（ま）たせた。\nどう戻（もど）る？", "choices": [{"text": "「待（ま）ってくれてありがとう」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "📌💔🤝", "scene": "約束（やくそく）を\n守（まも）れなかった。\nどう戻（もど）る？", "choices": [{"text": "「次（つぎ）は守（まも）るね」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🪑➡️🤝", "scene": "遊（あそ）びから\n抜（ぬ）けたくなった。\nどう戻（もど）る？", "choices": [{"text": "「少（すこ）し休（やす）んで戻（もど）る」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "😒🤝", "scene": "友（とも）だちに\nいやな顔（かお）をした。\nどう戻（もど）る？", "choices": [{"text": "「いやな顔（かお）してごめん」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "📣⬇️🤝", "scene": "声（こえ）が\n大（おお）きくなりすぎた。\nどう戻（もど）る？", "choices": [{"text": "「小（ちい）さい声（こえ）にするね」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "🚶‍♂️↩️🤝", "scene": "順番（じゅんばん）を\n抜（ぬ）かしてしまった。\nどう戻（もど）る？", "choices": [{"text": "後（うし）ろに戻（もど）る", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "👂💬🤝", "scene": "友（とも）だちの話（はなし）を\n聞（き）かなかった。\nどう戻（もど）る？", "choices": [{"text": "「もう一回（いっかい）聞（き）くね」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}, {"cat": "仲直（なかなお）り練習（れんしゅう）", "illust": "😶🤝", "scene": "けんかのあと\n気（き）まずい。\nどう戻（もど）る？", "choices": [{"text": "「また遊（あそ）ぼう」と言（い）う", "ok": true}, {"text": "そのまま怒（おこ）る", "ok": false}, {"text": "物（もの）を投（な）げる", "ok": false}, {"text": "無視（むし）する", "ok": false}], "tip": "トラブルは、戻（もど）る練習（れんしゅう）のチャンスです。"}];
+let deck = [];
+let index = 0;
+let score = 0;
+let answered = false;
+let currentText = "";
+let wrongAnswers = [];
+const total = Math.min(10, allQuestions.length);
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function start() {
+  deck = shuffle(allQuestions).slice(0, total);
+  index = 0;
+  score = 0;
+  wrongAnswers = [];
+  document.getElementById("score").textContent = score;
+  document.getElementById("total").textContent = total;
+  document.getElementById("report").classList.add("hidden");
+  document.getElementById("report").innerHTML = "";
+  show();
+}
+
+function show() {
+  answered = false;
+  document.getElementById("msg").textContent = "";
+  document.getElementById("tip").classList.add("hidden");
+  document.getElementById("report").classList.add("hidden");
+
+  if (index >= deck.length) {
+    document.getElementById("num").textContent = total;
+    document.getElementById("cat").textContent = "";
+    document.getElementById("illust").textContent = "⭐";
+    document.getElementById("scene").textContent = "おしまい！\n" + score + " / " + total + " 問（もん）できました";
+    document.getElementById("choices").innerHTML = "";
+    currentText = document.getElementById("scene").textContent;
+    showReport();
+    return;
+  }
+
+  const q = deck[index];
+  document.getElementById("num").textContent = index + 1;
+  document.getElementById("cat").textContent = q.cat || "";
+  document.getElementById("illust").textContent = q.illust || "🌈";
+  document.getElementById("scene").textContent = q.scene;
+  currentText = q.scene.replace(/[（）]/g, " ");
+  document.getElementById("choices").innerHTML = "";
+
+  shuffle(q.choices).forEach(item => {
+    const div = document.createElement("div");
+    div.className = "choice";
+    div.textContent = item.text;
+    div.onclick = () => answer(item.ok, q.tip, item.text);
+    document.getElementById("choices").appendChild(div);
+  });
+}
+
+function answer(ok, tip, selectedText) {
+  if (answered) return;
+  answered = true;
+
+  if (ok) {
+    score++;
+    document.getElementById("score").textContent = score;
+    document.getElementById("msg").innerHTML = '<span class="ok">いい選（えら）び方（かた）！</span>';
+  } else {
+    document.getElementById("msg").innerHTML = '<span class="ng">もう一回（いっかい）考（かんが）えよう</span>';
+    const q = deck[index];
+    const correct = q.choices.find(c => c.ok);
+    wrongAnswers.push({
+      cat: q.cat || "",
+      illust: q.illust || "",
+      scene: q.scene || "",
+      selected: selectedText || "",
+      correct: correct ? correct.text : "",
+      tip: tip || ""
+    });
+  }
+
+  document.getElementById("tip").classList.remove("hidden");
+  document.getElementById("tip").innerHTML = '<div class="title">ポイント</div><div class="tip">' + tip + '</div>';
+
+  setTimeout(() => {
+    index++;
+    show();
+  }, 1800);
+}
+
+function nextQuestion() {
+  if (deck.length === 0) start();
+  else {
+    index++;
+    show();
+  }
+}
+
+
+function showReport() {
+  const report = document.getElementById("report");
+  report.classList.remove("hidden");
+
+  if (wrongAnswers.length === 0) {
+    report.innerHTML =
+      '<div class="reportTitle">ふりかえり</div>' +
+      '<div class="tip">不正解（ふせいかい）はありませんでした。<br>よく考（かんが）えて選（えら）べました。</div>' +
+      '<button class="printBtn" onclick="window.print()">印刷（いんさつ）する</button>';
+    return;
+  }
+
+  let html = '<div class="reportTitle">ふりかえりレポート</div>';
+  html += '<div class="tip">まちがえた問題（もんだい）だけを表示（ひょうじ）しています。<br>責（せ）めるためではなく、次（つぎ）にもう一回（いっかい）考（かんが）えるためのレポートです。</div>';
+
+  wrongAnswers.forEach((w, i) => {
+    html += '<div class="reportItem">';
+    html += '<div><strong>' + (i + 1) + '. ' + escapeHtml(w.cat) + '</strong></div>';
+    html += '<div style="font-size:48px;text-align:center;margin:6px 0;">' + escapeHtml(w.illust) + '</div>';
+    html += '<div>' + escapeHtml(w.scene).replace(/\n/g, '<br>') + '</div>';
+    html += '<div class="wrongText">選（えら）んだ答（こた）え：' + escapeHtml(w.selected) + '</div>';
+    html += '<div class="correctText">よい答（こた）え：' + escapeHtml(w.correct) + '</div>';
+    html += '<div>ポイント：' + escapeHtml(w.tip).replace(/\n/g, '<br>') + '</div>';
+    html += '</div>';
+  });
+
+  html += '<button class="printBtn" onclick="window.print()">印刷（いんさつ）する</button>';
+  report.innerHTML = html;
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function speakScene() {
+  if (!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(currentText || document.getElementById("scene").textContent);
+  u.lang = "ja-JP";
+  u.rate = 0.8;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+</script>
+</body>
+</html>
