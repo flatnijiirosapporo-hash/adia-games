@@ -1,0 +1,106 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>今日のふりかえりSST</title><style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
+a{text-decoration:none;color:inherit}
+.wrap{width:min(980px,92vw);margin:0 auto}
+.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e2e8f0}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-weight:900}
+.pill{background:#eef2ff;color:#3730a3;border-radius:999px;padding:8px 14px}
+.hero{padding:30px 0 16px}
+.brand{display:inline-block;background:#fff;border-radius:999px;padding:8px 16px;box-shadow:0 8px 25px rgba(30,41,59,.08);font-weight:900}
+h1{font-size:clamp(32px,6vw,54px);line-height:1.15;margin:16px 0 8px}
+.lead{color:#64748b;font-size:clamp(17px,3vw,22px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:20px 0 34px}
+.card{background:rgba(255,255,255,.95);border-radius:30px;padding:22px;box-shadow:0 15px 45px rgba(30,41,59,.10);border:1px solid rgba(255,255,255,.85)}
+.menu{min-height:150px}.icon{font-size:52px}.title{font-size:24px;font-weight:900;margin-bottom:8px}.desc{font-size:16px;color:#64748b}
+.panel{background:rgba(255,255,255,.96);border-radius:34px;padding:22px;box-shadow:0 18px 55px rgba(30,41,59,.12);margin:22px 0 38px}
+.status{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-weight:800;margin-bottom:12px}
+.badge{padding:8px 14px;border-radius:999px;background:#f1f5f9}
+.illust{font-size:clamp(70px,16vw,126px);text-align:center;margin:8px 0;white-space:pre-line}
+.scene{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+button{border:0;border-radius:999px;padding:13px 22px;font-size:20px;font-weight:900;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;box-shadow:0 10px 25px rgba(79,70,229,.22);cursor:pointer}
+button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:none}
+button.gray{background:#64748b}
+.choices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.choice,.tile{background:white;border:4px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(20px,4vw,26px);font-weight:900;text-align:center;white-space:pre-line;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer}
+.tile{min-height:96px;display:flex;align-items:center;justify-content:center;font-size:44px}
+.correct{border-color:#86efac!important;background:#f0fdf4!important}.wrong{border-color:#fca5a5!important;background:#fef2f2!important}
+.message{text-align:center;font-size:28px;font-weight:900;min-height:42px;margin:14px 0}.ok{color:#16a34a}.ng{color:#dc2626}
+.tip,.report{margin-top:14px;border-radius:26px;padding:18px;background:#f8fafc;border:2px solid #e2e8f0}.tip{background:#ecfdf5;border-color:#bbf7d0}.report{background:#fff7ed;border-color:#fed7aa}
+.reportItem{background:#fff;border:3px solid #fed7aa;border-radius:22px;padding:16px;margin:14px 0}
+.hidden{display:none!important}
+.footer{text-align:center;color:#64748b;padding:22px}
+.shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
+.red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
+@media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+
+.scoreLiveHide{display:none!important}
+
+textarea,input{width:100%;font-size:20px;border:3px solid #dbeafe;border-radius:20px;padding:14px;font-family:inherit;background:white}
+textarea{min-height:120px;resize:vertical}
+.formGrid{display:grid;grid-template-columns:1fr;gap:16px}
+.stepBox{background:#fff;border:3px solid #e0e7ff;border-radius:28px;padding:18px;margin:16px 0;box-shadow:0 10px 25px rgba(30,41,59,.08)}
+.stepTitle{font-size:24px;font-weight:1000;color:#3730a3;margin-bottom:8px}
+.emotionGrid,.choiceGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.emotionBtn,.smallChoice{background:#fff;color:#334155;border:3px solid #dbeafe;border-radius:20px;box-shadow:0 8px 18px rgba(30,41,59,.08);padding:12px}
+.emotionBtn.selected,.smallChoice.selected{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff}
+@media(min-width:760px){.formGrid{grid-template-columns:1fr 1fr}.emotionGrid,.choiceGrid{grid-template-columns:repeat(4,1fr)}}
+</style></head><body><div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
+<main class="wrap"><section class="panel">
+  <div class="illust">🧒</div>
+  <h1 style="text-align:center">今日のふりかえりSST</h1>
+  <p class="lead" style="text-align:center">今日あったことを入力して、自分の気持ち・相手の考え・次の行動を考えます。</p>
+
+  <div class="stepBox"><div class="stepTitle">1. 今日あったこと</div><label>いつ・どこで・だれと・何があった？</label><textarea id="eventText" placeholder="例：公園で、友だちが先にすべり台を使っていて、ぼくも使いたかった。"></textarea></div>
+  <div class="stepBox"><div class="stepTitle">2. 登場人物</div><div class="formGrid"><div><label>自分</label><input id="meName" value="自分"></div><div><label>相手・登場人物</label><input id="otherName" placeholder="例：友だち、先生、弟、知らない子"></div></div></div>
+  <div class="stepBox"><div class="stepTitle">3. 自分の気持ち</div><p>その時、自分はどんな気持ちだった？</p><div id="myEmotionBtns" class="emotionGrid"></div><textarea id="myEmotionReason" placeholder="どうしてその気持ちになった？"></textarea></div>
+  <div class="stepBox"><div class="stepTitle">4. 相手の気持ち・考え</div><p>相手はどんな気持ち・考えだったか、置き換えて考えてみよう。</p><div id="otherEmotionBtns" class="emotionGrid"></div><textarea id="otherThought" placeholder="例：まだ遊びたかったのかもしれない。順番を知らなかったのかもしれない。"></textarea></div>
+  <div class="stepBox"><div class="stepTitle">5. 次にできる行動</div><p>次に同じことがあったら、どうできそう？</p><div id="actionBtns" class="choiceGrid"></div><textarea id="nextActionText" placeholder="例：『次、使ってもいい？』と聞く。先生に相談する。"></textarea></div>
+  <div class="stepBox"><div class="stepTitle">6. 今日のまとめ</div><textarea id="summaryText" placeholder="今日できたこと、次に練習したいことを書こう。"></textarea></div>
+
+  <div class="actions">
+    <button type="button" onclick="saveReflection()">この内容を記録</button>
+    <button type="button" class="light" onclick="clearForm()">入力を消す</button>
+    <a class="pill" href="sst_report.html">レポート</a>
+  </div>
+  <div id="msg" class="message"></div>
+</section></main>
+<script>
+function esc(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
+function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
+</script><script>
+const emotions = ["😊 うれしい","😢 かなしい","😡 おこった","😨 こわい","😕 こまった","😌 あんしん","😣 くやしい","😳 はずかしい"];
+const actions = ["言葉で伝える","順番を待つ","先生に相談する","少し離れる","もう一回やってみる","相手の話を聞く","ごめんねと言う","ありがとうと言う"];
+let selectedMyEmotion = "", selectedOtherEmotion = "", selectedAction = "";
+function makeButtons(){
+  const my=document.getElementById("myEmotionBtns"), other=document.getElementById("otherEmotionBtns"), act=document.getElementById("actionBtns");
+  my.innerHTML=""; other.innerHTML=""; act.innerHTML="";
+  emotions.forEach(e=>{
+    const b=document.createElement("button"); b.type="button"; b.className="emotionBtn"; b.textContent=e; b.onclick=()=>{selectedMyEmotion=e;markSelected(my,b)}; my.appendChild(b);
+    const c=document.createElement("button"); c.type="button"; c.className="emotionBtn"; c.textContent=e; c.onclick=()=>{selectedOtherEmotion=e;markSelected(other,c)}; other.appendChild(c);
+  });
+  actions.forEach(a=>{
+    const b=document.createElement("button"); b.type="button"; b.className="smallChoice"; b.textContent=a; b.onclick=()=>{selectedAction=a;markSelected(act,b)}; act.appendChild(b);
+  });
+}
+function markSelected(parent, btn){Array.from(parent.children).forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");}
+function val(id){return document.getElementById(id).value.trim();}
+function saveReflection(){
+  const rec={date:new Date().toLocaleString("ja-JP"),eventText:val("eventText"),meName:val("meName")||"自分",otherName:val("otherName")||"相手",myEmotion:selectedMyEmotion,myEmotionReason:val("myEmotionReason"),otherEmotion:selectedOtherEmotion,otherThought:val("otherThought"),selectedAction,nextActionText:val("nextActionText"),summaryText:val("summaryText")};
+  if(!rec.eventText){document.getElementById("msg").innerHTML='<span class="ng">今日あったことを入力してください。</span>';return;}
+  const records=JSON.parse(localStorage.getItem("nijifla_sst_records")||"[]");
+  records.push(rec);
+  localStorage.setItem("nijifla_sst_records",JSON.stringify(records));
+  document.getElementById("msg").innerHTML='<span class="ok">記録しました。レポートに表示できます。</span>';
+}
+function clearForm(){
+  ["eventText","otherName","myEmotionReason","otherThought","nextActionText","summaryText"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("meName").value="自分";
+  selectedMyEmotion=""; selectedOtherEmotion=""; selectedAction="";
+  makeButtons(); document.getElementById("msg").textContent="";
+}
+makeButtons();
+</script></body></html>
