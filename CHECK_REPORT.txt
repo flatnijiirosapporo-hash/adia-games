@@ -1,7 +1,6 @@
-Ver.2.9
-ビジョントレーニング うごく星復活
-vision_star_exists: True
-vision_menu_links_star: True
+Ver.3.0
+10分チェック・色ことば修正
 node_errors: 0
 node_error_detail: []
+link_missing: []
 リンク切れなし

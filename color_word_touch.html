@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>色ことば</title><style>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>色ことば</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -36,60 +36,40 @@ button.gray{background:#64748b}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
 
-.wordStage{
-  margin-top:16px;
-  padding:20px;
-  border-radius:30px;
-  background:linear-gradient(180deg,#ffffff,#f8fafc);
-  border:4px solid #fff;
-  box-shadow:inset 0 0 0 2px #dbeafe,0 12px 28px rgba(30,41,59,.10);
-}
-.bigWord{
-  font-size:clamp(58px,16vw,120px);
-  line-height:1.1;
-  font-weight:1000;
-  text-align:center;
-  margin:10px 0;
-  letter-spacing:.05em;
-}
-.taskBox{
-  text-align:center;
-  background:#eef2ff;
-  color:#3730a3;
-  border-radius:24px;
-  padding:14px;
-  font-weight:900;
-  font-size:clamp(22px,4vw,32px);
-}
-.answerGrid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-  margin-top:18px;
-}
-.answerBtn{
-  background:white;
-  border:5px solid #dbeafe;
-  border-radius:24px;
-  padding:20px 10px;
-  font-size:clamp(24px,5vw,38px);
-  font-weight:1000;
-  text-align:center;
-  cursor:pointer;
-  box-shadow:0 10px 24px rgba(30,41,59,.10);
-}
-.redText{color:#ef4444}.blueText{color:#2563eb}.yellowText{color:#ca8a04}.greenText{color:#16a34a}.purpleText{color:#9333ea}.orangeText{color:#ea580c}.blackText{color:#111827}
-.modeChip{display:inline-block;background:#fff7ed;color:#9a3412;border-radius:999px;padding:8px 14px;font-weight:900}
-@media(min-width:760px){.answerGrid{grid-template-columns:repeat(3,1fr)}}
-
 .scoreLiveHide{display:none!important}
+
+.versionBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
+}
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
+}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
 
 .liveResultHide{display:none!important}
 
 
 
 
-/* ===== Ver.2.9 mobile readability fix ===== */
+/* ===== Ver.3.0 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -133,196 +113,148 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   ruby.autoRuby rt{font-size:.42em!important}
 }
 
-</style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
+
+/* ===== Ver.3.0 stable UI ===== */
+html{font-size:16px}
+body{overflow-x:hidden;color:#1f2937}
+.wrap{width:min(980px,96vw)!important;margin-inline:auto}
+.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
+button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
+.choices{display:grid!important;grid-template-columns:1fr!important;gap:14px!important;margin-top:16px}
+.choice{
+  display:block;width:100%;min-height:60px;
+  padding:16px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
+  background:#fff!important;box-shadow:0 8px 18px rgba(30,41,59,.08);
+  color:#1f2937!important;font-weight:1000;line-height:1.6!important;text-align:left;
+}
+.choice.correct{border-color:#86efac!important;background:#dcfce7!important}
+.choice.wrong{border-color:#fca5a5!important;background:#fee2e2!important}
+.scene{
+  min-height:96px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+  color:#1f2937!important;background:#f8fafc;border:2px solid #dbeafe;border-radius:24px;padding:18px;font-weight:1000;font-size:clamp(21px,5vw,34px)
+}
+.scene.hiddenText{color:transparent!important;text-shadow:none!important}
+.scene.hiddenText::after{content:"問題を思い出して答えよう";color:#475569;font-size:clamp(20px,5vw,30px)}
+.hidden{display:none!important}
+.fullOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(22,163,74,.94);color:#fff;font-size:clamp(58px,16vw,128px);font-weight:1000;letter-spacing:.05em;text-shadow:0 6px 20px rgba(0,0,0,.25)}
+ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
+ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
+.timerBar{height:16px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:14px 0}
+.timerFill{height:100%;width:100%;background:#22c55e;transition:width .2s linear}
+.reportItem{background:#fff;border:2px solid #dbeafe;border-radius:20px;padding:14px;margin:12px 0}
+.colorWordTarget{font-size:clamp(48px,14vw,96px);font-weight:1000;text-align:center;margin:16px 0;line-height:1.1}
+@media(max-width:640px){
+  .top{position:static!important}
+  .grid{grid-template-columns:1fr!important;gap:12px!important}
+  h1{font-size:clamp(27px,8vw,42px)!important}
+  .lead{font-size:16px!important;line-height:1.6!important}
+  .status{gap:7px!important;justify-content:center!important}
+  .badge{font-size:14px!important;padding:7px 9px!important}
+  .choice{text-align:center!important}
+  ruby.autoRuby rt{font-size:.42em!important}
+}
+
+.colorGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.colorChoice{height:92px;border-radius:24px;border:4px solid #e5e7eb;box-shadow:0 8px 18px rgba(30,41,59,.12);font-size:0!important;color:transparent!important}
+.colorChoice.correct{outline:8px solid #86efac}
+.colorChoice.wrong{outline:8px solid #fca5a5}
+@media(max-width:640px){.colorGrid{grid-template-columns:repeat(2,1fr)}.colorChoice{height:96px}}
+</style></head>
+<body><div id="overlay" class="fullOverlay hidden">正解！</div>
+<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.3.0</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status">
-<span class="badge">問題 <span id="num">0</span>/20</span>
-<span class="badge scoreLiveHide">正解 <span id="score">0</span></span>
-<span class="badge liveResultHide">ミス <span id="miss">0</span></span>
-<span class="badge">モード <span id="modeName">-</span></span>
-</div>
+<div class="status"><span class="badge">色ことば</span><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge">正解 <span id="score">0</span></span></div>
 <div class="illust">🌈</div>
 <h1 style="text-align:center">色ことば</h1>
-<p class="lead" style="text-align:center">
-色の「ことば」と「文字の色」を切り替えて見るゲームです。<br/>
-漢字・ひらがな・カタカナのひっかけがあります。
-  </p>
-<div class="actions">
-<button onclick="start()">スタート</button>
-<button class="light" onclick="readQ()">🔊 よみあげ</button>
+<p class="lead" style="text-align:center">文字の意味ではなく、文字の「色」を選びます。</p>
+<div class="scene">
+  <div>この文字の色は？</div>
+  <div id="target" class="colorWordTarget">スタート</div>
 </div>
-<div class="wordStage">
-<div class="taskBox" id="task">スタートを押してね</div>
-<div class="bigWord blackText" id="word">色</div>
-<div id="kana" style="text-align:center;color:#64748b;font-weight:900"></div>
-<div class="answerGrid" id="answers"></div>
-</div>
-<div class="message" id="msg"></div>
-<div class="report hidden" id="report"></div>
+<div class="actions"><button onclick="start()">はじめる</button></div>
+<div id="choices" class="colorGrid"></div>
+<div id="msg" class="message"></div>
+<div id="report" class="report hidden"></div>
 </section></main>
-
+<footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
-const colors = [
-  {key:"red", jp:"赤", hira:"あか", kata:"アカ", css:"redText", speak:"あか"},
-  {key:"blue", jp:"青", hira:"あお", kata:"アオ", css:"blueText", speak:"あお"},
-  {key:"yellow", jp:"黄", hira:"きいろ", kata:"キイロ", css:"yellowText", speak:"きいろ"},
-  {key:"green", jp:"緑", hira:"みどり", kata:"ミドリ", css:"greenText", speak:"みどり"},
-  {key:"purple", jp:"紫", hira:"むらさき", kata:"ムラサキ", css:"purpleText", speak:"むらさき"},
-  {key:"orange", jp:"橙", hira:"だいだい", kata:"オレンジ", css:"orangeText", speak:"オレンジ"}
-];
 
-const modeList = [
-  {id:"readWord", name:"文字を読む", task:"書いてある色ことばを選ぼう"},
-  {id:"inkColor", name:"色を見る", task:"文字の色を選ぼう"},
-  {id:"reverse", name:"逆ストループ", task:"ことばにまどわされず、文字の色を選ぼう"},
-  {id:"reading", name:"読み方", task:"読み方が同じ色を選ぼう"}
-];
-
-let deck=[], i=0, score=0, miss=0, wrong=[], currentText="", answered=false;
-
-function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
-
-function makeDeck(){
-  let d=[];
-  for(let r=0;r<7;r++){
-    colors.forEach(word=>{
-      const ink = rand(colors.filter(c=>c.key!==word.key));
-      d.push({mode:"readWord", word, ink});
-      d.push({mode:"inkColor", word, ink});
-      d.push({mode:"reverse", word, ink});
-      d.push({mode:"reading", word, ink});
-    });
+const FURI_ENTRIES = [["10分チェック", "じゅっぷんちぇっく"], ["選んだ答え", "えらんだこたえ"], ["思い出して", "おもいだして"], ["色ことば", "いろことば"], ["色タッチ", "いろたっち"], ["レポート", "れぽーと"], ["制限時間", "せいげんじかん"], ["経過時間", "けいかじかん"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["選択肢", "せんたくし"], ["答える", "こたえる"], ["問題文", "もんだいぶん"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["残り", "のこり"], ["半分", "はんぶん"], ["確認", "かくにん"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["黄色", "きいろ"], ["文字", "もじ"], ["自分", "じぶん"], ["相手", "あいて"], ["行動", "こうどう"], ["安全", "あんぜん"], ["見る", "みる"], ["聞く", "きく"], ["話す", "はなす"], ["秒", "びょう"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["色", "いろ"]];
+function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function R(text){
+  const raw=String(text??"");
+  let out="",i=0;
+  while(i<raw.length){
+    let hit=null;
+    for(const pair of FURI_ENTRIES){
+      const w=pair[0];
+      if(raw.slice(i,i+w.length)===w){hit=pair;break}
+    }
+    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
+    else{out+=esc(raw[i]);i++}
   }
-  return shuffle(d);
+  return out.replaceAll("\\n","<br>");
+}
+function showCorrectOverlay(){
+  const o=document.getElementById("overlay");
+  if(!o)return;
+  o.classList.remove("hidden");
+  setTimeout(()=>o.classList.add("hidden"),650);
+}
+function speakJP(text){
+  if(!("speechSynthesis" in window))return;
+  const u=new SpeechSynthesisUtterance(String(text||""));
+  u.lang="ja-JP";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);
 }
 
-function notation(c){
-  const n=rand(["jp","hira","kata"]);
-  return {main:c[n], sub:n==="jp"?c.hira:c.jp, type:n};
-}
 
+const DATA=[{"word": "赤", "colorName": "青", "color": "#3b82f6"}, {"word": "青", "colorName": "赤", "color": "#ef4444"}, {"word": "黄色", "colorName": "緑", "color": "#22c55e"}, {"word": "緑", "colorName": "黄色", "color": "#facc15"}, {"word": "白", "colorName": "黒", "color": "#111827"}, {"word": "黒", "colorName": "白", "color": "#ffffff"}, {"word": "赤", "colorName": "緑", "color": "#22c55e"}, {"word": "青", "colorName": "黄色", "color": "#facc15"}, {"word": "緑", "colorName": "赤", "color": "#ef4444"}, {"word": "黄色", "colorName": "青", "color": "#3b82f6"}];
+const COLORS=[{"name": "赤", "color": "#ef4444"}, {"name": "青", "color": "#3b82f6"}, {"name": "黄色", "color": "#facc15"}, {"name": "緑", "color": "#22c55e"}, {"name": "白", "color": "#ffffff"}, {"name": "黒", "color": "#111827"}];
+let deck=[],i=0,score=0,records=[];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function start(){
-  deck=makeDeck().slice(0,20);
-  i=0; score=0; miss=0; wrong=[];
-  document.getElementById("score").textContent=score;
-  document.getElementById("miss").textContent=miss;
+  deck=shuffle(DATA).slice(0,10);i=0;score=0;records=[];
+  document.getElementById("score").textContent=0;
   document.getElementById("report").classList.add("hidden");
-  document.getElementById("report").innerHTML="";
   show();
 }
-
 function show(){
-  answered=false;
   document.getElementById("msg").textContent="";
-  document.getElementById("answers").innerHTML="";
-  if(i>=deck.length){finish();return;}
-
+  if(i>=deck.length){finish();return}
   const q=deck[i];
-  const mode=modeList.find(m=>m.id===q.mode);
-  const note=notation(q.word);
-  const correct = (q.mode==="readWord" || q.mode==="reading") ? q.word : q.ink;
-
   document.getElementById("num").textContent=i+1;
-  document.getElementById("modeName").textContent=mode.name;
-  document.getElementById("task").innerHTML='<span class="modeChip">'+mode.name+'</span><br>'+mode.task;
-  document.getElementById("word").className="bigWord "+q.ink.css;
-  document.getElementById("word").textContent=note.main;
-  document.getElementById("kana").textContent="よみ："+note.sub;
-
-  currentText = mode.task + "。表示は " + q.word.speak + "。";
-
-  const answers=shuffle(colors).slice(0,6);
-  if(!answers.some(c=>c.key===correct.key))answers[0]=correct;
-
-  shuffle(answers).forEach(c=>{
-    const btn=document.createElement("div");
-    btn.className="answerBtn";
-    btn.innerHTML='<span class="'+c.css+'">'+esc(c.jp)+'</span><br><span style="font-size:16px;color:#64748b">'+esc(c.hira)+' / '+esc(c.kata)+'</span>';
-    btn.onclick=()=>answer(btn,c,correct,q,mode,note);
-    document.getElementById("answers").appendChild(btn);
+  const t=document.getElementById("target");
+  t.textContent=q.word;
+  t.style.color=q.color;
+  if(q.colorName==="白"){t.style.textShadow="0 0 0 #111,0 2px 8px #111"}
+  else{t.style.textShadow="none"}
+  const box=document.getElementById("choices");box.innerHTML="";
+  shuffle(COLORS).forEach(c=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="colorChoice";b.style.background=c.color;b.setAttribute("aria-label",c.name);
+    if(c.name==="白")b.style.borderColor="#94a3b8";
+    if(c.name==="黒")b.style.borderColor="#111827";
+    b.onclick=()=>answer(c,q,b);
+    box.appendChild(b);
   });
 }
-
-function answer(btn,c,correct,q,mode,note){
-  if(answered)return;
-  answered=true;
-  document.querySelectorAll(".answerBtn").forEach(x=>x.style.pointerEvents="none");
-
-  if(c.key===correct.key){
-    score++;
-    document.getElementById("score").textContent=score;
-    btn.classList.add("correct");
-    document.getElementById("msg").innerHTML='<span class="ok">いいね！切り替えて見られました</span>';
-  }else{
-    miss++;
-    document.getElementById("miss").textContent=miss;
-    btn.classList.add("wrong");
-    wrong.push({
-      mode:mode.name,
-      task:mode.task,
-      display:note.main,
-      displayRead:q.word.jp+"（"+q.word.hira+"）",
-      ink:q.ink.jp+"（"+q.ink.hira+"）",
-      selected:c.jp+"（"+c.hira+"）",
-      correct:correct.jp+"（"+correct.hira+"）",
-      point: pointText(q.mode)
-    });
-    document.getElementById("msg").innerHTML='<span class="ng">もう一回、見る場所を確認しよう</span>';
-  }
-
-  setTimeout(()=>{i++;show();},1300);
+function answer(c,q,b){
+  document.querySelectorAll(".colorChoice").forEach(x=>x.disabled=true);
+  const ok=c.name===q.colorName;
+  if(ok){score++;document.getElementById("score").textContent=score;b.classList.add("correct");showCorrectOverlay();document.getElementById("msg").innerHTML='<span class="ok">正解！</span>'}
+  else{b.classList.add("wrong");document.getElementById("msg").innerHTML='<span class="ng">文字ではなく色を見るよ</span>'}
+  records.push({word:q.word,colorName:q.colorName,selected:c.name,ok});
+  setTimeout(()=>{i++;show()},700);
 }
-
-function pointText(mode){
-  if(mode==="readWord") return "文字の色ではなく、書いてある色ことばを読む問題です。";
-  if(mode==="inkColor") return "書いてある文字ではなく、文字そのものの色を見る問題です。";
-  if(mode==="reverse") return "ことばに引っぱられず、文字の色へ注意を切り替える問題です。";
-  if(mode==="reading") return "漢字・ひらがな・カタカナの読み方を結びつける問題です。";
-  return "見るポイントを切り替える問題です。";
-}
-
 function finish(){
-  document.getElementById("task").textContent="おしまい！";
-  document.getElementById("word").className="bigWord blackText";
-  document.getElementById("word").textContent="⭐";
-  document.getElementById("kana").textContent="";
-  document.getElementById("answers").innerHTML="";
-  document.getElementById("msg").innerHTML='<span class="ok">'+score+' / 20 問できました</span>';
-
-  const r=document.getElementById("report");
-  r.classList.remove("hidden");
-
-  let h='<h2>色ことば レポート</h2>';
-  h+='<p>文字の意味・文字の色・読み方を切り替える力を見るゲームです。</p>';
-  h+='<div class="reportItem"><b>結果</b><br>正解 '+score+' / 20　ミス '+miss+'</div>';
-
-  if(wrong.length){
-    h+='<h3>まちがえた問題</h3>';
-    wrong.forEach((w,n)=>{
-      h+='<div class="reportItem">';
-      h+='<b>'+(n+1)+'. '+esc(w.mode)+'</b><br>';
-      h+='<b>お題：</b>'+esc(w.task)+'<br>';
-      h+='<b>表示：</b>'+esc(w.display)+' ／ 読み '+esc(w.displayRead)+'<br>';
-      h+='<b>文字の色：</b>'+esc(w.ink)+'<br>';
-      h+='<span class="ng"><b>選んだ答え：</b>'+esc(w.selected)+'</span><br>';
-      h+='<span class="ok"><b>よい答え：</b>'+esc(w.correct)+'</span><br>';
-      h+='<b>ポイント：</b>'+esc(w.point);
-      h+='</div>';
-    });
-  }else{
-    h+='<div class="reportItem">まちがえた問題はありませんでした。</div>';
-  }
-
-  h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';
-  r.innerHTML=h;
+  document.getElementById("target").textContent="おしまい";
+  document.getElementById("target").style.color="#1f2937";
+  document.getElementById("choices").innerHTML="";
+  let h='<h2>'+R("色ことば レポート")+'</h2>';
+  h+='<div class="reportItem">'+R("正解")+'：'+score+' / '+records.length+'</div>';
+  records.forEach((r,n)=>{h+='<div class="reportItem"><b>'+(n+1)+'. '+R("文字")+'：'+R(r.word)+'</b><p>'+R("よい答え")+'：'+R(r.colorName)+'</p><p>'+R("選んだ答え")+'：'+R(r.selected)+' '+(r.ok?'○':'△')+'</p></div>'});
+  const rep=document.getElementById("report");rep.innerHTML=h;rep.classList.remove("hidden");
 }
 
-function readQ(){speakText(currentText || document.getElementById("task").textContent)}
 </script>
-
-
-
-
-
-
 </body></html>
