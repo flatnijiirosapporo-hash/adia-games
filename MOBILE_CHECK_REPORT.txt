@@ -1,0 +1,47 @@
+# Ver.3.2 スマホ1画面表示調整レポート
+
+## 対応内容
+- 全ページ共通でスマホ用の余白・文字サイズ・ボタンサイズを圧縮
+- フッターはスマホでは非表示
+- 390px以下の小さい画面では説明文を非表示
+- 問題画面・選択肢・ボタンを1画面に収まりやすく調整
+- ビジョントレーニングは練習エリアを画面内に収めるよう調整
+- 記憶ゲームはカードと表示を小さめに調整
+- レポート表示部分は必要に応じて内部スクロール
+
+## 確認対象HTML
+- balloon_tap.html
+- cognitive_check_10min.html
+- color_touch.html
+- color_word_touch.html
+- danger_game.html
+- feeling_choice.html
+- flatore.html
+- growth.html
+- hiragana_touch.html
+- index.html
+- memory_game.html
+- mogura_tataki.html
+- movement.html
+- parent.html
+- park.html
+- sst.html
+- sst_help.html
+- sst_listening.html
+- sst_quiz.html
+- sst_random.html
+- sst_reflection.html
+- sst_refuse.html
+- sst_repair.html
+- sst_report.html
+- sst_tell.html
+- trouble_response.html
+- turn_waiting.html
+- vision_number.html
+- vision_same.html
+- vision_star.html
+- vision_training.html
+
+## チェック
+- JavaScript構文エラー: 0
+- リンク切れ: 0

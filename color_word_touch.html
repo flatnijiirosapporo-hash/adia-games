@@ -1,260 +1,231 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>色ことば</title><style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
-a{text-decoration:none;color:inherit}
-.wrap{width:min(980px,92vw);margin:0 auto}
-.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e2e8f0}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-weight:900}
-.pill{background:#eef2ff;color:#3730a3;border-radius:999px;padding:8px 14px}
-.hero{padding:30px 0 16px}
-.brand{display:inline-block;background:#fff;border-radius:999px;padding:8px 16px;box-shadow:0 8px 25px rgba(30,41,59,.08);font-weight:900}
-h1{font-size:clamp(32px,6vw,54px);line-height:1.15;margin:16px 0 8px}
-.lead{color:#64748b;font-size:clamp(17px,3vw,22px)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:20px 0 34px}
-.card{background:rgba(255,255,255,.95);border-radius:30px;padding:22px;box-shadow:0 15px 45px rgba(30,41,59,.10);border:1px solid rgba(255,255,255,.85)}
-.menu{min-height:150px}.icon{font-size:52px}.title{font-size:24px;font-weight:900;margin-bottom:8px}.desc{font-size:16px;color:#64748b}
-.panel{background:rgba(255,255,255,.96);border-radius:34px;padding:22px;box-shadow:0 18px 55px rgba(30,41,59,.12);margin:22px 0 38px}
-.status{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-weight:800;margin-bottom:12px}
-.badge{padding:8px 14px;border-radius:999px;background:#f1f5f9}
-.illust{font-size:clamp(70px,16vw,126px);text-align:center;margin:8px 0;white-space:pre-line}
-.scene{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
-.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
-button{border:0;border-radius:999px;padding:13px 22px;font-size:20px;font-weight:900;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;box-shadow:0 10px 25px rgba(79,70,229,.22);cursor:pointer}
-button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:none}
-button.gray{background:#64748b}
-.choices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
-.choice,.tile{background:white;border:4px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(20px,4vw,26px);font-weight:900;text-align:center;white-space:pre-line;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer}
-.tile{min-height:96px;display:flex;align-items:center;justify-content:center;font-size:44px}
-.correct{border-color:#86efac!important;background:#f0fdf4!important}.wrong{border-color:#fca5a5!important;background:#fef2f2!important}
-.message{text-align:center;font-size:28px;font-weight:900;min-height:42px;margin:14px 0}.ok{color:#16a34a}.ng{color:#dc2626}
-.tip,.report{margin-top:14px;border-radius:26px;padding:18px;background:#f8fafc;border:2px solid #e2e8f0}.tip{background:#ecfdf5;border-color:#bbf7d0}.report{background:#fff7ed;border-color:#fed7aa}
-.reportItem{background:#fff;border:3px solid #fed7aa;border-radius:22px;padding:16px;margin:14px 0}
-.hidden{display:none!important}
-.footer{text-align:center;color:#64748b;padding:22px}
-.shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
-.red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
-@media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="refresh" content="0; url=index.html">
+<title>は終了しました</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;background:#f8fafc;color:#1f2937;padding:24px}
+.card{max-width:720px;margin:40px auto;background:white;border:2px solid #dbeafe;border-radius:24px;padding:24px;text-align:center}
+a{display:inline-block;margin-top:18px;background:#2563eb;color:white;text-decoration:none;padding:14px 20px;border-radius:999px;font-weight:800}
 
-.scoreLiveHide{display:none!important}
-
-.versionBadge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(135deg,#4f46e5,#06b6d4);
-  color:white;
-  font-weight:1000;
-  border-radius:999px;
-  padding:10px 18px;
-  box-shadow:0 10px 24px rgba(79,70,229,.22);
-  margin:12px 0;
+/* ===== Ver.3.2 one-screen smartphone layout ===== */
+:root{
+  --mobile-safe-gap:8px;
 }
-.versionNote{
-  display:inline-block;
-  background:#fff;
-  color:#475569;
-  border:2px solid #e2e8f0;
-  border-radius:999px;
-  padding:8px 14px;
-  font-weight:800;
-  margin-left:8px;
+html,body{
+  min-height:100%;
+  overflow-x:hidden;
 }
-@media(max-width:640px){
-  .versionNote{margin-left:0;margin-top:8px}
+body{
+  font-size:16px;
 }
-
-.liveResultHide{display:none!important}
-
-
-
-
-/* ===== Ver.3.0 mobile readability fix ===== */
-html{font-size:16px}
-body{overflow-x:hidden}
-.wrap{width:min(980px,96vw)!important}
-.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
-.grid{gap:14px!important}
-.card,.menu{border-radius:22px!important}
-button,.pill,.choice,.sstChoice,.tile,.modeBtn{
-  touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
+.wrap{
+  width:min(980px,96vw)!important;
 }
-button{min-height:54px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important}
-.choices,.sstChoices{gap:12px!important}
-.choice,.sstChoice,.tile{
-  min-height:58px;
-  padding:14px!important;
-  line-height:1.55!important;
-  word-break:keep-all;
-  overflow-wrap:anywhere;
+.top{
+  position:static!important;
 }
-.scene{line-height:1.65!important}
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.25}
-ruby.autoRuby rb{display:ruby-base}
-ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
-.fullOverlay{
-  position:fixed;inset:0;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(22,163,74,.92);color:white;
-  font-size:clamp(58px,16vw,128px);font-weight:1000;
-  letter-spacing:.04em;text-shadow:0 6px 20px rgba(0,0,0,.25);
+.nav{
+  min-height:auto!important;
+  padding:6px 0!important;
+  gap:8px!important;
+  flex-wrap:wrap!important;
 }
-.hidden{display:none!important}
-@media(max-width:640px){
-  .top{position:static!important}
-  .nav{gap:8px;flex-wrap:wrap}
-  h1{font-size:clamp(27px,8vw,42px)!important}
-  .lead{font-size:16px!important;line-height:1.6!important}
-  .status{gap:7px!important;justify-content:center!important}
-  .badge{font-size:14px!important;padding:7px 9px!important}
-  .choices,.sstChoices{grid-template-columns:1fr!important}
-  .grid{grid-template-columns:1fr!important}
-  ruby.autoRuby rt{font-size:.42em!important}
+.nav a,.pill,.badge{
+  font-size:13px!important;
+  padding:6px 9px!important;
+  line-height:1.15!important;
 }
-
-
-/* ===== Ver.3.0 stable UI ===== */
-html{font-size:16px}
-body{overflow-x:hidden;color:#1f2937}
-.wrap{width:min(980px,96vw)!important;margin-inline:auto}
-.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
-button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
-.choices{display:grid!important;grid-template-columns:1fr!important;gap:14px!important;margin-top:16px}
-.choice{
-  display:block;width:100%;min-height:60px;
-  padding:16px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
-  background:#fff!important;box-shadow:0 8px 18px rgba(30,41,59,.08);
-  color:#1f2937!important;font-weight:1000;line-height:1.6!important;text-align:left;
+.panel{
+  padding:clamp(12px,3vw,22px)!important;
+  border-radius:22px!important;
+  margin-top:8px!important;
 }
-.choice.correct{border-color:#86efac!important;background:#dcfce7!important}
-.choice.wrong{border-color:#fca5a5!important;background:#fee2e2!important}
+h1{
+  margin:6px 0 6px!important;
+  line-height:1.15!important;
+}
+.lead{
+  margin:4px 0 8px!important;
+  line-height:1.35!important;
+}
+.illust{
+  font-size:clamp(34px,8vw,56px)!important;
+  margin:2px 0!important;
+  line-height:1!important;
+}
+.status{
+  gap:6px!important;
+  margin:4px 0 8px!important;
+  flex-wrap:wrap!important;
+}
+.actions{
+  gap:8px!important;
+  margin:8px 0!important;
+  flex-wrap:wrap!important;
+}
+button{
+  min-height:46px!important;
+  padding:9px 13px!important;
+  font-size:clamp(15px,3.8vw,19px)!important;
+  border-radius:18px!important;
+}
 .scene{
-  min-height:96px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
-  color:#1f2937!important;background:#f8fafc;border:2px solid #dbeafe;border-radius:24px;padding:18px;font-weight:1000;font-size:clamp(21px,5vw,34px)
+  min-height:68px!important;
+  padding:10px 12px!important;
+  border-radius:18px!important;
+  font-size:clamp(18px,4.6vw,28px)!important;
+  line-height:1.35!important;
 }
-.scene.hiddenText{color:transparent!important;text-shadow:none!important}
-.scene.hiddenText::after{content:"問題を思い出して答えよう";color:#475569;font-size:clamp(20px,5vw,30px)}
-.hidden{display:none!important}
-.fullOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(22,163,74,.94);color:#fff;font-size:clamp(58px,16vw,128px);font-weight:1000;letter-spacing:.05em;text-shadow:0 6px 20px rgba(0,0,0,.25)}
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
-ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
-.timerBar{height:16px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:14px 0}
-.timerFill{height:100%;width:100%;background:#22c55e;transition:width .2s linear}
-.reportItem{background:#fff;border:2px solid #dbeafe;border-radius:20px;padding:14px;margin:12px 0}
-.colorWordTarget{font-size:clamp(48px,14vw,96px);font-weight:1000;text-align:center;margin:16px 0;line-height:1.1}
+.choices,.sstChoices{
+  gap:8px!important;
+  margin-top:8px!important;
+}
+.choice,.sstChoice,.tile{
+  min-height:46px!important;
+  padding:10px 12px!important;
+  border-radius:18px!important;
+  font-size:clamp(15px,3.8vw,20px)!important;
+  line-height:1.35!important;
+}
+.report,.tip,.message,.sstExplain{
+  margin-top:8px!important;
+  padding:10px 12px!important;
+  line-height:1.35!important;
+}
+.footer{
+  margin-top:8px!important;
+  padding:8px 12px!important;
+  font-size:12px!important;
+}
+
+/* smartphone: aim to fit first task screen into one viewport */
 @media(max-width:640px){
-  .top{position:static!important}
-  .grid{grid-template-columns:1fr!important;gap:12px!important}
-  h1{font-size:clamp(27px,8vw,42px)!important}
-  .lead{font-size:16px!important;line-height:1.6!important}
-  .status{gap:7px!important;justify-content:center!important}
-  .badge{font-size:14px!important;padding:7px 9px!important}
-  .choice{text-align:center!important}
-  ruby.autoRuby rt{font-size:.42em!important}
-}
-
-.colorGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
-.colorChoice{height:92px;border-radius:24px;border:4px solid #e5e7eb;box-shadow:0 8px 18px rgba(30,41,59,.12);font-size:0!important;color:transparent!important}
-.colorChoice.correct{outline:8px solid #86efac}
-.colorChoice.wrong{outline:8px solid #fca5a5}
-@media(max-width:640px){.colorGrid{grid-template-columns:repeat(2,1fr)}.colorChoice{height:96px}}
-</style></head>
-<body><div id="overlay" class="fullOverlay hidden">正解！</div>
-<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.3.0</span></div></div>
-<main class="wrap"><section class="panel">
-<div class="status"><span class="badge">色ことば</span><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge">正解 <span id="score">0</span></span></div>
-<div class="illust">🌈</div>
-<h1 style="text-align:center">色ことば</h1>
-<p class="lead" style="text-align:center">文字の意味ではなく、文字の「色」を選びます。</p>
-<div class="scene">
-  <div>この文字の色は？</div>
-  <div id="target" class="colorWordTarget">スタート</div>
-</div>
-<div class="actions"><button onclick="start()">はじめる</button></div>
-<div id="choices" class="colorGrid"></div>
-<div id="msg" class="message"></div>
-<div id="report" class="report hidden"></div>
-</section></main>
-<footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
-<script>
-
-const FURI_ENTRIES = [["10分チェック", "じゅっぷんちぇっく"], ["選んだ答え", "えらんだこたえ"], ["思い出して", "おもいだして"], ["色ことば", "いろことば"], ["色タッチ", "いろたっち"], ["レポート", "れぽーと"], ["制限時間", "せいげんじかん"], ["経過時間", "けいかじかん"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["選択肢", "せんたくし"], ["答える", "こたえる"], ["問題文", "もんだいぶん"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["残り", "のこり"], ["半分", "はんぶん"], ["確認", "かくにん"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["黄色", "きいろ"], ["文字", "もじ"], ["自分", "じぶん"], ["相手", "あいて"], ["行動", "こうどう"], ["安全", "あんぜん"], ["見る", "みる"], ["聞く", "きく"], ["話す", "はなす"], ["秒", "びょう"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["色", "いろ"]];
-function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function R(text){
-  const raw=String(text??"");
-  let out="",i=0;
-  while(i<raw.length){
-    let hit=null;
-    for(const pair of FURI_ENTRIES){
-      const w=pair[0];
-      if(raw.slice(i,i+w.length)===w){hit=pair;break}
-    }
-    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
-    else{out+=esc(raw[i]);i++}
+  body{
+    min-height:100dvh;
   }
-  return out.replaceAll("\\n","<br>");
-}
-function showCorrectOverlay(){
-  const o=document.getElementById("overlay");
-  if(!o)return;
-  o.classList.remove("hidden");
-  setTimeout(()=>o.classList.add("hidden"),650);
-}
-function speakJP(text){
-  if(!("speechSynthesis" in window))return;
-  const u=new SpeechSynthesisUtterance(String(text||""));
-  u.lang="ja-JP";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);
+  .wrap{
+    width:97vw!important;
+  }
+  .top{
+    margin-bottom:0!important;
+  }
+  .panel{
+    padding:10px!important;
+    margin-top:4px!important;
+  }
+  h1{
+    font-size:clamp(23px,6.2vw,32px)!important;
+  }
+  .lead{
+    font-size:13px!important;
+  }
+  .illust{
+    font-size:36px!important;
+  }
+  .badge,.pill,.nav a{
+    font-size:12px!important;
+    padding:5px 8px!important;
+  }
+  .actions button{
+    flex:1 1 42%;
+  }
+  .scene{
+    min-height:60px!important;
+    font-size:clamp(17px,4.5vw,24px)!important;
+    padding:9px!important;
+  }
+  .choice,.sstChoice{
+    min-height:44px!important;
+    padding:9px!important;
+    font-size:clamp(15px,4vw,19px)!important;
+    text-align:center!important;
+  }
+  .sstChoice::before{
+    display:block!important;
+    width:max-content!important;
+    margin:0 auto 4px!important;
+    font-size:11px!important;
+    padding:2px 8px!important;
+  }
+  .timerBar{
+    height:10px!important;
+    margin:6px 0!important;
+  }
+  .colorGrid{
+    gap:8px!important;
+    margin-top:8px!important;
+  }
+  .colorBtn,.colorChoice{
+    height:64px!important;
+    border-radius:18px!important;
+  }
+  .visionArea{
+    height:58dvh!important;
+    min-height:260px!important;
+    margin-top:8px!important;
+  }
+  .target{
+    width:56px!important;
+    height:56px!important;
+    font-size:28px!important;
+    border-radius:18px!important;
+  }
+  .memoryShow{
+    font-size:clamp(42px,14vw,76px)!important;
+    margin:6px 0!important;
+  }
+  .memoryCards{
+    gap:8px!important;
+  }
+  .memoryCards button{
+    min-height:60px!important;
+    font-size:clamp(28px,9vw,46px)!important;
+  }
+  .grid{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  .card,.menu{
+    padding:12px!important;
+    border-radius:18px!important;
+  }
+  .card .icon,.menu .icon{
+    font-size:32px!important;
+  }
+  .card .title,.menu .title{
+    font-size:18px!important;
+    margin:2px 0!important;
+  }
+  .card .desc,.menu .desc{
+    font-size:13px!important;
+    line-height:1.3!important;
+  }
+  .footer{
+    display:none!important;
+  }
 }
 
-
-const DATA=[{"word": "赤", "colorName": "青", "color": "#3b82f6"}, {"word": "青", "colorName": "赤", "color": "#ef4444"}, {"word": "黄色", "colorName": "緑", "color": "#22c55e"}, {"word": "緑", "colorName": "黄色", "color": "#facc15"}, {"word": "白", "colorName": "黒", "color": "#111827"}, {"word": "黒", "colorName": "白", "color": "#ffffff"}, {"word": "赤", "colorName": "緑", "color": "#22c55e"}, {"word": "青", "colorName": "黄色", "color": "#facc15"}, {"word": "緑", "colorName": "赤", "color": "#ef4444"}, {"word": "黄色", "colorName": "青", "color": "#3b82f6"}];
-const COLORS=[{"name": "赤", "color": "#ef4444"}, {"name": "青", "color": "#3b82f6"}, {"name": "黄色", "color": "#facc15"}, {"name": "緑", "color": "#22c55e"}, {"name": "白", "color": "#ffffff"}, {"name": "黒", "color": "#111827"}];
-let deck=[],i=0,score=0,records=[];
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function start(){
-  deck=shuffle(DATA).slice(0,10);i=0;score=0;records=[];
-  document.getElementById("score").textContent=0;
-  document.getElementById("report").classList.add("hidden");
-  show();
-}
-function show(){
-  document.getElementById("msg").textContent="";
-  if(i>=deck.length){finish();return}
-  const q=deck[i];
-  document.getElementById("num").textContent=i+1;
-  const t=document.getElementById("target");
-  t.textContent=q.word;
-  t.style.color=q.color;
-  if(q.colorName==="白"){t.style.textShadow="0 0 0 #111,0 2px 8px #111"}
-  else{t.style.textShadow="none"}
-  const box=document.getElementById("choices");box.innerHTML="";
-  shuffle(COLORS).forEach(c=>{
-    const b=document.createElement("button");
-    b.type="button";b.className="colorChoice";b.style.background=c.color;b.setAttribute("aria-label",c.name);
-    if(c.name==="白")b.style.borderColor="#94a3b8";
-    if(c.name==="黒")b.style.borderColor="#111827";
-    b.onclick=()=>answer(c,q,b);
-    box.appendChild(b);
-  });
-}
-function answer(c,q,b){
-  document.querySelectorAll(".colorChoice").forEach(x=>x.disabled=true);
-  const ok=c.name===q.colorName;
-  if(ok){score++;document.getElementById("score").textContent=score;b.classList.add("correct");showCorrectOverlay();document.getElementById("msg").innerHTML='<span class="ok">正解！</span>'}
-  else{b.classList.add("wrong");document.getElementById("msg").innerHTML='<span class="ng">文字ではなく色を見るよ</span>'}
-  records.push({word:q.word,colorName:q.colorName,selected:c.name,ok});
-  setTimeout(()=>{i++;show()},700);
-}
-function finish(){
-  document.getElementById("target").textContent="おしまい";
-  document.getElementById("target").style.color="#1f2937";
-  document.getElementById("choices").innerHTML="";
-  let h='<h2>'+R("色ことば レポート")+'</h2>';
-  h+='<div class="reportItem">'+R("正解")+'：'+score+' / '+records.length+'</div>';
-  records.forEach((r,n)=>{h+='<div class="reportItem"><b>'+(n+1)+'. '+R("文字")+'：'+R(r.word)+'</b><p>'+R("よい答え")+'：'+R(r.colorName)+'</p><p>'+R("選んだ答え")+'：'+R(r.selected)+' '+(r.ok?'○':'△')+'</p></div>'});
-  const rep=document.getElementById("report");rep.innerHTML=h;rep.classList.remove("hidden");
+/* very small phones */
+@media(max-width:390px){
+  .lead{display:none!important;}
+  .illust{font-size:30px!important;}
+  h1{font-size:23px!important;}
+  .scene{min-height:54px!important;font-size:16px!important;}
+  button{min-height:42px!important;font-size:14px!important;padding:8px 10px!important;}
+  .choice,.sstChoice{min-height:40px!important;font-size:14px!important;padding:8px!important;}
+  .badge,.pill,.nav a{font-size:11px!important;padding:4px 7px!important;}
 }
 
-</script>
-</body></html>
+</style>
+</head>
+<body>
+<div class="card">
+<h1>は終了しました</h1>
+<p>TOPから別のメニューを選んでください。</p>
+<a href="index.html">TOPへ戻る</a>
+</div>
+</body>
+</html>

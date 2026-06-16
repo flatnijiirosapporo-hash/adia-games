@@ -1,5 +1,6 @@
-Ver.3.0
-10分チェック・色ことば修正
+Ver.3.2
+スマホ1画面表示調整
+html_files: 31
 node_errors: 0
 node_error_detail: []
 link_missing: []
