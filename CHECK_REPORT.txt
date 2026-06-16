@@ -1,10 +1,7 @@
 Ver1.1
-Ver表記削除・スタート統一
+スタート非表示・確認付きもう1回修正
 node_errors: 0
 node_error_detail: []
 link_missing: []
-ver_issues_non_index: []
-start_text_issues: []
-retry_button_issues: []
-top_label_issues: []
+stop_label_issues: []
 リンク切れなし

@@ -544,6 +544,71 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 /* .2 start/version cleanup */
 .hiddenStart{display:none!important}
 
+
+/* .3 start/retry confirm fix */
+.hiddenStart{display:none!important}
+.retryBox{
+  margin-top:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+}
+.retryBtn{
+  min-height:44px!important;
+  padding:10px 18px!important;
+  border-radius:999px!important;
+  background:#2563eb!important;
+  color:#fff!important;
+  border:0!important;
+  font-weight:1000!important;
+  font-size:16px!important;
+  box-shadow:0 8px 18px rgba(37,99,235,.22);
+}
+.confirmOverlay{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  background:rgba(15,23,42,.55);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.confirmCard{
+  width:min(520px,92vw);
+  background:#fff;
+  border-radius:24px;
+  padding:22px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(15,23,42,.25);
+}
+.confirmCard h2{
+  margin:0 0 10px;
+  font-size:24px;
+}
+.confirmCard p{
+  font-size:18px;
+  line-height:1.6;
+  font-weight:900;
+}
+.confirmActions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.confirmActions button{
+  min-width:120px;
+}
+@media(max-width:640px){
+  .retryBtn{min-height:40px!important;font-size:14px!important;padding:8px 14px!important}
+  .confirmCard{padding:18px}
+  .confirmCard h2{font-size:20px}
+  .confirmCard p{font-size:16px}
+}
+
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
 <main class="wrap"><section class="panel tenCheckBox"><div class="status"><span class="badge">10分チェック</span><span class="badge">もんだい <span id="num">0</span>/<span id="total">10</span></span><span class="badge">できた <span id="score">0</span></span><span class="badge">のこり <span id="time">12</span>びょう</span></div><div class="tenTimerBar"><div class="tenTimerFill" id="timerFill"></div></div><h1 style="text-align:center">10分チェック</h1><p class="lead" style="text-align:center">1もん12びょう。6びょうで もんだいが かくれます。</p><div class="tenScene" id="scene">スタートしてね</div><div class="actions"><button id="startBtn" type="button" onclick="start()">スタート</button><button type="button" class="light" onclick="readQ()">🔊 よみあげ</button><button type="button" class="light" onclick="finish()">レポート</button></div><div class="tenChoices" id="choices"></div><div id="msg" class="message"></div><div id="report" class="report hidden"></div></section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer><script>
 const DATA = [
@@ -840,17 +905,101 @@ function finish(){clearInterval(timer);document.getElementById('scene').classLis
 function readQ(){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(current||document.getElementById('scene').textContent);u.lang='ja-JP';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('scene').innerHTML=R('スタートしてね');document.getElementById('total').textContent=DATA.length;document.getElementById('time').textContent=LIMIT});
 </script>
+
+
+
 <script>
-function hideStartButton(){
-  var b=document.getElementById("startBtn");
-  if(b){ b.classList.add("hiddenStart"); }
-}
-document.addEventListener("DOMContentLoaded",function(){
-  var b=document.getElementById("startBtn");
-  if(b){
-    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
+(function(){
+  function getStartFunction(){
+    if (typeof window.start === "function") return window.start;
+    if (typeof window.startGame === "function") return window.startGame;
+    if (typeof window.newGame === "function") return window.newGame;
+    if (typeof window.begin === "function") return window.begin;
+    return null;
   }
-});
+
+  window.hideStartButton = function(){
+    var b = document.getElementById("startBtn");
+    if (b) b.classList.add("hiddenStart");
+  };
+
+  window.showStartButton = function(){
+    var b = document.getElementById("startBtn");
+    if (b) b.classList.remove("hiddenStart");
+  };
+
+  window.confirmRetryGame = function(){
+    var old = document.getElementById("retryConfirmOverlay");
+    if (old) old.remove();
+
+    var overlay = document.createElement("div");
+    overlay.className = "confirmOverlay";
+    overlay.id = "retryConfirmOverlay";
+    overlay.innerHTML =
+      '<div class="confirmCard">' +
+        '<h2>もう1回の前に</h2>' +
+        '<p>周りにやりたい友達がいないか確認してね。</p>' +
+        '<div class="confirmActions">' +
+          '<button type="button" id="retryOkBtn">OK</button>' +
+          '<button type="button" class="light" id="retryCancelBtn">やめる</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    document.getElementById("retryCancelBtn").onclick = function(){
+      overlay.remove();
+    };
+
+    document.getElementById("retryOkBtn").onclick = function(){
+      overlay.remove();
+      var box = document.getElementById("retryBox");
+      if (box) box.remove();
+
+      var fn = getStartFunction();
+      if (fn) {
+        try {
+          fn();
+          setTimeout(window.hideStartButton, 0);
+        } catch(e) {
+          location.reload();
+        }
+      } else {
+        location.reload();
+      }
+    };
+  };
+
+  window.showRetryButton = function(){
+    if (document.getElementById("retryBox")) return;
+
+    var target =
+      document.getElementById("msg") ||
+      document.getElementById("report") ||
+      document.querySelector(".panel") ||
+      document.body;
+
+    var box = document.createElement("div");
+    box.className = "retryBox";
+    box.id = "retryBox";
+    box.innerHTML = '<button type="button" class="retryBtn" onclick="confirmRetryGame()">もう1回</button>';
+
+    if (target && target.parentNode) {
+      target.parentNode.insertBefore(box, target.nextSibling);
+    } else {
+      document.body.appendChild(box);
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", function(){
+    var b = document.getElementById("startBtn");
+    if (b) {
+      b.textContent = "スタート";
+      b.addEventListener("click", function(){
+        setTimeout(window.hideStartButton, 0);
+      });
+    }
+  });
+})();
 </script>
 
 </body></html>
