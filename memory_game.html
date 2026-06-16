@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver1.1 mobile readability fix ===== */
+/* ===== mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,7 +114,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 smartphone and PC fix ===== */
+/* ===== smartphone and PC fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -147,7 +147,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   ruby.autoRuby rt{font-size:.42em!important}
 }
 .memoryShow{font-size:clamp(54px,18vw,120px);text-align:center;margin:18px 0}.memoryCards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.memoryCards button{font-size:clamp(34px,10vw,64px)!important;min-height:86px!important}@media(max-width:640px){.memoryCards{grid-template-columns:repeat(3,1fr)}}
-/* ===== Ver1.1 iPad no-scroll layout fix ===== */
+/* ===== iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -185,7 +185,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 iPad landscape one-screen all games ===== */
+/* ===== iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -400,7 +400,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 verified layout and script safety fix ===== */
+/* ===== verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -470,14 +470,18 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   z-index:2!important;
 }
 
+
+/* .2 start/version cleanup */
+.hiddenStart{display:none!important}
+
 </style></head>
 <body><div id="overlay" class="fullOverlay hidden">正解！</div>
-<div class="top"><div class="wrap nav"><a href="flatore.html">← 戻る</a><span class="pill">にじフラ Ver1.1</span></div></div>
+<div class="top"><div class="wrap nav"><a href="flatore.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status"><span class="badge">レベル <span id="level">1</span></span><span class="badge">成功 <span id="score">0</span></span></div>
 <div class="memoryShow" id="show">🧠</div><h1 style="text-align:center">記憶ゲーム</h1>
 <p class="lead" style="text-align:center">出た絵を順番に押します。間違えたら、最初から押し直します。</p>
-<div class="actions"><button onclick="start()">スタート</button><button class="light" onclick="showSeq()">もう一回見る</button></div>
+<div class="actions"><button id="startBtn" type="button" onclick="start()">スタート</button><button class="light" onclick="showSeq()">もう一回見る</button></div>
 <div class="scene" id="msg">スタートしてね</div><div class="memoryCards" id="cards"></div>
 </section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
@@ -518,4 +522,18 @@ function tap(p){if(showing||!started)return;if(p===seq[idx]){idx++;document.getE
 makeCards();lock(true);
 
 </script>
+
+<script>
+function hideStartButton(){
+  var b=document.getElementById("startBtn");
+  if(b){ b.classList.add("hiddenStart"); }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var b=document.getElementById("startBtn");
+  if(b){
+    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
+  }
+});
+</script>
+
 </body></html>

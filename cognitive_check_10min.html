@@ -68,7 +68,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver1.1 mobile readability fix ===== */
+/* ===== mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -113,7 +113,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 iPad no-scroll layout fix ===== */
+/* ===== iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -151,7 +151,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 iPad landscape one-screen all games ===== */
+/* ===== iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -366,7 +366,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 verified layout and script safety fix ===== */
+/* ===== verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -439,7 +439,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 
 .tenScene{min-height:52px;background:#f8fafc;border:2px solid #dbeafe;border-radius:16px;padding:8px 10px;text-align:center;display:flex;align-items:center;justify-content:center;color:#1f2937!important;font-weight:1000;line-height:1.25;font-size:17px}.tenScene.hideQuestion{color:transparent!important}.tenScene.hideQuestion::after{content:"もんだいを おもいだして こたえよう";color:#475569!important}.tenChoices{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}.tenChoice{min-height:38px;padding:7px 9px;border:2px solid #dbeafe;border-radius:15px;background:white;color:#1f2937!important;font-weight:1000;text-align:center}.tenChoice.correct{background:#dcfce7;border-color:#86efac}.tenChoice.wrong{background:#fee2e2;border-color:#fca5a5}.tenTimerBar{height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:4px 0}.tenTimerFill{height:100%;background:#22c55e;width:100%;transition:width .2s linear}.tenReportItem{background:#fff;border:2px solid #dbeafe;border-radius:14px;padding:7px 9px;margin:5px 0;line-height:1.25;font-size:12px}.hidden{display:none!important}@media(max-width:640px){.tenChoices{grid-template-columns:1fr}.tenScene{min-height:50px;font-size:16px}.tenChoice{min-height:38px;font-size:13px;padding:7px}}
 
-/* ===== Ver1.1 verified layout and script safety fix ===== */
+/* ===== verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -509,7 +509,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   z-index:2!important;
 }
 
-/* Ver1.1 10分チェック 絵文字つき問題 */
+/* 10分チェック 絵文字つき問題 */
 .tenScene, .scene{
   word-break:keep-all;
 }
@@ -526,9 +526,304 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   }
 }
 
-</style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← 戻る</a><span class="pill">にじフラ Ver1.1</span></div></div>
-<main class="wrap"><section class="panel tenCheckBox"><div class="status"><span class="badge">10分チェック</span><span class="badge">もんだい <span id="num">0</span>/<span id="total">10</span></span><span class="badge">できた <span id="score">0</span></span><span class="badge">のこり <span id="time">12</span>びょう</span></div><div class="tenTimerBar"><div class="tenTimerFill" id="timerFill"></div></div><h1 style="text-align:center">10分チェック</h1><p class="lead" style="text-align:center">1もん12びょう。6びょうで もんだいが かくれます。</p><div class="tenScene" id="scene">スタートしてね</div><div class="actions"><button type="button" onclick="start()">はじめる</button><button type="button" class="light" onclick="readQ()">🔊 よみあげ</button><button type="button" class="light" onclick="finish()">レポート</button></div><div class="tenChoices" id="choices"></div><div id="msg" class="message"></div><div id="report" class="report hidden"></div></section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer><script>
-const DATA=[{"scene": "🍎🍊 りんご と みかん は、どこが にていますか？", "choices": [{"text": "どちらも くだもの", "ok": true}, {"text": "どちらも のりもの", "ok": false}, {"text": "どちらも ふく", "ok": false}, {"text": "どちらも すうじ", "ok": false}], "tip": "おなじ なかまを さがします。"}, {"scene": "👉 みぎ にあるものを えらびます。", "choices": [{"text": "みぎ", "ok": true}, {"text": "ひだり", "ok": false}, {"text": "うえ", "ok": false}, {"text": "した", "ok": false}], "tip": "むきを かくにんします。"}, {"scene": "🔢 1、2、3 の つぎにくる すうじは どれですか？", "choices": [{"text": "4", "ok": true}, {"text": "2", "ok": false}, {"text": "5", "ok": false}, {"text": "1", "ok": false}], "tip": "じゅんばんを みます。"}, {"scene": "🔴🔵 あか、あお、あか、あお の つぎは どれですか？", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "くりかえしを みます。"}, {"scene": "🧩 おなじ かたちを さがすとき、まず なにを みますか？", "choices": [{"text": "かたちの とくちょう", "ok": true}, {"text": "となりの ひと", "ok": false}, {"text": "おとの おおきさ", "ok": false}, {"text": "におい", "ok": false}], "tip": "みるところを きめます。"}, {"scene": "💬 せつめいが わからないとき、どうしますか？", "choices": [{"text": "もういっかい きく", "ok": true}, {"text": "おこる", "ok": false}, {"text": "はしる", "ok": false}, {"text": "なにも みない", "ok": false}], "tip": "わからないときは、きいて だいじょうぶです。"}, {"scene": "🧠 すこしだけ みて おぼえるとき、どこを みますか？", "choices": [{"text": "だいじな ところ", "ok": true}, {"text": "ゆかだけ", "ok": false}, {"text": "てんじょうだけ", "ok": false}, {"text": "めを とじる", "ok": false}], "tip": "だいじな ところを みます。"}, {"scene": "🟢🟩 みどりの まる と みどりの しかく は、どこが おなじですか？", "choices": [{"text": "いろ", "ok": true}, {"text": "かたち", "ok": false}, {"text": "かず", "ok": false}, {"text": "おおきさだけ", "ok": false}], "tip": "いろ と かたちを わけます。"}, {"scene": "🚗🚃 くるま と でんしゃ は、どこが にていますか？", "choices": [{"text": "どちらも のりもの", "ok": true}, {"text": "どちらも たべもの", "ok": false}, {"text": "どちらも どうぶつ", "ok": false}, {"text": "どちらも いろ", "ok": false}], "tip": "おなじ なかまを かんがえます。"}, {"scene": "⭐⭕ ほし、まる、ほし、まる の つぎは どれですか？", "choices": [{"text": "ほし", "ok": true}, {"text": "まる", "ok": false}, {"text": "さんかく", "ok": false}, {"text": "しかく", "ok": false}], "tip": "じゅんばんを みます。"}];
+
+/* 10分チェック 図形・数字つき */
+.tenScene, .scene{
+  letter-spacing:.02em;
+}
+.tenChoice{
+  font-size:clamp(18px,4.2vw,25px)!important;
+}
+@media(max-width:640px){
+  .tenChoice{
+    font-size:16px!important;
+  }
+}
+
+
+/* .2 start/version cleanup */
+.hiddenStart{display:none!important}
+
+</style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
+<main class="wrap"><section class="panel tenCheckBox"><div class="status"><span class="badge">10分チェック</span><span class="badge">もんだい <span id="num">0</span>/<span id="total">10</span></span><span class="badge">できた <span id="score">0</span></span><span class="badge">のこり <span id="time">12</span>びょう</span></div><div class="tenTimerBar"><div class="tenTimerFill" id="timerFill"></div></div><h1 style="text-align:center">10分チェック</h1><p class="lead" style="text-align:center">1もん12びょう。6びょうで もんだいが かくれます。</p><div class="tenScene" id="scene">スタートしてね</div><div class="actions"><button id="startBtn" type="button" onclick="start()">スタート</button><button type="button" class="light" onclick="readQ()">🔊 よみあげ</button><button type="button" class="light" onclick="finish()">レポート</button></div><div class="tenChoices" id="choices"></div><div id="msg" class="message"></div><div id="report" class="report hidden"></div></section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer><script>
+const DATA = [
+  {
+    "illust": "🍎🍊",
+    "scene": "🍎 と 🍊 は、どこが にていますか？",
+    "choices": [
+      {
+        "text": "どちらも くだもの",
+        "ok": true
+      },
+      {
+        "text": "どちらも のりもの",
+        "ok": false
+      },
+      {
+        "text": "どちらも ふく",
+        "ok": false
+      },
+      {
+        "text": "どちらも すうじ",
+        "ok": false
+      }
+    ],
+    "tip": "おなじ なかまを さがします。"
+  },
+  {
+    "illust": "👉",
+    "scene": "👉 みぎ にあるものを えらびます。",
+    "choices": [
+      {
+        "text": "みぎ",
+        "ok": true
+      },
+      {
+        "text": "ひだり",
+        "ok": false
+      },
+      {
+        "text": "うえ",
+        "ok": false
+      },
+      {
+        "text": "した",
+        "ok": false
+      }
+    ],
+    "tip": "むきを かくにんします。"
+  },
+  {
+    "illust": "1 2 3",
+    "scene": "🔢 1、2、3 の つぎにくる すうじは どれですか？",
+    "choices": [
+      {
+        "text": "4",
+        "ok": true
+      },
+      {
+        "text": "2",
+        "ok": false
+      },
+      {
+        "text": "5",
+        "ok": false
+      },
+      {
+        "text": "1",
+        "ok": false
+      }
+    ],
+    "tip": "じゅんばんを みます。"
+  },
+  {
+    "illust": "🔴🔵",
+    "scene": "🔴、🔵、🔴、🔵 の つぎは どれですか？",
+    "choices": [
+      {
+        "text": "🔴 あか",
+        "ok": true
+      },
+      {
+        "text": "🔵 あお",
+        "ok": false
+      },
+      {
+        "text": "🟡 きいろ",
+        "ok": false
+      },
+      {
+        "text": "🟢 みどり",
+        "ok": false
+      }
+    ],
+    "tip": "くりかえしを みます。"
+  },
+  {
+    "illust": "☆ ○",
+    "scene": "☆、○、☆、○ の つぎは どれですか？",
+    "choices": [
+      {
+        "text": "☆",
+        "ok": true
+      },
+      {
+        "text": "○",
+        "ok": false
+      },
+      {
+        "text": "△",
+        "ok": false
+      },
+      {
+        "text": "□",
+        "ok": false
+      }
+    ],
+    "tip": "じゅんばんの くりかえしを みます。"
+  },
+  {
+    "illust": "2 4 6",
+    "scene": "🔢 2、4、6 の つぎにくる すうじは どれですか？",
+    "choices": [
+      {
+        "text": "8",
+        "ok": true
+      },
+      {
+        "text": "7",
+        "ok": false
+      },
+      {
+        "text": "5",
+        "ok": false
+      },
+      {
+        "text": "10",
+        "ok": false
+      }
+    ],
+    "tip": "2ずつ ふえています。"
+  },
+  {
+    "illust": "🟢🟩",
+    "scene": "🟢 と 🟩 は、どこが おなじですか？",
+    "choices": [
+      {
+        "text": "いろ",
+        "ok": true
+      },
+      {
+        "text": "かたち",
+        "ok": false
+      },
+      {
+        "text": "かず",
+        "ok": false
+      },
+      {
+        "text": "なまえ",
+        "ok": false
+      }
+    ],
+    "tip": "いろ と かたちを わけて みます。"
+  },
+  {
+    "illust": "🚗🚃",
+    "scene": "🚗 と 🚃 は、どこが にていますか？",
+    "choices": [
+      {
+        "text": "どちらも のりもの",
+        "ok": true
+      },
+      {
+        "text": "どちらも たべもの",
+        "ok": false
+      },
+      {
+        "text": "どちらも どうぶつ",
+        "ok": false
+      },
+      {
+        "text": "どちらも いろ",
+        "ok": false
+      }
+    ],
+    "tip": "おなじ なかまを かんがえます。"
+  },
+  {
+    "illust": "3 6 9",
+    "scene": "🔢 3、6、9 の つぎにくる すうじは どれですか？",
+    "choices": [
+      {
+        "text": "12",
+        "ok": true
+      },
+      {
+        "text": "10",
+        "ok": false
+      },
+      {
+        "text": "11",
+        "ok": false
+      },
+      {
+        "text": "15",
+        "ok": false
+      }
+    ],
+    "tip": "3ずつ ふえています。"
+  },
+  {
+    "illust": "△ □",
+    "scene": "△、□、△、□ の つぎは どれですか？",
+    "choices": [
+      {
+        "text": "△",
+        "ok": true
+      },
+      {
+        "text": "□",
+        "ok": false
+      },
+      {
+        "text": "○",
+        "ok": false
+      },
+      {
+        "text": "☆",
+        "ok": false
+      }
+    ],
+    "tip": "かたちの じゅんばんを みます。"
+  },
+  {
+    "illust": "🐶🐱",
+    "scene": "🐶 と 🐱 は、どこが にていますか？",
+    "choices": [
+      {
+        "text": "どちらも どうぶつ",
+        "ok": true
+      },
+      {
+        "text": "どちらも すうじ",
+        "ok": false
+      },
+      {
+        "text": "どちらも のりもの",
+        "ok": false
+      },
+      {
+        "text": "どちらも いろ",
+        "ok": false
+      }
+    ],
+    "tip": "おなじ なかまを さがします。"
+  },
+  {
+    "illust": "1 3 5",
+    "scene": "🔢 1、3、5 の つぎにくる すうじは どれですか？",
+    "choices": [
+      {
+        "text": "7",
+        "ok": true
+      },
+      {
+        "text": "6",
+        "ok": false
+      },
+      {
+        "text": "8",
+        "ok": false
+      },
+      {
+        "text": "9",
+        "ok": false
+      }
+    ],
+    "tip": "2ずつ ふえています。"
+  }
+];
 const FURI=[["10分チェック", "じゅっぷんちぇっく"], ["取り組んだ問題", "とりくんだもんだい"], ["選んだ答え", "えらんだこたえ"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["問題文", "もんだいぶん"], ["共通点", "きょうつうてん"], ["乗り物", "のりもの"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["確認", "かくにん"], ["時間", "じかん"], ["残り", "のこり"], ["半分", "はんぶん"], ["方向", "ほうこう"], ["順番", "じゅんばん"], ["図形", "ずけい"], ["同じ", "おなじ"], ["違う", "ちがう"], ["果物", "くだもの"], ["数字", "すうじ"], ["黄色", "きいろ"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["秒", "びょう"], ["右", "みぎ"], ["左", "ひだり"], ["上", "うえ"], ["下", "した"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"]];
 const LIMIT=12;
 let deck=[], idx=0, score=0, records=[], current='', timeLeft=LIMIT, timer=null, answered=false;
@@ -541,7 +836,21 @@ function startTimer(){clearInterval(timer);timeLeft=LIMIT;updateTimer();timer=se
 function updateTimer(){document.getElementById('time').textContent=Math.max(0,timeLeft);document.getElementById('timerFill').style.width=Math.max(0,(timeLeft/LIMIT)*100)+'%'}
 function answer(c,q,btn){if(answered)return;answered=true;clearInterval(timer);document.getElementById('scene').classList.remove('hideQuestion');document.querySelectorAll('.tenChoice').forEach(x=>x.disabled=true);const correct=q.choices.find(x=>x.ok);const ok=!!c.ok;if(ok){score++;document.getElementById('score').textContent=score;btn.classList.add('correct');document.getElementById('msg').innerHTML='<span class="ok">いいね！</span>'}else{btn.classList.add('wrong');document.getElementById('msg').innerHTML='<span class="ng">かくにんしよう</span>'}records.push({scene:q.scene,selected:c.text,correct:correct?correct.text:'',ok,tip:q.tip||''});setTimeout(()=>{idx++;showQuestion()},550)}
 function timeUp(){if(answered)return;answered=true;clearInterval(timer);document.getElementById('scene').classList.remove('hideQuestion');document.querySelectorAll('.tenChoice').forEach(x=>x.disabled=true);const q=deck[idx];const correct=q.choices.find(x=>x.ok);document.getElementById('msg').innerHTML='<span class="ng">じかんです</span>';records.push({scene:q.scene,selected:'じかんぎれ',correct:correct?correct.text:'',ok:false,tip:q.tip||''});setTimeout(()=>{idx++;showQuestion()},550)}
-function finish(){clearInterval(timer);document.getElementById('scene').classList.remove('hideQuestion');document.getElementById('scene').innerHTML=R('おしまい');document.getElementById('choices').innerHTML='';document.getElementById('msg').innerHTML='<span class="ok">レポートを ひょうじしました</span>';let h='<h2>'+R('10分チェック レポート')+'</h2>';h+='<div class="tenReportItem"><b>'+R('取り組んだ問題')+'：</b>'+records.length+'もん<br><b>'+R('正解')+'：</b>'+score+'もん<br><b>'+R('確認')+'：</b>'+(records.length-score)+'もん</div>';if(records.length===0)h+='<p>まだ とりくみ きろくが ありません。</p>';records.forEach((r,n)=>{h+='<div class="tenReportItem"><b>'+(n+1)+'. '+R(r.scene)+'</b><p><b>'+R('選んだ答え')+'：</b>'+R(r.selected)+' '+(r.ok?'○':'△')+'</p><p><b>'+R('よい答え')+'：</b>'+R(r.correct)+'</p><p><b>'+R('ポイント')+'：</b>'+R(r.tip)+'</p></div>'});h+='<div class="actions"><button onclick="window.print()">いんさつ</button><button class="light" onclick="start()">もういっかい</button></div>';const report=document.getElementById('report');report.innerHTML=h;report.classList.remove('hidden')}
+function finish(){clearInterval(timer);document.getElementById('scene').classList.remove('hideQuestion');document.getElementById('scene').innerHTML=R('おしまい');document.getElementById('choices').innerHTML='';document.getElementById('msg').innerHTML='<span class="ok">レポートを ひょうじしました</span>';let h='<h2>'+R('10分チェック レポート')+'</h2>';h+='<div class="tenReportItem"><b>'+R('取り組んだ問題')+'：</b>'+records.length+'もん<br><b>'+R('正解')+'：</b>'+score+'もん<br><b>'+R('確認')+'：</b>'+(records.length-score)+'もん</div>';if(records.length===0)h+='<p>まだ とりくみ きろくが ありません。</p>';records.forEach((r,n)=>{h+='<div class="tenReportItem"><b>'+(n+1)+'. '+R(r.scene)+'</b><p><b>'+R('選んだ答え')+'：</b>'+R(r.selected)+' '+(r.ok?'○':'△')+'</p><p><b>'+R('よい答え')+'：</b>'+R(r.correct)+'</p><p><b>'+R('ポイント')+'：</b>'+R(r.tip)+'</p></div>'});h+='<div class="actions"><button onclick="window.print()">いんさつ</button></div>';const report=document.getElementById('report');report.innerHTML=h;report.classList.remove('hidden')}
 function readQ(){if(!('speechSynthesis' in window))return;const u=new SpeechSynthesisUtterance(current||document.getElementById('scene').textContent);u.lang='ja-JP';u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}
 document.addEventListener('DOMContentLoaded',()=>{document.getElementById('scene').innerHTML=R('スタートしてね');document.getElementById('total').textContent=DATA.length;document.getElementById('time').textContent=LIMIT});
-</script></body></html>
+</script>
+<script>
+function hideStartButton(){
+  var b=document.getElementById("startBtn");
+  if(b){ b.classList.add("hiddenStart"); }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var b=document.getElementById("startBtn");
+  if(b){
+    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
+  }
+});
+</script>
+
+</body></html>

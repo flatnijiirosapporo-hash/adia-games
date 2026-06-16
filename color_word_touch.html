@@ -10,7 +10,7 @@ body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-
 .card{max-width:720px;margin:40px auto;background:white;border:2px solid #dbeafe;border-radius:24px;padding:24px;text-align:center}
 a{display:inline-block;margin-top:18px;background:#2563eb;color:white;text-decoration:none;padding:14px 20px;border-radius:999px;font-weight:800}
 
-/* ===== Ver1.1 iPad no-scroll layout fix ===== */
+/* ===== iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -48,7 +48,7 @@ a{display:inline-block;margin-top:18px;background:#2563eb;color:white;text-decor
 }
 
 
-/* ===== Ver1.1 iPad landscape one-screen all games ===== */
+/* ===== iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -263,7 +263,7 @@ a{display:inline-block;margin-top:18px;background:#2563eb;color:white;text-decor
 }
 
 
-/* ===== Ver1.1 verified layout and script safety fix ===== */
+/* ===== verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -333,6 +333,10 @@ a{display:inline-block;margin-top:18px;background:#2563eb;color:white;text-decor
   z-index:2!important;
 }
 
+
+/* .2 start/version cleanup */
+.hiddenStart{display:none!important}
+
 </style>
 </head>
 <body>
@@ -341,5 +345,19 @@ a{display:inline-block;margin-top:18px;background:#2563eb;color:white;text-decor
 <p>TOPから別のメニューを選んでください。</p>
 <a href="index.html">戻る</a>
 </div>
+
+<script>
+function hideStartButton(){
+  var b=document.getElementById("startBtn");
+  if(b){ b.classList.add("hiddenStart"); }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var b=document.getElementById("startBtn");
+  if(b){
+    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
+  }
+});
+</script>
+
 </body>
 </html>

@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver1.1 mobile readability fix ===== */
+/* ===== mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,7 +114,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 vision star restore ===== */
+/* ===== vision star restore ===== */
 html{font-size:16px}
 body{overflow-x:hidden;color:#1f2937}
 .wrap{width:min(980px,96vw)!important;margin-inline:auto}
@@ -165,7 +165,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
   .target{width:68px;height:68px;font-size:34px!important}
 }
 
-/* ===== Ver1.1 iPad no-scroll layout fix ===== */
+/* ===== iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -203,7 +203,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 }
 
 
-/* ===== Ver1.1 iPad landscape one-screen all games ===== */
+/* ===== iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -418,7 +418,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 }
 
 
-/* ===== Ver1.1 verified layout and script safety fix ===== */
+/* ===== verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -488,8 +488,12 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
   z-index:2!important;
 }
 
+
+/* .2 start/version cleanup */
+.hiddenStart{display:none!important}
+
 </style></head>
-<body><div class="top"><div class="wrap nav"><a href="vision_training.html">← 戻る</a><span class="pill">にじフラ Ver1.1</span></div></div>
+<body><div class="top"><div class="wrap nav"><a href="vision_training.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status">
   <span class="badge">うごく星</span>
@@ -500,7 +504,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 <p class="lead" style="text-align:center">星を目で追って、タッチします。</p>
 <div id="instruction" class="scene">スタートしてね</div>
 <div class="actions">
-  <button onclick="start()">スタート</button>
+  <button id="startBtn" type="button" onclick="start()">スタート</button>
   <button class="light" onclick="stopGame()">ストップ</button>
 </div>
 <div id="area" class="visionArea"></div>
@@ -594,4 +598,18 @@ function spawnStar(){
 document.addEventListener("DOMContentLoaded",()=>{document.getElementById("instruction").innerHTML=R("スタートしてね")});
 
 </script>
+
+<script>
+function hideStartButton(){
+  var b=document.getElementById("startBtn");
+  if(b){ b.classList.add("hiddenStart"); }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var b=document.getElementById("startBtn");
+  if(b){
+    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
+  }
+});
+</script>
+
 </body></html>

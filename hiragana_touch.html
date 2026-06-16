@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver1.1 mobile readability fix ===== */
+/* ===== mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,7 +114,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 stable smartphone and PC UI ===== */
+/* ===== stable smartphone and PC UI ===== */
 html{font-size:16px}
 body{overflow-x:hidden;color:#1f2937}
 .wrap{width:min(980px,96vw)!important;margin-inline:auto}
@@ -150,7 +150,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   ruby.autoRuby rt{font-size:.42em!important}
 }
 
-/* ===== Ver1.1 iPad no-scroll layout fix ===== */
+/* ===== iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -188,7 +188,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 iPad landscape one-screen all games ===== */
+/* ===== iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -403,7 +403,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver1.1 verified layout and script safety fix ===== */
+/* ===== verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -473,15 +473,19 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   z-index:2!important;
 }
 
+
+/* .2 start/version cleanup */
+.hiddenStart{display:none!important}
+
 </style></head>
 <body><div id="overlay" class="fullOverlay hidden">正解！</div>
-<div class="top"><div class="wrap nav"><a href="flatore.html">← 戻る</a><span class="pill">にじフラ Ver1.1</span></div></div>
+<div class="top"><div class="wrap nav"><a href="flatore.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status"><span class="badge">もじタッチ</span><span class="badge">問題 <span id="num">0</span>/10</span></div>
 <div class="illust">🔤</div><h1 style="text-align:center">もじタッチ</h1>
 <p class="lead" style="text-align:center">出てきた言葉と同じ言葉を選びます。</p>
 <div class="scene" id="scene">スタートしてね</div>
-<div class="actions"><button type="button" onclick="start()">はじめる</button></div>
+<div class="actions"><button id="startBtn" type="button" onclick="start()">スタート</button></div>
 <div id="choices" class="choices"></div><div id="msg" class="message"></div>
 </section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
@@ -524,4 +528,18 @@ function show(){document.getElementById("msg").textContent="";if(i>=deck.length)
 document.addEventListener("DOMContentLoaded",()=>{document.getElementById("scene").innerHTML=R("スタートしてね")})
 
 </script>
+
+<script>
+function hideStartButton(){
+  var b=document.getElementById("startBtn");
+  if(b){ b.classList.add("hiddenStart"); }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  var b=document.getElementById("startBtn");
+  if(b){
+    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
+  }
+});
+</script>
+
 </body></html>
