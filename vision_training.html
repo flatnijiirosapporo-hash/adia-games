@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>ビジョントレーニング</title><style>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ビジョントレーニング</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -36,381 +36,165 @@ button.gray{background:#64748b}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
 
-.visionArea{
-  position:relative;
-  height:58vh;
-  min-height:390px;
-  background:radial-gradient(circle at top,#eef2ff,#ffffff 65%);
-  border-radius:32px;
-  overflow:hidden;
-  border:4px solid #fff;
-  box-shadow:inset 0 0 0 2px #dbeafe,0 15px 35px rgba(30,41,59,.10);
-}
-.target{
-  position:absolute;
-  width:76px;
-  height:76px;
-  border-radius:50%;
-  display:flex;
+.scoreLiveHide{display:none!important}
+
+.versionBadge{
+  display:inline-flex;
   align-items:center;
-  justify-content:center;
-  font-size:42px;
-  font-weight:900;
-  background:#fff;
-  border:5px solid #93c5fd;
-  box-shadow:0 10px 22px rgba(30,41,59,.18);
-  cursor:pointer;
-  transition:transform .12s, left .35s linear, top .35s linear;
-}
-.target:active{transform:scale(.9)}
-.target.good{border-color:#86efac;background:#dcfce7}
-.target.bad{border-color:#fca5a5;background:#fee2e2}
-.guideLine{
-  position:absolute;
-  height:6px;
-  background:linear-gradient(90deg,#a5b4fc,#67e8f9);
-  border-radius:999px;
-  transform-origin:left center;
-  opacity:.55;
-  pointer-events:none;
-}
-.modeCard{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  gap:12px;
-  margin:14px 0;
-}
-.modeBtn{
-  background:white;
-  color:#334155;
-  border:3px solid #dbeafe;
-  box-shadow:0 8px 18px rgba(30,41,59,.08);
-  border-radius:22px;
-}
-.modeBtn.active{
+  gap:8px;
   background:linear-gradient(135deg,#4f46e5,#06b6d4);
   color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
 }
-.miniReport{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
 }
-
-.scoreLiveHide{display:none!important}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
 
 .liveResultHide{display:none!important}
 
 
 
-/* ===== Ver.2.5 automatic furigana ===== */
-ruby.autoRuby{
-  ruby-position:over;
+
+/* ===== Ver.2.6 mobile readability fix ===== */
+html{font-size:16px}
+body{overflow-x:hidden}
+.wrap{width:min(980px,96vw)!important}
+.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
+.grid{gap:14px!important}
+.card,.menu{border-radius:22px!important}
+button,.pill,.choice,.sstChoice,.tile,.modeBtn{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
-ruby.autoRuby rt{
-  font-size:.55em;
-  line-height:1;
-  color:#475569;
-  font-weight:900;
-  text-align:center;
+button{min-height:54px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important}
+.choices,.sstChoices{gap:12px!important}
+.choice,.sstChoice,.tile{
+  min-height:58px;
+  padding:14px!important;
+  line-height:1.55!important;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
 }
+.scene{line-height:1.65!important}
+ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.25}
+ruby.autoRuby rb{display:ruby-base}
+ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
+.fullOverlay{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(22,163,74,.92);color:white;
+  font-size:clamp(58px,16vw,128px);font-weight:1000;
+  letter-spacing:.04em;text-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+.hidden{display:none!important}
 @media(max-width:640px){
-  ruby.autoRuby rt{
-    font-size:.48em;
-  }
-  ruby.autoRuby{
-    line-height:1.15;
-  }
-}
-.themeText{
-  margin:12px auto 0;
-  color:#334155;
-  font-weight:1000;
-  font-size:clamp(17px,2.5vw,22px);
-  text-align:center;
+  .top{position:static!important}
+  .nav{gap:8px;flex-wrap:wrap}
+  h1{font-size:clamp(27px,8vw,42px)!important}
+  .lead{font-size:16px!important;line-height:1.6!important}
+  .status{gap:7px!important;justify-content:center!important}
+  .badge{font-size:14px!important;padding:7px 9px!important}
+  .choices,.sstChoices{grid-template-columns:1fr!important}
+  .grid{grid-template-columns:1fr!important}
+  ruby.autoRuby rt{font-size:.42em!important}
 }
 
-/* ===== Ver.2.5 common ruby fix ===== */
-ruby.autoRuby{display:inline-ruby;line-height:1.35;}
-ruby.autoRuby rt{font-size:.48em!important;line-height:1!important;}
 
-
-/* ===== Ver.2.5 global ruby clean ===== */
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3;}
-ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;}
-
-
-/* ===== Ver.2.5 global dictionary furigana ===== */
-ruby.autoRuby{
-  ruby-position:over;
-  display:inline-ruby;
-  line-height:1.3;
+/* ===== Ver.2.6 mobile readability fix ===== */
+html{font-size:16px}
+body{overflow-x:hidden}
+.wrap{width:min(980px,96vw)!important}
+.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
+.grid{gap:14px!important}
+.card,.menu{border-radius:22px!important}
+button,.pill,.choice,.sstChoice,.tile,.modeBtn{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
-ruby.autoRuby rb{
-  display:ruby-base;
+button{min-height:54px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important}
+.choices,.sstChoices{gap:12px!important}
+.choice,.sstChoice,.tile{
+  min-height:58px;
+  padding:14px!important;
+  line-height:1.55!important;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
 }
-ruby.autoRuby rt{
-  display:ruby-text;
-  font-size:.46em!important;
-  line-height:1!important;
-  color:#475569;
-  font-weight:800;
-  text-align:center;
+.scene{line-height:1.65!important}
+ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.25}
+ruby.autoRuby rb{display:ruby-base}
+ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
+.fullOverlay{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(22,163,74,.92);color:white;
+  font-size:clamp(58px,16vw,128px);font-weight:1000;
+  letter-spacing:.04em;text-shadow:0 6px 20px rgba(0,0,0,.25);
 }
-
-</style></head><body><div class="top"><div class="wrap nav"><a href="movement.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
-<main class="wrap">
-<section class="panel">
-<div class="status">
-<span class="badge">モード <span id="modeName"><ruby class="autoRuby">追視<rt>ついし</rt></ruby></span></span>
-<span class="badge"><ruby class="autoRuby">残<rt>のこ</rt></ruby>り <span id="time">45</span><ruby class="autoRuby">秒<rt>びょう</rt></ruby></span>
-<span class="badge scoreLiveHide"><ruby class="autoRuby">点<rt>てん</rt></ruby> <span id="score">0</span></span>
-<span class="badge liveResultHide">ミス <span id="miss">0</span></span>
-<span class="badge">レベル <span id="level">1</span></span>
-</div>
-<div class="illust">👀</div>
-<h1 style="text-align:center">ビジョントレーニング</h1>
-<p class="lead" style="text-align:center">
-<ruby class="autoRuby">目<rt>よみ</rt></ruby>で<ruby class="autoRuby">追<rt>つい</rt></ruby>う・<ruby class="autoRuby">探<rt>さが</rt></ruby>す・<ruby class="autoRuby">順番<rt>じゅんばん</rt></ruby>に<ruby class="autoRuby">見<rt>み</rt></ruby>る<ruby class="autoRuby">練習<rt>れんしゅう</rt></ruby>です。<br/>
-    iPadでも<ruby class="autoRuby">押<rt>よみ</rt></ruby>しやすい<ruby class="autoRuby">大<rt>おお</rt></ruby>きさにしています。
-  </p>
-<div class="modeCard">
-<button class="modeBtn active" id="btnTrack" onclick="setMode('track')">👀 <ruby class="autoRuby">追視<rt>ついし</rt></ruby><br/>うごく<ruby class="autoRuby">星<rt>よみ</rt></ruby></button>
-<button class="modeBtn" id="btnSearch" onclick="setMode('search')">🔍 <ruby class="autoRuby">探<rt>さが</rt></ruby>す<br/><ruby class="autoRuby">同<rt>よみ</rt></ruby>じ<ruby class="autoRuby">絵<rt>よみ</rt></ruby></button>
-<button class="modeBtn" id="btnOrder" onclick="setMode('order')">1️⃣ <ruby class="autoRuby">順番<rt>じゅんばん</rt></ruby><br/><ruby class="autoRuby">数字<rt>すう字</rt></ruby>タッチ</button>
-</div>
-<div class="actions">
-<button onclick="start()">スタート</button>
-<button class="light" onclick="pauseGame()"><ruby class="autoRuby">一時停止<rt>一じ停止</rt></ruby></button>
-<button class="light" onclick="showReport()">レポート</button>
-</div>
-<div class="scene" id="instruction">スタートを<ruby class="autoRuby">押<rt>よみ</rt></ruby>してね</div>
-<div class="visionArea" id="area"></div>
-<div class="message" id="msg"></div>
-<div class="report hidden" id="report"></div>
-</section>
-</main>
+.hidden{display:none!important}
+@media(max-width:640px){
+  .top{position:static!important}
+  .nav{gap:8px;flex-wrap:wrap}
+  h1{font-size:clamp(27px,8vw,42px)!important}
+  .lead{font-size:16px!important;line-height:1.6!important}
+  .status{gap:7px!important;justify-content:center!important}
+  .badge{font-size:14px!important;padding:7px 9px!important}
+  .choices,.sstChoices{grid-template-columns:1fr!important}
+  .grid{grid-template-columns:1fr!important}
+  ruby.autoRuby rt{font-size:.42em!important}
+}
+.modeCard{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.visionArea{position:relative;height:min(52vh,430px);min-height:300px;background:#f8fafc;border:3px solid #dbeafe;border-radius:26px;overflow:hidden;margin-top:14px}.target{position:absolute;width:72px;height:72px;border-radius:22px;background:#fff;border:3px solid #bfdbfe;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:1000;box-shadow:0 8px 20px rgba(30,41,59,.12);touch-action:manipulation}.target.good{background:#dcfce7;border-color:#86efac}.target.bad{background:#fee2e2;border-color:#fca5a5}@media(max-width:640px){.modeCard{grid-template-columns:1fr}.visionArea{height:420px}.target{width:64px;height:64px;font-size:32px}}</style></head>
+<body><div class="top"><div class="wrap nav"><a href="movement.html">← もどる</a><span class="pill">にじフラ Ver.2.6</span></div></div>
+<main class="wrap"><section class="panel">
+<div class="status"><span class="badge">モード <span id="modeName">追視</span></span><span class="badge">残り <span id="time">45</span>秒</span><span class="badge">点 <span id="score">0</span></span><span class="badge">ミス <span id="miss">0</span></span></div>
+<div class="illust">👀</div><h1 style="text-align:center">ビジョントレーニング</h1>
+<p class="lead" style="text-align:center">スマホでも選択肢が重ならないように配置します。</p>
+<div class="modeCard"><button id="btnTrack" onclick="setMode('track')">追視<br>うごく星</button><button id="btnSearch" onclick="setMode('search')">探す<br>同じ絵</button><button id="btnOrder" onclick="setMode('order')">順番<br>数字タッチ</button></div>
+<div class="actions"><button onclick="start()">スタート</button><button class="light" onclick="pauseGame()">一時停止</button><button class="light" onclick="showReport()">レポート</button></div>
+<div id="instruction" class="scene">モードを選んでスタート</div><div id="area" class="visionArea"></div><div id="msg" class="message"></div><div id="report" class="report hidden"></div>
+</section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-</script>
-<script>
-let mode="track";
-let running=false;
-let time=45;
-let score=0;
-let miss=0;
-let level=1;
-let timer=null;
-let moveTimer=null;
-let currentOrder=1;
-let stats={track:{ok:0,miss:0},search:{ok:0,miss:0},order:{ok:0,miss:0}};
-
-const area=()=>document.getElementById("area");
-
-function setMode(m){
-  if(running)return;
-  mode=m;
-  document.querySelectorAll(".modeBtn").forEach(b=>b.classList.remove("active"));
-  if(m==="track"){document.getElementById("btnTrack").classList.add("active");document.getElementById("modeName").textContent="追視";document.getElementById("instruction").textContent="動く星を目で追ってタップします";}
-  if(m==="search"){document.getElementById("btnSearch").classList.add("active");document.getElementById("modeName").textContent="探す";document.getElementById("instruction").textContent="見本と同じ絵を探してタップします";}
-  if(m==="order"){document.getElementById("btnOrder").classList.add("active");document.getElementById("modeName").textContent="順番";document.getElementById("instruction").textContent="1から順番に数字をタップします";}
-  area().innerHTML="";
-}
-
-function start(){
-  running=true;
-  time=45; score=0; miss=0; level=1; currentOrder=1;
-  stats={track:{ok:0,miss:0},search:{ok:0,miss:0},order:{ok:0,miss:0}};
-  update();
-  document.getElementById("report").classList.add("hidden");
-  document.getElementById("report").innerHTML="";
-  document.getElementById("msg").textContent="";
-  clearInterval(timer);
-  timer=setInterval(()=>{
-    if(!running)return;
-    time--;
-    update();
-    if(time<=0)finish();
-  },1000);
-  nextRound();
-}
-
-function pauseGame(){
-  running=!running;
-  document.getElementById("msg").textContent=running?"再開しました":"一時停止中";
-}
-
-function update(){
-  document.getElementById("time").textContent=time;
-  document.getElementById("score").textContent=score;
-  document.getElementById("miss").textContent=miss;
-  document.getElementById("level").textContent=level;
-}
-
-function finish(){
-  running=false;
-  clearInterval(timer);
-  clearTimeout(moveTimer);
-  area().innerHTML="";
-  document.getElementById("instruction").textContent="おしまい！";
-  document.getElementById("msg").innerHTML='<span class="ok">結果：'+score+' 点　ミス '+miss+'</span>';
-  showReport();
-}
-
-function nextRound(){
-  if(!running)return;
-  clearTimeout(moveTimer);
-  area().innerHTML="";
-  if(mode==="track") makeTracking();
-  if(mode==="search") makeSearch();
-  if(mode==="order") makeOrder();
-  update();
-}
-
-function rand(max){return Math.floor(Math.random()*max)}
-function pos(el){
-  const a=area();
-  const x=rand(Math.max(20,a.clientWidth-90));
-  const y=rand(Math.max(20,a.clientHeight-90));
-  el.style.left=x+"px";
-  el.style.top=y+"px";
-}
-
-function makeTarget(text, cls="target"){
-  const d=document.createElement("div");
-  d.className=cls;
-  d.textContent=text;
-  pos(d);
-  area().appendChild(d);
-  return d;
-}
-
-/* 追視：動く星をタップ */
-function makeTracking(){
-  document.getElementById("instruction").textContent="動く星を目で追ってタップ";
-  const t=makeTarget("⭐");
-  let moves=0;
-  function move(){
-    if(!running||mode!=="track")return;
-    pos(t);
-    moves++;
-    const speed=Math.max(430,900-level*55);
-    moveTimer=setTimeout(move,speed);
-  }
-  moveTimer=setTimeout(move,400);
-  t.onclick=()=>{
-    if(!running)return;
-    score++; stats.track.ok++;
-    t.classList.add("good");
-    if(score%5===0)level++;
-    setTimeout(nextRound,120);
-  };
-  area().onclick=(e)=>{
-    if(e.target===area()){
-      miss++; stats.track.miss++;
-      update();
-    }
-  };
-}
-
-/* 探す：見本と同じ絵を探す */
-function makeSearch(){
-  const symbols=["🐶","🐱","🐰","🐸","🐼","🦁","🐵","🐧","🐟","🦊","🐻","🐨"];
-  const target=symbols[rand(symbols.length)];
-  document.getElementById("instruction").textContent="見本「"+target+"」と同じ絵を探してタップ";
-  const count=Math.min(12,6+level);
-  let pool=shuffle(symbols).slice(0,count);
-  if(!pool.includes(target))pool[0]=target;
-  shuffle(pool).forEach(s=>{
-    const d=makeTarget(s);
-    d.onclick=()=>{
-      if(!running)return;
-      if(s===target){
-        score++; stats.search.ok++;
-        d.classList.add("good");
-        if(score%5===0)level++;
-        setTimeout(nextRound,180);
-      }else{
-        miss++; stats.search.miss++;
-        d.classList.add("bad");
-        update();
-      }
-    };
-  });
-}
-
-/* 順番：1から数字を順にタップ */
-function makeOrder(){
-  currentOrder=1;
-  const maxNum=Math.min(9,3+level);
-  document.getElementById("instruction").textContent="1 から "+maxNum+" まで順番にタップ";
-  const nums=[];
-  for(let i=1;i<=maxNum;i++)nums.push(i);
-  shuffle(nums).forEach(n=>{
-    const d=makeTarget(String(n));
-    d.onclick=()=>{
-      if(!running)return;
-      if(n===currentOrder){
-        d.classList.add("good");
-        d.style.visibility="hidden";
-        currentOrder++;
-        if(currentOrder>maxNum){
-          score+=maxNum;
-          stats.order.ok++;
-          if(score%8===0)level++;
-          setTimeout(nextRound,220);
-        }
-      }else{
-        miss++; stats.order.miss++;
-        d.classList.add("bad");
-        setTimeout(()=>d.classList.remove("bad"),300);
-        update();
-      }
-    };
-  });
-}
-
-function showReport(){
-  const r=document.getElementById("report");
-  r.classList.remove("hidden");
-  const totalOk=stats.track.ok+stats.search.ok+stats.order.ok;
-  const totalMiss=stats.track.miss+stats.search.miss+stats.order.miss;
-  let comment="目で見る力を楽しく練習できました。";
-  if(totalMiss>totalOk) comment="急がず、目で追ってから押す練習がおすすめです。";
-  if(stats.order.miss>stats.order.ok) comment+=" 順番に見る課題は、数を少なくして練習すると取り組みやすいです。";
-  if(stats.search.miss>stats.search.ok) comment+=" 探す課題は、見本を確認してから選ぶ練習が合いそうです。";
-  if(stats.track.miss>stats.track.ok) comment+=" 追視課題は、動きをゆっくりにして練習するとよいです。";
-
-  r.innerHTML =
-    '<h2>ビジョントレーニング レポート</h2>'+
-    '<div class="miniReport">'+
-      '<div class="reportItem"><b>追視</b><br>成功 '+stats.track.ok+' / ミス '+stats.track.miss+'</div>'+
-      '<div class="reportItem"><b>探す</b><br>成功 '+stats.search.ok+' / ミス '+stats.search.miss+'</div>'+
-      '<div class="reportItem"><b>順番</b><br>成功 '+stats.order.ok+' / ミス '+stats.order.miss+'</div>'+
-    '</div>'+
-    '<div class="reportItem"><b>総合コメント</b><br>'+comment+'</div>'+
-    '<div class="actions"><button onclick="window.print()">印刷</button></div>';
-}
+let mode="track",running=false,time=45,score=0,miss=0,timer=null,moveTimer=null,currentOrder=1,placed=[];
+function area(){return document.getElementById("area")}
+function setMode(m){mode=m;document.getElementById("modeName").textContent=m==="track"?"追視":m==="search"?"探す":"順番";["Track","Search","Order"].forEach(x=>document.getElementById("btn"+x).classList.remove("active"));document.getElementById("btn"+(m==="track"?"Track":m==="search"?"Search":"Order")).classList.add("active");if(running)nextRound()}
+function update(){document.getElementById("time").textContent=time;document.getElementById("score").textContent=score;document.getElementById("miss").textContent=miss}
+function start(){running=true;time=45;score=0;miss=0;update();document.getElementById("report").classList.add("hidden");clearInterval(timer);timer=setInterval(()=>{if(!running)return;time--;update();if(time<=0)finish()},1000);nextRound()}
+function pauseGame(){running=!running;document.getElementById("msg").textContent=running?"再開しました":"一時停止中"}
+function finish(){running=false;clearInterval(timer);clearTimeout(moveTimer);area().innerHTML="";document.getElementById("instruction").textContent="おしまい";document.getElementById("msg").innerHTML='<span class="ok">結果：'+score+'点　ミス '+miss+'</span>';showReport()}
+function rand(n){return Math.floor(Math.random()*n)}
+function pos(el){const a=area();const w=72,h=72;let x=0,y=0,ok=false;for(let t=0;t<80;t++){x=rand(Math.max(1,a.clientWidth-w-8))+4;y=rand(Math.max(1,a.clientHeight-h-8))+4;ok=placed.every(p=>Math.hypot(p.x-x,p.y-y)>70);if(ok)break}placed.push({x,y});el.style.left=x+"px";el.style.top=y+"px"}
+function makeTarget(text){const d=document.createElement("button");d.type="button";d.className="target";d.textContent=text;pos(d);area().appendChild(d);return d}
+function nextRound(){if(!running)return;clearTimeout(moveTimer);area().innerHTML="";placed=[];if(mode==="track")makeTrack();if(mode==="search")makeSearch();if(mode==="order")makeOrder();update()}
+function makeTrack(){document.getElementById("instruction").textContent="うごく星を目で追ってタップ";const t=makeTarget("⭐");function move(){if(!running||mode!=="track")return;placed=[];pos(t);moveTimer=setTimeout(move,850)}moveTimer=setTimeout(move,500);t.onclick=()=>{score++;t.classList.add("good");setTimeout(nextRound,180)};area().onclick=e=>{if(e.target===area()){miss++;update()}}}
+function makeSearch(){const sy=["🐶","🐱","🐰","🐸","🐼","🦁","🐵","🐧","🐟"];const target=sy[rand(sy.length)];document.getElementById("instruction").textContent="見本「"+target+"」と同じ絵をタップ";const pool=[target,...sy.filter(x=>x!==target)].slice(0,7);shuffle(pool).forEach(s=>{const d=makeTarget(s);d.onclick=()=>{if(s===target){score++;d.classList.add("good");setTimeout(nextRound,220)}else{miss++;d.classList.add("bad");update()}}})}
+function makeOrder(){currentOrder=1;const max=5;document.getElementById("instruction").textContent="1から"+max+"まで順番にタップ";shuffle([1,2,3,4,5]).forEach(n=>{const d=makeTarget(String(n));d.onclick=()=>{if(n===currentOrder){d.classList.add("good");d.style.visibility="hidden";currentOrder++;if(currentOrder>max){score+=max;setTimeout(nextRound,240)}}else{miss++;d.classList.add("bad");setTimeout(()=>d.classList.remove("bad"),300);update()}})})}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function showReport(){const r=document.getElementById("report");r.classList.remove("hidden");r.innerHTML='<h2>ビジョントレーニング レポート</h2><div class="reportItem">点：'+score+'<br>ミス：'+miss+'</div><p>スマホでは重なりにくい配置で練習できます。</p>'}
 setMode("track");
 </script>
 
 <script>
 (function(){
-  if(window.NIJIFLA_GLOBAL_FURIGANA_READY) return;
-  window.NIJIFLA_GLOBAL_FURIGANA_READY = true;
-
-  const FURI_ENTRIES = [["にじいろクラスフラット", "にじいろくらすふらっと"], ["今日のふりかえりSST", "きょうのふりかえりえすえすてぃー"], ["最後まで取り組めました", "さいごまでとりくめました"], ["危険予知トレーニング", "きけんよちとれーにんぐ"], ["今日のふりかえり", "きょうのふりかえり"], ["手伝ってください", "てつだってください"], ["どういたしまして", "どういたしまして"], ["次は気をつけてね", "つぎはきをつけてね"], ["一緒に確認しよう", "いっしょにかくにんしよう"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["取り組んだ問題", "とりくんだもんだい"], ["どうするとよい", "どうするとよい"], ["もう一回聞くね", "もういっかいきくね"], ["確認したい数", "かくにんしたいかず"], ["よく選べた数", "よくえらべたかず"], ["聞き直せます", "ききなおせます"], ["わかったふり", "わかったふり"], ["知らないふり", "しらないふり"], ["近づき続ける", "ちかづきつづける"], ["グループ活動", "ぐるーぷかつどう"], ["終わってから", "おわってから"], ["準備問題数", "じゅんびもんだいすう"], ["取り組んだ", "とりくんだ"], ["選んだ答え", "えらんだこたえ"], ["保護者向け", "ほごしゃむけ"], ["悲しかった", "かなしかった"], ["落ち込んで", "おちこんで"], ["強い気持ち", "つよいきもち"], ["話しかけて", "はなしかけて"], ["声をかける", "こえをかける"], ["聞き返して", "ききかえして"], ["聞き逃した", "ききのがした"], ["見ないふり", "みないふり"], ["少し離れて", "すこしはなれて"], ["近づかない", "ちかづかない"], ["片づけます", "かたづけます"], ["落ち着いて", "おちついて"], ["帰りの準備", "かえりのじゅんび"], ["終わったら", "おわったら"], ["確認し直す", "かくにんしなおす"], ["物を投げる", "ものをなげる"], ["ありがとう", "ありがとう"], ["おめでとう", "おめでとう"], ["先にどうぞ", "さきにどうぞ"], ["いい選び方", "いいえらびかた"], ["にじフラ", "にじふら"], ["問題形式", "もんだいけいしき"], ["危険予知", "きけんよち"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["文章問題", "ぶんしょうもんだい"], ["確認する", "かくにんする"], ["できない", "できない"], ["小さい声", "ちいさいこえ"], ["大きな声", "おおきなこえ"], ["短い言葉", "みじかいことば"], ["相談する", "そうだんする"], ["相談して", "そうだんして"], ["見つける", "みつける"], ["ゆずって", "ゆずって"], ["貸し借り", "かしかり"], ["使いたい", "つかいたい"], ["近づいて", "ちかづいて"], ["近づかず", "ちかづかず"], ["片づける", "かたづける"], ["手伝って", "てつだって"], ["話し合い", "はなしあい"], ["ペア活動", "ぺあかつどう"], ["自由遊び", "じゆうあそび"], ["休み時間", "やすみじかん"], ["次の活動", "つぎのかつどう"], ["予定変更", "よていへんこう"], ["切り替え", "きりかえ"], ["横断歩道", "おうだんほどう"], ["仲間外れ", "なかまはずれ"], ["情動調整", "じょうどうちょうせい"], ["グループ", "ぐるーぷ"], ["どう言う", "どういう"], ["もう一回", "もういっかい"], ["もう一度", "もういちど"], ["一つずつ", "ひとつずつ"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["気持ち", "きもち"], ["保護者", "ほごしゃ"], ["使い方", "つかいかた"], ["友だち", "ともだち"], ["子ども", "こども"], ["悔しい", "くやしい"], ["悔しく", "くやしく"], ["嬉しい", "うれしい"], ["怒って", "おこって"], ["泣いて", "ないて"], ["喜んで", "よろこんで"], ["困って", "こまって"], ["困った", "こまった"], ["楽しい", "たのしい"], ["楽しく", "たのしく"], ["できた", "できた"], ["伝える", "つたえる"], ["話して", "はなして"], ["静かに", "しずかに"], ["お願い", "おねがい"], ["謝って", "あやまって"], ["選んだ", "えらんだ"], ["待って", "まって"], ["貸して", "かして"], ["貸した", "かした"], ["使って", "つかって"], ["入れて", "いれて"], ["離れて", "はなれて"], ["止まる", "とまる"], ["止める", "とめる"], ["やめて", "やめて"], ["片づけ", "かたづけ"], ["助けて", "たすけて"], ["手伝う", "てつだう"], ["深呼吸", "しんこきゅう"], ["投げる", "なげる"], ["終わる", "おわる"], ["駐車場", "ちゅうしゃじょう"], ["見通し", "みとおし"], ["具体的", "ぐたいてき"], ["社会性", "しゃかいせい"], ["ルール", "るーる"], ["チーム", "ちーむ"], ["はさみ", "はさみ"], ["食べ物", "たべもの"], ["一緒に", "いっしょに"], ["勝手に", "かってに"], ["責める", "せめる"], ["逃げる", "にげる"], ["大丈夫", "だいじょうぶ"], ["危険", "きけん"], ["予知", "よち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["印刷", "いんさつ"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["記録", "きろく"], ["説明", "せつめい"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["家族", "かぞく"], ["一人", "ひとり"], ["職員", "しょくいん"], ["不安", "ふあん"], ["怖い", "こわい"], ["怒る", "おこる"], ["怒り", "いかり"], ["苦手", "にがて"], ["得意", "とくい"], ["言う", "いう"], ["聞く", "きく"], ["話す", "はなす"], ["言葉", "ことば"], ["理由", "りゆう"], ["意味", "いみ"], ["発表", "はっぴょう"], ["発言", "はつげん"], ["質問", "しつもん"], ["返事", "へんじ"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["見て", "みて"], ["探す", "さがす"], ["選ぶ", "えらぶ"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["交代", "こうたい"], ["譲る", "ゆずる"], ["返す", "かえす"], ["使う", "つかう"], ["入る", "はいる"], ["戻る", "もどる"], ["助け", "たすけ"], ["協力", "きょうりょく"], ["役割", "やくわり"], ["工夫", "くふう"], ["歩く", "あるく"], ["走る", "はしる"], ["押す", "おす"], ["飲む", "のむ"], ["休む", "やすむ"], ["遊び", "あそび"], ["活動", "かつどう"], ["課題", "かだい"], ["作品", "さくひん"], ["作業", "さぎょう"], ["工作", "こうさく"], ["運動", "うんどう"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["玄関", "げんかん"], ["黒板", "こくばん"], ["場所", "ばしょ"], ["予定", "よてい"], ["時間", "じかん"], ["準備", "じゅんび"], ["学校", "がっこう"], ["家庭", "かてい"], ["室内", "しつない"], ["道路", "どうろ"], ["信号", "しんごう"], ["遊具", "ゆうぐ"], ["階段", "かいだん"], ["廊下", "ろうか"], ["距離", "きょり"], ["表情", "ひょうじょう"], ["姿勢", "しせい"], ["違う", "ちがう"], ["違い", "ちがい"], ["意見", "いけん"], ["考え", "かんがえ"], ["共有", "きょうゆう"], ["結果", "けっか"], ["過程", "かてい"], ["失敗", "しっぱい"], ["練習", "れんしゅう"], ["修正", "しゅうせい"], ["変更", "へんこう"], ["大切", "たいせつ"], ["体調", "たいちょう"], ["集中", "しゅうちゅう"], ["持続", "じぞく"], ["抑制", "よくせい"], ["判断", "はんだん"], ["予測", "よそく"], ["視線", "しせん"], ["呼吸", "こきゅう"], ["道具", "どうぐ"], ["黄色", "きいろ"], ["ペア", "ぺあ"], ["電気", "でんき"], ["刃物", "はもの"], ["包丁", "ほうちょう"], ["写真", "しゃしん"], ["名前", "なまえ"], ["住所", "じゅうしょ"], ["秘密", "ひみつ"], ["少し", "すこし"], ["早く", "はやく"], ["途中", "とちゅう"], ["無視", "むし"], ["隠す", "かくす"], ["自慢", "じまん"], ["全員", "ぜんいん"], ["人", "ひと"], ["嫌", "いや"], ["声", "こえ"], ["机", "つくえ"], ["外", "そと"], ["車", "くるま"], ["体", "からだ"], ["物", "もの"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["水", "みず"], ["薬", "くすり"], ["火", "ひ"]];
-
+  if(window.NIJIFLA_RUBY_READY) return;
+  window.NIJIFLA_RUBY_READY = true;
+  const FURI_ENTRIES = [["にじいろクラスフラット", "にじいろくらすふらっと"], ["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["10分チェック", "じゅっぷんちぇっく"], ["取り組んだ問題", "とりくんだもんだい"], ["確認したい数", "かくにんしたいかず"], ["よく選べた数", "よくえらべたかず"], ["記憶ゲーム", "きおくげーむ"], ["準備問題数", "じゅんびもんだいすう"], ["取り組んだ", "とりくんだ"], ["選んだ答え", "えらんだこたえ"], ["悲しかった", "かなしかった"], ["落ち込んで", "おちこんで"], ["声をかける", "こえをかける"], ["近づかない", "ちかづかない"], ["落ち着いて", "おちついて"], ["ありがとう", "ありがとう"], ["おめでとう", "おめでとう"], ["にじフラ", "にじふら"], ["問題形式", "もんだいけいしき"], ["危険予知", "きけんよち"], ["言葉選び", "ことばえらび"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["文章問題", "ぶんしょうもんだい"], ["確認する", "かくにんする"], ["できない", "できない"], ["小さい声", "ちいさいこえ"], ["大きな声", "おおきなこえ"], ["短い言葉", "みじかいことば"], ["見つける", "みつける"], ["近づかず", "ちかづかず"], ["片づける", "かたづける"], ["手伝って", "てつだって"], ["話し合い", "はなしあい"], ["休み時間", "やすみじかん"], ["切り替え", "きりかえ"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["もう一度", "もういちど"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["気持ち", "きもち"], ["保護者", "ほごしゃ"], ["使い方", "つかいかた"], ["友だち", "ともだち"], ["子ども", "こども"], ["悔しい", "くやしい"], ["嬉しい", "うれしい"], ["怒って", "おこって"], ["泣いて", "ないて"], ["喜んで", "よろこんで"], ["困って", "こまって"], ["困った", "こまった"], ["楽しい", "たのしい"], ["楽しく", "たのしく"], ["できた", "できた"], ["伝える", "つたえる"], ["話して", "はなして"], ["静かに", "しずかに"], ["お願い", "おねがい"], ["謝って", "あやまって"], ["選んだ", "えらんだ"], ["待って", "まって"], ["貸して", "かして"], ["入れて", "いれて"], ["離れて", "はなれて"], ["止まる", "とまる"], ["止める", "とめる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["投げる", "なげる"], ["終わる", "おわる"], ["駐車場", "ちゅうしゃじょう"], ["見通し", "みとおし"], ["ルール", "るーる"], ["食べ物", "たべもの"], ["一緒に", "いっしょに"], ["勝手に", "かってに"], ["責める", "せめる"], ["逃げる", "にげる"], ["大丈夫", "だいじょうぶ"], ["危険", "きけん"], ["予知", "よち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["印刷", "いんさつ"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["記録", "きろく"], ["説明", "せつめい"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["家族", "かぞく"], ["一人", "ひとり"], ["職員", "しょくいん"], ["不安", "ふあん"], ["怖い", "こわい"], ["怒る", "おこる"], ["怒り", "いかり"], ["苦手", "にがて"], ["得意", "とくい"], ["言う", "いう"], ["聞く", "きく"], ["話す", "はなす"], ["言葉", "ことば"], ["理由", "りゆう"], ["意味", "いみ"], ["発表", "はっぴょう"], ["質問", "しつもん"], ["返事", "へんじ"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["見て", "みて"], ["探す", "さがす"], ["選ぶ", "えらぶ"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["交代", "こうたい"], ["譲る", "ゆずる"], ["返す", "かえす"], ["使う", "つかう"], ["入る", "はいる"], ["戻る", "もどる"], ["助け", "たすけ"], ["協力", "きょうりょく"], ["役割", "やくわり"], ["歩く", "あるく"], ["走る", "はしる"], ["押す", "おす"], ["飲む", "のむ"], ["休む", "やすむ"], ["遊び", "あそび"], ["活動", "かつどう"], ["課題", "かだい"], ["作品", "さくひん"], ["作業", "さぎょう"], ["工作", "こうさく"], ["運動", "うんどう"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["玄関", "げんかん"], ["黒板", "こくばん"], ["場所", "ばしょ"], ["予定", "よてい"], ["時間", "じかん"], ["準備", "じゅんび"], ["学校", "がっこう"], ["家庭", "かてい"], ["室内", "しつない"], ["道路", "どうろ"], ["信号", "しんごう"], ["遊具", "ゆうぐ"], ["階段", "かいだん"], ["廊下", "ろうか"], ["距離", "きょり"], ["表情", "ひょうじょう"], ["姿勢", "しせい"], ["違う", "ちがう"], ["意見", "いけん"], ["考え", "かんがえ"], ["共有", "きょうゆう"], ["結果", "けっか"], ["失敗", "しっぱい"], ["練習", "れんしゅう"], ["変更", "へんこう"], ["大切", "たいせつ"], ["体調", "たいちょう"], ["集中", "しゅうちゅう"], ["判断", "はんだん"], ["予測", "よそく"], ["視線", "しせん"], ["呼吸", "こきゅう"], ["道具", "どうぐ"], ["黄色", "きいろ"], ["電気", "でんき"], ["刃物", "はもの"], ["包丁", "ほうちょう"], ["写真", "しゃしん"], ["名前", "なまえ"], ["住所", "じゅうしょ"], ["秘密", "ひみつ"], ["少し", "すこし"], ["早く", "はやく"], ["途中", "とちゅう"], ["無視", "むし"], ["隠す", "かくす"], ["人", "ひと"], ["嫌", "いや"], ["声", "こえ"], ["机", "つくえ"], ["外", "そと"], ["車", "くるま"], ["体", "からだ"], ["物", "もの"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["水", "みず"], ["薬", "くすり"], ["火", "ひ"]];
   function esc(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
+    return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
   }
-
   function rubyText(text){
     const raw = String(text ?? "");
     let out = "";
@@ -418,86 +202,56 @@ setMode("track");
     while(i < raw.length){
       let hit = null;
       for(const pair of FURI_ENTRIES){
-        const word = pair[0];
-        if(raw.slice(i, i + word.length) === word){
-          hit = pair;
-          break;
-        }
+        const w = pair[0];
+        if(raw.slice(i, i+w.length) === w){ hit = pair; break; }
       }
       if(hit){
-        const word = hit[0], yomi = hit[1];
-        if(!/[一-龯々〆ヶ]/.test(yomi)){
-          out += `<ruby class="autoRuby"><rb>${esc(word)}</rb><rt>${esc(yomi)}</rt></ruby>`;
-        }else{
-          out += esc(word);
-        }
-        i += word.length;
+        const w = hit[0], y = hit[1];
+        out += `<ruby class="autoRuby"><rb>${esc(w)}</rb><rt>${esc(y)}</rt></ruby>`;
+        i += w.length;
       }else{
         out += esc(raw[i]);
         i++;
       }
     }
-    return out;
+    return out.replaceAll("\n","<br>");
   }
-
-  function shouldSkipNode(node){
-    const p = node.parentElement;
-    if(!p) return true;
-    if(p.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby")) return true;
-    if(!node.nodeValue || !node.nodeValue.trim()) return true;
-    return false;
+  function skip(n){
+    const p = n.parentElement;
+    if(!p || !n.nodeValue || !n.nodeValue.trim()) return true;
+    return !!p.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby");
   }
-
-  function convertTextNode(node){
-    if(shouldSkipNode(node)) return;
-    const raw = node.nodeValue;
-    const converted = rubyText(raw);
-    if(converted === esc(raw)) return;
+  function convertNode(n){
+    if(skip(n)) return;
+    const raw = n.nodeValue;
+    const conv = rubyText(raw);
+    if(conv === esc(raw)) return;
     const span = document.createElement("span");
     span.className = "autoRubyWrap";
-    span.innerHTML = converted;
-    node.parentNode.replaceChild(span, node);
+    span.innerHTML = conv;
+    n.parentNode.replaceChild(span,n);
   }
-
   function scan(root){
     if(!root) return;
-    if(root.nodeType === Node.TEXT_NODE){
-      convertTextNode(root);
-      return;
-    }
+    if(root.nodeType === Node.TEXT_NODE){ convertNode(root); return; }
     if(root.nodeType !== Node.ELEMENT_NODE && root.nodeType !== Node.DOCUMENT_NODE) return;
     if(root.closest && root.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby")) return;
-
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode(node){
-        return shouldSkipNode(node) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
-      }
+      acceptNode(n){ return skip(n) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }
     });
-
-    const nodes = [];
+    const list = [];
     let n;
-    while(n = walker.nextNode()) nodes.push(n);
-    nodes.forEach(convertTextNode);
+    while(n = walker.nextNode()) list.push(n);
+    list.forEach(convertNode);
   }
-
   function boot(){
     scan(document.body);
-    const mo = new MutationObserver(muts=>{
-      for(const m of muts){
-        for(const node of m.addedNodes){
-          scan(node);
-        }
-      }
+    const mo = new MutationObserver(ms=>{
+      for(const m of ms) for(const node of m.addedNodes) scan(node);
     });
-    mo.observe(document.body, {childList:true, subtree:true});
+    mo.observe(document.body, {childList:true,subtree:true});
   }
-
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", boot);
-  }else{
-    boot();
-  }
-
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",boot); else boot();
   window.nijiflaRubyText = rubyText;
 })();
 </script>

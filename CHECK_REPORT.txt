@@ -1,8 +1,6 @@
-Ver.2.5
-全ページ共通・辞書方式ふりがな追加
+Ver.2.6
+スマホ操作・見やすさ・ふりがな・各ゲーム修正
 html_files: 28
-global_furigana_pages: 28
-rt_dictionary_kanji_count: 0
-node_check_errors: 1
-node_errors: [('index.html', 1, '/mnt/data/check_index_1.js:4\nfunction stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n                                                                                                                              ^\n\nSyntaxError: I')]
+node_errors: 2
+node_error_detail: [('index.html', 1, '/mnt/data/check_v26_index_1.js:4\nfunction stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n                                                                                                                              ^\n\nSyntaxError: Invalid regular expression: missing /\n\x1b[90m    at wrapSafe (node:internal/modules/cjs/loader:1662:18)\x1b[39m\n\x1b[90m    at checkSyntax (node:internal/main/check_syntax:78:3)\x1b[39m\n\nNode.js v22.16.0\n'), ('vision_training.html', 1, '/mnt/data/check_v26_vision_training_1.js:15\nfunction makeOrder(){currentOrder=1;const max=5;document.getElementById("instruction").textContent="1から"+max+"まで順番にタップ";shuffle([1,2,3,4,5]).forEach(n=>{const d=makeTarget(String(n));d.onclick=()=>{if(n===currentOrder){d.classList.add("good");d.style.visibility="hidden";currentOrder++;if(currentOrder>max){score+=max;setTimeout(nextRound,240)}}else{miss++;d.classList.add("bad");setTimeout(()=>d.classList.remove("bad"),300);update()}})})}\n               ')]
 リンク切れなし
