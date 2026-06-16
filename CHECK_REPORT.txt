@@ -1,7 +1,7 @@
-Ver.2.8
-問題文非表示の解析と全面安定化
-html_files: 30
+Ver.2.9
+ビジョントレーニング うごく星復活
+vision_star_exists: True
+vision_menu_links_star: True
 node_errors: 0
 node_error_detail: []
-link_missing: []
 リンク切れなし
