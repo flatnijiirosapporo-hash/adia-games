@@ -1,5 +1,6 @@
-Ver.3.1.1
-Ver.3.1構成維持・10分チェック修正
+Ver.3.1.4
+iPad横向き全ゲーム1画面表示調整
+html_files: 31
 node_errors: 0
 node_error_detail: []
 link_missing: []

@@ -1,0 +1,49 @@
+# Ver.3.1.4 iPad横向き1画面表示調整
+
+## 対応方針
+構成は変えず、CSS中心で全ゲームをiPad横向きに最適化しました。
+
+## 調整内容
+- ヘッダー、余白、タイトル、説明文を圧縮
+- iPad横向きでは説明文と大きなイラストを非表示
+- 選択肢を2列化できるページは2列化
+- ビジョントレーニングの星・絵・数字ボタンを小さく調整
+- 色タッチ、記憶ゲーム、SST、10分チェックも横向き用に圧縮
+- レポートは内部スクロール化して、画面全体が伸びないように調整
+
+## 対象HTML
+- balloon_tap.html
+- cognitive_check_10min.html
+- color_touch.html
+- color_word_touch.html
+- danger_game.html
+- feeling_choice.html
+- flatore.html
+- growth.html
+- hiragana_touch.html
+- index.html
+- memory_game.html
+- mogura_tataki.html
+- movement.html
+- parent.html
+- park.html
+- sst.html
+- sst_help.html
+- sst_listening.html
+- sst_quiz.html
+- sst_random.html
+- sst_reflection.html
+- sst_refuse.html
+- sst_repair.html
+- sst_report.html
+- sst_tell.html
+- trouble_response.html
+- turn_waiting.html
+- vision_number.html
+- vision_same.html
+- vision_star.html
+- vision_training.html
+
+## チェック
+- JavaScript構文エラー: 0
+- リンク切れ: 0

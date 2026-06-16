@@ -1,5 +1,10 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数字タッチ</title><style>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>数字タッチ</title>
+<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -69,7 +74,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.3.1.1 mobile readability fix ===== */
+/* ===== Ver.3.1.4.4.3.2.2 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,85 +119,488 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver.3.1.1 stable smartphone and PC UI ===== */
-html{font-size:16px}
-body{overflow-x:hidden;color:#1f2937}
-.wrap{width:min(980px,96vw)!important;margin-inline:auto}
-.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
-button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
-.choices,.sstChoices{display:grid!important;grid-template-columns:1fr!important;gap:14px!important;margin-top:16px}
-.choice,.sstChoice,.tile{
-  display:block;width:100%;min-height:60px;
-  padding:16px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
-  background:#fff!important;box-shadow:0 8px 18px rgba(30,41,59,.08);
-  color:#1f2937!important;font-weight:1000;line-height:1.6!important;text-align:left;
+/* ===== Ver.3.1.4.4.3.2.2.2 iPad no-scroll layout fix ===== */
+@media (min-width:641px) and (max-width:1180px){
+  html,body{overflow-x:hidden}
+  .wrap{width:96vw!important;max-width:1040px!important}
+  .top{position:static!important;margin-bottom:0!important}
+  .nav{min-height:auto!important;padding:5px 0!important;gap:8px!important}
+  .panel{margin-top:6px!important;padding:12px 16px!important;border-radius:22px!important}
+  h1{font-size:28px!important;margin:4px 0 6px!important;line-height:1.15!important}
+  .lead{font-size:14px!important;line-height:1.35!important;margin:3px 0 6px!important}
+  .status{margin:4px 0 6px!important;gap:6px!important}
+  .badge,.pill,.nav a{font-size:12px!important;padding:5px 8px!important;line-height:1.1!important}
+  .illust{font-size:34px!important;line-height:1!important;margin:0!important}
+  .actions{margin:6px 0!important;gap:8px!important}
+  button{min-height:42px!important;padding:8px 12px!important;font-size:15px!important;border-radius:16px!important}
+  .scene,.tenScene{min-height:56px!important;padding:8px 10px!important;font-size:18px!important;line-height:1.28!important;border-radius:18px!important}
+  .choices,.tenChoices,.sstChoices{gap:7px!important;margin-top:7px!important}
+  .choice,.tenChoice,.sstChoice,.tile{min-height:40px!important;padding:8px 10px!important;font-size:15px!important;line-height:1.25!important;border-radius:16px!important;text-align:center!important}
+  .timerBar,.tenTimerBar{height:9px!important;margin:5px 0!important}
+  .message,.tip,.report{margin-top:6px!important;padding:8px 10px!important;line-height:1.28!important;font-size:14px!important}
+  .tenReportItem,.reportItem{padding:8px 10px!important;margin:6px 0!important;line-height:1.3!important;font-size:13px!important}
+  .footer{display:none!important}
+  #report:not(.hidden){max-height:42vh!important;overflow:auto!important}
+  #choices.tenChoices{max-height:38vh!important;overflow:auto!important}
 }
-.choice.correct,.sstChoice.correct{border-color:#86efac!important;background:#dcfce7!important}
-.choice.wrong,.sstChoice.wrong{border-color:#fca5a5!important;background:#fee2e2!important}
+@media (min-width:641px) and (max-width:900px) and (orientation:portrait){
+  .lead{display:none!important}
+  .illust{display:none!important}
+  h1{font-size:25px!important}
+  .panel{padding:10px 14px!important}
+  .scene,.tenScene{min-height:52px!important;font-size:17px!important}
+  .choice,.tenChoice,.sstChoice{min-height:38px!important;font-size:14px!important;padding:7px 9px!important}
+  .actions button{min-height:38px!important}
+}
+@media (min-width:900px) and (max-width:1180px) and (orientation:landscape){
+  .tenChoices,.choices{grid-template-columns:1fr 1fr!important}
+}
+
+
+/* ===== Ver.3.1.4.4.3.3 number touch fix ===== */
+html,body{overflow-x:hidden;color:#1f2937}
+.wrap{width:min(980px,96vw)!important;margin:auto}
+.top{position:static!important}
+.panel{padding:clamp(12px,3vw,24px)!important;border-radius:24px!important}
+.status{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+.badge,.pill,.nav a{font-size:13px!important;padding:6px 10px!important}
+h1{text-align:center;margin:8px 0!important}
+.lead{text-align:center;line-height:1.45}
 .scene{
-  min-height:96px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
-  color:#1f2937!important;background:#f8fafc;border:2px solid #dbeafe;border-radius:24px;padding:18px;font-weight:1000;font-size:clamp(21px,5vw,34px)
+  min-height:62px;background:#f8fafc;border:2px solid #dbeafe;border-radius:22px;
+  padding:12px;text-align:center;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(20px,5vw,32px);font-weight:1000;line-height:1.35;color:#1f2937!important;
 }
-.hidden{display:none!important}
-.fullOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(22,163,74,.94);color:#fff;font-size:clamp(58px,16vw,128px);font-weight:1000;letter-spacing:.05em;text-shadow:0 6px 20px rgba(0,0,0,.25)}
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
-ruby.autoRuby rb{display:ruby-base}
-ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
+.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+button{
+  min-height:50px!important;padding:10px 14px!important;border-radius:18px!important;
+  font-size:clamp(16px,4vw,21px)!important;touch-action:manipulation;
+}
+.visionArea{
+  position:relative;
+  width:100%;
+  height:min(58vh,470px);
+  min-height:330px;
+  background:#f8fafc;
+  border:3px solid #dbeafe;
+  border-radius:26px;
+  overflow:hidden;
+  margin-top:12px;
+}
+.numTarget{
+  position:absolute;
+  width:78px!important;
+  height:78px!important;
+  border-radius:22px!important;
+  border:4px solid #93c5fd!important;
+  background:#ffffff!important;
+  color:#1f2937!important;
+  font-size:38px!important;
+  font-weight:1000!important;
+  line-height:1!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-shadow:0 8px 20px rgba(30,41,59,.15);
+  text-shadow:none!important;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif!important;
+}
+.numTarget.good{
+  background:#dcfce7!important;
+  border-color:#86efac!important;
+}
+.numTarget.bad{
+  background:#fee2e2!important;
+  border-color:#fca5a5!important;
+}
+.message{margin-top:8px;text-align:center;font-weight:900}
+.footer{margin-top:10px}
 @media(max-width:640px){
-  .top{position:static!important}
-  .nav{gap:8px;flex-wrap:wrap}
-  h1{font-size:clamp(27px,8vw,42px)!important}
-  .lead{font-size:16px!important;line-height:1.6!important}
-  .status{gap:7px!important;justify-content:center!important}
-  .badge{font-size:14px!important;padding:7px 9px!important}
-  .grid{grid-template-columns:1fr!important;gap:12px!important}
-  .choice,.sstChoice{text-align:center!important}
-  ruby.autoRuby rt{font-size:.42em!important}
+  .wrap{width:97vw!important}
+  .panel{padding:10px!important}
+  h1{font-size:24px!important}
+  .lead{display:none!important}
+  .scene{min-height:52px;font-size:17px!important;padding:8px}
+  button{min-height:42px!important;font-size:14px!important;padding:8px 10px!important}
+  .badge,.pill,.nav a{font-size:11px!important;padding:4px 7px!important}
+  .visionArea{height:58dvh!important;min-height:280px!important}
+  .numTarget{width:60px!important;height:60px!important;font-size:30px!important;border-radius:18px!important}
+  .footer{display:none!important}
 }
-.visionArea{position:relative;height:min(56vh,460px);min-height:340px;background:#f8fafc;border:3px solid #dbeafe;border-radius:26px;overflow:hidden;margin-top:14px}.target{position:absolute;width:76px;height:76px;border-radius:22px;background:#fff;border:3px solid #bfdbfe;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:1000;box-shadow:0 8px 20px rgba(30,41,59,.12);touch-action:manipulation}.target.good{background:#dcfce7;border-color:#86efac}.target.bad{background:#fee2e2;border-color:#fca5a5}@media(max-width:640px){.visionArea{height:440px}.target{width:68px;height:68px;font-size:34px}}</style></head>
-<body><div class="top"><div class="wrap nav"><a href="vision_training.html">← ビジョン</a><span class="pill">にじフラ Ver.3.1.1</span></div></div>
-<main class="wrap"><section class="panel">
-<div class="status"><span class="badge">数字タッチ</span><span class="badge">問題 <span id="num">0</span>/5</span><span class="badge">点 <span id="score">0</span></span></div>
-<h1 style="text-align:center">数字タッチ</h1><div id="instruction" class="scene">スタートしてね</div>
-<div class="actions"><button onclick="start()">スタート</button></div><div id="area" class="visionArea"></div><div id="msg" class="message"></div>
-</section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
+@media (min-width:641px) and (max-width:1180px){
+  .visionArea{height:56vh;min-height:300px}
+  .numTarget{width:68px!important;height:68px!important;font-size:34px!important}
+}
+
+/* ===== Ver.3.1.4.4.4 iPad landscape one-screen all games ===== */
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+  html,body{
+    width:100%;
+    min-height:100dvh;
+    overflow-x:hidden;
+  }
+  body{
+    font-size:14px!important;
+  }
+  .wrap{
+    width:98vw!important;
+    max-width:1180px!important;
+    margin-inline:auto!important;
+  }
+  .top{
+    position:static!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  .nav{
+    min-height:auto!important;
+    padding:3px 0!important;
+    gap:6px!important;
+    flex-wrap:wrap!important;
+  }
+  .nav a,.pill,.badge{
+    font-size:11px!important;
+    padding:4px 7px!important;
+    line-height:1.1!important;
+    border-radius:999px!important;
+  }
+  .panel{
+    margin-top:4px!important;
+    padding:8px 12px!important;
+    border-radius:18px!important;
+  }
+  h1{
+    font-size:22px!important;
+    line-height:1.1!important;
+    margin:2px 0 4px!important;
+  }
+  h2{
+    font-size:18px!important;
+    margin:4px 0!important;
+  }
+  .lead{
+    display:none!important;
+  }
+  .illust{
+    display:none!important;
+  }
+  .status{
+    margin:2px 0 4px!important;
+    gap:5px!important;
+    justify-content:center!important;
+    flex-wrap:wrap!important;
+  }
+  .actions{
+    margin:4px 0!important;
+    gap:6px!important;
+    justify-content:center!important;
+    flex-wrap:wrap!important;
+  }
+  button{
+    min-height:34px!important;
+    padding:6px 10px!important;
+    font-size:13px!important;
+    line-height:1.15!important;
+    border-radius:14px!important;
+    touch-action:manipulation;
+  }
+  .scene,.tenScene{
+    min-height:44px!important;
+    padding:6px 9px!important;
+    font-size:15px!important;
+    line-height:1.22!important;
+    border-radius:15px!important;
+  }
+  .choices,.tenChoices,.sstChoices{
+    gap:6px!important;
+    margin-top:6px!important;
+  }
+  .choice,.tenChoice,.sstChoice,.tile{
+    min-height:34px!important;
+    padding:6px 8px!important;
+    font-size:13px!important;
+    line-height:1.2!important;
+    border-radius:14px!important;
+    border-width:2px!important;
+    text-align:center!important;
+  }
+  .sstChoice::before{
+    display:inline-block!important;
+    font-size:10px!important;
+    padding:1px 6px!important;
+    margin-right:5px!important;
+  }
+  .message,.tip,.report,.sstExplain{
+    margin-top:5px!important;
+    padding:6px 8px!important;
+    line-height:1.25!important;
+    font-size:12px!important;
+    border-radius:14px!important;
+  }
+  .reportItem,.tenReportItem{
+    margin:5px 0!important;
+    padding:6px 8px!important;
+    line-height:1.25!important;
+    font-size:12px!important;
+  }
+  .timerBar,.tenTimerBar{
+    height:7px!important;
+    margin:3px 0!important;
+  }
+  .footer{
+    display:none!important;
+  }
+
+  /* game-specific compacting */
+  .memoryShow{
+    font-size:48px!important;
+    margin:2px 0!important;
+    line-height:1!important;
+  }
+  .memoryCards{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:6px!important;
+  }
+  .memoryCards button{
+    min-height:48px!important;
+    font-size:30px!important;
+    padding:3px!important;
+  }
+
+  .colorGrid{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:7px!important;
+    margin-top:6px!important;
+  }
+  .colorBtn,.colorChoice{
+    height:46px!important;
+    min-height:46px!important;
+    border-radius:14px!important;
+    border-width:3px!important;
+  }
+
+  .visionArea{
+    height:58dvh!important;
+    min-height:250px!important;
+    margin-top:6px!important;
+    border-radius:18px!important;
+  }
+  .target,.numTarget{
+    width:52px!important;
+    height:52px!important;
+    min-height:52px!important;
+    font-size:26px!important;
+    border-radius:15px!important;
+    border-width:3px!important;
+    padding:0!important;
+  }
+
+  /* menu pages in landscape */
+  .grid{
+    gap:8px!important;
+  }
+  .card,.menu{
+    padding:10px!important;
+    border-radius:16px!important;
+  }
+  .card .icon,.menu .icon{
+    font-size:26px!important;
+    line-height:1!important;
+  }
+  .card .title,.menu .title{
+    font-size:16px!important;
+    margin:1px 0!important;
+  }
+  .card .desc,.menu .desc{
+    font-size:11px!important;
+    line-height:1.25!important;
+  }
+
+  /* keep reports inside viewport */
+  #report:not(.hidden), .report:not(.hidden){
+    max-height:40dvh!important;
+    overflow:auto!important;
+  }
+}
+
+/* iPad landscape: two-column answers where useful */
+@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){
+  .choices,.tenChoices{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .sstChoices{
+    grid-template-columns:1fr 1fr!important;
+  }
+}
+
+/* keep pages with many choices playable */
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+  #choices{
+    max-height:45dvh!important;
+    overflow:auto!important;
+  }
+  #area{
+    max-height:60dvh!important;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap nav">
+    <a href="vision_training.html">← ビジョン</a>
+    <span class="pill">にじフラ Ver.3.1.4.4.3.3</span>
+  </div>
+</div>
+
+<main class="wrap">
+<section class="panel">
+  <div class="status">
+    <span class="badge">数字タッチ</span>
+    <span class="badge">問題 <span id="round">0</span>/5</span>
+    <span class="badge">点 <span id="score">0</span></span>
+    <span class="badge">次は <span id="nextNum">1</span></span>
+  </div>
+
+  <h1>数字タッチ</h1>
+  <p class="lead">1から5まで、順番に数字をタッチします。</p>
+
+  <div id="instruction" class="scene">スタートしてね</div>
+
+  <div class="actions">
+    <button type="button" onclick="start()">スタート</button>
+    <button type="button" class="light" onclick="resetRound()">もう一回</button>
+  </div>
+
+  <div id="area" class="visionArea"></div>
+  <div id="msg" class="message"></div>
+</section>
+</main>
+
+<footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
 
-const FURI_ENTRIES = [["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["10分チェック", "じゅっぷんちぇっく"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["取り組んだ問題", "とりくんだもんだい"], ["記憶ゲーム", "きおくげーむ"], ["もじタッチ", "もじたっち"], ["選んだ答え", "えらんだこたえ"], ["数字タッチ", "すうじたっち"], ["ありがとう", "ありがとう"], ["危険予知", "きけんよち"], ["色タッチ", "いろたっち"], ["問題形式", "もんだいけいしき"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["伝える", "つたえる"], ["お願い", "おねがい"], ["止まる", "とまる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["同じ絵", "おなじえ"], ["選ぼう", "えらぼう"], ["正しい", "ただしい"], ["間違い", "まちがい"], ["一緒に", "いっしょに"], ["大丈夫", "だいじょうぶ"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["言葉", "ことば"], ["説明", "せつめい"], ["聞く", "きく"], ["話す", "はなす"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["使う", "つかう"], ["助け", "たすけ"], ["歩く", "あるく"], ["走る", "はしる"], ["遊び", "あそび"], ["活動", "かつどう"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["道路", "どうろ"], ["信号", "しんごう"], ["階段", "かいだん"], ["廊下", "ろうか"], ["黄色", "きいろ"], ["数字", "すうじ"], ["同じ", "おなじ"], ["車", "くるま"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["右", "みぎ"], ["左", "ひだり"], ["上", "うえ"], ["下", "した"]];
-function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function R(text){
-  const raw=String(text??"");
-  let out="",i=0;
-  while(i<raw.length){
-    let hit=null;
-    for(const pair of FURI_ENTRIES){
-      const w=pair[0];
-      if(raw.slice(i,i+w.length)===w){hit=pair;break}
-    }
-    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
-    else{out+=esc(raw[i]);i++}
+let round = 0;
+let score = 0;
+let next = 1;
+let running = false;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
   }
-  return out.replaceAll("\\n","<br>");
-}
-function showCorrectOverlay(){
-  const o=document.getElementById("overlay");
-  if(!o)return;
-  o.classList.remove("hidden");
-  setTimeout(()=>o.classList.add("hidden"),650);
-}
-function speakJP(text){
-  if(!("speechSynthesis" in window))return;
-  const u=new SpeechSynthesisUtterance(String(text||""));
-  u.lang="ja-JP";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);
+  return a;
 }
 
+function rand(max){
+  return Math.floor(Math.random() * Math.max(1,max));
+}
 
-let round=0,score=0,nextNum=1;
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function rand(n){return Math.floor(Math.random()*Math.max(1,n))}
-function place(btn,used){const a=document.getElementById("area");let x=0,y=0;for(let t=0;t<80;t++){x=rand(a.clientWidth-76-8)+4;y=rand(a.clientHeight-76-8)+4;if(used.every(p=>Math.hypot(p.x-x,p.y-y)>82))break}used.push({x,y});btn.style.left=x+"px";btn.style.top=y+"px"}
-function start(){round=0;score=0;document.getElementById("score").textContent=0;show()}
-function show(){document.getElementById("msg").textContent="";if(round>=5){document.getElementById("instruction").innerHTML=R("おしまい");document.getElementById("area").innerHTML="";return}round++;nextNum=1;document.getElementById("num").textContent=round;document.getElementById("instruction").innerHTML=R("1から5まで順番にタッチ");const area=document.getElementById("area");area.innerHTML="";const used=[];shuffle([1,2,3,4,5]).forEach(n=>{const b=document.createElement("button");b.type="button";b.className="target";b.textContent=n;place(b,used);b.onclick=()=>{if(n===nextNum){b.classList.add("good");b.style.visibility="hidden";nextNum++;if(nextNum>5){score+=5;document.getElementById("score").textContent=score;setTimeout(show,350)}}else{b.classList.add("bad");document.getElementById("msg").textContent="順番を確認しよう";setTimeout(()=>b.classList.remove("bad"),300)}};area.appendChild(b)})}
+function area(){
+  return document.getElementById("area");
+}
+
+function update(){
+  document.getElementById("round").textContent = round;
+  document.getElementById("score").textContent = score;
+  document.getElementById("nextNum").textContent = next;
+}
+
+function start(){
+  round = 0;
+  score = 0;
+  running = true;
+  showRound();
+}
+
+function resetRound(){
+  if(!running){
+    start();
+    return;
+  }
+  showRound(false);
+}
+
+function showRound(countUp=true){
+  if(countUp){
+    round += 1;
+  }
+  if(round > 5){
+    running = false;
+    area().innerHTML = "";
+    document.getElementById("instruction").textContent = "おしまい";
+    document.getElementById("msg").innerHTML = '<span class="ok">結果：' + score + '点</span>';
+    update();
+    return;
+  }
+
+  next = 1;
+  update();
+  document.getElementById("instruction").textContent = "1から5まで順番にタッチ";
+  document.getElementById("msg").textContent = "";
+  area().innerHTML = "";
+
+  const used = [];
+  shuffle([1,2,3,4,5]).forEach(n => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "numTarget";
+    b.textContent = String(n);
+    b.setAttribute("aria-label", String(n));
+    place(b, used);
+    b.onclick = () => tapNumber(n, b);
+    area().appendChild(b);
+  });
+}
+
+function place(btn, used){
+  const a = area();
+  const size = btn.offsetWidth || 60;
+  let x = 0;
+  let y = 0;
+  for(let t=0;t<100;t++){
+    x = rand(a.clientWidth - size - 8) + 4;
+    y = rand(a.clientHeight - size - 8) + 4;
+    if(used.every(p => Math.hypot(p.x - x, p.y - y) > 86)){
+      break;
+    }
+  }
+  used.push({x,y});
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}
+
+function tapNumber(n, btn){
+  if(!running) return;
+
+  if(n === next){
+    btn.classList.add("good");
+    btn.disabled = true;
+    btn.style.visibility = "hidden";
+    score += 1;
+    next += 1;
+    update();
+
+    if(next > 5){
+      document.getElementById("msg").innerHTML = '<span class="ok">正解！</span>';
+      setTimeout(() => showRound(true), 500);
+    }
+  }else{
+    btn.classList.add("bad");
+    document.getElementById("msg").textContent = "順番を確認しよう。次は " + next;
+    setTimeout(() => btn.classList.remove("bad"), 350);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  update();
+});
 
 </script>
-</body></html>
+</body>
+</html>
