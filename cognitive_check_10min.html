@@ -1,5 +1,10 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10分チェック</title><style>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10分チェック</title>
+<style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -69,7 +74,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.3.2 mobile readability fix ===== */
+/* ===== Ver.3.1.1 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,412 +119,365 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver.3.2 stable UI ===== */
-html{font-size:16px}
-body{overflow-x:hidden;color:#1f2937}
-.wrap{width:min(980px,96vw)!important;margin-inline:auto}
-.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
-button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
-.choices{display:grid!important;grid-template-columns:1fr!important;gap:14px!important;margin-top:16px}
-.choice{
-  display:block;width:100%;min-height:60px;
-  padding:16px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
-  background:#fff!important;box-shadow:0 8px 18px rgba(30,41,59,.08);
-  color:#1f2937!important;font-weight:1000;line-height:1.6!important;text-align:left;
+/* ===== Ver.3.1.1.1 10min error fix only ===== */
+.tenCheckBox{
+  max-width:920px;
+  margin:0 auto;
 }
-.choice.correct{border-color:#86efac!important;background:#dcfce7!important}
-.choice.wrong{border-color:#fca5a5!important;background:#fee2e2!important}
-.scene{
-  min-height:96px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
-  color:#1f2937!important;background:#f8fafc;border:2px solid #dbeafe;border-radius:24px;padding:18px;font-weight:1000;font-size:clamp(21px,5vw,34px)
+.tenScene{
+  min-height:92px;
+  background:#f8fafc;
+  border:2px solid #dbeafe;
+  border-radius:24px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#1f2937!important;
+  font-weight:1000;
+  line-height:1.6;
+  font-size:clamp(22px,5vw,34px);
 }
-.scene.hiddenText{color:transparent!important;text-shadow:none!important}
-.scene.hiddenText::after{content:"問題を思い出して答えよう";color:#475569;font-size:clamp(20px,5vw,30px)}
+.tenScene.hideQuestion{
+  color:transparent!important;
+}
+.tenScene.hideQuestion::after{
+  content:"もんだいを おもいだして こたえよう";
+  color:#475569!important;
+  font-size:clamp(20px,5vw,30px);
+}
+.tenChoices{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.tenChoice{
+  width:100%;
+  min-height:58px;
+  padding:14px 16px;
+  border:3px solid #dbeafe;
+  border-radius:22px;
+  background:#fff;
+  color:#1f2937!important;
+  font-weight:1000;
+  line-height:1.55;
+  text-align:left;
+  font-size:clamp(18px,4vw,24px);
+  box-shadow:0 8px 18px rgba(30,41,59,.08);
+}
+.tenChoice.correct{
+  border-color:#86efac;
+  background:#dcfce7;
+}
+.tenChoice.wrong{
+  border-color:#fca5a5;
+  background:#fee2e2;
+}
+.tenTimerBar{
+  height:14px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+  margin:10px 0;
+}
+.tenTimerFill{
+  height:100%;
+  width:100%;
+  background:#22c55e;
+  transition:width .2s linear;
+}
+.tenReportItem{
+  background:#fff;
+  border:2px solid #dbeafe;
+  border-radius:18px;
+  padding:12px;
+  margin:10px 0;
+  line-height:1.6;
+}
 .hidden{display:none!important}
-.fullOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(22,163,74,.94);color:#fff;font-size:clamp(58px,16vw,128px);font-weight:1000;letter-spacing:.05em;text-shadow:0 6px 20px rgba(0,0,0,.25)}
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
-ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
-.timerBar{height:16px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:14px 0}
-.timerFill{height:100%;width:100%;background:#22c55e;transition:width .2s linear}
-.reportItem{background:#fff;border:2px solid #dbeafe;border-radius:20px;padding:14px;margin:12px 0}
-.colorWordTarget{font-size:clamp(48px,14vw,96px);font-weight:1000;text-align:center;margin:16px 0;line-height:1.1}
+ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.25}
+ruby.autoRuby rt{font-size:.48em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
 @media(max-width:640px){
-  .top{position:static!important}
-  .grid{grid-template-columns:1fr!important;gap:12px!important}
-  h1{font-size:clamp(27px,8vw,42px)!important}
-  .lead{font-size:16px!important;line-height:1.6!important}
-  .status{gap:7px!important;justify-content:center!important}
-  .badge{font-size:14px!important;padding:7px 9px!important}
-  .choice{text-align:center!important}
-  ruby.autoRuby rt{font-size:.42em!important}
+  .tenScene{min-height:68px;font-size:18px;padding:10px}
+  .tenChoice{text-align:center;min-height:46px;padding:10px;font-size:16px}
+  .tenTimerBar{height:10px;margin:6px 0}
 }
-
-/* ===== Ver.3.2 one-screen smartphone layout ===== */
-:root{
-  --mobile-safe-gap:8px;
-}
-html,body{
-  min-height:100%;
-  overflow-x:hidden;
-}
-body{
-  font-size:16px;
-}
-.wrap{
-  width:min(980px,96vw)!important;
-}
-.top{
-  position:static!important;
-}
-.nav{
-  min-height:auto!important;
-  padding:6px 0!important;
-  gap:8px!important;
-  flex-wrap:wrap!important;
-}
-.nav a,.pill,.badge{
-  font-size:13px!important;
-  padding:6px 9px!important;
-  line-height:1.15!important;
-}
-.panel{
-  padding:clamp(12px,3vw,22px)!important;
-  border-radius:22px!important;
-  margin-top:8px!important;
-}
-h1{
-  margin:6px 0 6px!important;
-  line-height:1.15!important;
-}
-.lead{
-  margin:4px 0 8px!important;
-  line-height:1.35!important;
-}
-.illust{
-  font-size:clamp(34px,8vw,56px)!important;
-  margin:2px 0!important;
-  line-height:1!important;
-}
-.status{
-  gap:6px!important;
-  margin:4px 0 8px!important;
-  flex-wrap:wrap!important;
-}
-.actions{
-  gap:8px!important;
-  margin:8px 0!important;
-  flex-wrap:wrap!important;
-}
-button{
-  min-height:46px!important;
-  padding:9px 13px!important;
-  font-size:clamp(15px,3.8vw,19px)!important;
-  border-radius:18px!important;
-}
-.scene{
-  min-height:68px!important;
-  padding:10px 12px!important;
-  border-radius:18px!important;
-  font-size:clamp(18px,4.6vw,28px)!important;
-  line-height:1.35!important;
-}
-.choices,.sstChoices{
-  gap:8px!important;
-  margin-top:8px!important;
-}
-.choice,.sstChoice,.tile{
-  min-height:46px!important;
-  padding:10px 12px!important;
-  border-radius:18px!important;
-  font-size:clamp(15px,3.8vw,20px)!important;
-  line-height:1.35!important;
-}
-.report,.tip,.message,.sstExplain{
-  margin-top:8px!important;
-  padding:10px 12px!important;
-  line-height:1.35!important;
-}
-.footer{
-  margin-top:8px!important;
-  padding:8px 12px!important;
-  font-size:12px!important;
-}
-
-/* smartphone: aim to fit first task screen into one viewport */
-@media(max-width:640px){
-  body{
-    min-height:100dvh;
-  }
-  .wrap{
-    width:97vw!important;
-  }
-  .top{
-    margin-bottom:0!important;
-  }
-  .panel{
-    padding:10px!important;
-    margin-top:4px!important;
-  }
-  h1{
-    font-size:clamp(23px,6.2vw,32px)!important;
-  }
-  .lead{
-    font-size:13px!important;
-  }
-  .illust{
-    font-size:36px!important;
-  }
-  .badge,.pill,.nav a{
-    font-size:12px!important;
-    padding:5px 8px!important;
-  }
-  .actions button{
-    flex:1 1 42%;
-  }
-  .scene{
-    min-height:60px!important;
-    font-size:clamp(17px,4.5vw,24px)!important;
-    padding:9px!important;
-  }
-  .choice,.sstChoice{
-    min-height:44px!important;
-    padding:9px!important;
-    font-size:clamp(15px,4vw,19px)!important;
-    text-align:center!important;
-  }
-  .sstChoice::before{
-    display:block!important;
-    width:max-content!important;
-    margin:0 auto 4px!important;
-    font-size:11px!important;
-    padding:2px 8px!important;
-  }
-  .timerBar{
-    height:10px!important;
-    margin:6px 0!important;
-  }
-  .colorGrid{
-    gap:8px!important;
-    margin-top:8px!important;
-  }
-  .colorBtn,.colorChoice{
-    height:64px!important;
-    border-radius:18px!important;
-  }
-  .visionArea{
-    height:58dvh!important;
-    min-height:260px!important;
-    margin-top:8px!important;
-  }
-  .target{
-    width:56px!important;
-    height:56px!important;
-    font-size:28px!important;
-    border-radius:18px!important;
-  }
-  .memoryShow{
-    font-size:clamp(42px,14vw,76px)!important;
-    margin:6px 0!important;
-  }
-  .memoryCards{
-    gap:8px!important;
-  }
-  .memoryCards button{
-    min-height:60px!important;
-    font-size:clamp(28px,9vw,46px)!important;
-  }
-  .grid{
-    grid-template-columns:1fr!important;
-    gap:8px!important;
-  }
-  .card,.menu{
-    padding:12px!important;
-    border-radius:18px!important;
-  }
-  .card .icon,.menu .icon{
-    font-size:32px!important;
-  }
-  .card .title,.menu .title{
-    font-size:18px!important;
-    margin:2px 0!important;
-  }
-  .card .desc,.menu .desc{
-    font-size:13px!important;
-    line-height:1.3!important;
-  }
-  .footer{
-    display:none!important;
-  }
-}
-
-/* very small phones */
-@media(max-width:390px){
-  .lead{display:none!important;}
-  .illust{font-size:30px!important;}
-  h1{font-size:23px!important;}
-  .scene{min-height:54px!important;font-size:16px!important;}
-  button{min-height:42px!important;font-size:14px!important;padding:8px 10px!important;}
-  .choice,.sstChoice{min-height:40px!important;font-size:14px!important;padding:8px!important;}
-  .badge,.pill,.nav a{font-size:11px!important;padding:4px 7px!important;}
-}
-
-
-/* Ver.3.2 10min one screen */
-@media(max-width:640px){
-  #illust{display:none!important;}
-  #report:not(.hidden){max-height:58dvh;overflow:auto;}
-}
-
-</style></head>
-<body><div class="top"><div class="wrap nav"><a href="index.html">← TOP</a><span class="pill">にじフラ Ver.3.2</span></div></div>
-<main class="wrap"><section class="panel">
-<div class="status">
-  <span class="badge">10分チェック</span>
-  <span class="badge">問題 <span id="num">0</span>/<span id="total">0</span></span>
-  <span class="badge">できた <span id="score">0</span></span>
-  <span class="badge">残り <span id="time">0</span>秒</span>
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap nav">
+    <a href="index.html">← TOP</a>
+    <span class="pill">にじフラ Ver.3.1.1.1</span>
+  </div>
 </div>
-<div class="timerBar"><div class="timerFill" id="timerFill"></div></div>
-<div class="illust" id="illust">🧠</div>
-<h1 style="text-align:center">10分チェック</h1>
-<p class="lead" style="text-align:center">1問ごとに制限時間があります。半分経つと問題文が隠れます。</p>
-<div class="scene" id="scene">スタートしてね</div>
-<div class="actions">
-  <button type="button" onclick="start()">はじめる</button>
-  <button type="button" class="light" onclick="readQ()">🔊 よみあげ</button>
-  <button type="button" class="light" onclick="finish()">レポート</button>
-</div>
-<div class="choices" id="choices"></div>
-<div id="msg" class="message"></div>
-<div id="report" class="report hidden"></div>
-</section></main>
+
+<main class="wrap">
+<section class="panel tenCheckBox">
+  <div class="status">
+    <span class="badge">10分チェック</span>
+    <span class="badge">もんだい <span id="num">0</span>/<span id="total">10</span></span>
+    <span class="badge">できた <span id="score">0</span></span>
+    <span class="badge">のこり <span id="time">12</span>びょう</span>
+  </div>
+
+  <div class="tenTimerBar"><div class="tenTimerFill" id="timerFill"></div></div>
+
+  <h1 style="text-align:center">10分チェック</h1>
+  <p class="lead" style="text-align:center">1もん12びょう。はんぶん たつと、もんだいが かくれます。</p>
+
+  <div id="illust" class="illust">🧠</div>
+  <div class="tenScene" id="scene">スタートしてね</div>
+
+  <div class="actions">
+    <button type="button" onclick="start()">はじめる</button>
+    <button type="button" class="light" onclick="readQ()">🔊 よみあげ</button>
+    <button type="button" class="light" onclick="finish()">レポート</button>
+  </div>
+
+  <div class="tenChoices" id="choices"></div>
+  <div id="msg" class="message"></div>
+  <div id="report" class="report hidden"></div>
+</section>
+</main>
+
 <footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
+
 <script>
+const DATA = [{"illust": "🍎", "scene": "りんご と みかん は、どこが にていますか？", "choices": [{"text": "どちらも くだもの", "ok": true}, {"text": "どちらも のりもの", "ok": false}, {"text": "どちらも ふく", "ok": false}, {"text": "どちらも すうじ", "ok": false}], "tip": "おなじ なかまを さがします。"}, {"illust": "👀", "scene": "みぎ にあるものを えらびます。", "choices": [{"text": "みぎ", "ok": true}, {"text": "ひだり", "ok": false}, {"text": "うえ", "ok": false}, {"text": "した", "ok": false}], "tip": "むきを かくにんします。"}, {"illust": "🔢", "scene": "1、2、3 の つぎにくる すうじは どれですか？", "choices": [{"text": "4", "ok": true}, {"text": "2", "ok": false}, {"text": "5", "ok": false}, {"text": "1", "ok": false}], "tip": "じゅんばんを みます。"}, {"illust": "🔴", "scene": "あか、あお、あか、あお の つぎは どれですか？", "choices": [{"text": "あか", "ok": true}, {"text": "あお", "ok": false}, {"text": "きいろ", "ok": false}, {"text": "みどり", "ok": false}], "tip": "くりかえしを みます。"}, {"illust": "🧩", "scene": "おなじ かたちを さがすとき、まず なにを みますか？", "choices": [{"text": "かたちの とくちょう", "ok": true}, {"text": "となりの ひと", "ok": false}, {"text": "おとの おおきさ", "ok": false}, {"text": "におい", "ok": false}], "tip": "みるところを きめます。"}, {"illust": "💬", "scene": "せつめいが わからないとき、どうしますか？", "choices": [{"text": "もういっかい きく", "ok": true}, {"text": "おこる", "ok": false}, {"text": "はしる", "ok": false}, {"text": "なにも みない", "ok": false}], "tip": "わからないときは、きいて だいじょうぶです。"}, {"illust": "🧠", "scene": "すこしだけ みて おぼえるとき、どこを みますか？", "choices": [{"text": "だいじな ところ", "ok": true}, {"text": "ゆかだけ", "ok": false}, {"text": "てんじょうだけ", "ok": false}, {"text": "めを とじる", "ok": false}], "tip": "ぜんぶではなく、だいじな ところを みます。"}, {"illust": "🟢", "scene": "みどりの まる と みどりの しかく は、どこが おなじですか？", "choices": [{"text": "いろ", "ok": true}, {"text": "かたち", "ok": false}, {"text": "かず", "ok": false}, {"text": "おおきさだけ", "ok": false}], "tip": "いろ と かたちを わけて みます。"}, {"illust": "🚗", "scene": "くるま と でんしゃ は、どこが にていますか？", "choices": [{"text": "どちらも のりもの", "ok": true}, {"text": "どちらも たべもの", "ok": false}, {"text": "どちらも どうぶつ", "ok": false}, {"text": "どちらも いろ", "ok": false}], "tip": "おなじ なかまを かんがえます。"}, {"illust": "⭐", "scene": "ほし、まる、ほし、まる の つぎは どれですか？", "choices": [{"text": "ほし", "ok": true}, {"text": "まる", "ok": false}, {"text": "さんかく", "ok": false}, {"text": "しかく", "ok": false}], "tip": "じゅんばんの くりかえしを みます。"}];
+const FURI = [["10分チェック", "じゅっぷんちぇっく"], ["取り組んだ問題", "とりくんだもんだい"], ["選んだ答え", "えらんだこたえ"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["問題文", "もんだいぶん"], ["小学生", "しょうがくせい"], ["共通点", "きょうつうてん"], ["乗り物", "のりもの"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["確認", "かくにん"], ["時間", "じかん"], ["残り", "のこり"], ["半分", "はんぶん"], ["方向", "ほうこう"], ["順番", "じゅんばん"], ["図形", "ずけい"], ["同じ", "おなじ"], ["違う", "ちがう"], ["果物", "くだもの"], ["数字", "すうじ"], ["黄色", "きいろ"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["秒", "びょう"], ["右", "みぎ"], ["左", "ひだり"], ["上", "うえ"], ["下", "した"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"]];
+const LIMIT = 12;
 
-const FURI_ENTRIES = [["10分チェック", "じゅっぷんちぇっく"], ["選んだ答え", "えらんだこたえ"], ["思い出して", "おもいだして"], ["", "いろことば"], ["色タッチ", "いろたっち"], ["レポート", "れぽーと"], ["制限時間", "せいげんじかん"], ["経過時間", "けいかじかん"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["選択肢", "せんたくし"], ["答える", "こたえる"], ["問題文", "もんだいぶん"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["残り", "のこり"], ["半分", "はんぶん"], ["確認", "かくにん"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["黄色", "きいろ"], ["文字", "もじ"], ["自分", "じぶん"], ["相手", "あいて"], ["行動", "こうどう"], ["安全", "あんぜん"], ["見る", "みる"], ["聞く", "きく"], ["話す", "はなす"], ["秒", "びょう"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["色", "いろ"]];
-function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function R(text){
-  const raw=String(text??"");
-  let out="",i=0;
-  while(i<raw.length){
-    let hit=null;
-    for(const pair of FURI_ENTRIES){
-      const w=pair[0];
-      if(raw.slice(i,i+w.length)===w){hit=pair;break}
+let deck = [];
+let index = 0;
+let score = 0;
+let records = [];
+let current = "";
+let timeLeft = LIMIT;
+let timer = null;
+let answered = false;
+
+function esc(s) {
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function R(text) {
+  const raw = String(text ?? "");
+  let out = "";
+  let i = 0;
+  while (i < raw.length) {
+    let hit = null;
+    for (const pair of FURI) {
+      const w = pair[0];
+      if (raw.slice(i, i + w.length) === w) {
+        hit = pair;
+        break;
+      }
     }
-    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
-    else{out+=esc(raw[i]);i++}
+    if (hit) {
+      out += `<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;
+      i += hit[0].length;
+    } else {
+      out += esc(raw[i]);
+      i++;
+    }
   }
-  return out.replaceAll("\\n","<br>");
-}
-function showCorrectOverlay(){
-  const o=document.getElementById("overlay");
-  if(!o)return;
-  o.classList.remove("hidden");
-  setTimeout(()=>o.classList.add("hidden"),650);
-}
-function speakJP(text){
-  if(!("speechSynthesis" in window))return;
-  const u=new SpeechSynthesisUtterance(String(text||""));
-  u.lang="ja-JP";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);
+  return out;
 }
 
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
-const DATA=[{"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "りんご と みかん は、どこが似ていますか？", "choices": [{"text": "どちらも果物", "ok": true}, {"text": "どちらも乗り物", "ok": false}, {"text": "どちらも服", "ok": false}, {"text": "どちらも数字", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "犬 と 猫 は、どこが似ていますか？", "choices": [{"text": "どちらも動物", "ok": true}, {"text": "どちらも野菜", "ok": false}, {"text": "どちらも文房具", "ok": false}, {"text": "どちらも色", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "鉛筆 と クレヨン は、どこが似ていますか？", "choices": [{"text": "どちらも書く物", "ok": true}, {"text": "どちらも食べ物", "ok": false}, {"text": "どちらも履く物", "ok": false}, {"text": "どちらも飲み物", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "類似", "cat": "言語理解 VCI / 類似", "illust": "💬", "scene": "雨 と 雪 は、どこが似ていますか？", "choices": [{"text": "どちらも空から降る", "ok": true}, {"text": "どちらもおもちゃ", "ok": false}, {"text": "どちらも楽器", "ok": false}, {"text": "どちらも乗り物", "ok": false}], "tip": "言葉の共通点を考える課題です。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「勇気」とは、どんな意味に近いですか？", "choices": [{"text": "こわくてもやってみる力", "ok": true}, {"text": "早く走る力", "ok": false}, {"text": "大きな声", "ok": false}, {"text": "眠ること", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「約束」とは、どんな意味に近いですか？", "choices": [{"text": "守ると決めたこと", "ok": true}, {"text": "好きな色", "ok": false}, {"text": "走る場所", "ok": false}, {"text": "食べる物", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「協力」とは、どんな意味に近いですか？", "choices": [{"text": "一緒に力を合わせること", "ok": true}, {"text": "一人で隠れること", "ok": false}, {"text": "物をなくすこと", "ok": false}, {"text": "すぐ怒ること", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "単語", "cat": "言語理解 VCI / 単語", "illust": "📘", "scene": "「安全」とは、どんな意味に近いですか？", "choices": [{"text": "けがや危険が少ないこと", "ok": true}, {"text": "早いこと", "ok": false}, {"text": "大きいこと", "ok": false}, {"text": "にぎやかなこと", "ok": false}], "tip": "語彙の意味理解を見ます。", "seconds": 12}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "横断歩道を渡る前に、なぜ左右を見ますか？", "choices": [{"text": "車が来ていないか確かめるため", "ok": true}, {"text": "早く走るため", "ok": false}, {"text": "友だちを探すため", "ok": false}, {"text": "空を見るため", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "友だちが泣いていたら、どうするとよいですか？", "choices": [{"text": "どうしたの？と聞く", "ok": true}, {"text": "笑う", "ok": false}, {"text": "近くで大声を出す", "ok": false}, {"text": "知らんぷりする", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "順番を守るのは、なぜ大切ですか？", "choices": [{"text": "みんなが安心して使えるから", "ok": true}, {"text": "早く帰れるから", "ok": false}, {"text": "色が変わるから", "ok": false}, {"text": "音が鳴るから", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "言語理解 VCI", "sub": "理解", "cat": "言語理解 VCI / 理解", "illust": "🗣️", "scene": "困った時に先生に相談するのは、なぜよいですか？", "choices": [{"text": "一緒に解決しやすいから", "ok": true}, {"text": "怒られるため", "ok": false}, {"text": "隠れるため", "ok": false}, {"text": "遊びをやめるため", "ok": false}], "tip": "社会的な理由理解や説明する力を見ます。", "seconds": 13}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n🔴 🔵 🟢", "choices": [{"text": "🔴 🔵 🟢", "ok": true}, {"text": "🔵 🔴 🟢", "ok": false}, {"text": "🟢 🔵 🔴", "ok": false}, {"text": "🔴 🟢 🔵", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n■ ▲ ●", "choices": [{"text": "■ ▲ ●", "ok": true}, {"text": "▲ ■ ●", "ok": false}, {"text": "● ▲ ■", "ok": false}, {"text": "■ ● ▲", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n🐶 🐱 🐰", "choices": [{"text": "🐶 🐱 🐰", "ok": true}, {"text": "🐱 🐶 🐰", "ok": false}, {"text": "🐰 🐱 🐶", "ok": false}, {"text": "🐶 🐰 🐱", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "模様構成", "cat": "視空間 VSI / 模様構成", "illust": "🧩", "scene": "見本と同じ並びを選ぼう\n1 3 5", "choices": [{"text": "1 3 5", "ok": true}, {"text": "3 1 5", "ok": false}, {"text": "5 3 1", "ok": false}, {"text": "1 5 3", "ok": false}], "tip": "形や並びを見比べる課題です。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "2つ合わせると四角になるのは？", "choices": [{"text": "◧ ＋ ◨", "ok": true}, {"text": "○ ＋ △", "ok": false}, {"text": "⭐ ＋ 🌙", "ok": false}, {"text": "● ＋ ●", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "2つ合わせると丸に近い形になるのは？", "choices": [{"text": "◐ ＋ ◑", "ok": true}, {"text": "△ ＋ △", "ok": false}, {"text": "□ ＋ ☆", "ok": false}, {"text": "⬆️ ＋ ⬇️", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "同じ向きの矢印は？\n見本：➡️", "choices": [{"text": "➡️", "ok": true}, {"text": "⬅️", "ok": false}, {"text": "⬆️", "ok": false}, {"text": "⬇️", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "視空間 VSI", "sub": "視覚パズル", "cat": "視空間 VSI / 視覚パズル", "illust": "🔷", "scene": "同じ向きの矢印は？\n見本：↗️", "choices": [{"text": "↗️", "ok": true}, {"text": "↙️", "ok": false}, {"text": "↖️", "ok": false}, {"text": "↘️", "ok": false}], "tip": "部分と全体、向きの見分けを見ます。", "seconds": 9}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n🔴 🔵 🔴 🔵 ？", "choices": [{"text": "🔴", "ok": true}, {"text": "🔵", "ok": false}, {"text": "🟢", "ok": false}, {"text": "⭐", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n▲ ■ ▲ ■ ？", "choices": [{"text": "▲", "ok": true}, {"text": "■", "ok": false}, {"text": "●", "ok": false}, {"text": "★", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n1 2 3 4 ？", "choices": [{"text": "5", "ok": true}, {"text": "3", "ok": false}, {"text": "6", "ok": false}, {"text": "8", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "規則推理", "cat": "流動性推理 FRI / 規則推理", "illust": "🔍", "scene": "次にくるのは？\n2 4 6 8 ？", "choices": [{"text": "10", "ok": true}, {"text": "9", "ok": false}, {"text": "12", "ok": false}, {"text": "6", "ok": false}], "tip": "きまりを見つけて次を考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\nりんご・みかん・車・ぶどう", "choices": [{"text": "車", "ok": true}, {"text": "りんご", "ok": false}, {"text": "みかん", "ok": false}, {"text": "ぶどう", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\n犬・猫・鉛筆・うさぎ", "choices": [{"text": "鉛筆", "ok": true}, {"text": "犬", "ok": false}, {"text": "猫", "ok": false}, {"text": "うさぎ", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\n赤・青・黄色・机", "choices": [{"text": "机", "ok": true}, {"text": "赤", "ok": false}, {"text": "青", "ok": false}, {"text": "黄色", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "流動性推理 FRI", "sub": "概念分類", "cat": "流動性推理 FRI / 概念分類", "illust": "🧠", "scene": "仲間はずれは？\n走る・歩く・泳ぐ・りんご", "choices": [{"text": "りんご", "ok": true}, {"text": "走る", "ok": false}, {"text": "歩く", "ok": false}, {"text": "泳ぐ", "ok": false}], "tip": "見えない共通点や違いを考える課題です。", "seconds": 12}, {"idx": "ワーキングメモリ WMI", "sub": "順唱", "cat": "ワーキングメモリ WMI / 順唱", "illust": "🔢", "scene": "覚えて選ぼう\n3 → 8", "choices": [{"text": "3 → 8", "ok": true}, {"text": "8 → 3", "ok": false}, {"text": "3 → 6", "ok": false}, {"text": "6 → 8", "ok": false}], "tip": "聞いた・見た順番を一時的に覚える課題です。", "seconds": 13}, {"idx": "ワーキングメモリ WMI", "sub": "順唱", "cat": "ワーキングメモリ WMI / 順唱", "illust": "🔢", "scene": "覚えて選ぼう\n1 → 4 → 7", "choices": [{"text": "1 → 4 → 7", "ok": true}, {"text": "1 → 7 → 4", "ok": false}, {"text": "4 → 1 → 7", "ok": false}, {"text": "7 → 4 → 1", "ok": false}], "tip": "聞いた・見た順番を一時的に覚える課題です。", "seconds": 13}];
-const LIMIT=12;
-let deck=[],i=0,score=0,current="",wrong=[],records=[],timeLeft=LIMIT,timer=null,answered=false;
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function start(){
+function start() {
   clearInterval(timer);
-  deck=shuffle(DATA).slice(0,Math.min(10,DATA.length));
-  i=0;score=0;wrong=[];records=[];
-  document.getElementById("score").textContent=0;
-  document.getElementById("total").textContent=deck.length;
+  deck = shuffle(DATA).slice(0, 10);
+  index = 0;
+  score = 0;
+  records = [];
+  document.getElementById("score").textContent = score;
+  document.getElementById("total").textContent = deck.length;
   document.getElementById("report").classList.add("hidden");
-  show();
+  document.getElementById("report").innerHTML = "";
+  showQuestion();
 }
-function tick(){
-  timeLeft--;
-  document.getElementById("time").textContent=timeLeft;
-  document.getElementById("timerFill").style.width=Math.max(0,(timeLeft/LIMIT)*100)+"%";
-  if(timeLeft<=Math.floor(LIMIT/2)){
-    document.getElementById("scene").classList.add("hiddenText");
-  }
-  if(timeLeft<=0){
-    timeUp();
-  }
-}
-function startTimer(){
+
+function showQuestion() {
   clearInterval(timer);
-  timeLeft=LIMIT;
-  document.getElementById("time").textContent=timeLeft;
-  document.getElementById("timerFill").style.width="100%";
-  document.getElementById("scene").classList.remove("hiddenText");
-  timer=setInterval(tick,1000);
-}
-function show(){
-  clearInterval(timer);
-  answered=false;
-  document.getElementById("msg").textContent="";
-  document.getElementById("scene").classList.remove("hiddenText");
-  if(i>=deck.length){finish();return}
-  const q=deck[i];current=q.scene||"";
-  document.getElementById("num").textContent=i+1;
-  document.getElementById("illust").textContent=q.illust||"🧠";
-  document.getElementById("scene").innerHTML=R(current);
-  const box=document.getElementById("choices");box.innerHTML="";
-  shuffle(q.choices||[]).forEach(c=>{
-    const b=document.createElement("button");
-    b.type="button";b.className="choice";b.innerHTML=R(c.text);
-    b.onclick=()=>answer(c,q,b,false);
+  answered = false;
+  document.getElementById("msg").textContent = "";
+  document.getElementById("scene").classList.remove("hideQuestion");
+
+  if (index >= deck.length) {
+    finish();
+    return;
+  }
+
+  const q = deck[index];
+  current = q.scene;
+
+  document.getElementById("num").textContent = index + 1;
+  document.getElementById("illust").textContent = q.illust || "🧠";
+  document.getElementById("scene").innerHTML = R(q.scene);
+
+  const box = document.getElementById("choices");
+  box.innerHTML = "";
+
+  shuffle(q.choices).forEach(c => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "tenChoice";
+    b.innerHTML = R(c.text);
+    b.onclick = () => answer(c, q, b);
     box.appendChild(b);
   });
+
   startTimer();
 }
-function answer(c,q,b,timeout){
-  if(answered)return;
-  answered=true;
-  clearInterval(timer);
-  document.getElementById("scene").classList.remove("hiddenText");
-  document.querySelectorAll(".choice").forEach(x=>x.disabled=true);
-  const good=(q.choices||[]).find(x=>x.ok);
-  if(c && c.ok){
-    score++;document.getElementById("score").textContent=score;
-    if(b)b.classList.add("correct");
-    document.getElementById("msg").innerHTML='<span class="ok">いいね！</span>';
-  }else{
-    if(b)b.classList.add("wrong");
-    document.getElementById("msg").innerHTML=timeout?'<span class="ng">時間です</span>':'<span class="ng">確認しよう</span>';
-    wrong.push({scene:q.scene,selected:c?c.text:"時間切れ",correct:good?good.text:"",tip:q.tip||""});
-  }
-  records.push({scene:q.scene,selected:c?c.text:"時間切れ",correct:good?good.text:"",ok:!!(c&&c.ok),tip:q.tip||""});
-  setTimeout(()=>{i++;show()},700);
-}
-function timeUp(){
-  clearInterval(timer);
-  const q=deck[i];
-  answer(null,q,null,true);
-}
-function finish(){
-  clearInterval(timer);
-  document.getElementById("scene").classList.remove("hiddenText");
-  document.getElementById("scene").innerHTML=R("おしまい");
-  document.getElementById("choices").innerHTML="";
-  document.getElementById("msg").innerHTML='<span class="ok">レポートを表示しました</span>';
-  let h='<h2>'+R("10分チェック レポート")+'</h2>';
-  h+='<div class="reportItem"><b>'+R("取り組んだ問題")+'：</b>'+records.length+'問<br><b>'+R("正解")+'：</b>'+score+'問<br><b>'+R("確認")+'：</b>'+(records.length-score)+'問</div>';
-  records.forEach((r,n)=>{
-    h+='<div class="reportItem"><b>'+(n+1)+'. '+R(r.scene)+'</b>';
-    h+='<p><b>'+R("選んだ答え")+'：</b>'+R(r.selected)+' '+(r.ok?'○':'△')+'</p>';
-    h+='<p><b>'+R("よい答え")+'：</b>'+R(r.correct)+'</p>';
-    h+='<p><b>'+R("ポイント")+'：</b>'+R(r.tip)+'</p></div>';
-  });
-  if(records.length===0)h+='<p>まだ取り組み記録がありません。</p>';
-  h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';
-  const r=document.getElementById("report");r.innerHTML=h;r.classList.remove("hidden");
-}
-function readQ(){speakJP(current||document.getElementById("scene").textContent)}
-document.addEventListener("DOMContentLoaded",()=>{document.getElementById("scene").innerHTML=R("スタートしてね");document.getElementById("total").textContent=Math.min(10,DATA.length);document.getElementById("time").textContent=LIMIT})
 
+function startTimer() {
+  clearInterval(timer);
+  timeLeft = LIMIT;
+  updateTimer();
+  timer = setInterval(() => {
+    timeLeft -= 1;
+    updateTimer();
+
+    if (timeLeft === Math.floor(LIMIT / 2)) {
+      document.getElementById("scene").classList.add("hideQuestion");
+    }
+
+    if (timeLeft <= 0) {
+      timeUp();
+    }
+  }, 1000);
+}
+
+function updateTimer() {
+  document.getElementById("time").textContent = Math.max(0, timeLeft);
+  document.getElementById("timerFill").style.width = Math.max(0, (timeLeft / LIMIT) * 100) + "%";
+}
+
+function answer(c, q, btn) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timer);
+  document.getElementById("scene").classList.remove("hideQuestion");
+  document.querySelectorAll(".tenChoice").forEach(x => x.disabled = true);
+
+  const correct = q.choices.find(x => x.ok);
+  const ok = !!c.ok;
+
+  if (ok) {
+    score += 1;
+    document.getElementById("score").textContent = score;
+    btn.classList.add("correct");
+    document.getElementById("msg").innerHTML = '<span class="ok">いいね！</span>';
+  } else {
+    btn.classList.add("wrong");
+    document.getElementById("msg").innerHTML = '<span class="ng">かくにんしよう</span>';
+  }
+
+  records.push({
+    scene: q.scene,
+    selected: c.text,
+    correct: correct ? correct.text : "",
+    ok: ok,
+    tip: q.tip || ""
+  });
+
+  setTimeout(() => {
+    index += 1;
+    showQuestion();
+  }, 700);
+}
+
+function timeUp() {
+  if (answered) return;
+  answered = true;
+  clearInterval(timer);
+  document.getElementById("scene").classList.remove("hideQuestion");
+  document.querySelectorAll(".tenChoice").forEach(x => x.disabled = true);
+
+  const q = deck[index];
+  const correct = q.choices.find(x => x.ok);
+
+  document.getElementById("msg").innerHTML = '<span class="ng">じかんです</span>';
+
+  records.push({
+    scene: q.scene,
+    selected: "じかんぎれ",
+    correct: correct ? correct.text : "",
+    ok: false,
+    tip: q.tip || ""
+  });
+
+  setTimeout(() => {
+    index += 1;
+    showQuestion();
+  }, 700);
+}
+
+function finish() {
+  clearInterval(timer);
+  document.getElementById("scene").classList.remove("hideQuestion");
+  document.getElementById("scene").innerHTML = R("おしまい");
+  document.getElementById("choices").innerHTML = "";
+  document.getElementById("msg").innerHTML = '<span class="ok">レポートを ひょうじしました</span>';
+
+  let h = '<h2>' + R("10分チェック レポート") + '</h2>';
+  h += '<div class="tenReportItem">';
+  h += '<b>' + R("取り組んだ問題") + '：</b>' + records.length + 'もん<br>';
+  h += '<b>' + R("正解") + '：</b>' + score + 'もん<br>';
+  h += '<b>' + R("確認") + '：</b>' + (records.length - score) + 'もん';
+  h += '</div>';
+
+  if (records.length === 0) {
+    h += '<p>まだ とりくみ きろくが ありません。</p>';
+  }
+
+  records.forEach((r, n) => {
+    h += '<div class="tenReportItem">';
+    h += '<b>' + (n + 1) + '. ' + R(r.scene) + '</b>';
+    h += '<p><b>' + R("選んだ答え") + '：</b>' + R(r.selected) + ' ' + (r.ok ? '○' : '△') + '</p>';
+    h += '<p><b>' + R("よい答え") + '：</b>' + R(r.correct) + '</p>';
+    h += '<p><b>' + R("ポイント") + '：</b>' + R(r.tip) + '</p>';
+    h += '</div>';
+  });
+
+  h += '<div class="actions"><button onclick="window.print()">いんさつ</button><button class="light" onclick="start()">もういっかい</button></div>';
+
+  const report = document.getElementById("report");
+  report.innerHTML = h;
+  report.classList.remove("hidden");
+}
+
+function readQ() {
+  if (!("speechSynthesis" in window)) return;
+  const u = new SpeechSynthesisUtterance(current || document.getElementById("scene").textContent);
+  u.lang = "ja-JP";
+  u.rate = .85;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("scene").innerHTML = R("スタートしてね");
+  document.getElementById("total").textContent = DATA.length;
+  document.getElementById("time").textContent = LIMIT;
+});
 </script>
-</body></html>
+</body>
+</html>
