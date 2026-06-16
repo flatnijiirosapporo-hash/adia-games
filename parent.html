@@ -43,7 +43,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.7 mobile readability fix ===== */
+/* ===== Ver.2.8 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -90,12 +90,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 </style></head><body><div class="top"><div class="wrap nav"><a href="index.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
 <header class="wrap hero"><h1>👪 使い方</h1><p class="lead">診断ではなく、遊びながら練習する教材です。</p></header>
 <main class="wrap"><div class="card"><div class="title">10分チェックについて</div><div class="desc">WISCそのものではありません。5つの指標を参考に、日々の支援で見やすい簡易チェックとして作っています。結果は診断やIQではなく、支援のヒントとして見てください。</div></div></main>
-<script>
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
-function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script>
+
 
 
 

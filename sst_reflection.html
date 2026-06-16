@@ -88,7 +88,7 @@ textarea{min-height:120px;resize:vertical}
 
 
 
-/* ===== Ver.2.7 mobile readability fix ===== */
+/* ===== Ver.2.8 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -135,7 +135,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 </style>
 </head>
 <body>
-<div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ Ver.2.7</span></div></div>
+<div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ Ver.2.8</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="illust">🧒</div>
 <h1 style="text-align:center">今日のふりかえりSST</h1>
@@ -153,14 +153,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 </div>
 <div class="message" id="msg"></div>
 </section></main>
-<script>
 
-function esc(s){return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function stripFurigana(text){return String(text||"").replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
-function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-
-</script>
 <script>
 
 const emotions = ["😊 うれしい","😢 かなしい","😡 おこった","😨 こわい","😕 こまった","😌 あんしん","😣 くやしい","😳 はずかしい"];

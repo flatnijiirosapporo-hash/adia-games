@@ -49,7 +49,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.7 mobile readability fix ===== */
+/* ===== Ver.2.8 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -107,12 +107,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 <div class="playArea" id="area"></div>
 <div class="message" id="msg"></div>
 </section></main>
-<script>
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
-function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script>
+
 <script>
 let score=0,time=30,timer=null,running=false,spawnTime=0,totalReaction=0;
 const balloons=["🎈","🎈","🎈","🎈","🎈"];

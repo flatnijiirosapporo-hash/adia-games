@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.7 mobile readability fix ===== */
+/* ===== Ver.2.8 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,22 +114,25 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver.2.7 smartphone and PC fix ===== */
+/* ===== Ver.2.8 stable smartphone and PC UI ===== */
 html{font-size:16px}
-body{overflow-x:hidden}
-.wrap{width:min(980px,96vw)!important}
+body{overflow-x:hidden;color:#1f2937}
+.wrap{width:min(980px,96vw)!important;margin-inline:auto}
 .panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
 button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
-.choices,.sstChoices{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+.choices,.sstChoices{display:grid!important;grid-template-columns:1fr!important;gap:14px!important;margin-top:16px}
 .choice,.sstChoice,.tile{
   display:block;width:100%;min-height:60px;
-  padding:15px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
+  padding:16px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
   background:#fff!important;box-shadow:0 8px 18px rgba(30,41,59,.08);
-  font-weight:1000;line-height:1.6!important;text-align:left;
+  color:#1f2937!important;font-weight:1000;line-height:1.6!important;text-align:left;
 }
 .choice.correct,.sstChoice.correct{border-color:#86efac!important;background:#dcfce7!important}
 .choice.wrong,.sstChoice.wrong{border-color:#fca5a5!important;background:#fee2e2!important}
-.scene{min-height:90px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.scene{
+  min-height:96px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+  color:#1f2937!important;background:#f8fafc;border:2px solid #dbeafe;border-radius:24px;padding:18px;font-weight:1000;font-size:clamp(21px,5vw,34px)
+}
 .hidden{display:none!important}
 .fullOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(22,163,74,.94);color:#fff;font-size:clamp(58px,16vw,128px);font-weight:1000;letter-spacing:.05em;text-shadow:0 6px 20px rgba(0,0,0,.25)}
 ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
@@ -148,7 +151,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 </style></head>
 <body><div id="overlay" class="fullOverlay hidden">正解！</div>
-<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.2.7</span></div></div>
+<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.2.8</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status"><span class="badge">もじタッチ</span><span class="badge">問題 <span id="num">0</span>/10</span></div>
 <div class="illust">🔤</div><h1 style="text-align:center">もじタッチ</h1>
@@ -159,7 +162,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 </section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
 
-const FURI_ENTRIES = [["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["10分チェック", "じゅっぷんちぇっく"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["取り組んだ問題", "とりくんだもんだい"], ["記憶ゲーム", "きおくげーむ"], ["もじタッチ", "もじたっち"], ["取り組んだ", "とりくんだ"], ["選んだ答え", "えらんだこたえ"], ["ありがとう", "ありがとう"], ["似ています", "にています"], ["危険予知", "きけんよち"], ["色タッチ", "いろたっち"], ["問題形式", "もんだいけいしき"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["手伝って", "てつだって"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["不正解", "ふせいかい"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["伝える", "つたえる"], ["お願い", "おねがい"], ["離れて", "はなれて"], ["止まる", "とまる"], ["止める", "とめる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["駐車場", "ちゅうしゃじょう"], ["一緒に", "いっしょに"], ["大丈夫", "だいじょうぶ"], ["乗り物", "のりもの"], ["選ぼう", "えらぼう"], ["正しい", "ただしい"], ["間違い", "まちがい"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["家族", "かぞく"], ["一人", "ひとり"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["言葉", "ことば"], ["説明", "せつめい"], ["聞く", "きく"], ["話す", "はなす"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["見て", "みて"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["交代", "こうたい"], ["使う", "つかう"], ["入る", "はいる"], ["戻る", "もどる"], ["助け", "たすけ"], ["歩く", "あるく"], ["走る", "はしる"], ["遊び", "あそび"], ["活動", "かつどう"], ["作品", "さくひん"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["道路", "どうろ"], ["信号", "しんごう"], ["遊具", "ゆうぐ"], ["階段", "かいだん"], ["廊下", "ろうか"], ["黄色", "きいろ"], ["電気", "でんき"], ["名前", "なまえ"], ["少し", "すこし"], ["早く", "はやく"], ["無視", "むし"], ["果物", "くだもの"], ["動物", "どうぶつ"], ["数字", "すうじ"], ["同じ", "おなじ"], ["車", "くるま"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["水", "みず"], ["薬", "くすり"], ["火", "ひ"], ["右", "みぎ"], ["左", "ひだり"], ["上", "うえ"], ["下", "した"]];
+const FURI_ENTRIES = [["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["10分チェック", "じゅっぷんちぇっく"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["取り組んだ問題", "とりくんだもんだい"], ["記憶ゲーム", "きおくげーむ"], ["もじタッチ", "もじたっち"], ["選んだ答え", "えらんだこたえ"], ["数字タッチ", "すうじたっち"], ["ありがとう", "ありがとう"], ["危険予知", "きけんよち"], ["色タッチ", "いろたっち"], ["問題形式", "もんだいけいしき"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["伝える", "つたえる"], ["お願い", "おねがい"], ["止まる", "とまる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["同じ絵", "おなじえ"], ["選ぼう", "えらぼう"], ["正しい", "ただしい"], ["間違い", "まちがい"], ["一緒に", "いっしょに"], ["大丈夫", "だいじょうぶ"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["言葉", "ことば"], ["説明", "せつめい"], ["聞く", "きく"], ["話す", "はなす"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["使う", "つかう"], ["助け", "たすけ"], ["歩く", "あるく"], ["走る", "はしる"], ["遊び", "あそび"], ["活動", "かつどう"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["道路", "どうろ"], ["信号", "しんごう"], ["階段", "かいだん"], ["廊下", "ろうか"], ["黄色", "きいろ"], ["数字", "すうじ"], ["同じ", "おなじ"], ["車", "くるま"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["右", "みぎ"], ["左", "ひだり"], ["上", "うえ"], ["下", "した"]];
 function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function R(text){
   const raw=String(text??"");
@@ -180,6 +183,11 @@ function showCorrectOverlay(){
   if(!o)return;
   o.classList.remove("hidden");
   setTimeout(()=>o.classList.add("hidden"),650);
+}
+function speakJP(text){
+  if(!("speechSynthesis" in window))return;
+  const u=new SpeechSynthesisUtterance(String(text||""));
+  u.lang="ja-JP";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u);
 }
 
 

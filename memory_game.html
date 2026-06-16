@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.2.7 mobile readability fix ===== */
+/* ===== Ver.2.8 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,7 +114,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver.2.7 smartphone and PC fix ===== */
+/* ===== Ver.2.8 smartphone and PC fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -148,7 +148,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 .memoryShow{font-size:clamp(54px,18vw,120px);text-align:center;margin:18px 0}.memoryCards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.memoryCards button{font-size:clamp(34px,10vw,64px)!important;min-height:86px!important}@media(max-width:640px){.memoryCards{grid-template-columns:repeat(3,1fr)}}</style></head>
 <body><div id="overlay" class="fullOverlay hidden">正解！</div>
-<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.2.7</span></div></div>
+<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.2.8</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status"><span class="badge">レベル <span id="level">1</span></span><span class="badge">成功 <span id="score">0</span></span></div>
 <div class="memoryShow" id="show">🧠</div><h1 style="text-align:center">記憶ゲーム</h1>
@@ -169,7 +169,7 @@ function R(text){
       const w=pair[0];
       if(raw.slice(i,i+w.length)===w){hit=pair;break}
     }
-    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
+    if(hit){out+=`${esc(hit[0])}`;i+=hit[0].length}
     else{out+=esc(raw[i]);i++}
   }
   return out.replaceAll("\\n","<br>");

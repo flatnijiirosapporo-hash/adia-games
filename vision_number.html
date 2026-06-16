@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>色タッチ</title><style>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数字タッチ</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -149,16 +149,12 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   .choice,.sstChoice{text-align:center!important}
   ruby.autoRuby rt{font-size:.42em!important}
 }
-.colorGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.colorBtn{height:92px;border-radius:24px;border:4px solid #e5e7eb;box-shadow:0 8px 18px rgba(30,41,59,.12);font-size:0!important;color:transparent!important}.colorBtn.correct{outline:8px solid #86efac}.colorBtn.wrong{outline:8px solid #fca5a5}@media(max-width:640px){.colorGrid{grid-template-columns:repeat(2,1fr)}.colorBtn{height:96px}}</style></head>
-<body><div id="overlay" class="fullOverlay hidden">正解！</div>
-<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.2.8</span></div></div>
+.visionArea{position:relative;height:min(56vh,460px);min-height:340px;background:#f8fafc;border:3px solid #dbeafe;border-radius:26px;overflow:hidden;margin-top:14px}.target{position:absolute;width:76px;height:76px;border-radius:22px;background:#fff;border:3px solid #bfdbfe;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:1000;box-shadow:0 8px 20px rgba(30,41,59,.12);touch-action:manipulation}.target.good{background:#dcfce7;border-color:#86efac}.target.bad{background:#fee2e2;border-color:#fca5a5}@media(max-width:640px){.visionArea{height:440px}.target{width:68px;height:68px;font-size:34px}}</style></head>
+<body><div class="top"><div class="wrap nav"><a href="vision_training.html">← ビジョン</a><span class="pill">にじフラ Ver.2.8</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status"><span class="badge">色タッチ</span><span class="badge">問題 <span id="num">0</span>/10</span></div>
-<div class="illust">🎨</div><h1 style="text-align:center">色タッチ</h1>
-<p class="lead" style="text-align:center">文字ではなく、色だけを見て選びます。</p>
-<div class="scene" id="scene">スタートしてね</div>
-<div class="actions"><button onclick="start()">はじめる</button><button class="light" onclick="readQ()">🔊 よみあげ</button></div>
-<div class="colorGrid" id="choices"></div><div id="msg" class="message"></div>
+<div class="status"><span class="badge">数字タッチ</span><span class="badge">問題 <span id="num">0</span>/5</span><span class="badge">点 <span id="score">0</span></span></div>
+<h1 style="text-align:center">数字タッチ</h1><div id="instruction" class="scene">スタートしてね</div>
+<div class="actions"><button onclick="start()">スタート</button></div><div id="area" class="visionArea"></div><div id="msg" class="message"></div>
 </section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
 
@@ -191,13 +187,12 @@ function speakJP(text){
 }
 
 
-const COLORS=[{"name": "赤", "color": "#ef4444"}, {"name": "青", "color": "#3b82f6"}, {"name": "黄色", "color": "#facc15"}, {"name": "緑", "color": "#22c55e"}, {"name": "白", "color": "#ffffff"}, {"name": "黒", "color": "#111827"}];
-let deck=[],i=0,current="";
+let round=0,score=0,nextNum=1;
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function start(){deck=shuffle([...COLORS,...COLORS]).slice(0,10);i=0;show()}
-function show(){document.getElementById("msg").textContent="";if(i>=deck.length){document.getElementById("scene").innerHTML=R("おしまい");document.getElementById("choices").innerHTML="";return}const target=deck[i];current=target.name;document.getElementById("num").textContent=i+1;document.getElementById("scene").innerHTML=R(target.name+"を選ぼう。");const opts=shuffle([target,...shuffle(COLORS.filter(c=>c.name!==target.name)).slice(0,5)]);const box=document.getElementById("choices");box.innerHTML="";opts.forEach(c=>{const b=document.createElement("button");b.type="button";b.className="colorBtn";b.style.background=c.color;b.setAttribute("aria-label",c.name);if(c.name==='白')b.style.borderColor='#94a3b8';if(c.name==='黒')b.style.borderColor='#111827';b.onclick=()=>{document.querySelectorAll(".colorBtn").forEach(x=>x.disabled=true);if(c.name===target.name){b.classList.add("correct");showCorrectOverlay();document.getElementById("msg").innerHTML='<span class="ok">正解！</span>'}else{b.classList.add("wrong");document.getElementById("msg").innerHTML='<span class="ng">確認しよう</span>'}setTimeout(()=>{i++;show()},650)};box.appendChild(b)})}
-function readQ(){speakJP(current+"を選ぼう")}
-document.addEventListener("DOMContentLoaded",()=>{document.getElementById("scene").innerHTML=R("スタートしてね")})
+function rand(n){return Math.floor(Math.random()*Math.max(1,n))}
+function place(btn,used){const a=document.getElementById("area");let x=0,y=0;for(let t=0;t<80;t++){x=rand(a.clientWidth-76-8)+4;y=rand(a.clientHeight-76-8)+4;if(used.every(p=>Math.hypot(p.x-x,p.y-y)>82))break}used.push({x,y});btn.style.left=x+"px";btn.style.top=y+"px"}
+function start(){round=0;score=0;document.getElementById("score").textContent=0;show()}
+function show(){document.getElementById("msg").textContent="";if(round>=5){document.getElementById("instruction").innerHTML=R("おしまい");document.getElementById("area").innerHTML="";return}round++;nextNum=1;document.getElementById("num").textContent=round;document.getElementById("instruction").innerHTML=R("1から5まで順番にタッチ");const area=document.getElementById("area");area.innerHTML="";const used=[];shuffle([1,2,3,4,5]).forEach(n=>{const b=document.createElement("button");b.type="button";b.className="target";b.textContent=n;place(b,used);b.onclick=()=>{if(n===nextNum){b.classList.add("good");b.style.visibility="hidden";nextNum++;if(nextNum>5){score+=5;document.getElementById("score").textContent=score;setTimeout(show,350)}}else{b.classList.add("bad");document.getElementById("msg").textContent="順番を確認しよう";setTimeout(()=>b.classList.remove("bad"),300)}};area.appendChild(b)})}
 
 </script>
 </body></html>
