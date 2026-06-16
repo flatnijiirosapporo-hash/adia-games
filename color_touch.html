@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>色タッチ</title><style>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>色タッチ</title><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -36,55 +36,40 @@ button.gray{background:#64748b}
 .red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
 @media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
 
-.colorBoard{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-  margin-top:16px;
-}
-.colorCard{
-  min-height:115px;
-  border-radius:26px;
-  background:white;
-  border:5px solid #dbeafe;
-  box-shadow:0 10px 24px rgba(30,41,59,.10);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-  cursor:pointer;
-  padding:12px;
-}
-.colorWord{
-  font-size:clamp(34px,8vw,58px);
-  line-height:1.1;
-}
-.colorKana{
-  font-size:16px;
-  color:#64748b;
-  margin-top:6px;
-}
-.modeLine{
-  background:#eef2ff;
-  color:#3730a3;
-  padding:10px 16px;
-  border-radius:999px;
-  font-weight:900;
-  display:inline-block;
-}
-.redText{color:#ef4444}.blueText{color:#2563eb}.yellowText{color:#ca8a04}.greenText{color:#16a34a}.purpleText{color:#9333ea}.orangeText{color:#ea580c}.blackText{color:#111827}
-.redBg{background:#fee2e2}.blueBg{background:#dbeafe}.yellowBg{background:#fef3c7}.greenBg{background:#dcfce7}.purpleBg{background:#f3e8ff}.orangeBg{background:#ffedd5}
-@media(min-width:760px){.colorBoard{grid-template-columns:repeat(3,1fr)}}
-
 .scoreLiveHide{display:none!important}
+
+.versionBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white;
+  font-weight:1000;
+  border-radius:999px;
+  padding:10px 18px;
+  box-shadow:0 10px 24px rgba(79,70,229,.22);
+  margin:12px 0;
+}
+.versionNote{
+  display:inline-block;
+  background:#fff;
+  color:#475569;
+  border:2px solid #e2e8f0;
+  border-radius:999px;
+  padding:8px 14px;
+  font-weight:800;
+  margin-left:8px;
+}
+@media(max-width:640px){
+  .versionNote{margin-left:0;margin-top:8px}
+}
 
 .liveResultHide{display:none!important}
 
 
 
 
-/* ===== Ver.2.6 mobile readability fix ===== */
+/* ===== Ver.2.7 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -128,292 +113,83 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   ruby.autoRuby rt{font-size:.42em!important}
 }
 
-</style></head><body><div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">🌈 にじフラ</span></div></div>
+
+/* ===== Ver.2.7 smartphone and PC fix ===== */
+html{font-size:16px}
+body{overflow-x:hidden}
+.wrap{width:min(980px,96vw)!important}
+.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
+button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
+.choices,.sstChoices{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+.choice,.sstChoice,.tile{
+  display:block;width:100%;min-height:60px;
+  padding:15px!important;border:3px solid #dbeafe!important;border-radius:22px!important;
+  background:#fff!important;box-shadow:0 8px 18px rgba(30,41,59,.08);
+  font-weight:1000;line-height:1.6!important;text-align:left;
+}
+.choice.correct,.sstChoice.correct{border-color:#86efac!important;background:#dcfce7!important}
+.choice.wrong,.sstChoice.wrong{border-color:#fca5a5!important;background:#fee2e2!important}
+.scene{min-height:90px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.hidden{display:none!important}
+.fullOverlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(22,163,74,.94);color:#fff;font-size:clamp(58px,16vw,128px);font-weight:1000;letter-spacing:.05em;text-shadow:0 6px 20px rgba(0,0,0,.25)}
+ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
+ruby.autoRuby rb{display:ruby-base}
+ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
+@media(max-width:640px){
+  .top{position:static!important}
+  .nav{gap:8px;flex-wrap:wrap}
+  h1{font-size:clamp(27px,8vw,42px)!important}
+  .lead{font-size:16px!important;line-height:1.6!important}
+  .status{gap:7px!important;justify-content:center!important}
+  .badge{font-size:14px!important;padding:7px 9px!important}
+  .grid{grid-template-columns:1fr!important;gap:12px!important}
+  .choice,.sstChoice{text-align:center!important}
+  ruby.autoRuby rt{font-size:.42em!important}
+}
+.colorGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.colorBtn{height:88px;border-radius:24px;border:4px solid #e5e7eb;box-shadow:0 8px 18px rgba(30,41,59,.12)}.colorBtn.correct{outline:8px solid #86efac}.colorBtn.wrong{outline:8px solid #fca5a5}@media(max-width:640px){.colorGrid{grid-template-columns:repeat(2,1fr)}.colorBtn{height:92px}}</style></head>
+<body><div id="overlay" class="fullOverlay hidden">正解！</div>
+<div class="top"><div class="wrap nav"><a href="flatore.html">← もどる</a><span class="pill">にじフラ Ver.2.7</span></div></div>
 <main class="wrap"><section class="panel">
-<div class="status">
-<span class="badge">問題 <span id="num">0</span>/20</span>
-<span class="badge scoreLiveHide">正解 <span id="score">0</span></span>
-<span class="badge liveResultHide">ミス <span id="miss">0</span></span>
-<span class="badge">モード <span id="modeName">色</span></span>
-</div>
-<div class="illust">🎨</div>
-<h1 style="text-align:center">色タッチ</h1>
-<p class="lead" style="text-align:center">
-文字にまどわされず、よく見て選びます。<br/>
-漢字・ひらがな・カタカナ・文字色のひっかけがあります。
-  </p>
-<div class="actions">
-<button onclick="start()">スタート</button>
-<button class="light" onclick="readQ()">🔊 よみあげ</button>
-</div>
-<div class="scene" id="instruction">スタートを押してね</div>
-<div id="hint" style="text-align:center"></div>
-<div class="colorBoard" id="board"></div>
-<div class="message" id="msg"></div>
-<div class="report hidden" id="report"></div>
-</section></main>
+<div class="status"><span class="badge">色タッチ</span><span class="badge">問題 <span id="num">0</span>/10</span></div>
+<div class="illust">🎨</div><h1 style="text-align:center">色タッチ</h1>
+<p class="lead" style="text-align:center">文字ではなく、色だけを見て選びます。</p>
+<div class="scene" id="scene">スタートしてね</div>
+<div class="actions"><button onclick="start()">はじめる</button><button class="light" onclick="readQ()">🔊 よみあげ</button></div>
+<div class="colorGrid" id="choices"></div><div id="msg" class="message"></div>
+</section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
 <script>
-function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function stripFurigana(text){return String(text).replace(/([一-龯々〆ヶ]+)（[ぁ-んァ-ンー]+）/g,"$1").replace(/（[ぁ-んァ-ンー]+）/g,"").replace(/\n/g,"。")}
-function speakText(text){if(!("speechSynthesis" in window))return;const u=new SpeechSynthesisUtterance(stripFurigana(text));u.lang="ja-JP";u.rate=.82;speechSynthesis.cancel();speechSynthesis.speak(u)}
-</script>
-<script>
-const colors = [
-  {key:"red", jp:"赤", hira:"あか", kata:"アカ", css:"redText", bg:"redBg", speak:"あか"},
-  {key:"blue", jp:"青", hira:"あお", kata:"アオ", css:"blueText", bg:"blueBg", speak:"あお"},
-  {key:"yellow", jp:"黄", hira:"きいろ", kata:"キイロ", css:"yellowText", bg:"yellowBg", speak:"きいろ"},
-  {key:"green", jp:"緑", hira:"みどり", kata:"ミドリ", css:"greenText", bg:"greenBg", speak:"みどり"},
-  {key:"purple", jp:"紫", hira:"むらさき", kata:"ムラサキ", css:"purpleText", bg:"purpleBg", speak:"むらさき"},
-  {key:"orange", jp:"橙", hira:"だいだい", kata:"オレンジ", css:"orangeText", bg:"orangeBg", speak:"オレンジ"}
-];
 
-const modes = [
-  {id:"meaning", name:"文字の意味", text:"文字の意味で選ぼう"},
-  {id:"ink", name:"文字の色", text:"文字の色で選ぼう"},
-  {id:"kana", name:"かな", text:"同じ読み方を選ぼう"},
-  {id:"mixed", name:"まぜまぜ", text:"お題をよく読んで選ぼう"}
-];
-
-let deck=[], i=0, score=0, miss=0, answered=false, wrong=[], currentText="";
-
-function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
-
-function makeDeck(){
-  const d=[];
-  for(let r=0;r<6;r++){
-    colors.forEach(c=>{
-      d.push({mode:"meaning", target:c});
-      d.push({mode:"ink", target:c});
-      d.push({mode:"kana", target:c});
-      d.push({mode:"mixed", target:c});
-    });
-  }
-  return shuffle(d);
-}
-
-function start(){
-  deck=makeDeck().slice(0,20);
-  i=0; score=0; miss=0; wrong=[];
-  document.getElementById("score").textContent=score;
-  document.getElementById("miss").textContent=miss;
-  document.getElementById("report").classList.add("hidden");
-  document.getElementById("report").innerHTML="";
-  show();
-}
-
-function show(){
-  answered=false;
-  document.getElementById("msg").textContent="";
-  document.getElementById("board").innerHTML="";
-  document.getElementById("hint").innerHTML="";
-  if(i>=deck.length){finish();return;}
-
-  const q=deck[i];
-  document.getElementById("num").textContent=i+1;
-
-  let mode=q.mode;
-  if(mode==="mixed") mode=rand(["meaning","ink","kana"]);
-  const modeObj=modes.find(m=>m.id===mode);
-  document.getElementById("modeName").textContent=modeObj.name;
-
-  let instruction="";
-  if(mode==="meaning"){
-    instruction="「"+q.target.jp+"（"+q.target.hira+"）」を選ぼう";
-    currentText=q.target.speak+"を選ぼう";
-  }
-  if(mode==="ink"){
-    instruction="文字の色が「"+q.target.jp+"（"+q.target.hira+"）」のものを選ぼう";
-    currentText="文字の色が"+q.target.speak+"のものを選ぼう";
-  }
-  if(mode==="kana"){
-    instruction="読み方が「"+q.target.hira+"」のものを選ぼう";
-    currentText="読み方が"+q.target.speak+"のものを選ぼう";
-  }
-
-  document.getElementById("instruction").textContent=instruction;
-  document.getElementById("hint").innerHTML='<span class="modeLine">'+modeObj.text+'</span>';
-
-  const cards=makeCards(q.target, mode);
-  cards.forEach(card=>addCard(card, q.target, mode, instruction));
-}
-
-function makeCards(target, mode){
-  const picked=shuffle(colors).slice(0,6);
-  if(!picked.some(c=>c.key===target.key)) picked[0]=target;
-
-  return shuffle(picked.map(c=>{
-    const ink=rand(colors);
-    const notation=rand(["jp","hira","kata"]);
-    let label=c[notation];
-    let sub=notation==="jp" ? c.hira : c.jp;
-
-    // ensure correct exists for ink mode
-    let inkColor=ink;
-    if(mode==="ink" && c.key===target.key){
-      inkColor=target;
+const FURI_ENTRIES = [["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["10分チェック", "じゅっぷんちぇっく"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["取り組んだ問題", "とりくんだもんだい"], ["記憶ゲーム", "きおくげーむ"], ["もじタッチ", "もじたっち"], ["取り組んだ", "とりくんだ"], ["選んだ答え", "えらんだこたえ"], ["ありがとう", "ありがとう"], ["似ています", "にています"], ["危険予知", "きけんよち"], ["色タッチ", "いろたっち"], ["問題形式", "もんだいけいしき"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["手伝って", "てつだって"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["不正解", "ふせいかい"], ["友だち", "ともだち"], ["気持ち", "きもち"], ["伝える", "つたえる"], ["お願い", "おねがい"], ["離れて", "はなれて"], ["止まる", "とまる"], ["止める", "とめる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["駐車場", "ちゅうしゃじょう"], ["一緒に", "いっしょに"], ["大丈夫", "だいじょうぶ"], ["乗り物", "のりもの"], ["選ぼう", "えらぼう"], ["正しい", "ただしい"], ["間違い", "まちがい"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["家族", "かぞく"], ["一人", "ひとり"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["言葉", "ことば"], ["説明", "せつめい"], ["聞く", "きく"], ["話す", "はなす"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["見て", "みて"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["交代", "こうたい"], ["使う", "つかう"], ["入る", "はいる"], ["戻る", "もどる"], ["助け", "たすけ"], ["歩く", "あるく"], ["走る", "はしる"], ["遊び", "あそび"], ["活動", "かつどう"], ["作品", "さくひん"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["道路", "どうろ"], ["信号", "しんごう"], ["遊具", "ゆうぐ"], ["階段", "かいだん"], ["廊下", "ろうか"], ["黄色", "きいろ"], ["電気", "でんき"], ["名前", "なまえ"], ["少し", "すこし"], ["早く", "はやく"], ["無視", "むし"], ["果物", "くだもの"], ["動物", "どうぶつ"], ["数字", "すうじ"], ["同じ", "おなじ"], ["車", "くるま"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["水", "みず"], ["薬", "くすり"], ["火", "ひ"], ["右", "みぎ"], ["左", "ひだり"], ["上", "うえ"], ["下", "した"]];
+function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function R(text){
+  const raw=String(text??"");
+  let out="",i=0;
+  while(i<raw.length){
+    let hit=null;
+    for(const pair of FURI_ENTRIES){
+      const w=pair[0];
+      if(raw.slice(i,i+w.length)===w){hit=pair;break}
     }
-
-    // for some decoys, create Stroop conflict intentionally
-    if(mode==="meaning" && c.key===target.key){
-      inkColor=rand(colors.filter(x=>x.key!==target.key));
-    }
-
-    return {
-      meaning:c.key,
-      ink:inkColor.key,
-      label,
-      sub,
-      textColor:inkColor.css,
-      bg:rand(colors).bg
-    };
-  }));
-}
-
-function addCard(card, target, mode, instruction){
-  const div=document.createElement("div");
-  div.className="colorCard "+card.bg;
-  div.innerHTML='<div class="colorWord '+card.textColor+'">'+esc(card.label)+'</div><div class="colorKana">'+esc(card.sub)+'</div>';
-  div.onclick=()=>answer(div, card, target, mode, instruction);
-  document.getElementById("board").appendChild(div);
-}
-
-function answer(div, card, target, mode, instruction){
-  if(answered)return;
-  answered=true;
-  document.querySelectorAll(".colorCard").forEach(x=>x.style.pointerEvents="none");
-
-  let ok=false;
-  if(mode==="meaning") ok = card.meaning===target.key;
-  if(mode==="ink") ok = card.ink===target.key;
-  if(mode==="kana") ok = card.meaning===target.key;
-
-  if(ok){
-    score++;
-    document.getElementById("score").textContent=score;
-    div.classList.add("correct");
-    document.getElementById("msg").innerHTML='<span class="ok">いいね！ よく見ました</span>';
-  }else{
-    miss++;
-    document.getElementById("miss").textContent=miss;
-    div.classList.add("wrong");
-    wrong.push({
-      instruction,
-      mode,
-      selected:card.label,
-      target:target.jp+"（"+target.hira+"）",
-      point: mode==="ink" ? "文字の意味ではなく、文字の色を見る問題でした。" :
-             mode==="meaning" ? "文字の色ではなく、文字の意味を見る問題でした。" :
-             "漢字・ひらがな・カタカナの読み方を見る問題でした。"
-    });
-    document.getElementById("msg").innerHTML='<span class="ng">もう一回見てみよう</span>';
+    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
+    else{out+=esc(raw[i]);i++}
   }
-
-  setTimeout(()=>{i++;show();},1200);
+  return out.replaceAll("\\n","<br>");
+}
+function showCorrectOverlay(){
+  const o=document.getElementById("overlay");
+  if(!o)return;
+  o.classList.remove("hidden");
+  setTimeout(()=>o.classList.add("hidden"),650);
 }
 
-function finish(){
-  document.getElementById("instruction").textContent="おしまい！";
-  document.getElementById("hint").innerHTML="";
-  document.getElementById("board").innerHTML="";
-  document.getElementById("msg").innerHTML='<span class="ok">'+score+' / 20 問できました</span>';
 
-  const r=document.getElementById("report");
-  r.classList.remove("hidden");
-  let h="<h2>色タッチ レポート</h2>";
-  h+="<p>文字の意味・文字の色・読み方を切り替えて見る練習です。</p>";
-  h+='<div class="reportItem"><b>結果</b><br>正解 '+score+' / 20　ミス '+miss+'</div>';
+const COLORS=[{"name": "赤", "yomi": "あか", "color": "#ef4444"}, {"name": "青", "yomi": "あお", "color": "#3b82f6"}, {"name": "黄色", "yomi": "きいろ", "color": "#facc15"}, {"name": "緑", "yomi": "みどり", "color": "#22c55e"}, {"name": "白", "yomi": "しろ", "color": "#ffffff"}, {"name": "黒", "yomi": "くろ", "color": "#111827"}];
+let deck=[],i=0,current="";
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){deck=shuffle([...COLORS,...COLORS]).slice(0,10);i=0;show()}
+function show(){document.getElementById("msg").textContent="";if(i>=deck.length){document.getElementById("scene").innerHTML=R("おしまい");document.getElementById("choices").innerHTML="";return}const target=deck[i];current=target.name;document.getElementById("num").textContent=i+1;document.getElementById("scene").innerHTML=R(target.name+"を選ぼう。");const opts=shuffle([target,...shuffle(COLORS.filter(c=>c.name!==target.name)).slice(0,5)]);const box=document.getElementById("choices");box.innerHTML="";opts.forEach(c=>{const b=document.createElement("button");b.type="button";b.className="colorBtn";b.style.background=c.color;b.setAttribute("aria-label",c.name);if(c.name==="白")b.style.borderColor="#94a3b8";if(c.name==="黒")b.style.borderColor="#111827";b.onclick=()=>{document.querySelectorAll(".colorBtn").forEach(x=>x.disabled=true);if(c.name===target.name){b.classList.add("correct");showCorrectOverlay();document.getElementById("msg").innerHTML='<span class="ok">正解！</span>'}else{b.classList.add("wrong");document.getElementById("msg").innerHTML='<span class="ng">確認しよう</span>'}setTimeout(()=>{i++;show()},650)};box.appendChild(b)})}
+function readQ(){if("speechSynthesis" in window){const u=new SpeechSynthesisUtterance(current+"を選ぼう");u.lang="ja-JP";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}}
+document.addEventListener("DOMContentLoaded",()=>{document.getElementById("scene").innerHTML=R("スタートしてね")})
 
-  if(wrong.length){
-    h+="<h3>まちがえた問題</h3>";
-    wrong.forEach((w,n)=>{
-      h+='<div class="reportItem">';
-      h+='<b>'+(n+1)+'. '+esc(w.instruction)+'</b><br>';
-      h+='<span class="ng">選んだもの：</span>'+esc(w.selected)+'<br>';
-      h+='<span class="ok">見るポイント：</span>'+esc(w.point);
-      h+='</div>';
-    });
-  }else{
-    h+='<div class="reportItem">まちがえた問題はありませんでした。</div>';
-  }
-
-  h+='<div class="actions"><button onclick="window.print()">印刷</button><button class="light" onclick="start()">もう一回</button></div>';
-  r.innerHTML=h;
-}
-
-function readQ(){speakText(currentText || document.getElementById("instruction").textContent)}
 </script>
-
-
-
-
-<script>
-(function(){
-  if(window.NIJIFLA_RUBY_READY) return;
-  window.NIJIFLA_RUBY_READY = true;
-  const FURI_ENTRIES = [["にじいろクラスフラット", "にじいろくらすふらっと"], ["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["10分チェック", "じゅっぷんちぇっく"], ["取り組んだ問題", "とりくんだもんだい"], ["確認したい数", "かくにんしたいかず"], ["よく選べた数", "よくえらべたかず"], ["記憶ゲーム", "きおくげーむ"], ["準備問題数", "じゅんびもんだいすう"], ["取り組んだ", "とりくんだ"], ["選んだ答え", "えらんだこたえ"], ["悲しかった", "かなしかった"], ["落ち込んで", "おちこんで"], ["声をかける", "こえをかける"], ["近づかない", "ちかづかない"], ["落ち着いて", "おちついて"], ["ありがとう", "ありがとう"], ["おめでとう", "おめでとう"], ["にじフラ", "にじふら"], ["問題形式", "もんだいけいしき"], ["危険予知", "きけんよち"], ["言葉選び", "ことばえらび"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["文章問題", "ぶんしょうもんだい"], ["確認する", "かくにんする"], ["できない", "できない"], ["小さい声", "ちいさいこえ"], ["大きな声", "おおきなこえ"], ["短い言葉", "みじかいことば"], ["見つける", "みつける"], ["近づかず", "ちかづかず"], ["片づける", "かたづける"], ["手伝って", "てつだって"], ["話し合い", "はなしあい"], ["休み時間", "やすみじかん"], ["切り替え", "きりかえ"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["もう一度", "もういちど"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["気持ち", "きもち"], ["保護者", "ほごしゃ"], ["使い方", "つかいかた"], ["友だち", "ともだち"], ["子ども", "こども"], ["悔しい", "くやしい"], ["嬉しい", "うれしい"], ["怒って", "おこって"], ["泣いて", "ないて"], ["喜んで", "よろこんで"], ["困って", "こまって"], ["困った", "こまった"], ["楽しい", "たのしい"], ["楽しく", "たのしく"], ["できた", "できた"], ["伝える", "つたえる"], ["話して", "はなして"], ["静かに", "しずかに"], ["お願い", "おねがい"], ["謝って", "あやまって"], ["選んだ", "えらんだ"], ["待って", "まって"], ["貸して", "かして"], ["入れて", "いれて"], ["離れて", "はなれて"], ["止まる", "とまる"], ["止める", "とめる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["投げる", "なげる"], ["終わる", "おわる"], ["駐車場", "ちゅうしゃじょう"], ["見通し", "みとおし"], ["ルール", "るーる"], ["食べ物", "たべもの"], ["一緒に", "いっしょに"], ["勝手に", "かってに"], ["責める", "せめる"], ["逃げる", "にげる"], ["大丈夫", "だいじょうぶ"], ["危険", "きけん"], ["予知", "よち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["印刷", "いんさつ"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["記録", "きろく"], ["説明", "せつめい"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["家族", "かぞく"], ["一人", "ひとり"], ["職員", "しょくいん"], ["不安", "ふあん"], ["怖い", "こわい"], ["怒る", "おこる"], ["怒り", "いかり"], ["苦手", "にがて"], ["得意", "とくい"], ["言う", "いう"], ["聞く", "きく"], ["話す", "はなす"], ["言葉", "ことば"], ["理由", "りゆう"], ["意味", "いみ"], ["発表", "はっぴょう"], ["質問", "しつもん"], ["返事", "へんじ"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["見て", "みて"], ["探す", "さがす"], ["選ぶ", "えらぶ"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["交代", "こうたい"], ["譲る", "ゆずる"], ["返す", "かえす"], ["使う", "つかう"], ["入る", "はいる"], ["戻る", "もどる"], ["助け", "たすけ"], ["協力", "きょうりょく"], ["役割", "やくわり"], ["歩く", "あるく"], ["走る", "はしる"], ["押す", "おす"], ["飲む", "のむ"], ["休む", "やすむ"], ["遊び", "あそび"], ["活動", "かつどう"], ["課題", "かだい"], ["作品", "さくひん"], ["作業", "さぎょう"], ["工作", "こうさく"], ["運動", "うんどう"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["玄関", "げんかん"], ["黒板", "こくばん"], ["場所", "ばしょ"], ["予定", "よてい"], ["時間", "じかん"], ["準備", "じゅんび"], ["学校", "がっこう"], ["家庭", "かてい"], ["室内", "しつない"], ["道路", "どうろ"], ["信号", "しんごう"], ["遊具", "ゆうぐ"], ["階段", "かいだん"], ["廊下", "ろうか"], ["距離", "きょり"], ["表情", "ひょうじょう"], ["姿勢", "しせい"], ["違う", "ちがう"], ["意見", "いけん"], ["考え", "かんがえ"], ["共有", "きょうゆう"], ["結果", "けっか"], ["失敗", "しっぱい"], ["練習", "れんしゅう"], ["変更", "へんこう"], ["大切", "たいせつ"], ["体調", "たいちょう"], ["集中", "しゅうちゅう"], ["判断", "はんだん"], ["予測", "よそく"], ["視線", "しせん"], ["呼吸", "こきゅう"], ["道具", "どうぐ"], ["黄色", "きいろ"], ["電気", "でんき"], ["刃物", "はもの"], ["包丁", "ほうちょう"], ["写真", "しゃしん"], ["名前", "なまえ"], ["住所", "じゅうしょ"], ["秘密", "ひみつ"], ["少し", "すこし"], ["早く", "はやく"], ["途中", "とちゅう"], ["無視", "むし"], ["隠す", "かくす"], ["人", "ひと"], ["嫌", "いや"], ["声", "こえ"], ["机", "つくえ"], ["外", "そと"], ["車", "くるま"], ["体", "からだ"], ["物", "もの"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["水", "みず"], ["薬", "くすり"], ["火", "ひ"]];
-  function esc(s){
-    return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-  }
-  function rubyText(text){
-    const raw = String(text ?? "");
-    let out = "";
-    let i = 0;
-    while(i < raw.length){
-      let hit = null;
-      for(const pair of FURI_ENTRIES){
-        const w = pair[0];
-        if(raw.slice(i, i+w.length) === w){ hit = pair; break; }
-      }
-      if(hit){
-        const w = hit[0], y = hit[1];
-        out += `<ruby class="autoRuby"><rb>${esc(w)}</rb><rt>${esc(y)}</rt></ruby>`;
-        i += w.length;
-      }else{
-        out += esc(raw[i]);
-        i++;
-      }
-    }
-    return out.replaceAll("\n","<br>");
-  }
-  function skip(n){
-    const p = n.parentElement;
-    if(!p || !n.nodeValue || !n.nodeValue.trim()) return true;
-    return !!p.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby");
-  }
-  function convertNode(n){
-    if(skip(n)) return;
-    const raw = n.nodeValue;
-    const conv = rubyText(raw);
-    if(conv === esc(raw)) return;
-    const span = document.createElement("span");
-    span.className = "autoRubyWrap";
-    span.innerHTML = conv;
-    n.parentNode.replaceChild(span,n);
-  }
-  function scan(root){
-    if(!root) return;
-    if(root.nodeType === Node.TEXT_NODE){ convertNode(root); return; }
-    if(root.nodeType !== Node.ELEMENT_NODE && root.nodeType !== Node.DOCUMENT_NODE) return;
-    if(root.closest && root.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby")) return;
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode(n){ return skip(n) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }
-    });
-    const list = [];
-    let n;
-    while(n = walker.nextNode()) list.push(n);
-    list.forEach(convertNode);
-  }
-  function boot(){
-    scan(document.body);
-    const mo = new MutationObserver(ms=>{
-      for(const m of ms) for(const node of m.addedNodes) scan(node);
-    });
-    mo.observe(document.body, {childList:true,subtree:true});
-  }
-  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",boot); else boot();
-  window.nijiflaRubyText = rubyText;
-})();
-</script>
-
 </body></html>

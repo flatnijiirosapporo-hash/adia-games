@@ -88,7 +88,7 @@ textarea{min-height:120px;resize:vertical}
 
 
 
-/* ===== Ver.2.6 mobile readability fix ===== */
+/* ===== Ver.2.7 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -135,7 +135,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 </style>
 </head>
 <body>
-<div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ Ver.2.6</span></div></div>
+<div class="top"><div class="wrap nav"><a href="sst.html">← もどる</a><span class="pill">🌈 にじフラ Ver.2.7</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="illust">🧒</div>
 <h1 style="text-align:center">今日のふりかえりSST</h1>
@@ -200,74 +200,7 @@ makeButtons();
 
 
 
-<script>
-(function(){
-  if(window.NIJIFLA_RUBY_READY) return;
-  window.NIJIFLA_RUBY_READY = true;
-  const FURI_ENTRIES = [["にじいろクラスフラット", "にじいろくらすふらっと"], ["危険予知トレーニング", "きけんよちとれーにんぐ"], ["ビジョントレーニング", "びじょんとれーにんぐ"], ["問題形式SST", "もんだいけいしきえすえすてぃー"], ["10分チェック", "じゅっぷんちぇっく"], ["取り組んだ問題", "とりくんだもんだい"], ["確認したい数", "かくにんしたいかず"], ["よく選べた数", "よくえらべたかず"], ["記憶ゲーム", "きおくげーむ"], ["準備問題数", "じゅんびもんだいすう"], ["取り組んだ", "とりくんだ"], ["選んだ答え", "えらんだこたえ"], ["悲しかった", "かなしかった"], ["落ち込んで", "おちこんで"], ["声をかける", "こえをかける"], ["近づかない", "ちかづかない"], ["落ち着いて", "おちついて"], ["ありがとう", "ありがとう"], ["おめでとう", "おめでとう"], ["にじフラ", "にじふら"], ["問題形式", "もんだいけいしき"], ["危険予知", "きけんよち"], ["言葉選び", "ことばえらび"], ["よい答え", "よいこたえ"], ["ポイント", "ぽいんと"], ["レポート", "れぽーと"], ["文章問題", "ぶんしょうもんだい"], ["確認する", "かくにんする"], ["できない", "できない"], ["小さい声", "ちいさいこえ"], ["大きな声", "おおきなこえ"], ["短い言葉", "みじかいことば"], ["見つける", "みつける"], ["近づかず", "ちかづかず"], ["片づける", "かたづける"], ["手伝って", "てつだって"], ["話し合い", "はなしあい"], ["休み時間", "やすみじかん"], ["切り替え", "きりかえ"], ["横断歩道", "おうだんほどう"], ["もう一回", "もういっかい"], ["もう一度", "もういちど"], ["ごめんね", "ごめんね"], ["スタート", "すたーと"], ["はじめる", "はじめる"], ["よみあげ", "よみあげ"], ["選択肢", "せんたくし"], ["気持ち", "きもち"], ["保護者", "ほごしゃ"], ["使い方", "つかいかた"], ["友だち", "ともだち"], ["子ども", "こども"], ["悔しい", "くやしい"], ["嬉しい", "うれしい"], ["怒って", "おこって"], ["泣いて", "ないて"], ["喜んで", "よろこんで"], ["困って", "こまって"], ["困った", "こまった"], ["楽しい", "たのしい"], ["楽しく", "たのしく"], ["できた", "できた"], ["伝える", "つたえる"], ["話して", "はなして"], ["静かに", "しずかに"], ["お願い", "おねがい"], ["謝って", "あやまって"], ["選んだ", "えらんだ"], ["待って", "まって"], ["貸して", "かして"], ["入れて", "いれて"], ["離れて", "はなれて"], ["止まる", "とまる"], ["止める", "とめる"], ["片づけ", "かたづけ"], ["深呼吸", "しんこきゅう"], ["投げる", "なげる"], ["終わる", "おわる"], ["駐車場", "ちゅうしゃじょう"], ["見通し", "みとおし"], ["ルール", "るーる"], ["食べ物", "たべもの"], ["一緒に", "いっしょに"], ["勝手に", "かってに"], ["責める", "せめる"], ["逃げる", "にげる"], ["大丈夫", "だいじょうぶ"], ["危険", "きけん"], ["予知", "よち"], ["問題", "もんだい"], ["答え", "こたえ"], ["正解", "せいかい"], ["印刷", "いんさつ"], ["最後", "さいご"], ["今日", "きょう"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["行動", "こうどう"], ["安全", "あんぜん"], ["確認", "かくにん"], ["記録", "きろく"], ["説明", "せつめい"], ["自分", "じぶん"], ["相手", "あいて"], ["大人", "おとな"], ["先生", "せんせい"], ["家族", "かぞく"], ["一人", "ひとり"], ["職員", "しょくいん"], ["不安", "ふあん"], ["怖い", "こわい"], ["怒る", "おこる"], ["怒り", "いかり"], ["苦手", "にがて"], ["得意", "とくい"], ["言う", "いう"], ["聞く", "きく"], ["話す", "はなす"], ["言葉", "ことば"], ["理由", "りゆう"], ["意味", "いみ"], ["発表", "はっぴょう"], ["質問", "しつもん"], ["返事", "へんじ"], ["相談", "そうだん"], ["謝る", "あやまる"], ["見る", "みる"], ["見て", "みて"], ["探す", "さがす"], ["選ぶ", "えらぶ"], ["待つ", "まつ"], ["順番", "じゅんばん"], ["交代", "こうたい"], ["譲る", "ゆずる"], ["返す", "かえす"], ["使う", "つかう"], ["入る", "はいる"], ["戻る", "もどる"], ["助け", "たすけ"], ["協力", "きょうりょく"], ["役割", "やくわり"], ["歩く", "あるく"], ["走る", "はしる"], ["押す", "おす"], ["飲む", "のむ"], ["休む", "やすむ"], ["遊び", "あそび"], ["活動", "かつどう"], ["課題", "かだい"], ["作品", "さくひん"], ["作業", "さぎょう"], ["工作", "こうさく"], ["運動", "うんどう"], ["教室", "きょうしつ"], ["公園", "こうえん"], ["玄関", "げんかん"], ["黒板", "こくばん"], ["場所", "ばしょ"], ["予定", "よてい"], ["時間", "じかん"], ["準備", "じゅんび"], ["学校", "がっこう"], ["家庭", "かてい"], ["室内", "しつない"], ["道路", "どうろ"], ["信号", "しんごう"], ["遊具", "ゆうぐ"], ["階段", "かいだん"], ["廊下", "ろうか"], ["距離", "きょり"], ["表情", "ひょうじょう"], ["姿勢", "しせい"], ["違う", "ちがう"], ["意見", "いけん"], ["考え", "かんがえ"], ["共有", "きょうゆう"], ["結果", "けっか"], ["失敗", "しっぱい"], ["練習", "れんしゅう"], ["変更", "へんこう"], ["大切", "たいせつ"], ["体調", "たいちょう"], ["集中", "しゅうちゅう"], ["判断", "はんだん"], ["予測", "よそく"], ["視線", "しせん"], ["呼吸", "こきゅう"], ["道具", "どうぐ"], ["黄色", "きいろ"], ["電気", "でんき"], ["刃物", "はもの"], ["包丁", "ほうちょう"], ["写真", "しゃしん"], ["名前", "なまえ"], ["住所", "じゅうしょ"], ["秘密", "ひみつ"], ["少し", "すこし"], ["早く", "はやく"], ["途中", "とちゅう"], ["無視", "むし"], ["隠す", "かくす"], ["人", "ひと"], ["嫌", "いや"], ["声", "こえ"], ["机", "つくえ"], ["外", "そと"], ["車", "くるま"], ["体", "からだ"], ["物", "もの"], ["色", "いろ"], ["赤", "あか"], ["青", "あお"], ["緑", "みどり"], ["白", "しろ"], ["黒", "くろ"], ["水", "みず"], ["薬", "くすり"], ["火", "ひ"]];
-  function esc(s){
-    return String(s ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-  }
-  function rubyText(text){
-    const raw = String(text ?? "");
-    let out = "";
-    let i = 0;
-    while(i < raw.length){
-      let hit = null;
-      for(const pair of FURI_ENTRIES){
-        const w = pair[0];
-        if(raw.slice(i, i+w.length) === w){ hit = pair; break; }
-      }
-      if(hit){
-        const w = hit[0], y = hit[1];
-        out += `<ruby class="autoRuby"><rb>${esc(w)}</rb><rt>${esc(y)}</rt></ruby>`;
-        i += w.length;
-      }else{
-        out += esc(raw[i]);
-        i++;
-      }
-    }
-    return out.replaceAll("\n","<br>");
-  }
-  function skip(n){
-    const p = n.parentElement;
-    if(!p || !n.nodeValue || !n.nodeValue.trim()) return true;
-    return !!p.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby");
-  }
-  function convertNode(n){
-    if(skip(n)) return;
-    const raw = n.nodeValue;
-    const conv = rubyText(raw);
-    if(conv === esc(raw)) return;
-    const span = document.createElement("span");
-    span.className = "autoRubyWrap";
-    span.innerHTML = conv;
-    n.parentNode.replaceChild(span,n);
-  }
-  function scan(root){
-    if(!root) return;
-    if(root.nodeType === Node.TEXT_NODE){ convertNode(root); return; }
-    if(root.nodeType !== Node.ELEMENT_NODE && root.nodeType !== Node.DOCUMENT_NODE) return;
-    if(root.closest && root.closest("script,style,textarea,input,select,option,ruby,rt,rb,.noAutoRuby")) return;
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode(n){ return skip(n) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }
-    });
-    const list = [];
-    let n;
-    while(n = walker.nextNode()) list.push(n);
-    list.forEach(convertNode);
-  }
-  function boot(){
-    scan(document.body);
-    const mo = new MutationObserver(ms=>{
-      for(const m of ms) for(const node of m.addedNodes) scan(node);
-    });
-    mo.observe(document.body, {childList:true,subtree:true});
-  }
-  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",boot); else boot();
-  window.nijiflaRubyText = rubyText;
-})();
-</script>
+
 
 </body>
 </html>
