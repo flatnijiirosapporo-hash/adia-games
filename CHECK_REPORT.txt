@@ -1,8 +1,8 @@
-Ver.3.1.5
-全ゲーム検証・10分チェック・数字タッチ・レイアウト修正
+Ver1.1
+表記統一・戻るボタン統一・10分チェック絵文字対応
+source_zip: nijifla_app_ver3_1_5_full_verify_layout_fix_app.zip
 node_errors: 0
 node_error_detail: []
 link_missing: []
-empty_furi_entries: []
-number_text_visible_static: True
+back_label_issues: []
 リンク切れなし
