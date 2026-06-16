@@ -1,7 +1,8 @@
-Ver.3.1.4
-iPad横向き全ゲーム1画面表示調整
-html_files: 31
+Ver.3.1.5
+全ゲーム検証・10分チェック・数字タッチ・レイアウト修正
 node_errors: 0
 node_error_detail: []
 link_missing: []
+empty_furi_entries: []
+number_text_visible_static: True
 リンク切れなし

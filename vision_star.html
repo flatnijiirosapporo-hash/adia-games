@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== Ver.3.1.4.4.3.2 mobile readability fix ===== */
+/* ===== Ver.3.1.5.5.4.4.3.2 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,7 +114,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== Ver.3.1.4.4.3.2 vision star restore ===== */
+/* ===== Ver.3.1.5.5.4.4.3.2 vision star restore ===== */
 html{font-size:16px}
 body{overflow-x:hidden;color:#1f2937}
 .wrap{width:min(980px,96vw)!important;margin-inline:auto}
@@ -165,7 +165,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
   .target{width:68px;height:68px;font-size:34px!important}
 }
 
-/* ===== Ver.3.1.4.4.3.2.2 iPad no-scroll layout fix ===== */
+/* ===== Ver.3.1.5.5.4.4.3.2.2 iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -203,7 +203,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 }
 
 
-/* ===== Ver.3.1.4.4.4 iPad landscape one-screen all games ===== */
+/* ===== Ver.3.1.5.5.4.4.4 iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -417,8 +417,79 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
   }
 }
 
+
+/* ===== Ver.3.1.5.5 verified layout and script safety fix ===== */
+@media (max-width:1180px){
+  html,body{overflow-x:hidden!important;}
+  .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
+  .top{position:static!important;margin:0!important;padding:0!important;}
+  .nav{min-height:auto!important;padding:4px 0!important;gap:6px!important;flex-wrap:wrap!important;}
+  .nav a,.pill,.badge{font-size:12px!important;padding:5px 8px!important;line-height:1.1!important;border-radius:999px!important;}
+  .panel{margin-top:4px!important;padding:10px 12px!important;border-radius:18px!important;}
+  h1{font-size:clamp(22px,4.2vw,30px)!important;line-height:1.1!important;margin:2px 0 4px!important;}
+  h2{font-size:18px!important;margin:4px 0!important;}
+  .lead{font-size:13px!important;line-height:1.25!important;margin:2px 0 5px!important;}
+  .status{margin:2px 0 4px!important;gap:5px!important;justify-content:center!important;flex-wrap:wrap!important;}
+  .actions{margin:5px 0!important;gap:6px!important;justify-content:center!important;flex-wrap:wrap!important;}
+  button{min-height:40px!important;padding:7px 10px!important;font-size:14px!important;line-height:1.15!important;border-radius:14px!important;touch-action:manipulation;}
+  .scene,.tenScene{min-height:52px!important;padding:8px 10px!important;font-size:17px!important;line-height:1.25!important;border-radius:16px!important;color:#1f2937!important;}
+  .choices,.tenChoices,.sstChoices{gap:7px!important;margin-top:7px!important;}
+  .choice,.tenChoice,.sstChoice,.tile{min-height:38px!important;padding:7px 9px!important;font-size:14px!important;line-height:1.23!important;border-radius:15px!important;border-width:2px!important;text-align:center!important;color:#1f2937!important;}
+  .message,.tip,.report,.sstExplain{margin-top:5px!important;padding:7px 9px!important;line-height:1.25!important;font-size:13px!important;border-radius:14px!important;}
+  .reportItem,.tenReportItem{margin:5px 0!important;padding:7px 9px!important;line-height:1.25!important;font-size:12px!important;}
+  .timerBar,.tenTimerBar{height:8px!important;margin:4px 0!important;}
+  .footer{display:none!important;}
+  #report:not(.hidden),.report:not(.hidden){max-height:42dvh!important;overflow:auto!important;}
+  /* First emoji/illustration was pushing problems down; hide it on tablets/phones */
+  .illust{display:none!important;}
+}
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+  .wrap{width:98vw!important;max-width:1180px!important;}
+  .panel{padding:8px 12px!important;}
+  .lead{display:none!important;}
+  .choices,.tenChoices,.sstChoices{grid-template-columns:1fr 1fr!important;}
+  #choices{max-height:45dvh!important;overflow:auto!important;}
+  .colorGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:7px!important;margin-top:6px!important;}
+  .colorBtn,.colorChoice{height:46px!important;min-height:46px!important;border-radius:14px!important;border-width:3px!important;}
+  .memoryShow{font-size:42px!important;margin:2px 0!important;line-height:1!important;}
+  .memoryCards{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:6px!important;}
+  .memoryCards button{min-height:46px!important;font-size:28px!important;padding:3px!important;}
+  .visionArea{height:56dvh!important;min-height:240px!important;margin-top:6px!important;border-radius:18px!important;}
+  .target,.numTarget{width:52px!important;height:52px!important;min-height:52px!important;font-size:26px!important;border-radius:15px!important;border-width:3px!important;padding:0!important;}
+  .card,.menu{padding:9px!important;border-radius:16px!important;}
+  .card .icon,.menu .icon{font-size:24px!important;line-height:1!important;}
+  .card .title,.menu .title{font-size:15px!important;margin:1px 0!important;}
+  .card .desc,.menu .desc{font-size:11px!important;line-height:1.2!important;}
+}
+@media (max-width:640px){
+  .wrap{width:97vw!important;}
+  .panel{padding:9px!important;}
+  .lead{display:none!important;}
+  h1{font-size:23px!important;}
+  .scene,.tenScene{min-height:50px!important;font-size:16px!important;padding:7px!important;}
+  button{min-height:40px!important;font-size:13px!important;padding:7px 9px!important;}
+  .choice,.tenChoice,.sstChoice{min-height:38px!important;font-size:13px!important;padding:7px!important;}
+  .visionArea{height:55dvh!important;min-height:250px!important;}
+  .target,.numTarget{width:54px!important;height:54px!important;min-height:54px!important;font-size:27px!important;}
+  .memoryShow{font-size:38px!important;margin:2px 0!important;}
+  .memoryCards button{min-height:52px!important;font-size:30px!important;}
+}
+/* Force numeric targets to be visible; overrides any button/color styles */
+.numTarget{
+  color:#111827!important;
+  -webkit-text-fill-color:#111827!important;
+  background:#ffffff!important;
+  border-color:#2563eb!important;
+  font-weight:1000!important;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif!important;
+  text-indent:0!important;
+  text-shadow:none!important;
+  opacity:1!important;
+  z-index:2!important;
+}
+
 </style></head>
-<body><div class="top"><div class="wrap nav"><a href="vision_training.html">← ビジョン</a><span class="pill">にじフラ Ver.3.1.4.4.3.2</span></div></div>
+<body><div class="top"><div class="wrap nav"><a href="vision_training.html">← ビジョン</a><span class="pill">にじフラ Ver.3.1.5.5.4.4.3.2</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status">
   <span class="badge">うごく星</span>
@@ -447,6 +518,7 @@ function R(text){
     let hit=null;
     for(const pair of FURI_ENTRIES){
       const w=pair[0];
+      if(!w) continue;
       if(raw.slice(i,i+w.length)===w){hit=pair;break}
     }
     if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
