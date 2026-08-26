@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ビジョントレーニング</title><style>
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>にじフラチャレンジ</title><link href="nijifla_icon.png" rel="icon" type="image/png"/><style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
 a{text-decoration:none;color:inherit}
@@ -69,7 +69,7 @@ button.gray{background:#64748b}
 
 
 
-/* ===== mobile readability fix ===== */
+/* ===== Ver1.1 mobile readability fix ===== */
 html{font-size:16px}
 body{overflow-x:hidden}
 .wrap{width:min(980px,96vw)!important}
@@ -114,27 +114,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 
-/* ===== vision star restore ===== */
-html{font-size:16px}
-body{overflow-x:hidden;color:#1f2937}
-.wrap{width:min(980px,96vw)!important;margin-inline:auto}
-.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
-button{min-height:56px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important;touch-action:manipulation}
-.scene{
-  min-height:90px;line-height:1.7!important;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;
-  color:#1f2937!important;background:#f8fafc;border:2px solid #dbeafe;border-radius:24px;padding:18px;font-weight:1000;font-size:clamp(21px,5vw,34px)
-}
-.hidden{display:none!important}
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.3}
-ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
-@media(max-width:640px){
-  .top{position:static!important}
-  .grid{grid-template-columns:1fr!important;gap:12px!important}
-  h1{font-size:clamp(27px,8vw,42px)!important}
-  .lead{font-size:16px!important;line-height:1.6!important}
-}
-
-/* ===== iPad no-scroll layout fix ===== */
+/* ===== Ver1.1 iPad no-scroll layout fix ===== */
 @media (min-width:641px) and (max-width:1180px){
   html,body{overflow-x:hidden}
   .wrap{width:96vw!important;max-width:1040px!important}
@@ -172,7 +152,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 }
 
 
-/* ===== iPad landscape one-screen all games ===== */
+/* ===== Ver1.1 iPad landscape one-screen all games ===== */
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
   html,body{
     width:100%;
@@ -387,7 +367,7 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 }
 
 
-/* ===== verified layout and script safety fix ===== */
+/* ===== Ver1.1 verified layout and script safety fix ===== */
 @media (max-width:1180px){
   html,body{overflow-x:hidden!important;}
   .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
@@ -458,11 +438,11 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
 }
 
 
-/* .2 start/version cleanup */
+/* Ver1.1 start/version cleanup */
 .hiddenStart{display:none!important}
 
 
-/* .3 start/retry confirm fix */
+/* Ver1.1 start/retry confirm fix */
 .hiddenStart{display:none!important}
 .retryBox{
   margin-top:10px;
@@ -526,67 +506,39 @@ ruby.autoRuby rt{font-size:.46em!important;line-height:1!important;color:#475569
   .confirmCard p{font-size:16px}
 }
 
-</style><link rel="stylesheet" href="assets/ui_v24.css"></head>
-<body><div class="top"><div class="wrap nav"><a href="movement.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
-<main class="wrap"><section class="panel">
-<div class="illust">👀</div>
-<h1 style="text-align:center">ビジョントレーニング</h1>
-<p class="lead" style="text-align:center">練習を選んでください。</p>
-<div class="grid">
-<a class="card menu" href="vision_star.html">
-  <div class="icon">⭐</div>
-  <div class="title">うごく星</div>
-  <div class="desc">動く星を目で追ってタッチします。</div>
-</a>
-<a class="card menu" href="vision_same.html">
-  <div class="icon">🐶</div>
-  <div class="title">同じ絵</div>
-  <div class="desc">見本と同じ絵を探します。</div>
-</a>
-<a class="card menu" href="vision_number.html">
-  <div class="icon">123</div>
-  <div class="title">数字タッチ</div>
-  <div class="desc">1から順番に数字を押します。</div>
-</a>
+</style><link rel="stylesheet" href="assets/ui_v24.css"></head><body>
+<header class="wrap topHero">
+<div class="topHeroCard">
+
+<div class="versionArea"><span class="versionBadge">Ver1.1</span></div>
+<h1>にじいろクラスフラット</h1>
+<p class="lead noRubyText">遊びながら、見る・聞く・待つ・伝えるを練習します。</p>
+<p class="topNote noRubyText">お子さまに合わせて、好きなメニューから始めてください。</p>
 </div>
-</section></main>
-<footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
-<script>
+</header>
+<main class="wrap">
+<section class="menuSection">
+<div class="menuHeading">
+<h2>メニュー</h2>
+<p class="lead noRubyText">やりたい項目を選んでください。</p>
+</div>
+<div class="grid topMenuGrid">
+<a class="card menu" href="flatore.html"><div class="icon">🧠</div><div class="title">フラトレ</div><div class="desc noRubyText">集中・記憶・判断のゲーム</div></a>
+<a class="card menu" href="movement.html"><div class="icon">🏃</div><div class="title">運動あそび</div><div class="desc noRubyText">ビジョントレーニングなど</div></a>
 
-const FURI_ENTRIES = [["ビジョントレーニング", "びじょんとれーにんぐ"], ["数字タッチ", "すうじたっち"], ["うごく星", "うごくほし"], ["スタート", "すたーと"], ["おしまい", "おしまい"], ["同じ絵", "おなじえ"], ["タッチ", "たっち"], ["数字", "すうじ"], ["順番", "じゅんばん"], ["見本", "みほん"], ["同じ", "おなじ"], ["押す", "おす"], ["問題", "もんだい"], ["残り", "のこり"], ["安心", "あんしん"], ["挑戦", "ちょうせん"], ["成長", "せいちょう"], ["星", "ほし"], ["絵", "え"], ["点", "てん"], ["秒", "びょう"]];
-function esc(s){return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function R(text){
-  const raw=String(text??"");
-  let out="",i=0;
-  while(i<raw.length){
-    let hit=null;
-    for(const pair of FURI_ENTRIES){
-      const w=pair[0];
-      if(!w) continue;
-      if(raw.slice(i,i+w.length)===w){hit=pair;break}
-    }
-    if(hit){out+=`<ruby class="autoRuby"><rb>${esc(hit[0])}</rb><rt>${esc(hit[1])}</rt></ruby>`;i+=hit[0].length}
-    else{out+=esc(raw[i]);i++}
-  }
-  return out.replaceAll("\\n","<br>");
-}
+<a class="card menu" href="danger_game.html"><div class="icon">⚠️</div><div class="title">危険予知トレーニング</div><div class="desc">100問ランダム・安全行動を考える</div></a>
+<a class="card menu" href="sst.html"><div class="icon">💬</div><div class="title">SST</div><div class="desc noRubyText">100問ランダム・レポート付き</div></a>
+<a class="card menu" href="cognitive_check_10min.html"><div class="icon">🧠</div><div class="title">10分チェック</div><div class="desc noRubyText">5つの力を簡易チェック</div></a>
+<a class="card menu" href="parent.html"><div class="icon">👪</div><div class="title">使い方</div><div class="desc noRubyText">診断ではなく練習教材です</div></a>
+</div>
+</section>
+</main>
+<footer class="footer noRubyText">安心の中で挑戦し、挑戦の中で成長する</footer>
 
 
-</script>
 
-<script>
-function hideStartButton(){
-  var b=document.getElementById("startBtn");
-  if(b){ b.classList.add("hiddenStart"); }
-}
-document.addEventListener("DOMContentLoaded",function(){
-  var b=document.getElementById("startBtn");
-  if(b){
-    b.addEventListener("click",function(){ setTimeout(hideStartButton,0); }, {once:true});
-  }
-});
-</script>
 
-<script src="assets/result_store.js"></script>
-<script src="assets/universal_report.js"></script>
+
+
+
 <script src="assets/accessibility.js"></script><script src="assets/layout_v25.js"></script></body></html>

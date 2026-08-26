@@ -1,544 +1,102 @@
-<!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>にじフラチャレンジ</title><link href="nijifla_icon.png" rel="icon" type="image/png"/><style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
-a{text-decoration:none;color:inherit}
-.wrap{width:min(980px,92vw);margin:0 auto}
-.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e2e8f0}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-weight:900}
-.pill{background:#eef2ff;color:#3730a3;border-radius:999px;padding:8px 14px}
-.hero{padding:30px 0 16px}
-.brand{display:inline-block;background:#fff;border-radius:999px;padding:8px 16px;box-shadow:0 8px 25px rgba(30,41,59,.08);font-weight:900}
-h1{font-size:clamp(32px,6vw,54px);line-height:1.15;margin:16px 0 8px}
-.lead{color:#64748b;font-size:clamp(17px,3vw,22px)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:20px 0 34px}
-.card{background:rgba(255,255,255,.95);border-radius:30px;padding:22px;box-shadow:0 15px 45px rgba(30,41,59,.10);border:1px solid rgba(255,255,255,.85)}
-.menu{min-height:150px}.icon{font-size:52px}.title{font-size:24px;font-weight:900;margin-bottom:8px}.desc{font-size:16px;color:#64748b}
-.panel{background:rgba(255,255,255,.96);border-radius:34px;padding:22px;box-shadow:0 18px 55px rgba(30,41,59,.12);margin:22px 0 38px}
-.status{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-weight:800;margin-bottom:12px}
-.badge{padding:8px 14px;border-radius:999px;background:#f1f5f9}
-.illust{font-size:clamp(70px,16vw,126px);text-align:center;margin:8px 0;white-space:pre-line}
-.scene{font-size:clamp(24px,5vw,34px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
-.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
-button{border:0;border-radius:999px;padding:13px 22px;font-size:20px;font-weight:900;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;box-shadow:0 10px 25px rgba(79,70,229,.22);cursor:pointer}
-button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:none}
-button.gray{background:#64748b}
-.choices{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
-.choice,.tile{background:white;border:4px solid #dbeafe;border-radius:24px;padding:18px;font-size:clamp(20px,4vw,26px);font-weight:900;text-align:center;white-space:pre-line;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer}
-.tile{min-height:96px;display:flex;align-items:center;justify-content:center;font-size:44px}
-.correct{border-color:#86efac!important;background:#f0fdf4!important}.wrong{border-color:#fca5a5!important;background:#fef2f2!important}
-.message{text-align:center;font-size:28px;font-weight:900;min-height:42px;margin:14px 0}.ok{color:#16a34a}.ng{color:#dc2626}
-.tip,.report{margin-top:14px;border-radius:26px;padding:18px;background:#f8fafc;border:2px solid #e2e8f0}.tip{background:#ecfdf5;border-color:#bbf7d0}.report{background:#fff7ed;border-color:#fed7aa}
-.reportItem{background:#fff;border:3px solid #fed7aa;border-radius:22px;padding:16px;margin:14px 0}
-.hidden{display:none!important}
-.footer{text-align:center;color:#64748b;padding:22px}
-.shape{width:90px;height:90px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center;font-size:42px;border:5px solid #fff;box-shadow:0 8px 20px rgba(30,41,59,.12)}
-.red{background:#ef4444}.blue{background:#3b82f6}.yellow{background:#facc15}.green{background:#22c55e}.purple{background:#a855f7}.orange{background:#fb923c}
-@media(min-width:720px){.choices{grid-template-columns:1fr 1fr}.panel{padding:30px}}
-
-.scoreLiveHide{display:none!important}
-
-.versionBadge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(135deg,#4f46e5,#06b6d4);
-  color:white;
-  font-weight:1000;
-  border-radius:999px;
-  padding:10px 18px;
-  box-shadow:0 10px 24px rgba(79,70,229,.22);
-  margin:12px 0;
-}
-.versionNote{
-  display:inline-block;
-  background:#fff;
-  color:#475569;
-  border:2px solid #e2e8f0;
-  border-radius:999px;
-  padding:8px 14px;
-  font-weight:800;
-  margin-left:8px;
-}
-@media(max-width:640px){
-  .versionNote{margin-left:0;margin-top:8px}
-}
-
-.liveResultHide{display:none!important}
-
-
-
-
-/* ===== Ver1.1 mobile readability fix ===== */
-html{font-size:16px}
-body{overflow-x:hidden}
-.wrap{width:min(980px,96vw)!important}
-.panel{border-radius:26px!important;padding:clamp(16px,4vw,28px)!important}
-.grid{gap:14px!important}
-.card,.menu{border-radius:22px!important}
-button,.pill,.choice,.sstChoice,.tile,.modeBtn{
-  touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
-button{min-height:54px!important;padding:13px 18px!important;font-size:clamp(17px,4vw,22px)!important}
-.choices,.sstChoices{gap:12px!important}
-.choice,.sstChoice,.tile{
-  min-height:58px;
-  padding:14px!important;
-  line-height:1.55!important;
-  word-break:keep-all;
-  overflow-wrap:anywhere;
-}
-.scene{line-height:1.65!important}
-ruby.autoRuby{ruby-position:over;display:inline-ruby;line-height:1.25}
-ruby.autoRuby rb{display:ruby-base}
-ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!important;color:#475569;font-weight:800;text-align:center}
-.fullOverlay{
-  position:fixed;inset:0;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(22,163,74,.92);color:white;
-  font-size:clamp(58px,16vw,128px);font-weight:1000;
-  letter-spacing:.04em;text-shadow:0 6px 20px rgba(0,0,0,.25);
-}
-.hidden{display:none!important}
-@media(max-width:640px){
-  .top{position:static!important}
-  .nav{gap:8px;flex-wrap:wrap}
-  h1{font-size:clamp(27px,8vw,42px)!important}
-  .lead{font-size:16px!important;line-height:1.6!important}
-  .status{gap:7px!important;justify-content:center!important}
-  .badge{font-size:14px!important;padding:7px 9px!important}
-  .choices,.sstChoices{grid-template-columns:1fr!important}
-  .grid{grid-template-columns:1fr!important}
-  ruby.autoRuby rt{font-size:.42em!important}
-}
-
-
-/* ===== Ver1.1 iPad no-scroll layout fix ===== */
-@media (min-width:641px) and (max-width:1180px){
-  html,body{overflow-x:hidden}
-  .wrap{width:96vw!important;max-width:1040px!important}
-  .top{position:static!important;margin-bottom:0!important}
-  .nav{min-height:auto!important;padding:5px 0!important;gap:8px!important}
-  .panel{margin-top:6px!important;padding:12px 16px!important;border-radius:22px!important}
-  h1{font-size:28px!important;margin:4px 0 6px!important;line-height:1.15!important}
-  .lead{font-size:14px!important;line-height:1.35!important;margin:3px 0 6px!important}
-  .status{margin:4px 0 6px!important;gap:6px!important}
-  .badge,.pill,.nav a{font-size:12px!important;padding:5px 8px!important;line-height:1.1!important}
-  .illust{font-size:34px!important;line-height:1!important;margin:0!important}
-  .actions{margin:6px 0!important;gap:8px!important}
-  button{min-height:42px!important;padding:8px 12px!important;font-size:15px!important;border-radius:16px!important}
-  .scene,.tenScene{min-height:56px!important;padding:8px 10px!important;font-size:18px!important;line-height:1.28!important;border-radius:18px!important}
-  .choices,.tenChoices,.sstChoices{gap:7px!important;margin-top:7px!important}
-  .choice,.tenChoice,.sstChoice,.tile{min-height:40px!important;padding:8px 10px!important;font-size:15px!important;line-height:1.25!important;border-radius:16px!important;text-align:center!important}
-  .timerBar,.tenTimerBar{height:9px!important;margin:5px 0!important}
-  .message,.tip,.report{margin-top:6px!important;padding:8px 10px!important;line-height:1.28!important;font-size:14px!important}
-  .tenReportItem,.reportItem{padding:8px 10px!important;margin:6px 0!important;line-height:1.3!important;font-size:13px!important}
-  .footer{display:none!important}
-  #report:not(.hidden){max-height:42vh!important;overflow:auto!important}
-  #choices.tenChoices{max-height:38vh!important;overflow:auto!important}
-}
-@media (min-width:641px) and (max-width:900px) and (orientation:portrait){
-  .lead{display:none!important}
-  .illust{display:none!important}
-  h1{font-size:25px!important}
-  .panel{padding:10px 14px!important}
-  .scene,.tenScene{min-height:52px!important;font-size:17px!important}
-  .choice,.tenChoice,.sstChoice{min-height:38px!important;font-size:14px!important;padding:7px 9px!important}
-  .actions button{min-height:38px!important}
-}
-@media (min-width:900px) and (max-width:1180px) and (orientation:landscape){
-  .tenChoices,.choices{grid-template-columns:1fr 1fr!important}
-}
-
-
-/* ===== Ver1.1 iPad landscape one-screen all games ===== */
-@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
-  html,body{
-    width:100%;
-    min-height:100dvh;
-    overflow-x:hidden;
-  }
-  body{
-    font-size:14px!important;
-  }
-  .wrap{
-    width:98vw!important;
-    max-width:1180px!important;
-    margin-inline:auto!important;
-  }
-  .top{
-    position:static!important;
-    margin:0!important;
-    padding:0!important;
-  }
-  .nav{
-    min-height:auto!important;
-    padding:3px 0!important;
-    gap:6px!important;
-    flex-wrap:wrap!important;
-  }
-  .nav a,.pill,.badge{
-    font-size:11px!important;
-    padding:4px 7px!important;
-    line-height:1.1!important;
-    border-radius:999px!important;
-  }
-  .panel{
-    margin-top:4px!important;
-    padding:8px 12px!important;
-    border-radius:18px!important;
-  }
-  h1{
-    font-size:22px!important;
-    line-height:1.1!important;
-    margin:2px 0 4px!important;
-  }
-  h2{
-    font-size:18px!important;
-    margin:4px 0!important;
-  }
-  .lead{
-    display:none!important;
-  }
-  .illust{
-    display:none!important;
-  }
-  .status{
-    margin:2px 0 4px!important;
-    gap:5px!important;
-    justify-content:center!important;
-    flex-wrap:wrap!important;
-  }
-  .actions{
-    margin:4px 0!important;
-    gap:6px!important;
-    justify-content:center!important;
-    flex-wrap:wrap!important;
-  }
-  button{
-    min-height:34px!important;
-    padding:6px 10px!important;
-    font-size:13px!important;
-    line-height:1.15!important;
-    border-radius:14px!important;
-    touch-action:manipulation;
-  }
-  .scene,.tenScene{
-    min-height:44px!important;
-    padding:6px 9px!important;
-    font-size:15px!important;
-    line-height:1.22!important;
-    border-radius:15px!important;
-  }
-  .choices,.tenChoices,.sstChoices{
-    gap:6px!important;
-    margin-top:6px!important;
-  }
-  .choice,.tenChoice,.sstChoice,.tile{
-    min-height:34px!important;
-    padding:6px 8px!important;
-    font-size:13px!important;
-    line-height:1.2!important;
-    border-radius:14px!important;
-    border-width:2px!important;
-    text-align:center!important;
-  }
-  .sstChoice::before{
-    display:inline-block!important;
-    font-size:10px!important;
-    padding:1px 6px!important;
-    margin-right:5px!important;
-  }
-  .message,.tip,.report,.sstExplain{
-    margin-top:5px!important;
-    padding:6px 8px!important;
-    line-height:1.25!important;
-    font-size:12px!important;
-    border-radius:14px!important;
-  }
-  .reportItem,.tenReportItem{
-    margin:5px 0!important;
-    padding:6px 8px!important;
-    line-height:1.25!important;
-    font-size:12px!important;
-  }
-  .timerBar,.tenTimerBar{
-    height:7px!important;
-    margin:3px 0!important;
-  }
-  .footer{
-    display:none!important;
-  }
-
-  /* game-specific compacting */
-  .memoryShow{
-    font-size:48px!important;
-    margin:2px 0!important;
-    line-height:1!important;
-  }
-  .memoryCards{
-    display:grid!important;
-    grid-template-columns:repeat(3,1fr)!important;
-    gap:6px!important;
-  }
-  .memoryCards button{
-    min-height:48px!important;
-    font-size:30px!important;
-    padding:3px!important;
-  }
-
-  .colorGrid{
-    display:grid!important;
-    grid-template-columns:repeat(3,1fr)!important;
-    gap:7px!important;
-    margin-top:6px!important;
-  }
-  .colorBtn,.colorChoice{
-    height:46px!important;
-    min-height:46px!important;
-    border-radius:14px!important;
-    border-width:3px!important;
-  }
-
-  .visionArea{
-    height:58dvh!important;
-    min-height:250px!important;
-    margin-top:6px!important;
-    border-radius:18px!important;
-  }
-  .target,.numTarget{
-    width:52px!important;
-    height:52px!important;
-    min-height:52px!important;
-    font-size:26px!important;
-    border-radius:15px!important;
-    border-width:3px!important;
-    padding:0!important;
-  }
-
-  /* menu pages in landscape */
-  .grid{
-    gap:8px!important;
-  }
-  .card,.menu{
-    padding:10px!important;
-    border-radius:16px!important;
-  }
-  .card .icon,.menu .icon{
-    font-size:26px!important;
-    line-height:1!important;
-  }
-  .card .title,.menu .title{
-    font-size:16px!important;
-    margin:1px 0!important;
-  }
-  .card .desc,.menu .desc{
-    font-size:11px!important;
-    line-height:1.25!important;
-  }
-
-  /* keep reports inside viewport */
-  #report:not(.hidden), .report:not(.hidden){
-    max-height:40dvh!important;
-    overflow:auto!important;
-  }
-}
-
-/* iPad landscape: two-column answers where useful */
-@media (min-width:900px) and (max-width:1366px) and (orientation:landscape){
-  .choices,.tenChoices{
-    grid-template-columns:1fr 1fr!important;
-  }
-  .sstChoices{
-    grid-template-columns:1fr 1fr!important;
-  }
-}
-
-/* keep pages with many choices playable */
-@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
-  #choices{
-    max-height:45dvh!important;
-    overflow:auto!important;
-  }
-  #area{
-    max-height:60dvh!important;
-  }
-}
-
-
-/* ===== Ver1.1 verified layout and script safety fix ===== */
-@media (max-width:1180px){
-  html,body{overflow-x:hidden!important;}
-  .wrap{width:97vw!important;max-width:1100px!important;margin-inline:auto!important;}
-  .top{position:static!important;margin:0!important;padding:0!important;}
-  .nav{min-height:auto!important;padding:4px 0!important;gap:6px!important;flex-wrap:wrap!important;}
-  .nav a,.pill,.badge{font-size:12px!important;padding:5px 8px!important;line-height:1.1!important;border-radius:999px!important;}
-  .panel{margin-top:4px!important;padding:10px 12px!important;border-radius:18px!important;}
-  h1{font-size:clamp(22px,4.2vw,30px)!important;line-height:1.1!important;margin:2px 0 4px!important;}
-  h2{font-size:18px!important;margin:4px 0!important;}
-  .lead{font-size:13px!important;line-height:1.25!important;margin:2px 0 5px!important;}
-  .status{margin:2px 0 4px!important;gap:5px!important;justify-content:center!important;flex-wrap:wrap!important;}
-  .actions{margin:5px 0!important;gap:6px!important;justify-content:center!important;flex-wrap:wrap!important;}
-  button{min-height:40px!important;padding:7px 10px!important;font-size:14px!important;line-height:1.15!important;border-radius:14px!important;touch-action:manipulation;}
-  .scene,.tenScene{min-height:52px!important;padding:8px 10px!important;font-size:17px!important;line-height:1.25!important;border-radius:16px!important;color:#1f2937!important;}
-  .choices,.tenChoices,.sstChoices{gap:7px!important;margin-top:7px!important;}
-  .choice,.tenChoice,.sstChoice,.tile{min-height:38px!important;padding:7px 9px!important;font-size:14px!important;line-height:1.23!important;border-radius:15px!important;border-width:2px!important;text-align:center!important;color:#1f2937!important;}
-  .message,.tip,.report,.sstExplain{margin-top:5px!important;padding:7px 9px!important;line-height:1.25!important;font-size:13px!important;border-radius:14px!important;}
-  .reportItem,.tenReportItem{margin:5px 0!important;padding:7px 9px!important;line-height:1.25!important;font-size:12px!important;}
-  .timerBar,.tenTimerBar{height:8px!important;margin:4px 0!important;}
-  .footer{display:none!important;}
-  #report:not(.hidden),.report:not(.hidden){max-height:42dvh!important;overflow:auto!important;}
-  /* First emoji/illustration was pushing problems down; hide it on tablets/phones */
-  .illust{display:none!important;}
-}
-@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
-  .wrap{width:98vw!important;max-width:1180px!important;}
-  .panel{padding:8px 12px!important;}
-  .lead{display:none!important;}
-  .choices,.tenChoices,.sstChoices{grid-template-columns:1fr 1fr!important;}
-  #choices{max-height:45dvh!important;overflow:auto!important;}
-  .colorGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:7px!important;margin-top:6px!important;}
-  .colorBtn,.colorChoice{height:46px!important;min-height:46px!important;border-radius:14px!important;border-width:3px!important;}
-  .memoryShow{font-size:42px!important;margin:2px 0!important;line-height:1!important;}
-  .memoryCards{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:6px!important;}
-  .memoryCards button{min-height:46px!important;font-size:28px!important;padding:3px!important;}
-  .visionArea{height:56dvh!important;min-height:240px!important;margin-top:6px!important;border-radius:18px!important;}
-  .target,.numTarget{width:52px!important;height:52px!important;min-height:52px!important;font-size:26px!important;border-radius:15px!important;border-width:3px!important;padding:0!important;}
-  .card,.menu{padding:9px!important;border-radius:16px!important;}
-  .card .icon,.menu .icon{font-size:24px!important;line-height:1!important;}
-  .card .title,.menu .title{font-size:15px!important;margin:1px 0!important;}
-  .card .desc,.menu .desc{font-size:11px!important;line-height:1.2!important;}
-}
-@media (max-width:640px){
-  .wrap{width:97vw!important;}
-  .panel{padding:9px!important;}
-  .lead{display:none!important;}
-  h1{font-size:23px!important;}
-  .scene,.tenScene{min-height:50px!important;font-size:16px!important;padding:7px!important;}
-  button{min-height:40px!important;font-size:13px!important;padding:7px 9px!important;}
-  .choice,.tenChoice,.sstChoice{min-height:38px!important;font-size:13px!important;padding:7px!important;}
-  .visionArea{height:55dvh!important;min-height:250px!important;}
-  .target,.numTarget{width:54px!important;height:54px!important;min-height:54px!important;font-size:27px!important;}
-  .memoryShow{font-size:38px!important;margin:2px 0!important;}
-  .memoryCards button{min-height:52px!important;font-size:30px!important;}
-}
-/* Force numeric targets to be visible; overrides any button/color styles */
-.numTarget{
-  color:#111827!important;
-  -webkit-text-fill-color:#111827!important;
-  background:#ffffff!important;
-  border-color:#2563eb!important;
-  font-weight:1000!important;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif!important;
-  text-indent:0!important;
-  text-shadow:none!important;
-  opacity:1!important;
-  z-index:2!important;
-}
-
-
-/* Ver1.1 start/version cleanup */
-.hiddenStart{display:none!important}
-
-
-/* Ver1.1 start/retry confirm fix */
-.hiddenStart{display:none!important}
-.retryBox{
-  margin-top:10px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-}
-.retryBtn{
-  min-height:44px!important;
-  padding:10px 18px!important;
-  border-radius:999px!important;
-  background:#2563eb!important;
-  color:#fff!important;
-  border:0!important;
-  font-weight:1000!important;
-  font-size:16px!important;
-  box-shadow:0 8px 18px rgba(37,99,235,.22);
-}
-.confirmOverlay{
-  position:fixed;
-  inset:0;
-  z-index:999999;
-  background:rgba(15,23,42,.55);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-}
-.confirmCard{
-  width:min(520px,92vw);
-  background:#fff;
-  border-radius:24px;
-  padding:22px;
-  text-align:center;
-  box-shadow:0 20px 60px rgba(15,23,42,.25);
-}
-.confirmCard h2{
-  margin:0 0 10px;
-  font-size:24px;
-}
-.confirmCard p{
-  font-size:18px;
-  line-height:1.6;
-  font-weight:900;
-}
-.confirmActions{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-.confirmActions button{
-  min-width:120px;
-}
-@media(max-width:640px){
-  .retryBtn{min-height:40px!important;font-size:14px!important;padding:8px 14px!important}
-  .confirmCard{padding:18px}
-  .confirmCard h2{font-size:20px}
-  .confirmCard p{font-size:16px}
-}
-
-</style></head><body>
-<header class="wrap topHero">
-<div class="topHeroCard">
-
-<div class="versionArea"><span class="versionBadge">Ver1.1</span></div>
-<h1>にじいろクラスフラット</h1>
-<p class="lead noRubyText">遊びながら、見る・聞く・待つ・伝えるを練習します。</p>
-<p class="topNote noRubyText">お子さまに合わせて、好きなメニューから始めてください。</p>
-</div>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>にじフラ チャレンジ｜学習・SST・ビジョントレーニング</title>
+<link rel="icon" href="nijifla_icon.png">
+<link rel="stylesheet" href="assets/tkk_pack.css">
+<link rel="stylesheet" href="assets/ui_v24.css">
+</head>
+<body class="home-v24 niji-v24">
+<header class="home-header">
+  <div class="home-head-inner">
+    <img class="home-logo" src="nijifla_logo.png" alt="にじフラ">
+    <div class="home-brand"><strong>にじフラ チャレンジ</strong><span>学習・SST・ビジョントレーニング</span></div>
+    <nav class="home-nav" aria-label="メインメニュー">
+      <a href="#allGames">ゲーム</a>
+      <a href="sst.html">SST</a>
+      <a href="records.html">記録</a>
+    </nav>
+  </div>
 </header>
-<main class="wrap">
-<section class="menuSection">
-<div class="menuHeading">
-<h2>メニュー</h2>
-<p class="lead noRubyText">やりたい項目を選んでください。</p>
-</div>
-<div class="grid topMenuGrid">
-<a class="card menu" href="flatore.html"><div class="icon">🧠</div><div class="title">フラトレ</div><div class="desc noRubyText">集中・記憶・判断のゲーム</div></a>
-<a class="card menu" href="movement.html"><div class="icon">🏃</div><div class="title">運動あそび</div><div class="desc noRubyText">ビジョントレーニングなど</div></a>
+<main class="home-main">
+  <div id="fileModeNote" class="file-note"><b>直接起動モード</b>：ゲームは利用できます。結果履歴を端末内で確実に共有保存する場合、Windowsでは同梱の <b>START_NIJIFLA.bat</b> から起動してください。</div>
 
-<a class="card menu" href="danger_game.html"><div class="icon">⚠️</div><div class="title">危険予知トレーニング</div><div class="desc">100問ランダム・安全行動を考える</div></a>
-<a class="card menu" href="sst.html"><div class="icon">💬</div><div class="title">SST</div><div class="desc noRubyText">100問ランダム・レポート付き</div></a>
-<a class="card menu" href="cognitive_check_10min.html"><div class="icon">🧠</div><div class="title">10分チェック</div><div class="desc noRubyText">5つの力を簡易チェック</div></a>
-<a class="card menu" href="parent.html"><div class="icon">👪</div><div class="title">使い方</div><div class="desc noRubyText">診断ではなく練習教材です</div></a>
-</div>
-</section>
+  <section class="home-hero">
+    <div>
+      <span class="home-kicker">🌈 にじいろクラス フラット札幌　Ver2.5</span>
+      <h1>今日は、<br>なにをやる？</h1>
+      <p>最初に目的を選び、そのあと必要なゲームを選べるように整理しました。子どもにも職員にも、次に押す場所が分かりやすい画面です。</p>
+    </div>
+    <div class="hero-side">
+      <div class="hero-side-card"><strong>迷わないための3ステップ</strong><p>①目的を選ぶ → ②ゲームを選ぶ → ③スタート。終了後は結果・評価記録へ進めます。</p></div>
+    </div>
+  </section>
+
+
+  <section class="home-section session-context" aria-labelledby="sessionTitle">
+    <div class="home-section-head"><div><h2 id="sessionTitle">今日の記録設定</h2><p>任意。ここで1回入力すると、活動終了後のA4評価へ自動で引き継ぎます。</p></div><span id="sessionState" class="context-state">未設定</span></div>
+    <div class="context-grid">
+      <label><span>児童名</span><input id="sessionChild" list="knownChildren" autocomplete="off" placeholder="氏名を入力または過去記録から選択"><datalist id="knownChildren"></datalist></label>
+      <label><span>担当職員</span><input id="sessionStaff" list="knownStaff" autocomplete="off" placeholder="担当者を入力または選択"><datalist id="knownStaff"></datalist></label>
+      <button type="button" id="sessionClear">設定をクリア</button>
+    </div>
+    <div class="context-help">※入力内容はこの端末内だけに保存されます。共有端末では利用後に「設定をクリア」してください。</div>
+  </section>
+
+  <section class="home-section" aria-labelledby="quickTitle">
+    <div class="home-section-head"><div><h2 id="quickTitle">まず選ぶ</h2><p>よく使う機能を4つに整理</p></div></div>
+    <div class="quick-grid">
+      <a class="quick-card" href="cognitive_check_10min.html"><div class="quick-icon">🧩</div><strong>10分チェック</strong><small>5つの力を短時間で確認する</small><span class="quick-go">はじめる →</span></a>
+      <a class="quick-card" href="sst.html"><div class="quick-icon">💬</div><strong>SST</strong><small>気持ち・伝え方・相手視点を練習する</small><span class="quick-go">SSTを選ぶ →</span></a>
+      <a class="quick-card" href="#allGames"><div class="quick-icon">🎮</div><strong>ゲーム</strong><small>52種類から目的別に選ぶ</small><span class="quick-go">ゲームを見る →</span></a>
+      <a class="quick-card" href="records.html"><div class="quick-icon">📚</div><strong>結果・記録</strong><small>児童別の評価・再印刷・CSV</small><span class="quick-go">記録を見る →</span></a>
+    </div>
+  </section>
+
+  <section class="home-section saved-section" id="favoriteSection" hidden aria-labelledby="favTitle">
+    <div class="home-section-head"><div><h2 id="favTitle">★ お気に入り</h2><p>よく使うゲームをここからすぐ開始</p></div></div>
+    <div class="home-game-grid saved-grid" id="favoriteGrid"></div>
+  </section>
+
+  <section class="home-section saved-section" id="recentSection" hidden aria-labelledby="recentTitle">
+    <div class="home-section-head"><div><h2 id="recentTitle">最近つかったゲーム</h2><p>この端末で最近開いたゲーム</p></div></div>
+    <div class="home-game-grid saved-grid" id="recentGrid"></div>
+  </section>
+
+  <section class="home-section" id="allGames" aria-labelledby="gamesTitle">
+    <div class="home-section-head"><div><h2 id="gamesTitle">目的からゲームを選ぶ</h2><p><span id="gameCount">52</span>種類</p></div></div>
+    <div class="purpose-grid" id="purposeGrid" role="group" aria-label="ゲームカテゴリ"></div>
+    <div class="game-tools"><input id="gameSearch" type="search" placeholder="ゲーム名・学習内容で検索" aria-label="ゲームを検索"><button id="clearSearch" type="button">検索をクリア</button></div>
+    <div class="filter-row" aria-label="ゲーム絞り込み">
+      <label>学年目安<select id="ageFilter"><option value="">すべて</option><option>低学年〜</option><option>中学年〜</option><option>高学年〜</option><option>全学年</option></select></label>
+      <label>むずかしさ<select id="difficultyFilter"><option value="">すべて</option><option value="1">●○○</option><option value="2">●●○</option><option value="3">●●●</option></select></label>
+      <label>時間<select id="timeFilter"><option value="">すべて</option><option>1〜3分</option><option>3〜5分</option><option>5〜10分</option></select></label>
+    </div>
+    <div class="home-game-grid" id="gameGrid"></div>
+    <div id="emptyState" style="display:none;text-align:center;padding:28px;color:#64748b;font-weight:800">該当するゲームがありません。</div>
+  </section>
+
+  <section class="home-section" aria-labelledby="flatTitle">
+    <div class="home-section-head"><div><h2 id="flatTitle">フラット教材・管理</h2><p>これまでの教材と記録機能</p></div></div>
+    <div class="flat-grid">
+      <a class="flat-card" href="flatore.html"><div class="f-icon">🧠</div><strong>フラトレ</strong><p>集中・記憶・判断のオリジナルゲーム</p></a>
+      <a class="flat-card" href="movement.html"><div class="f-icon">🏃</div><strong>運動あそび</strong><p>ビジョントレーニングなど</p></a>
+      <a class="flat-card" href="danger_game.html"><div class="f-icon">⚠️</div><strong>危険予知</strong><p>安全行動を考えるトレーニング</p></a>
+      <a class="flat-card" href="result_report.html"><div class="f-icon">🖨️</div><strong>A4評価シート</strong><p>直前の結果をA4 1枚で記録・印刷</p></a>
+      <a class="flat-card" href="records.html"><div class="f-icon">🗂️</div><strong>記録管理</strong><p>検索・再印刷・CSV・バックアップ</p></a>
+      <a class="flat-card" href="child_summary.html"><div class="f-icon">📈</div><strong>児童別の経過</strong><p>職員観察の推移・実施回数を確認</p></a>
+      <a class="flat-card" href="parent.html"><div class="f-icon">👪</div><strong>使い方</strong><p>教材の利用方法と考え方</p></a>
+    </div>
+  </section>
 </main>
-<footer class="footer noRubyText">安心の中で挑戦し、挑戦の中で成長する</footer>
-
-
-
-
-
-
-
+<footer class="home-footer">にじフラ チャレンジ｜安心の中で挑戦し、挑戦の中で成長する</footer>
+<script src="assets/result_store.js"></script>
+<script src="assets/game_catalog.js"></script>
+<script src="assets/game_profile_v24.js"></script>
+<script src="assets/home_v24.js"></script>
+<script src="assets/layout_v25.js"></script>
+<script src="assets/context_panel_v25.js"></script>
+<script src="assets/accessibility.js"></script>
 </body></html>

@@ -480,7 +480,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   .confirmCard p{font-size:16px}
 }
 
-</style></head><body><div class="top"><div class="wrap nav"><a href="park.html">← 戻る</a><span class="pill">🌈 にじフラ</span></div></div>
+</style><link rel="stylesheet" href="assets/ui_v24.css"></head><body><div class="top"><div class="wrap nav"><a href="park.html">← 戻る</a><span class="pill">🌈 にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status"><span class="badge">問題 <span id="num">0</span>/10</span><span class="badge scoreLiveHide">正解 <span id="score">0</span></span><span class="badge" id="cat"></span></div>
 <div class="illust" id="illust">🌈</div><h1 style="text-align:center">順番待ち</h1><p class="lead" style="text-align:center">待つ練習です。</p>
@@ -494,7 +494,7 @@ let deck=[],i=0,score=0,wrong=[],answered=false,current='';
 function start(){deck=shuffle(DATA).slice(0,10);i=0;score=0;wrong=[];answered=false;document.getElementById('score').textContent=score;document.getElementById('report').classList.add('hidden');document.getElementById('report').innerHTML='';show()}
 function show(){answered=false;document.getElementById('msg').textContent='';document.getElementById('tip').classList.add('hidden');if(i>=deck.length){finish();return}const q=deck[i];current=q.scene;document.getElementById('num').textContent=i+1;document.getElementById('cat').textContent=q.cat||'';document.getElementById('illust').textContent=q.illust||'🌈';document.getElementById('scene').textContent=q.scene;const box=document.getElementById('choices');box.innerHTML='';shuffle(q.choices).forEach(c=>{let d=document.createElement('div');d.className='choice';d.textContent=c.text;d.onclick=()=>answer(c,d);box.appendChild(d)})}
 function answer(c,d){if(answered)return;answered=true;document.querySelectorAll('.choice').forEach(x=>x.style.pointerEvents='none');const q=deck[i];if(c.ok){score++;document.getElementById('score').textContent=score;d.classList.add('correct');document.getElementById('msg').innerHTML='<span class="ok">いいね！</span>'}else{d.classList.add('wrong');let good=q.choices.find(x=>x.ok);wrong.push({cat:q.cat,illust:q.illust,scene:q.scene,selected:c.text,correct:good?good.text:'',tip:q.tip});document.getElementById('msg').innerHTML='<span class="ng">もう一回考えよう</span>'}document.getElementById('tip').classList.remove('hidden');document.getElementById('tip').innerHTML='<b>ポイント</b><br>'+esc(q.tip||'');setTimeout(()=>{i++;show()},1500)}
-function finish(){document.getElementById('num').textContent=10;document.getElementById('illust').textContent='⭐';document.getElementById('scene').textContent='おしまい！\n'+score+' / 10 問できました';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.add('hidden');const r=document.getElementById('report');r.classList.remove('hidden');let h='<h2>ふりかえりレポート</h2>';if(wrong.length===0){h+='<p>まちがえた問題はありませんでした。</p>'}else{h+='<p>まちがえた問題だけを表示します。</p>';wrong.forEach((w,n)=>{h+='<div class="reportItem"><div style="font-size:52px;text-align:center">'+esc(w.illust||'')+'</div><b>'+(n+1)+'. まちがえた問題</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>ポイント：</b><br>'+esc(w.tip||'')+'</p></div>'})}h+='<div class="actions"><button onclick="window.print()">印刷</button></div>';r.innerHTML=h;showRetryButton()}
+function finish(){document.getElementById('num').textContent=10;document.getElementById('illust').textContent='⭐';document.getElementById('scene').textContent='おしまい！\n'+score+' / 10 問できました';document.getElementById('choices').innerHTML='';document.getElementById('tip').classList.add('hidden');const r=document.getElementById('report');r.classList.remove('hidden');let h='<h2>ふりかえりレポート</h2>';if(wrong.length===0){h+='<p>まちがえた問題はありませんでした。</p>'}else{h+='<p>まちがえた問題だけを表示します。</p>';wrong.forEach((w,n)=>{h+='<div class="reportItem"><div style="font-size:52px;text-align:center">'+esc(w.illust||'')+'</div><b>'+(n+1)+'. まちがえた問題</b><div class="scene" style="font-size:22px">'+esc(w.scene).replaceAll("\n","<br>")+'</div><p class="ng"><b>選んだ答え：</b><br>'+esc(w.selected)+'</p><p class="ok"><b>よい答え：</b><br>'+esc(w.correct)+'</p><p><b>ポイント：</b><br>'+esc(w.tip||'')+'</p></div>'})}h+='<div class="actions"><button onclick="document.getElementById(&quot;nijiflaUniversalReport&quot;)?.click()">結果・評価をA4印刷</button></div>';r.innerHTML=h;showRetryButton()}
 function readQ(){speakText(current||document.getElementById('scene').textContent)}
 start();
 </script>
@@ -602,4 +602,6 @@ start();
 })();
 </script>
 
-</body></html>
+<script src="assets/result_store.js"></script>
+<script src="assets/universal_report.js"></script>
+<script src="assets/accessibility.js"></script><script src="assets/layout_v25.js"></script></body></html>

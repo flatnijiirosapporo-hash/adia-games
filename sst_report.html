@@ -522,25 +522,37 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
 }
 
 </style>
-</head>
+<link rel="stylesheet" href="assets/ui_v24.css"></head>
 <body>
-<div class="top"><div class="wrap nav"><a href="sst.html">← 戻る</a><span class="pill">🌈にじフラ</span></div></div><main class="wrap"><section class="reportScreen" id="reportScreen"></section></main>
+<div class="top"><div class="wrap nav"><a href="sst.html">← 戻る</a><span class="pill">🌈にじフラ</span><a class="pill" href="records.html">全記録</a></div></div><main class="wrap"><section class="reportScreen" id="reportScreen"></section></main>
 
+<script src="assets/result_store.js"></script>
 <script>
 
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function deleteRecords(){
   if(!confirm("SSTの記録をすべて削除しますか？"))return;
   localStorage.removeItem("nijifla_sst_records");
   localStorage.removeItem("nijifla_sst_quiz_records");
   renderReport();
 }
+function deleteV21SST(){
+  if(!window.NIJI_RESULT||!confirm("共通SST記録とその評価を削除しますか？"))return;
+  NIJI_RESULT.list().filter(x=>x.type==='sst'||x.category==='SST').forEach(x=>NIJI_RESULT.remove(x.id));
+  renderReport();
+}
 function renderReport(){
   const records=JSON.parse(localStorage.getItem("nijifla_sst_records")||"[]");
   const quizRecords=JSON.parse(localStorage.getItem("nijifla_sst_quiz_records")||"[]");
+  const v21=window.NIJI_RESULT?NIJI_RESULT.list().filter(x=>x.type==='sst'||x.category==='SST'):[];
   const r=document.getElementById("reportScreen");
-  let h='<h1>SST レポート</h1>';
-  h+='<p class="lead">問題形式SSTと、今日あったことのふりかえりをまとめて表示します。</p>';
-  h+='<div class="parentNote"><b>保護者様へ</b><br>正解・不正解だけではなく、「場面を理解する」「相手の立場を考える」「次の行動を考える」ことを目的にしたSSTの記録です。</div>';
+  let h='<h1>SST 記録履歴</h1>';
+  h+='<p class="lead">SSTの実施履歴をまとめて確認できます。新しいSST記録は各行からA4 1枚の結果・評価シートを開けます。</p>';
+  h+='<div class="parentNote"><b>記録の見方</b><br>正解数だけで能力を判定せず、場面理解・相手視点・言葉や行動の選択・必要だった支援量を合わせて確認します。</div>';
+
+  h+='<h2>SST 実施記録</h2>';
+  if(v21.length===0){h+='<div class="reportItem">SST記録はまだありません。</div>';}
+  else{v21.slice(0,50).forEach((rec,n)=>{const d=new Date(rec.createdAt);h+=`<div class="reportItem"><h3>${n+1}. ${esc(d.toLocaleString('ja-JP'))}</h3><div class="reportLabel">${esc(rec.title)}</div><p><b>結果：</b>${esc(rec.score||'実施完了')}</p><p>${esc(rec.detail||'')}</p><div class="actions noPrint"><a class="pill" href="${esc(NIJI_RESULT.reportUrl(rec))}">A4 結果・評価</a></div></div>`;});}
 
   h+='<h2>問題形式SSTの記録</h2>';
   if(quizRecords.length===0){h+='<div class="reportItem">問題形式SSTの記録はまだありません。</div>';}
@@ -567,7 +579,7 @@ function renderReport(){
       h+='<div class="reportLabel">まとめ</div><p>'+esc(rec.summaryText).replaceAll("\n","<br>")+'</p></div>';
     });
   }
-  h+='<div class="actions noPrint"><button type="button" onclick="window.print()">印刷する</button><a class="pill" href="sst.html">SSTに戻る</a><button type="button" class="light" onclick="deleteRecords()">記録を削除</button></div>';
+  h+='<div class="actions noPrint"><a class="pill" href="result_report.html">直近結果A4</a><a class="pill" href="records.html">全結果・評価</a><a class="pill" href="sst.html">SSTに戻る</a><button type="button" class="light" onclick="deleteV21SST()">共通SST記録を削除</button><button type="button" class="light" onclick="deleteRecords()">旧SST記録を削除</button></div>';
   r.innerHTML=h;
 }
 renderReport();
@@ -593,5 +605,5 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 
-</body>
+<script src="assets/accessibility.js"></script><script src="assets/layout_v25.js"></script></body>
 </html>

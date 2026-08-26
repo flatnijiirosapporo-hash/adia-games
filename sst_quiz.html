@@ -542,7 +542,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   .confirmCard p{font-size:16px}
 }
 
-</style></head>
+</style><link rel="stylesheet" href="assets/ui_v24.css"></head>
 <body><div class="top"><div class="wrap nav"><a href="sst.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
 <main class="wrap"><section class="panel">
 <div class="status"><span class="badge">問題形式SST</span><span class="badge">問題 <span id="num">0</span>/10</span></div>
@@ -590,7 +590,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function start(){const seen=new Set();deck=[];shuffle(DATA).forEach(q=>{if(!seen.has(q[0])&&deck.length<10){seen.add(q[0]);deck.push(q)}});i=0;ok=0;records=[];document.getElementById("report").classList.add("hidden");show()}
 function show(){document.getElementById("msg").textContent="";document.getElementById("tip").classList.add("hidden");if(i>=deck.length){finish();return}const q=deck[i];current=q[0];document.getElementById("num").textContent=i+1;document.getElementById("scene").innerHTML=R(q[0]);const box=document.getElementById("choices");box.innerHTML="";shuffle([q[1],...q[2]]).forEach(t=>{const b=document.createElement("button");b.type="button";b.className="sstChoice";b.innerHTML=R(t);b.onclick=()=>answer(t===q[1],t,b,q);box.appendChild(b)})}
 function answer(good,selected,b,q){document.querySelectorAll(".sstChoice").forEach(x=>x.disabled=true);if(good){ok++;b.classList.add("correct");document.getElementById("msg").innerHTML='<span class="ok">いい選び方です</span>'}else{b.classList.add("wrong");document.getElementById("msg").innerHTML='<span class="ng">一緒に確認しよう</span>'}records.push({scene:q[0],selected,correct:q[1],ok:good,point:q[3]});document.getElementById("tip").classList.remove("hidden");document.getElementById("tip").innerHTML='<b>'+R("ポイント")+'</b><br>'+R(q[3]);setTimeout(()=>{i++;show()},900)}
-function finish(){document.getElementById("scene").innerHTML=R("おしまい");document.getElementById("choices").innerHTML="";let h='<h2>'+R("問題形式SST レポート")+'</h2><p>'+R("よく選べた数")+'：'+ok+' / '+records.length+'</p>';records.forEach((r,n)=>{h+='<div class="reportItem"><b>'+(n+1)+'. '+R(r.scene)+'</b><p>'+R("選んだ答え")+'：'+R(r.selected)+' '+(r.ok?'○':'△')+'</p><p>'+R("よい答え")+'：'+R(r.correct)+'</p><p>'+R("ポイント")+'：'+R(r.point)+'</p></div>'});const rep=document.getElementById("report");rep.innerHTML=h;rep.classList.remove("hidden");showRetryButton()}
+function finish(){document.getElementById("scene").innerHTML=R("おしまい");document.getElementById("choices").innerHTML="";let h='<h2>'+R("問題形式SST レポート")+'</h2><p>'+R("よく選べた数")+'：'+ok+' / '+records.length+'</p>';records.forEach((r,n)=>{h+='<div class="reportItem"><b>'+(n+1)+'. '+R(r.scene)+'</b><p>'+R("選んだ答え")+'：'+R(r.selected)+' '+(r.ok?'○':'△')+'</p><p>'+R("よい答え")+'：'+R(r.correct)+'</p><p>'+R("ポイント")+'：'+R(r.point)+'</p></div>'});let a4=null;if(window.NIJI_RESULT){a4=NIJI_RESULT.save({title:"SST｜問題形式SST",category:"SST",score:ok+"/"+records.length,detail:"10場面のSST。よい選択 "+ok+"、確認 "+(records.length-ok)+"。",success:ok>=8,type:"sst",source:"sst_quiz.html",extra:{items:records}});const hist=JSON.parse(localStorage.getItem("nijifla_sst_quiz_records")||"[]");hist.unshift({date:new Date().toLocaleString("ja-JP"),score:ok,total:records.length,all:records.map((x,n)=>({no:n+1,cat:"SST",illust:"💬",scene:x.scene,selected:x.selected,correct:x.correct,ok:x.ok,tip:x.point}))});localStorage.setItem("nijifla_sst_quiz_records",JSON.stringify(hist.slice(0,50)));h+='<div class="actions"><button type="button" id="a4Print">結果・評価をA4印刷</button></div>'}const rep=document.getElementById("report");rep.innerHTML=h;rep.classList.remove("hidden");if(a4){document.getElementById("a4Print").onclick=()=>location.href=NIJI_RESULT.reportUrl(a4)}showRetryButton()}
 function readQ(){speakJP(current||document.getElementById("scene").textContent)}
 document.addEventListener("DOMContentLoaded",()=>{document.getElementById("scene").innerHTML=R("スタートしてね")})
 
@@ -693,4 +693,5 @@ document.addEventListener("DOMContentLoaded",()=>{document.getElementById("scene
 })();
 </script>
 
-</body></html>
+<script src="assets/result_store.js"></script>
+<script src="assets/accessibility.js"></script><script src="assets/layout_v25.js"></script></body></html>

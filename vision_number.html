@@ -577,7 +577,7 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   .confirmCard p{font-size:16px}
 }
 
-</style></head><body><div class="top"><div class="wrap nav"><a href="vision_training.html">← 戻る</a><span class="pill">にじフラ</span></div></div><main class="wrap"><section class="panel"><div class="status"><span class="badge">数字タッチ</span><span class="badge">問題 <span id="round">0</span>/5</span><span class="badge">点 <span id="score">0</span></span><span class="badge">次は <span id="nextNum">1</span></span></div><h1 style="text-align:center">数字タッチ</h1><p class="lead" style="text-align:center">1から5まで、順番に数字をタッチします。</p><div id="instruction" class="scene">スタートしてね</div><div class="actions"><button id="startBtn" type="button" onclick="start()">スタート</button></div><div id="area" class="visionArea"></div><div id="msg" class="message"></div></section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer><script>
+</style><link rel="stylesheet" href="assets/ui_v24.css"></head><body><div class="top"><div class="wrap nav"><a href="vision_training.html">← 戻る</a><span class="pill">にじフラ</span></div></div><main class="wrap"><section class="panel"><div class="status"><span class="badge">数字タッチ</span><span class="badge">問題 <span id="round">0</span>/5</span><span class="badge">点 <span id="score">0</span></span><span class="badge">次は <span id="nextNum">1</span></span></div><h1 style="text-align:center">数字タッチ</h1><p class="lead" style="text-align:center">1から5まで、順番に数字をタッチします。</p><div id="instruction" class="scene">スタートしてね</div><div class="actions"><button id="startBtn" type="button" onclick="start()">スタート</button></div><div id="area" class="visionArea"></div><div id="msg" class="message"></div></section></main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer><script>
 let round=0, score=0, next=1, running=false;
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function rand(max){return Math.floor(Math.random()*Math.max(1,max))}
@@ -687,4 +687,6 @@ document.addEventListener('DOMContentLoaded',update);
 })();
 </script>
 
-</body></html>
+<script src="assets/result_store.js"></script>
+<script src="assets/universal_report.js"></script>
+<script src="assets/accessibility.js"></script><script src="assets/layout_v25.js"></script></body></html>
