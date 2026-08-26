@@ -1,0 +1,249 @@
+:root{
+  --niji-ink:#24324a;
+  --niji-muted:#64748b;
+  --niji-line:#dfe7f0;
+  --niji-bg:#f6f9fc;
+  --niji-card:#ffffff;
+  --niji-blue:#3f6ee8;
+  --niji-blue-soft:#edf3ff;
+  --niji-green:#3aa98b;
+  --niji-green-soft:#eaf9f4;
+  --niji-yellow:#f6b94d;
+  --niji-orange:#ef8f55;
+  --niji-pink:#e9789a;
+  --niji-red:#d94c4c;
+  --niji-shadow:0 12px 32px rgba(36,50,74,.09);
+  --niji-shadow-sm:0 5px 16px rgba(36,50,74,.07);
+  --niji-radius:22px;
+}
+html{scroll-behavior:smooth}
+body.niji-v24{background:var(--niji-bg)!important;color:var(--niji-ink)!important;font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif!important;line-height:1.65!important}
+body.niji-v24 *{box-sizing:border-box}
+body.niji-v24 a{text-decoration:none}
+body.niji-v24 button,body.niji-v24 a,body.niji-v24 input,body.niji-v24 select,body.niji-v24 textarea{outline-offset:3px}
+body.niji-v24 :focus-visible{outline:3px solid #7aa5ff!important;outline-offset:3px!important}
+
+/* 共通上部ナビゲーション */
+body.niji-v24 .top{position:sticky!important;top:0!important;z-index:80!important;background:rgba(255,255,255,.96)!important;border-bottom:1px solid var(--niji-line)!important;backdrop-filter:blur(10px)!important;box-shadow:0 2px 10px rgba(36,50,74,.03)!important}
+body.niji-v24 .wrap{width:min(1080px,94vw)!important;margin-inline:auto!important}
+body.niji-v24 .nav{min-height:64px!important;display:flex!important;align-items:center!important;gap:10px!important;padding:8px 0!important}
+body.niji-v24 .nav>a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:42px!important;padding:8px 14px!important;border-radius:14px!important;background:#fff!important;border:1px solid var(--niji-line)!important;color:var(--niji-ink)!important;font-weight:900!important;box-shadow:none!important}
+body.niji-v24 .nav .pill,body.niji-v24 .pill{margin-left:auto;background:var(--niji-blue-soft)!important;color:#3158bc!important;border:1px solid #d8e4ff!important;border-radius:999px!important;padding:8px 13px!important;font-weight:900!important}
+body.niji-v24 .niji-record-link{margin-left:0!important;background:var(--niji-green-soft)!important;color:#217a63!important;border-color:#c8eee1!important}
+body.niji-v24 .niji-auto-top{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.96);border-bottom:1px solid var(--niji-line);backdrop-filter:blur(10px)}
+body.niji-v24 .niji-auto-top-inner{width:min(1080px,94vw);min-height:64px;margin:auto;display:flex;align-items:center;gap:10px}
+body.niji-v24 .niji-auto-top a{display:inline-flex;align-items:center;min-height:42px;padding:8px 14px;border:1px solid var(--niji-line);border-radius:14px;background:#fff;font-weight:900;color:var(--niji-ink)}
+body.niji-v24 .niji-auto-title{margin-left:auto;font-size:14px;font-weight:900;color:var(--niji-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* 旧ゲーム・教材の共通見た目 */
+body.niji-v24 .hero{padding:24px 0 12px!important;margin:0 auto!important;background:transparent!important;display:block!important;max-width:none!important}
+body.niji-v24 .hero h1,body.niji-v24 h1{color:var(--niji-ink)!important;letter-spacing:-.02em!important}
+body.niji-v24 .hero h1{font-size:clamp(30px,5vw,46px)!important;margin:0 0 6px!important;line-height:1.15!important}
+body.niji-v24 .lead{color:var(--niji-muted)!important;font-size:clamp(15px,2.4vw,18px)!important;line-height:1.7!important}
+body.niji-v24 .panel{background:#fff!important;border:1px solid var(--niji-line)!important;border-radius:26px!important;box-shadow:var(--niji-shadow)!important;padding:clamp(18px,3vw,28px)!important;margin:16px 0 30px!important}
+body.niji-v24 .grid{gap:14px!important}
+body.niji-v24 .card,body.niji-v24 .menu{background:#fff!important;border:1px solid var(--niji-line)!important;border-radius:20px!important;box-shadow:var(--niji-shadow-sm)!important;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease!important}
+body.niji-v24 a.card:hover,body.niji-v24 a.menu:hover{transform:translateY(-2px)!important;border-color:#b8c9e9!important;box-shadow:var(--niji-shadow)!important}
+body.niji-v24 .card .icon,body.niji-v24 .menu .icon{line-height:1!important}
+body.niji-v24 .title,body.niji-v24 .card h3{color:var(--niji-ink)!important;font-weight:950!important;line-height:1.35!important}
+body.niji-v24 .desc,body.niji-v24 .card p{color:var(--niji-muted)!important;line-height:1.55!important}
+body.niji-v24 .status{display:flex!important;flex-wrap:wrap!important;gap:8px!important;justify-content:center!important;margin:8px 0 14px!important}
+body.niji-v24 .badge{background:#f3f6fa!important;color:#40516a!important;border:1px solid #e2e9f1!important;border-radius:999px!important;padding:7px 11px!important;font-weight:900!important}
+body.niji-v24 .scene,body.niji-v24 .tenScene{background:#f8fbff!important;border:1px solid #dfe9f7!important;border-radius:20px!important;padding:16px!important;color:var(--niji-ink)!important}
+body.niji-v24 .choice,body.niji-v24 .sstChoice,body.niji-v24 .tenChoice,body.niji-v24 .tile,body.niji-v24 .choice-btn{
+  background:#fff!important;color:var(--niji-ink)!important;border:2px solid #dbe5ef!important;border-radius:18px!important;box-shadow:0 3px 10px rgba(36,50,74,.05)!important;font-weight:900!important;min-height:58px!important;
+}
+body.niji-v24 .choice:hover,body.niji-v24 .sstChoice:hover,body.niji-v24 .tenChoice:hover,body.niji-v24 .tile:hover,body.niji-v24 .choice-btn:hover{border-color:#9fb9ef!important;background:#f8fbff!important}
+body.niji-v24 button:not(.dir):not(.rps):not(.num-tile):not(.bug):not(.choice):not(.sstChoice):not(.tenChoice):not(.tile):not(.choice-btn):not(.light):not(.gray):not(.danger){border-radius:16px!important;box-shadow:none!important;font-weight:950!important}
+body.niji-v24 button.primary,body.niji-v24 .primary{background:var(--niji-blue)!important;color:#fff!important;border:0!important;box-shadow:0 7px 16px rgba(63,110,232,.18)!important}
+body.niji-v24 button.light,body.niji-v24 button.secondary,body.niji-v24 .secondary{background:#fff!important;color:var(--niji-ink)!important;border:1.5px solid var(--niji-line)!important;box-shadow:none!important}
+body.niji-v24 .actions{gap:10px!important}
+body.niji-v24 .message{font-weight:950!important}
+body.niji-v24 .tip{background:var(--niji-green-soft)!important;border:1px solid #c8eee1!important;color:#275f50!important;border-radius:18px!important}
+body.niji-v24 .report{background:#fff8eb!important;border:1px solid #f4d694!important;border-radius:18px!important}
+body.niji-v24 .footer{color:var(--niji-muted)!important}
+
+/* 共通ゲーム（52本） */
+body.game-body.niji-v24{background:linear-gradient(180deg,#edf5ff 0,#f7fafc 250px,#f7fafc 100%)!important;min-height:100vh}
+body.game-body.niji-v24 .site-header{position:sticky;top:0;background:rgba(255,255,255,.96);box-shadow:0 2px 10px rgba(36,50,74,.04);border-bottom:1px solid var(--niji-line)}
+body.game-body.niji-v24 .game-shell{max-width:1000px;padding:18px 18px 42px}
+body.game-body.niji-v24 .game-head-card{background:#fff;border:1px solid var(--niji-line);border-radius:24px;padding:18px 20px;margin:0 0 14px;box-shadow:var(--niji-shadow-sm)}
+body.game-body.niji-v24 .game-top{margin:0 0 8px}
+body.game-body.niji-v24 .game-title{font-size:clamp(28px,5vw,44px);margin:4px 0 6px;letter-spacing:-.025em}
+body.game-body.niji-v24 .game-desc{font-size:16px;line-height:1.65;margin:0;color:var(--niji-muted)}
+body.game-body.niji-v24 .game-meta-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+body.game-body.niji-v24 .game-meta-pill{background:#f3f6fa;border:1px solid #e3eaf1;color:#53647c;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900}
+body.game-body.niji-v24 .play-card{border:1px solid var(--niji-line);border-radius:26px;box-shadow:var(--niji-shadow);padding:18px;min-height:520px;background:#fff}
+body.game-body.niji-v24 .toolbar{margin-bottom:12px;border-bottom:1px solid #edf1f5;padding-bottom:11px}
+body.game-body.niji-v24 .toolbar:before{content:'いまの状態';font-size:12px;color:var(--niji-muted);font-weight:900;margin-right:2px}
+body.game-body.niji-v24 .status-pill{background:var(--niji-green-soft);color:#26745f;border:1px solid #ccecdf;padding:6px 10px}
+body.game-body.niji-v24 .stage{background:#f8fbff;border:1px solid #e2eaf3;border-radius:22px;min-height:360px;padding:18px}
+body.game-body.niji-v24 .game-ready{height:100%;min-height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
+body.game-body.niji-v24 .ready-icon{font-size:clamp(64px,14vw,118px);line-height:1;margin-bottom:12px}
+body.game-body.niji-v24 .ready-label{font-size:13px;color:#3158bc;background:var(--niji-blue-soft);border-radius:999px;padding:5px 10px;font-weight:900;margin-bottom:9px}
+body.game-body.niji-v24 .ready-title{font-size:clamp(22px,4vw,30px);font-weight:1000;line-height:1.35;margin-bottom:7px}
+body.game-body.niji-v24 .ready-desc{max-width:620px;color:var(--niji-muted);font-weight:700;line-height:1.7}
+body.game-body.niji-v24 .ready-hint{margin-top:13px;color:#687a91;font-size:13px;background:#fff;border:1px solid #e2eaf3;border-radius:14px;padding:8px 12px}
+body.game-body.niji-v24 .play-actions{margin-top:14px;gap:9px}
+body.game-body.niji-v24 .play-actions button{min-height:52px;padding:11px 20px;font-size:17px}
+body.game-body.niji-v24 .play-actions .primary{min-width:220px}
+body.game-body.niji-v24 .game-result-wrap{height:100%;min-height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+body.game-body.niji-v24 .result-icon{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;font-size:36px;background:var(--niji-green-soft);margin-bottom:12px}
+body.game-body.niji-v24 .result-box{border:1px solid #dfe8f0;box-shadow:none;border-radius:20px;background:#fff;padding:20px;max-width:680px}
+body.game-body.niji-v24 .result-big{line-height:1.2}
+body.game-body.niji-v24 .choice-grid{gap:10px}
+body.game-body.niji-v24 .choice-btn{padding:14px 16px;font-size:18px}
+body.game-body.niji-v24 .direction-pad .dir,body.game-body.niji-v24 .rps,body.game-body.niji-v24 .num-tile{border:1px solid #dfe7ef!important;box-shadow:0 4px 12px rgba(36,50,74,.08)!important}
+body.game-body.niji-v24 .game-bottom-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+body.game-body.niji-v24 .game-bottom-nav a{display:inline-flex;align-items:center;min-height:42px;padding:8px 13px;border:1px solid var(--niji-line);border-radius:14px;background:#fff;color:var(--niji-ink);font-weight:900;font-size:13px}
+
+/* TOP Ver2.3 */
+body.home-v24{background:#f6f9fc!important}
+.home-v24 .home-header{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--niji-line)}
+.home-v24 .home-head-inner{width:min(1180px,94vw);min-height:70px;margin:auto;display:flex;align-items:center;gap:12px}
+.home-v24 .home-logo{width:46px;height:46px;border-radius:14px;object-fit:cover;border:1px solid var(--niji-line)}
+.home-v24 .home-brand{min-width:0}.home-brand strong{display:block;font-size:18px;line-height:1.2}.home-brand span{display:block;font-size:12px;color:var(--niji-muted);font-weight:800}
+.home-v24 .home-nav{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}
+.home-v24 .home-nav a{min-height:40px;display:inline-flex;align-items:center;border:1px solid var(--niji-line);border-radius:13px;background:#fff;padding:7px 12px;font-weight:900;font-size:13px}
+.home-v24 .home-main{width:min(1180px,94vw);margin:auto;padding:24px 0 42px}
+.home-v24 .home-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;background:linear-gradient(135deg,#edf4ff,#f3fbf8);border:1px solid #dce8f4;border-radius:28px;padding:clamp(22px,4vw,38px);box-shadow:var(--niji-shadow-sm)}
+.home-v24 .home-kicker{display:inline-flex;align-items:center;background:#fff;border:1px solid #dce8f4;border-radius:999px;padding:5px 10px;color:#3158bc;font-weight:900;font-size:12px}
+.home-v24 .home-hero h1{font-size:clamp(34px,5vw,58px);line-height:1.08;margin:11px 0 12px;letter-spacing:-.035em}
+.home-v24 .home-hero p{margin:0;max-width:680px;color:var(--niji-muted);font-size:17px;line-height:1.75;font-weight:650}
+.home-v24 .hero-side{display:flex;align-items:center;justify-content:center}
+.home-v24 .hero-side-card{width:100%;background:#fff;border:1px solid #dfe7ef;border-radius:22px;padding:18px;box-shadow:var(--niji-shadow-sm)}
+.home-v24 .hero-side-card strong{font-size:16px}.home-v24 .hero-side-card p{font-size:13px;margin:5px 0 0}
+.home-v24 .home-section{margin-top:26px}
+.home-v24 .home-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:12px}.home-v24 .home-section-head h2{font-size:25px;margin:0}.home-v24 .home-section-head p{margin:0;color:var(--niji-muted);font-size:13px}
+.home-v24 .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.home-v24 .quick-card{background:#fff;border:1px solid var(--niji-line);border-radius:20px;padding:17px;box-shadow:var(--niji-shadow-sm);display:flex;flex-direction:column;min-height:155px}
+.home-v24 .quick-card:hover{border-color:#aebfe0;transform:translateY(-1px)}
+.home-v24 .quick-icon{font-size:34px;line-height:1;margin-bottom:10px}.home-v24 .quick-card strong{font-size:18px}.home-v24 .quick-card small{display:block;color:var(--niji-muted);margin-top:4px;line-height:1.5;font-weight:700}.home-v24 .quick-go{margin-top:auto;padding-top:10px;color:#3158bc;font-weight:950;font-size:13px}
+.home-v24 .purpose-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}
+.home-v24 .purpose-btn{border:1px solid var(--niji-line);background:#fff;border-radius:17px;padding:13px 10px;min-height:92px;text-align:center;color:var(--niji-ink);font-weight:900;box-shadow:none}
+.home-v24 .purpose-btn .p-icon{display:block;font-size:26px;margin-bottom:5px}.home-v24 .purpose-btn.active{background:#273750;color:#fff;border-color:#273750}
+.home-v24 .game-tools{display:grid;grid-template-columns:1fr auto;gap:9px;margin:12px 0}.home-v24 .game-tools input{width:100%;min-height:48px;background:#fff;border:1.5px solid var(--niji-line);border-radius:15px;padding:10px 14px;font-size:16px}.home-v24 .game-tools button{min-height:48px;border:1px solid var(--niji-line);background:#fff;color:var(--niji-ink);border-radius:15px;padding:9px 15px;font-weight:900}
+.home-v24 .home-game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.home-v24 .home-game-card{background:#fff;border:1px solid var(--niji-line);border-radius:19px;padding:16px;min-height:185px;display:flex;flex-direction:column;box-shadow:var(--niji-shadow-sm);transition:.15s ease}
+.home-v24 .home-game-card:hover{transform:translateY(-2px);border-color:#aebfe0;box-shadow:var(--niji-shadow)}
+.home-v24 .home-game-card .g-icon{font-size:34px;line-height:1}.home-v24 .home-game-card h3{font-size:17px;margin:10px 0 5px;line-height:1.35}.home-v24 .home-game-card p{font-size:13px;color:var(--niji-muted);margin:0;line-height:1.55}.home-v24 .home-game-card .g-foot{margin-top:auto;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:6px}.home-v24 .cat-pill{font-size:11px;background:#f3f6fa;color:#596a81;border-radius:999px;padding:4px 8px;font-weight:900}.home-v24 .play-link{font-size:12px;color:#3158bc;font-weight:950}
+.home-v24 .flat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.home-v24 .flat-card{background:#fff;border:1px solid var(--niji-line);border-radius:19px;padding:16px;min-height:130px;box-shadow:var(--niji-shadow-sm)}.home-v24 .flat-card strong{display:block;font-size:17px;margin:8px 0 3px}.home-v24 .flat-card p{font-size:13px;color:var(--niji-muted);margin:0}.home-v24 .flat-card .f-icon{font-size:30px}.home-v24 .home-footer{text-align:center;color:var(--niji-muted);padding:28px 12px;font-size:12px}
+.home-v24 .file-note{display:none;background:#fff7df;border:1px solid #eed48a;border-radius:16px;padding:11px 14px;margin-bottom:14px;color:#725a20;font-size:13px;line-height:1.55}
+
+@media(max-width:900px){
+  .home-v24 .home-hero{grid-template-columns:1fr}.home-v24 .hero-side{display:none}
+  .home-v24 .quick-grid{grid-template-columns:repeat(2,1fr)}
+  .home-v24 .purpose-grid{grid-template-columns:repeat(3,1fr)}
+  .home-v24 .home-game-grid,.home-v24 .flat-grid{grid-template-columns:repeat(2,1fr)}
+  body.game-body.niji-v24 .play-card{min-height:470px}
+}
+@media(max-width:620px){
+  body.niji-v24 .nav{min-height:56px}.home-v24 .home-head-inner{min-height:60px}.home-v24 .home-logo{width:40px;height:40px}.home-v24 .home-brand span{display:none}.home-v24 .home-nav a:not(:last-child){display:none}
+  .home-v24 .home-main{padding-top:14px}.home-v24 .home-hero{padding:20px;border-radius:22px}.home-v24 .home-hero h1{font-size:34px}.home-v24 .home-hero p{font-size:15px}
+  .home-v24 .quick-grid{grid-template-columns:1fr 1fr;gap:9px}.home-v24 .quick-card{min-height:142px;padding:14px}.home-v24 .quick-card strong{font-size:16px}.home-v24 .quick-card small{font-size:12px}
+  .home-v24 .purpose-grid{grid-template-columns:repeat(2,1fr)}
+  .home-v24 .home-game-grid,.home-v24 .flat-grid{grid-template-columns:1fr}.home-v24 .home-game-card{min-height:150px}
+  .home-v24 .game-tools{grid-template-columns:1fr}.home-v24 .game-tools button{display:none}
+  body.game-body.niji-v24 .game-shell{padding:12px 10px 28px}.site-header .head-inner{padding:8px 10px}.site-header .brand-copy small{display:none}.site-header .head-actions .nav-btn:not(:last-child){display:none}
+  body.game-body.niji-v24 .game-head-card{padding:14px;border-radius:20px}.game-body .game-top .nav-btn{display:none}
+  body.game-body.niji-v24 .play-card{padding:12px;border-radius:21px;min-height:0}.game-body .stage{min-height:390px;padding:12px}
+  body.game-body.niji-v24 .choice-grid{grid-template-columns:1fr}.game-body .choice-btn{min-height:60px;font-size:17px}
+  body.game-body.niji-v24 .game-ready{min-height:350px;padding:12px}.game-body .ready-icon{font-size:76px}
+  body.niji-v24 .panel{padding:15px!important;border-radius:21px!important}.niji-v24 .hero{padding-top:16px!important}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* 旧ゲームも「タイトル→説明→状態→問題→操作」の順番に統一 */
+body.legacy-play main.wrap>section.panel{display:flex!important;flex-direction:column!important;overflow:visible!important}
+body.legacy-play main.wrap>section.panel>.illust{order:0!important;margin:0 auto 2px!important;font-size:clamp(42px,7vw,72px)!important;line-height:1.05!important}
+body.legacy-play main.wrap>section.panel>h1{order:1!important;text-align:center!important;font-size:clamp(28px,4vw,40px)!important;margin:4px 0 5px!important;line-height:1.2!important}
+body.legacy-play main.wrap>section.panel>.lead{order:2!important;text-align:center!important;max-width:720px!important;margin:0 auto 12px!important}
+body.legacy-play main.wrap>section.panel>.status{order:3!important;margin:0 auto 12px!important;padding:7px 10px!important;background:#f6f9fc!important;border:1px solid #e6edf4!important;border-radius:16px!important;width:fit-content!important;max-width:100%!important}
+body.legacy-play main.wrap>section.panel>.tenTimerBar,body.legacy-play main.wrap>section.panel>.timerBar{order:4!important}
+body.legacy-play main.wrap>section.panel>.scene,body.legacy-play main.wrap>section.panel>.tenScene{order:5!important;width:100%!important}
+body.legacy-play main.wrap>section.panel>.actions{order:6!important;margin:12px 0!important}
+body.legacy-play main.wrap>section.panel>.playArea,body.legacy-play main.wrap>section.panel>.colorGrid,body.legacy-play main.wrap>section.panel>.choices,body.legacy-play main.wrap>section.panel>.tenChoices,body.legacy-play main.wrap>section.panel>.visionArea{order:7!important;width:100%!important}
+body.legacy-play main.wrap>section.panel>.message,body.legacy-play main.wrap>section.panel>.feedback{order:8!important}
+body.legacy-play main.wrap>section.panel>.tip{order:9!important}
+body.legacy-play main.wrap>section.panel>.report{order:10!important}
+body.legacy-play main.wrap>section.panel>#report{order:10!important}
+body.legacy-play main.wrap>section.panel>.playArea{border:1px solid #dfe9f2!important;border-radius:20px!important;box-shadow:none!important;background:linear-gradient(180deg,#eef8ff,#fff)!important}
+body.legacy-play main.wrap>section.panel>.actions button:first-child:not(.light){min-width:200px!important}
+@media(max-width:620px){
+  body.legacy-play main.wrap>section.panel>.illust{font-size:44px!important}
+  body.legacy-play main.wrap>section.panel>h1{font-size:28px!important}
+  body.legacy-play main.wrap>section.panel>.lead{font-size:14px!important;margin-bottom:9px!important}
+  body.legacy-play main.wrap>section.panel>.status{width:100%!important;justify-content:center!important}
+}
+body.legacy-play main.wrap>section.panel>.lead{display:block!important}
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+  body.game-body.niji-v24 .game-shell{padding:10px 16px 24px}
+  body.game-body.niji-v24 .game-head-card{padding:12px 16px;margin-bottom:9px;border-radius:20px}
+  body.game-body.niji-v24 .game-title{font-size:32px;margin:2px 0 4px}
+  body.game-body.niji-v24 .game-desc{font-size:14px;line-height:1.45}
+  body.game-body.niji-v24 .game-meta-row{margin-top:7px}
+  body.game-body.niji-v24 .play-card{padding:12px;min-height:430px;border-radius:22px}
+  body.game-body.niji-v24 .toolbar{padding-bottom:8px;margin-bottom:8px}
+  body.game-body.niji-v24 .stage{min-height:300px;padding:12px}
+  body.game-body.niji-v24 .game-ready{min-height:275px;padding:10px}
+  body.game-body.niji-v24 .ready-icon{font-size:70px;margin-bottom:7px}
+  body.game-body.niji-v24 .ready-title{font-size:25px;margin-bottom:4px}
+  body.game-body.niji-v24 .ready-desc{font-size:14px;line-height:1.45}
+  body.game-body.niji-v24 .ready-hint{margin-top:8px;padding:6px 10px}
+  body.game-body.niji-v24 .play-actions{margin-top:9px}
+  body.game-body.niji-v24 .game-bottom-nav{margin-top:8px}
+  body.game-body.niji-v24.is-playing .game-head-card{padding:8px 14px;display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}
+  body.game-body.niji-v24.is-playing .game-top{margin:0;grid-row:1;grid-column:1}
+  body.game-body.niji-v24.is-playing .game-top .spacer,body.game-body.niji-v24.is-playing .game-top .nav-btn{display:none}
+  body.game-body.niji-v24.is-playing .game-title{grid-row:1;grid-column:2;font-size:24px;margin:0}
+  body.game-body.niji-v24.is-playing .game-desc,body.game-body.niji-v24.is-playing .game-meta-row{display:none}
+  body.game-body.niji-v24.is-playing .play-card{min-height:calc(100vh - 155px)}
+  body.game-body.niji-v24.is-playing .stage{min-height:calc(100vh - 230px)}
+  body.game-body.niji-v24.is-playing .game-bottom-nav{display:none}
+}
+
+/* ===== Ver2.4: 選びやすさ・集中モード ===== */
+.home-v24 .home-game-card{position:relative;overflow:visible;padding:0!important}
+.home-v24 .game-card-link{display:flex;flex-direction:column;min-height:100%;padding:17px;color:inherit;border-radius:20px}
+.home-v24 .fav-btn,.game-body .favorite-game-btn{position:absolute;z-index:5;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:1px solid #dfe7f0;background:#fff;color:#a7b0bf;font-size:20px;line-height:1;display:grid;place-items:center;box-shadow:0 4px 12px rgba(36,50,74,.08);cursor:pointer}
+.home-v24 .fav-btn:hover,.game-body .favorite-game-btn:hover{transform:translateY(-1px);border-color:#f0c75e}
+.home-v24 .fav-btn.active,.game-body .favorite-game-btn.active{color:#f1ad20;background:#fff9df;border-color:#f0d37b}
+.game-body .favorite-game-btn{position:static;width:36px;height:36px;box-shadow:none;margin-left:6px;flex:0 0 auto}
+.home-v24 .profile-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:#52657d;font-weight:800}
+.home-v24 .profile-row span{background:#f6f8fb;border:1px solid #e6edf4;border-radius:999px;padding:3px 7px}
+.home-v24 .profile-row .diff{letter-spacing:.02em}
+.home-v24 .saved-section{background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid #e5edf6;border-radius:24px;padding:20px;margin-bottom:22px;box-shadow:0 7px 22px rgba(36,50,74,.05)}
+.home-v24 .saved-grid{grid-template-columns:repeat(4,1fr)}
+.home-v24 .saved-grid .home-game-card{min-height:205px}
+.game-body .game-meta-pill.aim{background:#eef9f3;border-color:#cfeadd;color:#2e725d}
+.game-body .ready-profile{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:12px 0 0}
+.game-body .ready-profile span{font-size:12px;font-weight:900;background:#fff;border:1px solid #dde7f1;border-radius:999px;padding:5px 10px;color:#51637a}
+.game-body .ready-aim{max-width:620px;width:100%;margin:12px auto 0;padding:10px 14px;border-radius:15px;background:#eff9f5;border:1px solid #d2eee3;display:flex;gap:10px;align-items:flex-start;text-align:left}
+.game-body .ready-aim b{color:#24735b;white-space:nowrap}.game-body .ready-aim span{color:#365b50;font-weight:800}
+body.niji-v24 .niji-focus-toggle,.site-header .focus-toggle{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:8px 14px;border:1px solid #dfe7f0;border-radius:14px;background:#eef7ff;color:#3158bc;font-weight:900;cursor:pointer;font:inherit}
+body.niji-v24 .niji-focus-exit{position:fixed;z-index:9999;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));min-height:44px;padding:9px 15px;border:1px solid #cfdbea;border-radius:14px;background:rgba(255,255,255,.97);color:#33455f;font-weight:900;box-shadow:0 6px 24px rgba(36,50,74,.14);cursor:pointer}
+body.niji-v24 .niji-focus-exit[hidden]{display:none!important}
+body.niji-v24.focus-mode{background:#f5f8fb!important}
+body.niji-v24.focus-mode .site-header,body.niji-v24.focus-mode>.top,body.niji-v24.focus-mode>.niji-auto-top,body.niji-v24.focus-mode .game-bottom-nav{display:none!important}
+body.game-body.niji-v24.focus-mode .game-shell{width:min(1180px,98vw);padding-top:10px}
+body.game-body.niji-v24.focus-mode .game-head-card{display:none!important}
+body.game-body.niji-v24.focus-mode .play-card{min-height:calc(100vh - 22px);margin:0;display:flex;flex-direction:column}
+body.game-body.niji-v24.focus-mode .stage{flex:1;min-height:calc(100vh - 155px)}
+body.legacy-play.niji-v24.focus-mode main.wrap{width:min(1180px,98vw)!important}
+body.legacy-play.niji-v24.focus-mode main.wrap>section.panel{margin-top:10px!important;min-height:calc(100vh - 24px)}
+
+@media(max-width:900px){.home-v24 .saved-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){
+  .home-v24 .saved-section{padding:14px;border-radius:20px}.home-v24 .saved-grid{grid-template-columns:1fr}.home-v24 .saved-grid .home-game-card{min-height:0}
+  .home-v24 .game-card-link{padding:15px}.home-v24 .fav-btn{top:8px;right:8px}
+  .game-body .ready-profile{gap:5px}.game-body .ready-profile span{font-size:11px;padding:4px 8px}.game-body .ready-aim{font-size:13px;padding:9px 11px}
+  .site-header .focus-toggle{font-size:12px;padding:7px 9px;min-height:38px}.site-header .head-actions .nav-btn:not(:last-child){display:inline-flex!important}.site-header .head-actions a[href="records.html"]{display:none!important}
+  body.game-body.niji-v24.focus-mode .stage{min-height:calc(100vh - 135px)}
+}
+.home-v24 .filter-row{display:flex;flex-wrap:wrap;gap:9px;margin:10px 0 16px;padding:11px;border:1px solid #e4ebf3;background:#fff;border-radius:16px}
+.home-v24 .filter-row label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:900;color:#5a6b80}
+.home-v24 .filter-row select{min-height:38px;border:1px solid #d9e3ee;border-radius:11px;background:#f9fbfd;padding:6px 30px 6px 10px;color:#34465e;font-weight:800}
+@media(max-width:620px){.home-v24 .filter-row{display:grid;grid-template-columns:1fr 1fr}.home-v24 .filter-row label{display:grid;gap:4px}.home-v24 .filter-row label:last-child{grid-column:1/-1}.home-v24 .filter-row select{width:100%}}
+
+/* Ver2.5 session context */
+.session-context{background:linear-gradient(135deg,#f1fbf8,#f7fbff);border:1px solid #cfe5df;border-radius:24px;padding:18px 20px}.context-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}.context-grid label span{display:block;font-size:12px;font-weight:900;color:#506a77;margin-bottom:5px}.context-grid input{width:100%;border:2px solid #c9d8df;border-radius:14px;padding:12px 13px;background:#fff;font:inherit}.context-grid input:focus{border-color:#0f766e;outline:3px solid #c8ece4}.context-grid button{border:0;border-radius:14px;padding:12px 15px;background:#edf3f5;color:#294452;font-weight:900;cursor:pointer}.context-state{font-size:12px;font-weight:900;color:#0f766e;background:#e7f7f3;border-radius:999px;padding:7px 10px}.context-help{font-size:12px;color:#607580;margin-top:9px}@media(max-width:700px){.context-grid{grid-template-columns:1fr}.context-grid button{width:100%}}
