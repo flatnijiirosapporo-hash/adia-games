@@ -1,0 +1,43 @@
+にじいろクラスフラット札幌 療育アプリ
+かたちパズル 統合レポート
+作成日: 2026-09-01
+
+【統合方針】
+- nijifla_app_tkk_style_rebuild_ver1_2_app を本体として維持
+- 既存TOPのデザイン・既存ゲームは変更しない
+- TOP「アプリ一覧」に「🧩 かたちパズル」カードを1枚追加
+- かたちパズル専用HTML/CSS/JavaScript/300問データのみ追加
+- かたちパズルから戻る先は既存TOPの #apps に統一
+
+【追加ファイル】
+- shape_puzzle.html
+- assets/shape_puzzle.css
+- assets/shape_puzzle_core.js
+- assets/shape_puzzle_app.js
+- assets/shape_puzzle_data/puzzles_easy.js
+- assets/shape_puzzle_data/puzzles_normal.js
+- assets/shape_puzzle_data/puzzles_challenge.js
+
+【変更ファイル】
+- index.html: かたちパズルカード1枚のみ追加
+
+【自動検証】
+- 元アプリ既存37ファイル: index.html以外はSHA-256比較で変更なし
+- TOPアプリカード: 12 → 13
+- かんたん: 100問
+- ふつう: 100問
+- チャレンジ: 100問
+- 合計300問: ID重複なし、全解答データが対象マスを完全被覆
+- 回転/配置/重なり/完成判定等コアテスト: PASS
+- JavaScript構文: PASS
+- ローカルHTML参照切れ: 0
+- HTTP配信スモークテスト: PASS
+- localStorage/sessionStorageによる児童名・結果保存: なし
+- A4縦印刷CSS: あり
+- 45秒無操作ヒント: あり
+- 「もう1回」時の周囲確認メッセージ: あり
+
+【未確認】
+- 実際のiPad実機でのドラッグ操作感
+- Safari/Chromeの実機印刷プレビューでA4 1枚に収まる最終見た目
+上記2点は実機環境が必要なため、このコンテナでは確認できません。

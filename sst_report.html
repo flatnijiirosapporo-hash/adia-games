@@ -521,38 +521,45 @@ ruby.autoRuby rt{display:ruby-text;font-size:.46em!important;line-height:1!impor
   .confirmCard p{font-size:16px}
 }
 
-</style>
-<link rel="stylesheet" href="assets/ui_v24.css"></head>
-<body>
-<div class="top"><div class="wrap nav"><a href="sst.html">← 戻る</a><span class="pill">🌈にじフラ</span><a class="pill" href="records.html">全記録</a></div></div><main class="wrap"><section class="reportScreen" id="reportScreen"></section></main>
 
-<script src="assets/result_store.js"></script>
+:root{--bg:#f6f8fc;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbeafe;--blue:#2563eb;--shadow:0 14px 34px rgba(15,23,42,.10)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP","Yu Gothic",sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}body{font-size:16px}a{text-decoration:none;color:inherit}.wrap{width:min(1120px,96vw);margin-inline:auto}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(246,248,252,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(219,234,254,.9)}
+.nav{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:1000}.brand img{width:38px;height:38px;border-radius:12px;object-fit:cover}.brand small{display:block;color:var(--muted);font-size:12px;font-weight:800}.navRight{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.backBtn,.pill,.tag{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:7px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 12px rgba(15,23,42,.06);color:#1e293b;font-weight:900;font-size:13px}.pill{background:#eff6ff;color:#1d4ed8}
+.hero{padding:18px 0 12px}.heroCard{background:linear-gradient(135deg,#eff6ff,#ffffff 55%,#ecfeff);border:1px solid var(--line);border-radius:30px;padding:24px;box-shadow:var(--shadow)}.heroGrid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center}.kicker{display:inline-flex;gap:6px;align-items:center;font-weight:1000;color:#0369a1;background:#e0f2fe;border-radius:999px;padding:7px 12px;font-size:13px}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:12px 0 10px;letter-spacing:.02em}.lead{font-size:clamp(15px,2vw,18px);line-height:1.75;color:#334155;margin:0}.featureRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.feature{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:900;color:#334155}.heroLogo{display:flex;align-items:center;justify-content:center}.heroLogo img{width:min(240px,60vw);border-radius:30px;box-shadow:0 20px 45px rgba(15,23,42,.14)}
+.section{margin:16px 0}.sectionTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}.sectionTitle h2{margin:0;font-size:22px}.searchBox{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:8px;box-shadow:0 6px 16px rgba(15,23,42,.06)}.searchBox input{flex:1;border:0;outline:0;font-size:16px;font-weight:800;padding:8px;background:transparent;color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{display:block;background:#fff;border:1px solid var(--line);border-radius:24px;padding:16px;min-height:142px;box-shadow:0 10px 24px rgba(15,23,42,.07);transition:transform .12s ease}.card:active{transform:scale(.98)}.icon{font-size:34px;line-height:1;margin-bottom:10px}.title{font-size:19px;font-weight:1000;margin-bottom:5px}.desc{color:var(--muted);font-size:13px;line-height:1.5;font-weight:700}.miniTags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.miniTags span{font-size:11px;background:#f1f5f9;border-radius:999px;padding:4px 7px;color:#475569;font-weight:900}
+.categoryGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.category{background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 10px;text-align:center;font-weight:1000;box-shadow:0 8px 18px rgba(15,23,42,.06)}.category b{display:block;font-size:24px;margin-bottom:5px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:var(--shadow)}.status{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}.badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:6px 10px;font-size:13px;font-weight:1000}.actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+button{min-height:48px;border:0;border-radius:18px;background:var(--blue);color:#fff;font-size:18px;font-weight:1000;padding:10px 18px;box-shadow:0 8px 18px rgba(37,99,235,.22)}button.light{background:#fff;color:#1d4ed8;border:2px solid #bfdbfe;box-shadow:none}
+.scene{min-height:78px;background:#f8fafc;border:2px solid var(--line);border-radius:22px;padding:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(20px,4vw,32px);font-weight:1000;line-height:1.45;color:var(--ink)!important}.illust{font-size:38px;text-align:center;margin:4px 0;line-height:1}.footer{text-align:center;color:var(--muted);font-weight:800;padding:18px 10px}.hidden,.hiddenStart{display:none!important}
+.retryBox{margin-top:10px;display:flex;justify-content:center;gap:8px}.retryBtn{border-radius:999px}.confirmOverlay{position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:18px}.confirmCard{width:min(520px,92vw);background:#fff;border-radius:24px;padding:22px;text-align:center;box-shadow:0 20px 60px rgba(15,23,42,.25)}.confirmCard h2{margin:0 0 10px;font-size:24px}.confirmCard p{font-size:18px;line-height:1.6;font-weight:900}.confirmActions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+@media(max-width:900px){.heroGrid{grid-template-columns:1fr}.heroLogo{display:none}.grid{grid-template-columns:repeat(2,1fr)}.categoryGrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.wrap{width:97vw}.nav{min-height:44px;padding:5px 0}.brand img{width:32px;height:32px}.brand small{display:none}.backBtn,.pill,.tag{min-height:30px;font-size:12px;padding:5px 9px}.hero{padding:8px 0}.heroCard{padding:16px;border-radius:22px}h1{font-size:30px;margin:8px 0}.lead{font-size:14px;line-height:1.55}.featureRow{gap:6px}.feature{font-size:12px;padding:6px 9px}.categoryGrid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr;gap:9px}.card{min-height:auto;padding:13px;border-radius:20px}.icon{font-size:28px;margin-bottom:6px}.title{font-size:17px}.desc{font-size:12px}.panel{padding:10px;border-radius:20px}.lead.gameLead{display:none}.illust{display:none}.scene{min-height:56px;font-size:17px;padding:9px;border-radius:17px}button{min-height:40px;font-size:14px;padding:8px 12px;border-radius:14px}.footer{display:none}}
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){.hero{padding:8px 0}.heroCard{padding:14px 18px;border-radius:22px}h1{font-size:34px;margin:6px 0}.lead{font-size:14px;line-height:1.45}.heroLogo img{width:150px}.grid{grid-template-columns:repeat(4,1fr);gap:10px}.categoryGrid{grid-template-columns:repeat(5,1fr);gap:8px}.card{min-height:112px;padding:12px;border-radius:18px}.icon{font-size:26px;margin-bottom:5px}.title{font-size:15px}.desc{font-size:11px;line-height:1.3}.miniTags span{font-size:10px;padding:3px 6px}.panel{padding:8px 12px}.lead.gameLead,.illust{display:none}.scene{min-height:44px;font-size:15px;line-height:1.25;padding:7px 10px}button{min-height:34px;font-size:13px;padding:6px 10px;border-radius:13px}.footer{display:none}}
+
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap nav"><a href="sst.html">← 戻る</a><span class="pill">🌈にじフラ</span></div></div><main class="wrap"><section class="reportScreen" id="reportScreen"></section></main>
+
 <script>
 
-function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function deleteRecords(){
   if(!confirm("SSTの記録をすべて削除しますか？"))return;
   localStorage.removeItem("nijifla_sst_records");
   localStorage.removeItem("nijifla_sst_quiz_records");
   renderReport();
 }
-function deleteV21SST(){
-  if(!window.NIJI_RESULT||!confirm("共通SST記録とその評価を削除しますか？"))return;
-  NIJI_RESULT.list().filter(x=>x.type==='sst'||x.category==='SST').forEach(x=>NIJI_RESULT.remove(x.id));
-  renderReport();
-}
 function renderReport(){
   const records=JSON.parse(localStorage.getItem("nijifla_sst_records")||"[]");
   const quizRecords=JSON.parse(localStorage.getItem("nijifla_sst_quiz_records")||"[]");
-  const v21=window.NIJI_RESULT?NIJI_RESULT.list().filter(x=>x.type==='sst'||x.category==='SST'):[];
   const r=document.getElementById("reportScreen");
-  let h='<h1>SST 記録履歴</h1>';
-  h+='<p class="lead">SSTの実施履歴をまとめて確認できます。新しいSST記録は各行からA4 1枚の結果・評価シートを開けます。</p>';
-  h+='<div class="parentNote"><b>記録の見方</b><br>正解数だけで能力を判定せず、場面理解・相手視点・言葉や行動の選択・必要だった支援量を合わせて確認します。</div>';
-
-  h+='<h2>SST 実施記録</h2>';
-  if(v21.length===0){h+='<div class="reportItem">SST記録はまだありません。</div>';}
-  else{v21.slice(0,50).forEach((rec,n)=>{const d=new Date(rec.createdAt);h+=`<div class="reportItem"><h3>${n+1}. ${esc(d.toLocaleString('ja-JP'))}</h3><div class="reportLabel">${esc(rec.title)}</div><p><b>結果：</b>${esc(rec.score||'実施完了')}</p><p>${esc(rec.detail||'')}</p><div class="actions noPrint"><a class="pill" href="${esc(NIJI_RESULT.reportUrl(rec))}">A4 結果・評価</a></div></div>`;});}
+  let h='<h1>SST レポート</h1>';
+  h+='<p class="lead">問題形式SSTと、今日あったことのふりかえりをまとめて表示します。</p>';
+  h+='<div class="parentNote"><b>保護者様へ</b><br>正解・不正解だけではなく、「場面を理解する」「相手の立場を考える」「次の行動を考える」ことを目的にしたSSTの記録です。</div>';
 
   h+='<h2>問題形式SSTの記録</h2>';
   if(quizRecords.length===0){h+='<div class="reportItem">問題形式SSTの記録はまだありません。</div>';}
@@ -579,7 +586,7 @@ function renderReport(){
       h+='<div class="reportLabel">まとめ</div><p>'+esc(rec.summaryText).replaceAll("\n","<br>")+'</p></div>';
     });
   }
-  h+='<div class="actions noPrint"><a class="pill" href="result_report.html">直近結果A4</a><a class="pill" href="records.html">全結果・評価</a><a class="pill" href="sst.html">SSTに戻る</a><button type="button" class="light" onclick="deleteV21SST()">共通SST記録を削除</button><button type="button" class="light" onclick="deleteRecords()">旧SST記録を削除</button></div>';
+  h+='<div class="actions noPrint"><button type="button" onclick="window.print()">印刷する</button><a class="pill" href="sst.html">← 戻る</a><button type="button" class="light" onclick="deleteRecords()">記録を削除</button></div>';
   r.innerHTML=h;
 }
 renderReport();
@@ -605,5 +612,5 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 
-<script src="assets/accessibility.js"></script><script src="assets/layout_v25.js"></script></body>
+</body>
 </html>

@@ -1,13 +1,49 @@
-2026-09-01 iPad横向きチェック
+# Ver1.1 iPad横向き1画面表示調整
 
-CSS/実装上の確認:
-[OK] Pointer Events採用
-[OK] setPointerCapture採用
-[OK] shape-board touch-action:none
-[OK] 1024px未満レイアウト定義あり
-[OK] landscape低高さ向けレイアウト定義あり
-[OK] resize/orientationchange時は論理gridから再描画
-[OK] 主要操作ボタン min-height 44px以上
+## 対応方針
+構成は変えず、CSS中心で全ゲームをiPad横向きに最適化しました。
 
-[UNVERIFIED] iPad実機 1024x768 / 1366x1024 の指操作
-理由: 現環境にiPad実機なし。Chromeのローカル表示も組織ポリシーでブロック。
+## 調整内容
+- ヘッダー、余白、タイトル、説明文を圧縮
+- iPad横向きでは説明文と大きなイラストを非表示
+- 選択肢を2列化できるページは2列化
+- ビジョントレーニングの星・絵・数字ボタンを小さく調整
+- 色タッチ、記憶ゲーム、SST、10分チェックも横向き用に圧縮
+- レポートは内部スクロール化して、画面全体が伸びないように調整
+
+## 対象HTML
+- balloon_tap.html
+- cognitive_check_10min.html
+- color_touch.html
+- color_word_touch.html
+- danger_game.html
+- feeling_choice.html
+- flatore.html
+- growth.html
+- hiragana_touch.html
+- index.html
+- memory_game.html
+- mogura_tataki.html
+- movement.html
+- parent.html
+- park.html
+- sst.html
+- sst_help.html
+- sst_listening.html
+- sst_quiz.html
+- sst_random.html
+- sst_reflection.html
+- sst_refuse.html
+- sst_repair.html
+- sst_report.html
+- sst_tell.html
+- trouble_response.html
+- turn_waiting.html
+- vision_number.html
+- vision_same.html
+- vision_star.html
+- vision_training.html
+
+## チェック
+- JavaScript構文エラー: 0
+- リンク切れ: 0

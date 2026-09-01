@@ -1,16 +1,11 @@
-2026-09-01 かたちパズル 自動チェック
-
-[OK] core geometry unit tests
-[OK] 300 puzzle data count/ID tests
-[OK] 300 puzzle solution validator
-[OK] TOP integration static markers
-[OK] five screen/app static markers
-[OK] JavaScript syntax checks
-[OK] 53 games in updated catalog
-[OK] no localStorage/sessionStorage in shape_puzzle_app.js
-[OK] no child-facing word 「失敗」 in shape puzzle runtime files
-[OK] no runtime fetch() dependency
-
-[UNVERIFIED] browser end-to-end due environment policy
-[UNVERIFIED] physical iPad touch
-[UNVERIFIED] A4 print preview one-page measurement
+Ver1.2
+tkk-fk.com参考 TOP再設計版
+source_zip: nijifla_app_ver1_1_3_retry_confirm_start_fix_app.zip
+html_files: 31
+node_errors: 0
+node_error_detail: []
+link_missing: []
+ver_non_index: []
+top_label_issues: []
+start_text_issues: []
+リンク切れなし
