@@ -1,27 +1,102 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>にじフラ教材アプリ</title><style>
-:root{--bg:#f6f8fc;--card:#fff;--ink:#172033;--muted:#64748b;--line:#dbeafe;--blue:#2563eb;--shadow:0 14px 34px rgba(15,23,42,.10)}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans JP","Yu Gothic",sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}body{font-size:16px}a{text-decoration:none;color:inherit}.wrap{width:min(1120px,96vw);margin-inline:auto}
-.topbar{position:sticky;top:0;z-index:10;background:rgba(246,248,252,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(219,234,254,.9)}
-.nav{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:1000}.brand img{width:38px;height:38px;border-radius:12px;object-fit:cover}.brand small{display:block;color:var(--muted);font-size:12px;font-weight:800}.navRight{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.backBtn,.pill,.tag{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:7px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 12px rgba(15,23,42,.06);color:#1e293b;font-weight:900;font-size:13px}.pill{background:#eff6ff;color:#1d4ed8}
-.hero{padding:18px 0 12px}.heroCard{background:linear-gradient(135deg,#eff6ff,#ffffff 55%,#ecfeff);border:1px solid var(--line);border-radius:30px;padding:24px;box-shadow:var(--shadow)}.heroGrid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center}.kicker{display:inline-flex;gap:6px;align-items:center;font-weight:1000;color:#0369a1;background:#e0f2fe;border-radius:999px;padding:7px 12px;font-size:13px}
-h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:12px 0 10px;letter-spacing:.02em}.lead{font-size:clamp(15px,2vw,18px);line-height:1.75;color:#334155;margin:0}.featureRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.feature{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-weight:900;color:#334155}.heroLogo{display:flex;align-items:center;justify-content:center}.heroLogo img{width:min(240px,60vw);border-radius:30px;box-shadow:0 20px 45px rgba(15,23,42,.14)}
-.section{margin:16px 0}.sectionTitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}.sectionTitle h2{margin:0;font-size:22px}.searchBox{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:8px;box-shadow:0 6px 16px rgba(15,23,42,.06)}.searchBox input{flex:1;border:0;outline:0;font-size:16px;font-weight:800;padding:8px;background:transparent;color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{display:block;background:#fff;border:1px solid var(--line);border-radius:24px;padding:16px;min-height:142px;box-shadow:0 10px 24px rgba(15,23,42,.07);transition:transform .12s ease}.card:active{transform:scale(.98)}.icon{font-size:34px;line-height:1;margin-bottom:10px}.title{font-size:19px;font-weight:1000;margin-bottom:5px}.desc{color:var(--muted);font-size:13px;line-height:1.5;font-weight:700}.miniTags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.miniTags span{font-size:11px;background:#f1f5f9;border-radius:999px;padding:4px 7px;color:#475569;font-weight:900}
-.categoryGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.category{background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 10px;text-align:center;font-weight:1000;box-shadow:0 8px 18px rgba(15,23,42,.06)}.category b{display:block;font-size:24px;margin-bottom:5px}
-.panel{background:#fff;border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:var(--shadow)}.status{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:6px 0 10px}.badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:6px 10px;font-size:13px;font-weight:1000}.actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
-button{min-height:48px;border:0;border-radius:18px;background:var(--blue);color:#fff;font-size:18px;font-weight:1000;padding:10px 18px;box-shadow:0 8px 18px rgba(37,99,235,.22)}button.light{background:#fff;color:#1d4ed8;border:2px solid #bfdbfe;box-shadow:none}
-.scene{min-height:78px;background:#f8fafc;border:2px solid var(--line);border-radius:22px;padding:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(20px,4vw,32px);font-weight:1000;line-height:1.45;color:var(--ink)!important}.illust{font-size:38px;text-align:center;margin:4px 0;line-height:1}.footer{text-align:center;color:var(--muted);font-weight:800;padding:18px 10px}.hidden,.hiddenStart{display:none!important}
-.retryBox{margin-top:10px;display:flex;justify-content:center;gap:8px}.retryBtn{border-radius:999px}.confirmOverlay{position:fixed;inset:0;z-index:99999;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:18px}.confirmCard{width:min(520px,92vw);background:#fff;border-radius:24px;padding:22px;text-align:center;box-shadow:0 20px 60px rgba(15,23,42,.25)}.confirmCard h2{margin:0 0 10px;font-size:24px}.confirmCard p{font-size:18px;line-height:1.6;font-weight:900}.confirmActions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
-@media(max-width:900px){.heroGrid{grid-template-columns:1fr}.heroLogo{display:none}.grid{grid-template-columns:repeat(2,1fr)}.categoryGrid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:640px){.wrap{width:97vw}.nav{min-height:44px;padding:5px 0}.brand img{width:32px;height:32px}.brand small{display:none}.backBtn,.pill,.tag{min-height:30px;font-size:12px;padding:5px 9px}.hero{padding:8px 0}.heroCard{padding:16px;border-radius:22px}h1{font-size:30px;margin:8px 0}.lead{font-size:14px;line-height:1.55}.featureRow{gap:6px}.feature{font-size:12px;padding:6px 9px}.categoryGrid{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr;gap:9px}.card{min-height:auto;padding:13px;border-radius:20px}.icon{font-size:28px;margin-bottom:6px}.title{font-size:17px}.desc{font-size:12px}.panel{padding:10px;border-radius:20px}.lead.gameLead{display:none}.illust{display:none}.scene{min-height:56px;font-size:17px;padding:9px;border-radius:17px}button{min-height:40px;font-size:14px;padding:8px 12px;border-radius:14px}.footer{display:none}}
-@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){.hero{padding:8px 0}.heroCard{padding:14px 18px;border-radius:22px}h1{font-size:34px;margin:6px 0}.lead{font-size:14px;line-height:1.45}.heroLogo img{width:150px}.grid{grid-template-columns:repeat(4,1fr);gap:10px}.categoryGrid{grid-template-columns:repeat(5,1fr);gap:8px}.card{min-height:112px;padding:12px;border-radius:18px}.icon{font-size:26px;margin-bottom:5px}.title{font-size:15px}.desc{font-size:11px;line-height:1.3}.miniTags span{font-size:10px;padding:3px 6px}.panel{padding:8px 12px}.lead.gameLead,.illust{display:none}.scene{min-height:44px;font-size:15px;line-height:1.25;padding:7px 10px}button{min-height:34px;font-size:13px;padding:6px 10px;border-radius:13px}.footer{display:none}}
-</style></head><body>
-<header class="topbar"><div class="wrap nav"><div class="brand"><img src="nijifla_icon.png" alt=""><div>にじフラ教材アプリ<small>にじいろクラスフラット札幌</small></div></div><div class="navRight"><span class="pill">Ver1.2</span></div></div></header>
-<main class="wrap">
-<section class="hero"><div class="heroCard"><div class="heroGrid"><div><span class="kicker">支援 × あそび × Webアプリ</span><h1>できた！をつくる<br>にじフラ教材アプリ</h1><p class="lead">すべてブラウザで使える、療育・SST・ビジョントレーニング用の教材アプリです。インストールせず、スマホ・iPad・PCで使えるように整理しました。</p><div class="featureRow"><span class="feature">無料で使える</span><span class="feature">インストール不要</span><span class="feature">スマホ・iPad・PC対応</span><span class="feature">短時間で取り組める</span></div></div><div class="heroLogo"><img src="nijifla_logo.png" alt="にじいろクラスフラット札幌"></div></div></div></section>
-<section class="section"><div class="sectionTitle"><h2>カテゴリから選ぶ</h2></div><div class="categoryGrid"><a class="category" href="flatore.html"><b>🧠</b>フラトレ</a><a class="category" href="movement.html"><b>🏃</b>運動</a><a class="category" href="vision_training.html"><b>👀</b>ビジョン</a><a class="category" href="sst.html"><b>💬</b>SST</a><a class="category" href="#apps"><b>🎮</b>ゲーム</a></div></section>
-<section class="section" id="apps"><div class="sectionTitle"><h2>アプリ一覧</h2></div><div class="searchBox"><input id="search" type="search" placeholder="検索：数字、色、SST、ビジョン など"></div><div class="grid" id="appGrid"><a class="card appCard" href="flatore.html" data-title="フラトレ" data-tags="自立活動,短時間,練習"><div class="icon">🧠</div><div class="title">フラトレ</div><div class="desc">実行機能・集中・切り替えの練習</div><div class="miniTags"><span>自立活動</span><span>短時間</span><span>練習</span></div></a><a class="card appCard" href="movement.html" data-title="運動・ビジョン" data-tags="運動,ビジョン,反応"><div class="icon">🏃</div><div class="title">運動・ビジョン</div><div class="desc">見る・動く・反応する力の練習</div><div class="miniTags"><span>運動</span><span>ビジョン</span><span>反応</span></div></a><a class="card appCard" href="sst.html" data-title="SST" data-tags="社会性,ことば,場面"><div class="icon">💬</div><div class="title">SST</div><div class="desc">気持ち・順番・伝え方の練習</div><div class="miniTags"><span>社会性</span><span>ことば</span><span>場面</span></div></a><a class="card appCard" href="shape_puzzle.html" data-title="かたちパズル" data-tags="図形,空間認知,考える,試行錯誤,療育"><div class="icon">🧩</div><div class="title">かたちパズル</div><div class="desc">ピースをくみあわせて、かたちを完成させよう！</div><div class="miniTags"><span>図形</span><span>空間認知</span><span>考える</span></div></a><a class="card appCard" href="cognitive_check_10min.html" data-title="10分チェック" data-tags="考える,数字,図形"><div class="icon">⏱️</div><div class="title">10分チェック</div><div class="desc">図形・数字・絵文字で考える短時間チェック</div><div class="miniTags"><span>考える</span><span>数字</span><span>図形</span></div></a><a class="card appCard" href="color_touch.html" data-title="色タッチ" data-tags="色,注意,反応"><div class="icon">🎨</div><div class="title">色タッチ</div><div class="desc">色を見てすばやく選ぶ練習</div><div class="miniTags"><span>色</span><span>注意</span><span>反応</span></div></a><a class="card appCard" href="hiragana_touch.html" data-title="もじタッチ" data-tags="文字,見る,読む"><div class="icon">🔤</div><div class="title">もじタッチ</div><div class="desc">文字を見て選ぶ練習</div><div class="miniTags"><span>文字</span><span>見る</span><span>読む</span></div></a><a class="card appCard" href="memory_game.html" data-title="記憶ゲーム" data-tags="記憶,順番,見る"><div class="icon">🃏</div><div class="title">記憶ゲーム</div><div class="desc">見て覚えて順番に選ぶ練習</div><div class="miniTags"><span>記憶</span><span>順番</span><span>見る</span></div></a><a class="card appCard" href="danger_game.html" data-title="危険予知" data-tags="安全,判断,生活"><div class="icon">⚠️</div><div class="title">危険予知</div><div class="desc">場面を見て安全な行動を考える</div><div class="miniTags"><span>安全</span><span>判断</span><span>生活</span></div></a><a class="card appCard" href="vision_training.html" data-title="ビジョントレーニング" data-tags="見る,追う,探す"><div class="icon">👀</div><div class="title">ビジョントレーニング</div><div class="desc">うごく星・同じ絵・数字タッチ</div><div class="miniTags"><span>見る</span><span>追う</span><span>探す</span></div></a><a class="card appCard" href="feeling_choice.html" data-title="気持ち選び" data-tags="感情,表現,SST"><div class="icon">😊</div><div class="title">気持ち選び</div><div class="desc">気持ちを選んで言葉にする練習</div><div class="miniTags"><span>感情</span><span>表現</span><span>SST</span></div></a><a class="card appCard" href="turn_waiting.html" data-title="順番・待つ" data-tags="順番,待つ,協力"><div class="icon">🤝</div><div class="title">順番・待つ</div><div class="desc">友だちと交代する練習</div><div class="miniTags"><span>順番</span><span>待つ</span><span>協力</span></div></a><a class="card appCard" href="trouble_response.html" data-title="こまった時" data-tags="ヘルプ,相談,生活"><div class="icon">🛟</div><div class="title">こまった時</div><div class="desc">困った時の伝え方・助けの求め方</div><div class="miniTags"><span>ヘルプ</span><span>相談</span><span>生活</span></div></a></div></section>
-</main><footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
-<script>document.getElementById("search").addEventListener("input",function(){const q=this.value.trim().toLowerCase();document.querySelectorAll(".appCard").forEach(card=>{const text=(card.dataset.title+" "+card.dataset.tags+" "+card.textContent).toLowerCase();card.style.display=text.includes(q)?"":"none";});});</script>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>にじフラ チャレンジ｜学習・SST・ビジョントレーニング</title>
+<link rel="icon" href="nijifla_icon.png">
+<link rel="stylesheet" href="assets/tkk_pack.css">
+<link rel="stylesheet" href="assets/ui_v24.css">
+</head>
+<body class="home-v24 niji-v24">
+<header class="home-header">
+  <div class="home-head-inner">
+    <img class="home-logo" src="nijifla_logo.png" alt="にじフラ">
+    <div class="home-brand"><strong>にじフラ チャレンジ</strong><span>学習・SST・ビジョントレーニング</span></div>
+    <nav class="home-nav" aria-label="メインメニュー">
+      <a href="#allGames">ゲーム</a>
+      <a href="sst.html">SST</a>
+      <a href="records.html">記録</a>
+    </nav>
+  </div>
+</header>
+<main class="home-main">
+  <div id="fileModeNote" class="file-note"><b>直接起動モード</b>：ゲームは利用できます。結果履歴を端末内で確実に共有保存する場合、Windowsでは同梱の <b>START_NIJIFLA.bat</b> から起動してください。</div>
+
+  <section class="home-hero">
+    <div>
+      <span class="home-kicker">🌈 にじいろクラス フラット札幌　Ver2.5</span>
+      <h1>今日は、<br>なにをやる？</h1>
+      <p>最初に目的を選び、そのあと必要なゲームを選べるように整理しました。子どもにも職員にも、次に押す場所が分かりやすい画面です。</p>
+    </div>
+    <div class="hero-side">
+      <div class="hero-side-card"><strong>迷わないための3ステップ</strong><p>①目的を選ぶ → ②ゲームを選ぶ → ③スタート。終了後は結果・評価記録へ進めます。</p></div>
+    </div>
+  </section>
+
+
+  <section class="home-section session-context" aria-labelledby="sessionTitle">
+    <div class="home-section-head"><div><h2 id="sessionTitle">今日の記録設定</h2><p>任意。ここで1回入力すると、活動終了後のA4評価へ自動で引き継ぎます。</p></div><span id="sessionState" class="context-state">未設定</span></div>
+    <div class="context-grid">
+      <label><span>児童名</span><input id="sessionChild" list="knownChildren" autocomplete="off" placeholder="氏名を入力または過去記録から選択"><datalist id="knownChildren"></datalist></label>
+      <label><span>担当職員</span><input id="sessionStaff" list="knownStaff" autocomplete="off" placeholder="担当者を入力または選択"><datalist id="knownStaff"></datalist></label>
+      <button type="button" id="sessionClear">設定をクリア</button>
+    </div>
+    <div class="context-help">※入力内容はこの端末内だけに保存されます。共有端末では利用後に「設定をクリア」してください。</div>
+  </section>
+
+  <section class="home-section" aria-labelledby="quickTitle">
+    <div class="home-section-head"><div><h2 id="quickTitle">まず選ぶ</h2><p>よく使う機能を4つに整理</p></div></div>
+    <div class="quick-grid">
+      <a class="quick-card" href="cognitive_check_10min.html"><div class="quick-icon">🧩</div><strong>10分チェック</strong><small>5つの力を短時間で確認する</small><span class="quick-go">はじめる →</span></a>
+      <a class="quick-card" href="sst.html"><div class="quick-icon">💬</div><strong>SST</strong><small>気持ち・伝え方・相手視点を練習する</small><span class="quick-go">SSTを選ぶ →</span></a>
+      <a class="quick-card" href="#allGames"><div class="quick-icon">🎮</div><strong>ゲーム</strong><small>目的別にゲームを選ぶ</small><span class="quick-go">ゲームを見る →</span></a>
+      <a class="quick-card" href="records.html"><div class="quick-icon">📚</div><strong>結果・記録</strong><small>児童別の評価・再印刷・CSV</small><span class="quick-go">記録を見る →</span></a>
+    </div>
+  </section>
+
+  <section class="home-section saved-section" id="favoriteSection" hidden aria-labelledby="favTitle">
+    <div class="home-section-head"><div><h2 id="favTitle">★ お気に入り</h2><p>よく使うゲームをここからすぐ開始</p></div></div>
+    <div class="home-game-grid saved-grid" id="favoriteGrid"></div>
+  </section>
+
+  <section class="home-section saved-section" id="recentSection" hidden aria-labelledby="recentTitle">
+    <div class="home-section-head"><div><h2 id="recentTitle">最近つかったゲーム</h2><p>この端末で最近開いたゲーム</p></div></div>
+    <div class="home-game-grid saved-grid" id="recentGrid"></div>
+  </section>
+
+  <section class="home-section" id="allGames" aria-labelledby="gamesTitle">
+    <div class="home-section-head"><div><h2 id="gamesTitle">目的からゲームを選ぶ</h2><p><span id="gameCount">53</span>種類</p></div></div>
+    <div class="purpose-grid" id="purposeGrid" role="group" aria-label="ゲームカテゴリ"></div>
+    <div class="game-tools"><input id="gameSearch" type="search" placeholder="ゲーム名・学習内容で検索" aria-label="ゲームを検索"><button id="clearSearch" type="button">検索をクリア</button></div>
+    <div class="filter-row" aria-label="ゲーム絞り込み">
+      <label>学年目安<select id="ageFilter"><option value="">すべて</option><option>低学年〜</option><option>中学年〜</option><option>高学年〜</option><option>全学年</option></select></label>
+      <label>むずかしさ<select id="difficultyFilter"><option value="">すべて</option><option value="1">●○○</option><option value="2">●●○</option><option value="3">●●●</option></select></label>
+      <label>時間<select id="timeFilter"><option value="">すべて</option><option>1〜3分</option><option>3〜5分</option><option>5〜10分</option></select></label>
+    </div>
+    <div class="home-game-grid" id="gameGrid"></div>
+    <div id="emptyState" style="display:none;text-align:center;padding:28px;color:#64748b;font-weight:800">該当するゲームがありません。</div>
+  </section>
+
+  <section class="home-section" aria-labelledby="flatTitle">
+    <div class="home-section-head"><div><h2 id="flatTitle">フラット教材・管理</h2><p>これまでの教材と記録機能</p></div></div>
+    <div class="flat-grid">
+      <a class="flat-card" href="flatore.html"><div class="f-icon">🧠</div><strong>フラトレ</strong><p>集中・記憶・判断のオリジナルゲーム</p></a>
+      <a class="flat-card" href="movement.html"><div class="f-icon">🏃</div><strong>運動あそび</strong><p>ビジョントレーニングなど</p></a>
+      <a class="flat-card" href="danger_game.html"><div class="f-icon">⚠️</div><strong>危険予知</strong><p>安全行動を考えるトレーニング</p></a>
+      <a class="flat-card" href="result_report.html"><div class="f-icon">🖨️</div><strong>A4評価シート</strong><p>直前の結果をA4 1枚で記録・印刷</p></a>
+      <a class="flat-card" href="records.html"><div class="f-icon">🗂️</div><strong>記録管理</strong><p>検索・再印刷・CSV・バックアップ</p></a>
+      <a class="flat-card" href="child_summary.html"><div class="f-icon">📈</div><strong>児童別の経過</strong><p>職員観察の推移・実施回数を確認</p></a>
+      <a class="flat-card" href="parent.html"><div class="f-icon">👪</div><strong>使い方</strong><p>教材の利用方法と考え方</p></a>
+    </div>
+  </section>
+</main>
+<footer class="home-footer">にじフラ チャレンジ｜安心の中で挑戦し、挑戦の中で成長する</footer>
+<script src="assets/result_store.js"></script>
+<script src="assets/game_catalog.js"></script>
+<script src="assets/game_profile_v24.js"></script>
+<script src="assets/home_v24.js"></script>
+<script src="assets/layout_v25.js"></script>
+<script src="assets/context_panel_v25.js"></script>
+<script src="assets/accessibility.js"></script>
 </body></html>

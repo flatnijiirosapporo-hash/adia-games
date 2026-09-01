@@ -2,6 +2,8 @@
   'use strict';
   const body=document.body;if(!body)return;
   body.classList.add('niji-v24');
+
+  // Ver2.5: optional session context (child/staff) is kept locally and propagated across pages.
   const CONTEXT_KEY='nijifla_session_context_v25';
   const mem={};
   const lsGet=k=>{try{return localStorage.getItem(k)}catch{return mem[k]||null}};
@@ -20,6 +22,7 @@
   };
   window.NIJI_CONTEXT={get:getContext,set:setContext,clear:clearContext,decorateUrl,KEY:CONTEXT_KEY};
   document.addEventListener('click',e=>{const a=e.target.closest?.('a[href]');if(!a)return;if(a.dataset.noContext==='true')return;const href=a.getAttribute('href');if(!href||href.startsWith('#'))return;const decorated=decorateUrl(href);if(decorated&&decorated!==href)a.setAttribute('href',decorated)},true);
+
   const file=(location.pathname.split('/').pop()||'').toLowerCase();
   if(file==='index.html'||file==='') body.classList.add('home-v24');
   const redirects=['sst_help.html','sst_listening.html','sst_random.html','sst_repair.html','sst_tell.html'];
@@ -42,6 +45,7 @@
     bar.querySelector('.niji-auto-title').textContent=title;
     body.insertBefore(bar,body.firstChild);
   }
+
   const isPlayPage=body.classList.contains('legacy-play')||body.classList.contains('game-body')||!!body.querySelector('#startBtn,.playArea,.tenChoices,.colorGrid,.visionArea');
   if(isPlayPage){
     let focusButton=document.getElementById('focusBtn');

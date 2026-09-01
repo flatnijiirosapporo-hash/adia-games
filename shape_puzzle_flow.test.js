@@ -4,6 +4,8 @@ const fs = require('fs');
 const home = fs.readFileSync('assets/home_v24.js','utf8');
 const layout = fs.readFileSync('assets/layout_v25.js','utf8');
 const catalog = fs.readFileSync('assets/game_catalog.js','utf8');
+const ids = [...catalog.matchAll(/id:'[^']*'/g)];
+assert.equal(ids.length,53,'game catalog must contain exactly 53 games');
 
 assert.match(catalog, /id:'shapePuzzle'/);
 assert.match(catalog, /href:'shape_puzzle\.html'/);

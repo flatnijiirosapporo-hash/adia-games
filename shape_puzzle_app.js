@@ -86,7 +86,7 @@ function buildReport(){
 }
 function updatePrintCommentSizing(){const text=$('supportComment').value||'',len=text.length,size=len<=220?'11pt':len<=400?'10pt':'9pt';document.documentElement.style.setProperty('--print-comment-size',size);$('printOmitNote').hidden=true}
 function printReport(mode){session.comment=$('supportComment').value.slice(0,600);updatePrintCommentSizing();if(mode==='pdf')alert('印刷画面の「送信先 / プリンター」で「PDFに保存」を選んでください。');window.print()}
-function goTop(confirmIfActive=true){if(confirmIfActive&&session.puzzles.length&&session.results.length<5&&!confirm('5もんの とちゅうです。TOPにもどりますか？'))return;clearSession();location.href='index.html#apps'}
+function goTop(confirmIfActive=true){if(confirmIfActive&&session.puzzles.length&&session.results.length<5&&!confirm('5もんの とちゅうです。TOPにもどりますか？'))return;clearSession();location.href='index.html#allGames'}
 function selectLevel(level){selectedLevel=level;document.querySelectorAll('.difficulty-card').forEach(b=>b.classList.toggle('selected',b.dataset.level===level));$('difficultyStartBtn').disabled=false}
 
 $('nameNextBtn').addEventListener('click',()=>{const name=$('childNameInput').value.trim();if(!name){$('nameError').hidden=false;$('childNameInput').focus();return}$('nameError').hidden=true;showScreen('difficulty')});
