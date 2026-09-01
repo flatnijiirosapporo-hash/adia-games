@@ -9,94 +9,17 @@
 <link rel="stylesheet" href="assets/ui_v24.css">
 </head>
 <body class="home-v24 niji-v24">
-<header class="home-header">
-  <div class="home-head-inner">
-    <img class="home-logo" src="nijifla_logo.png" alt="にじフラ">
-    <div class="home-brand"><strong>にじフラ チャレンジ</strong><span>学習・SST・ビジョントレーニング</span></div>
-    <nav class="home-nav" aria-label="メインメニュー">
-      <a href="#allGames">ゲーム</a>
-      <a href="sst.html">SST</a>
-      <a href="records.html">記録</a>
-    </nav>
-  </div>
-</header>
+<header class="home-header"><div class="home-head-inner"><img class="home-logo" src="nijifla_logo.png" alt="にじフラ"><div class="home-brand"><strong>にじフラ チャレンジ</strong><span>学習・SST・ビジョントレーニング</span></div><nav class="home-nav" aria-label="メインメニュー"><a href="#allGames">ゲーム</a><a href="sst.html">SST</a><a href="records.html">記録</a></nav></div></header>
 <main class="home-main">
-  <div id="fileModeNote" class="file-note"><b>直接起動モード</b>：ゲームは利用できます。結果履歴を端末内で確実に共有保存する場合、Windowsでは同梱の <b>START_NIJIFLA.bat</b> から起動してください。</div>
-
-  <section class="home-hero">
-    <div>
-      <span class="home-kicker">🌈 にじいろクラス フラット札幌　Ver2.5</span>
-      <h1>今日は、<br>なにをやる？</h1>
-      <p>最初に目的を選び、そのあと必要なゲームを選べるように整理しました。子どもにも職員にも、次に押す場所が分かりやすい画面です。</p>
-    </div>
-    <div class="hero-side">
-      <div class="hero-side-card"><strong>迷わないための3ステップ</strong><p>①目的を選ぶ → ②ゲームを選ぶ → ③スタート。終了後は結果・評価記録へ進めます。</p></div>
-    </div>
-  </section>
-
-
-  <section class="home-section session-context" aria-labelledby="sessionTitle">
-    <div class="home-section-head"><div><h2 id="sessionTitle">今日の記録設定</h2><p>任意。ここで1回入力すると、活動終了後のA4評価へ自動で引き継ぎます。</p></div><span id="sessionState" class="context-state">未設定</span></div>
-    <div class="context-grid">
-      <label><span>児童名</span><input id="sessionChild" list="knownChildren" autocomplete="off" placeholder="氏名を入力または過去記録から選択"><datalist id="knownChildren"></datalist></label>
-      <label><span>担当職員</span><input id="sessionStaff" list="knownStaff" autocomplete="off" placeholder="担当者を入力または選択"><datalist id="knownStaff"></datalist></label>
-      <button type="button" id="sessionClear">設定をクリア</button>
-    </div>
-    <div class="context-help">※入力内容はこの端末内だけに保存されます。共有端末では利用後に「設定をクリア」してください。</div>
-  </section>
-
-  <section class="home-section" aria-labelledby="quickTitle">
-    <div class="home-section-head"><div><h2 id="quickTitle">まず選ぶ</h2><p>よく使う機能を4つに整理</p></div></div>
-    <div class="quick-grid">
-      <a class="quick-card" href="cognitive_check_10min.html"><div class="quick-icon">🧩</div><strong>10分チェック</strong><small>5つの力を短時間で確認する</small><span class="quick-go">はじめる →</span></a>
-      <a class="quick-card" href="sst.html"><div class="quick-icon">💬</div><strong>SST</strong><small>気持ち・伝え方・相手視点を練習する</small><span class="quick-go">SSTを選ぶ →</span></a>
-      <a class="quick-card" href="#allGames"><div class="quick-icon">🎮</div><strong>ゲーム</strong><small>52種類から目的別に選ぶ</small><span class="quick-go">ゲームを見る →</span></a>
-      <a class="quick-card" href="records.html"><div class="quick-icon">📚</div><strong>結果・記録</strong><small>児童別の評価・再印刷・CSV</small><span class="quick-go">記録を見る →</span></a>
-    </div>
-  </section>
-
-  <section class="home-section saved-section" id="favoriteSection" hidden aria-labelledby="favTitle">
-    <div class="home-section-head"><div><h2 id="favTitle">★ お気に入り</h2><p>よく使うゲームをここからすぐ開始</p></div></div>
-    <div class="home-game-grid saved-grid" id="favoriteGrid"></div>
-  </section>
-
-  <section class="home-section saved-section" id="recentSection" hidden aria-labelledby="recentTitle">
-    <div class="home-section-head"><div><h2 id="recentTitle">最近つかったゲーム</h2><p>この端末で最近開いたゲーム</p></div></div>
-    <div class="home-game-grid saved-grid" id="recentGrid"></div>
-  </section>
-
-  <section class="home-section" id="allGames" aria-labelledby="gamesTitle">
-    <div class="home-section-head"><div><h2 id="gamesTitle">目的からゲームを選ぶ</h2><p><span id="gameCount">52</span>種類</p></div></div>
-    <div class="purpose-grid" id="purposeGrid" role="group" aria-label="ゲームカテゴリ"></div>
-    <div class="game-tools"><input id="gameSearch" type="search" placeholder="ゲーム名・学習内容で検索" aria-label="ゲームを検索"><button id="clearSearch" type="button">検索をクリア</button></div>
-    <div class="filter-row" aria-label="ゲーム絞り込み">
-      <label>学年目安<select id="ageFilter"><option value="">すべて</option><option>低学年〜</option><option>中学年〜</option><option>高学年〜</option><option>全学年</option></select></label>
-      <label>むずかしさ<select id="difficultyFilter"><option value="">すべて</option><option value="1">●○○</option><option value="2">●●○</option><option value="3">●●●</option></select></label>
-      <label>時間<select id="timeFilter"><option value="">すべて</option><option>1〜3分</option><option>3〜5分</option><option>5〜10分</option></select></label>
-    </div>
-    <div class="home-game-grid" id="gameGrid"></div>
-    <div id="emptyState" style="display:none;text-align:center;padding:28px;color:#64748b;font-weight:800">該当するゲームがありません。</div>
-  </section>
-
-  <section class="home-section" aria-labelledby="flatTitle">
-    <div class="home-section-head"><div><h2 id="flatTitle">フラット教材・管理</h2><p>これまでの教材と記録機能</p></div></div>
-    <div class="flat-grid">
-      <a class="flat-card" href="flatore.html"><div class="f-icon">🧠</div><strong>フラトレ</strong><p>集中・記憶・判断のオリジナルゲーム</p></a>
-      <a class="flat-card" href="movement.html"><div class="f-icon">🏃</div><strong>運動あそび</strong><p>ビジョントレーニングなど</p></a>
-      <a class="flat-card" href="danger_game.html"><div class="f-icon">⚠️</div><strong>危険予知</strong><p>安全行動を考えるトレーニング</p></a>
-      <a class="flat-card" href="result_report.html"><div class="f-icon">🖨️</div><strong>A4評価シート</strong><p>直前の結果をA4 1枚で記録・印刷</p></a>
-      <a class="flat-card" href="records.html"><div class="f-icon">🗂️</div><strong>記録管理</strong><p>検索・再印刷・CSV・バックアップ</p></a>
-      <a class="flat-card" href="child_summary.html"><div class="f-icon">📈</div><strong>児童別の経過</strong><p>職員観察の推移・実施回数を確認</p></a>
-      <a class="flat-card" href="parent.html"><div class="f-icon">👪</div><strong>使い方</strong><p>教材の利用方法と考え方</p></a>
-    </div>
-  </section>
+<div id="fileModeNote" class="file-note"><b>直接起動モード</b>：ゲームは利用できます。結果履歴を端末内で確実に共有保存する場合、Windowsでは同梱の <b>START_NIJIFLA.bat</b> から起動してください。</div>
+<section class="home-hero"><div><span class="home-kicker">🌈 にじいろクラス フラット札幌　Ver2.5</span><h1>今日は、<br>なにをやる？</h1><p>最初に目的を選び、そのあと必要なゲームを選べるように整理しました。子どもにも職員にも、次に押す場所が分かりやすい画面です。</p></div><div class="hero-side"><div class="hero-side-card"><strong>迷わないための3ステップ</strong><p>①目的を選ぶ → ②ゲームを選ぶ → ③スタート。終了後は結果・評価記録へ進めます。</p></div></div></section>
+<section class="home-section session-context" aria-labelledby="sessionTitle"><div class="home-section-head"><div><h2 id="sessionTitle">今日の記録設定</h2><p>任意。ここで1回入力すると、活動終了後のA4評価へ自動で引き継ぎます。</p></div><span id="sessionState" class="context-state">未設定</span></div><div class="context-grid"><label><span>児童名</span><input id="sessionChild" list="knownChildren" autocomplete="off" placeholder="氏名を入力または過去記録から選択"><datalist id="knownChildren"></datalist></label><label><span>担当職員</span><input id="sessionStaff" list="knownStaff" autocomplete="off" placeholder="担当者を入力または選択"><datalist id="knownStaff"></datalist></label><button type="button" id="sessionClear">設定をクリア</button></div><div class="context-help">※入力内容はこの端末内だけに保存されます。共有端末では利用後に「設定をクリア」してください。</div></section>
+<section class="home-section" aria-labelledby="quickTitle"><div class="home-section-head"><div><h2 id="quickTitle">まず選ぶ</h2><p>よく使う機能を4つに整理</p></div></div><div class="quick-grid"><a class="quick-card" href="cognitive_check_10min.html"><div class="quick-icon">🧩</div><strong>10分チェック</strong><small>5つの力を短時間で確認する</small><span class="quick-go">はじめる →</span></a><a class="quick-card" href="sst.html"><div class="quick-icon">💬</div><strong>SST</strong><small>気持ち・伝え方・相手視点を練習する</small><span class="quick-go">SSTを選ぶ →</span></a><a class="quick-card" href="#allGames"><div class="quick-icon">🎮</div><strong>ゲーム</strong><small>目的別にゲームを選ぶ</small><span class="quick-go">ゲームを見る →</span></a><a class="quick-card" href="records.html"><div class="quick-icon">📚</div><strong>結果・記録</strong><small>児童別の評価・再印刷・CSV</small><span class="quick-go">記録を見る →</span></a></div></section>
+<section class="home-section saved-section" id="favoriteSection" hidden aria-labelledby="favTitle"><div class="home-section-head"><div><h2 id="favTitle">★ お気に入り</h2><p>よく使うゲームをここからすぐ開始</p></div></div><div class="home-game-grid saved-grid" id="favoriteGrid"></div></section>
+<section class="home-section saved-section" id="recentSection" hidden aria-labelledby="recentTitle"><div class="home-section-head"><div><h2 id="recentTitle">最近つかったゲーム</h2><p>この端末で最近開いたゲーム</p></div></div><div class="home-game-grid saved-grid" id="recentGrid"></div></section>
+<section class="home-section" id="allGames" aria-labelledby="gamesTitle"><div class="home-section-head"><div><h2 id="gamesTitle">目的からゲームを選ぶ</h2><p><span id="gameCount">53</span>種類</p></div></div><div class="purpose-grid" id="purposeGrid" role="group" aria-label="ゲームカテゴリ"></div><div class="game-tools"><input id="gameSearch" type="search" placeholder="ゲーム名・学習内容で検索" aria-label="ゲームを検索"><button id="clearSearch" type="button">検索をクリア</button></div><div class="filter-row" aria-label="ゲーム絞り込み"><label>学年目安<select id="ageFilter"><option value="">すべて</option><option>低学年〜</option><option>中学年〜</option><option>高学年〜</option><option>全学年</option></select></label><label>むずかしさ<select id="difficultyFilter"><option value="">すべて</option><option value="1">●○○</option><option value="2">●●○</option><option value="3">●●●</option></select></label><label>時間<select id="timeFilter"><option value="">すべて</option><option>1〜3分</option><option>3〜5分</option><option>5〜10分</option></select></label></div><div class="home-game-grid" id="gameGrid"></div><div id="emptyState" style="display:none;text-align:center;padding:28px;color:#64748b;font-weight:800">該当するゲームがありません。</div></section>
+<section class="home-section" aria-labelledby="flatTitle"><div class="home-section-head"><div><h2 id="flatTitle">フラット教材・管理</h2><p>これまでの教材と記録機能</p></div></div><div class="flat-grid"><a class="flat-card" href="flatore.html"><div class="f-icon">🧠</div><strong>フラトレ</strong><p>集中・記憶・判断のオリジナルゲーム</p></a><a class="flat-card" href="movement.html"><div class="f-icon">🏃</div><strong>運動あそび</strong><p>ビジョントレーニングなど</p></a><a class="flat-card" href="danger_game.html"><div class="f-icon">⚠️</div><strong>危険予知</strong><p>安全行動を考えるトレーニング</p></a><a class="flat-card" href="result_report.html"><div class="f-icon">🖨️</div><strong>A4評価シート</strong><p>直前の結果をA4 1枚で記録・印刷</p></a><a class="flat-card" href="records.html"><div class="f-icon">🗂️</div><strong>記録管理</strong><p>検索・再印刷・CSV・バックアップ</p></a><a class="flat-card" href="child_summary.html"><div class="f-icon">📈</div><strong>児童別の経過</strong><p>職員観察の推移・実施回数を確認</p></a><a class="flat-card" href="parent.html"><div class="f-icon">👪</div><strong>使い方</strong><p>教材の利用方法と考え方</p></a></div></section>
 </main>
 <footer class="home-footer">にじフラ チャレンジ｜安心の中で挑戦し、挑戦の中で成長する</footer>
-<script src="assets/result_store.js"></script>
-<script src="assets/game_catalog.js"></script>
-<script src="assets/game_profile_v24.js"></script>
-<script src="assets/home_v24.js"></script>
-<script src="assets/layout_v25.js"></script>
-<script src="assets/context_panel_v25.js"></script>
-<script src="assets/accessibility.js"></script>
+<script src="assets/result_store.js"></script><script src="assets/game_catalog.js"></script><script src="assets/game_profile_v24.js"></script><script src="assets/home_v24.js"></script><script src="assets/layout_v25.js"></script><script src="assets/context_panel_v25.js"></script><script src="assets/accessibility.js"></script>
 </body></html>

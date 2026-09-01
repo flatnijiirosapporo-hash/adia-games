@@ -13,9 +13,9 @@ let active='すべて';
 const purpose=document.getElementById('purposeGrid'),grid=document.getElementById('gameGrid'),search=document.getElementById('gameSearch'),empty=document.getElementById('emptyState'),count=document.getElementById('gameCount'),ageFilter=document.getElementById('ageFilter'),difficultyFilter=document.getElementById('difficultyFilter'),timeFilter=document.getElementById('timeFilter');
 const favSection=document.getElementById('favoriteSection'),favGrid=document.getElementById('favoriteGrid'),recentSection=document.getElementById('recentSection'),recentGrid=document.getElementById('recentGrid');
 function difficulty(n){return '●'.repeat(n)+'○'.repeat(3-n)}
-function card(g,compact=false){const p=g.profile||{};return `<article class="home-game-card${compact?' compact':''}" data-id="${g.id}">
+function card(g,compact=false){const p=g.profile||{};const href=g.href||`tkk_games.html?game=${encodeURIComponent(g.id)}`;const noContext=g.noContext?' data-no-context="true"':'';return `<article class="home-game-card${compact?' compact':''}" data-id="${g.id}">
   <button type="button" class="fav-btn${favorites.has(g.id)?' active':''}" aria-label="${favorites.has(g.id)?'お気に入りから外す':'お気に入りに追加'}" title="お気に入り">★</button>
-  <a class="game-card-link" href="tkk_games.html?game=${encodeURIComponent(g.id)}" aria-label="${g.title}を開く">
+  <a class="game-card-link" href="${href}"${noContext} aria-label="${g.title}を開く">
     <div class="g-icon">${g.icon}</div><h3>${g.title}</h3><p>${g.desc}</p>
     <div class="profile-row"><span>⏱ ${p.minutes||'3〜5分'}</span><span>🎯 ${p.age||'目安なし'}</span></div>
     <div class="profile-row"><span class="diff" aria-label="むずかしさ ${p.difficulty||2} / 3">むずかしさ ${difficulty(p.difficulty||2)}</span></div>

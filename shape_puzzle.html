@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#f8fbff">
+<title>かたちパズル｜にじフラ チャレンジ</title>
+<link rel="stylesheet" href="assets/shape_puzzle.css">
+</head>
+<body class="shape-body" data-shape-screen="name">
+<header class="shape-site-head no-print">
+  <a id="headerTopLink" class="shape-top-link" href="index.html#allGames">← TOP</a>
+  <div class="shape-brand"><span class="shape-brand-icon">🧩</span><span><strong>かたちパズル</strong><small>にじいろクラス フラット札幌</small></span></div>
+  <button id="soundToggle" type="button" class="shape-icon-btn" aria-pressed="true">🔊 おと ON</button>
+</header>
+<main id="shapePuzzleApp" class="shape-app">
+  <section id="screenName" class="shape-screen shape-entry" aria-labelledby="nameTitle">
+    <div class="shape-hero-art" aria-hidden="true"><span>●</span><span>▲</span><span>■</span><span>◆</span></div>
+    <p class="shape-kicker">🧩 みて・ためして・くみあわせる</p>
+    <h1 id="nameTitle">かたちパズル</h1>
+    <p class="shape-slogan">できなくてOK！<br><strong>いろいろためしてみよう！</strong></p>
+    <div class="shape-entry-card">
+      <label class="shape-name-label" for="childNameInput">なまえをいれてね</label>
+      <input id="childNameInput" class="shape-name-input" maxlength="40" autocomplete="off" inputmode="text" placeholder="なまえ">
+      <p id="nameError" class="shape-error" role="alert" hidden>なまえを いれてね</p>
+      <button id="nameNextBtn" type="button" class="shape-primary">つぎへ <span aria-hidden="true">→</span></button>
+    </div>
+  </section>
+
+  <section id="screenDifficulty" class="shape-screen" hidden aria-labelledby="difficultyTitle">
+    <div class="shape-screen-head"><button id="difficultyBackBtn" type="button" class="shape-back">← もどる</button><div><p class="shape-kicker">STEP 2</p><h1 id="difficultyTitle">むずかしさを えらぼう</h1></div></div>
+    <div class="difficulty-grid" role="group" aria-label="むずかしさ">
+      <button type="button" class="difficulty-card easy" data-level="easy"><span class="difficulty-star">★</span><strong>かんたん</strong><span>2〜3ピース</span><small>まずは大きな形から</small></button>
+      <button type="button" class="difficulty-card normal" data-level="normal"><span class="difficulty-star">★★</span><strong>ふつう</strong><span>3〜4ピース</span><small>回して考えてみよう</small></button>
+      <button type="button" class="difficulty-card challenge" data-level="challenge"><span class="difficulty-star">★★★</span><strong>チャレンジ</strong><span>4〜6ピース</span><small>いろいろな形に挑戦</small></button>
+    </div>
+    <div class="difficulty-note"><span>🧩 1回 5問</span><span>⏱ じかんは きろくするけど みえないよ</span></div>
+    <button id="difficultyStartBtn" type="button" class="shape-primary shape-start" disabled>スタート</button>
+  </section>
+
+  <section id="screenPlay" class="shape-screen shape-play-screen" hidden aria-labelledby="playInstruction">
+    <div class="play-topbar no-print">
+      <button id="playTopBtn" type="button" class="shape-back">← TOP</button>
+      <div id="playInstruction" class="play-instruction">💡 かたちを よくみて はめてみよう</div>
+      <div id="questionProgress" class="question-progress" aria-live="polite">1 / 5</div>
+    </div>
+    <div id="playMessage" class="play-message" aria-live="polite"></div>
+    <div class="play-layout">
+      <div class="board-panel">
+        <div class="board-label"><span>ここに ぴったり はめよう</span><small>マスの中に全部入ったら完成！</small></div>
+        <div id="shapeBoard" class="shape-board" role="application" aria-label="かたちパズルの盤面"></div>
+      </div>
+      <aside class="control-panel no-print">
+        <div class="selected-card"><span class="control-label">えらんだピース</span><div id="selectedPiecePreview" class="selected-preview" aria-live="polite">ピースをえらんでね</div></div>
+        <button id="rotatePieceBtn" type="button" class="control-btn rotate-btn">↻ まわす</button>
+        <button id="hintBtn" type="button" class="control-btn hint-btn">💡 ヒント</button>
+        <div class="support-box"><strong>支援者用</strong><button id="supportEndBtn" type="button" class="support-end">このもんだいを おわる</button></div>
+      </aside>
+    </div>
+    <div class="tray-panel no-print"><div class="tray-head"><strong>ピース</strong><span>ドラッグして はめてみよう</span></div><div id="pieceTray" class="piece-tray" aria-label="ピース置き場"></div></div>
+    <div id="successOverlay" class="success-overlay" hidden aria-live="assertive"><div class="success-card"><div class="success-stars" aria-hidden="true">★ ✦ ★</div><strong>できた！</strong><span>さいごまで ためしたね！</span></div></div>
+  </section>
+
+  <section id="screenComplete" class="shape-screen shape-complete" hidden aria-labelledby="completeTitle">
+    <div class="complete-burst" aria-hidden="true">★ ✦ ● ▲ ■ ✦ ★</div>
+    <h1 id="completeTitle">おつかれさま！</h1>
+    <p>5もん さいごまで とりくみました。</p>
+    <button id="viewReportBtn" type="button" class="shape-primary">支援者レポートへ</button>
+  </section>
+
+  <section id="screenReport" class="shape-screen shape-report-screen" hidden aria-labelledby="reportTitle">
+    <article id="reportSheet" class="shape-report">
+      <header class="report-header"><div><p class="report-brand">にじいろクラス フラット札幌</p><h1 id="reportTitle">かたちパズル　取り組みレポート</h1></div><span class="report-mark">🧩</span></header>
+      <div class="report-meta"><div><span>名前</span><strong id="reportName" class="report-name"></strong></div><div><span>実施日</span><strong id="reportDate"></strong></div><div><span>難易度</span><strong id="reportDifficulty"></strong></div></div>
+      <section class="report-summary"><div><span>完成</span><strong id="reportCompleted"></strong></div><div><span>平均時間</span><strong id="reportAverage"></strong></div><div><span>ヒント</span><strong id="reportHints"></strong></div><div><span>置き直し</span><strong id="reportInvalid"></strong></div></section>
+      <section class="report-section"><h2>5問の結果</h2><div id="reportQuestions" class="report-questions"></div></section>
+      <section class="report-section"><h2>操作の記録</h2><div class="report-ops"><span>移動 <strong id="reportMoves"></strong></span><span>回転 <strong id="reportRotations"></strong></span><span>最大ヒント <strong id="reportMaxHint"></strong></span></div></section>
+      <section class="report-section"><div class="report-title-row"><h2>取り組みのようす</h2><small>支援者が最終確認してください</small></div><p class="reference-note">※この評価はゲーム中の操作から出した参考値です。診断や能力判定ではありません。実際の様子を見て支援者が修正してください。</p><div id="ratingGrid" class="rating-grid"></div></section>
+      <section class="report-section report-comment-section"><label for="supportComment"><strong>支援者コメント</strong></label><textarea id="supportComment" maxlength="600" rows="4" placeholder="取り組みの様子、工夫した点、次回の支援など"></textarea><p id="printOmitNote" class="print-omit-note" hidden>※コメントは表示上限に合わせて省略して印刷しています。</p></section>
+    </article>
+    <div class="report-actions no-print"><button id="pdfBtn" type="button" class="shape-primary">PDFにする</button><button id="printBtn" type="button" class="shape-secondary">印刷する</button><button id="playAgainBtn" type="button" class="shape-secondary">もう1回</button><button id="reportTopBtn" type="button" class="shape-quiet">TOPへ戻る</button></div>
+  </section>
+</main>
+
+<div id="hintModal" class="shape-modal no-print" hidden role="dialog" aria-modal="true" aria-labelledby="hintModalTitle"><div class="shape-modal-card"><div class="modal-icon">💡</div><h2 id="hintModalTitle">ヒントをつかう？</h2><p>まだ考えてもOKだよ。</p><div class="modal-actions"><button id="hintModalUse" type="button" class="shape-primary">ヒントをみる</button><button id="hintModalContinue" type="button" class="shape-secondary">まだかんがえる</button></div></div></div>
+<script src="assets/shape_puzzle_core.js"></script>
+<script src="assets/shape_puzzle_data/puzzles_easy.js"></script>
+<script src="assets/shape_puzzle_data/puzzles_normal.js"></script>
+<script src="assets/shape_puzzle_data/puzzles_challenge.js"></script>
+<script src="assets/shape_puzzle_app.js"></script>
+</body>
+</html>

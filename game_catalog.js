@@ -50,5 +50,6 @@ window.NIJI_GAMES = [
   {id:'dagashi',title:'だがしやさん',icon:'🍭',cat:'生活',desc:'予算の中で買い物し、おつりを考える',tags:['お金','買い物']},
   {id:'moneycount',title:'お金を数えよう',icon:'🪙',cat:'生活',desc:'並んだ硬貨の合計金額を答える',tags:['硬貨','計算']},
   {id:'exchange',title:'両替てんびん',icon:'⚖️',cat:'生活',desc:'同じ金額になる硬貨の組み合わせを選ぶ',tags:['両替','等価']},
-  {id:'threepoint',title:'スリーポイントゲーム',icon:'🏀',cat:'息抜き',desc:'タイミングを合わせてシュートを決める',tags:['タイミング','レク']}
+  {id:'threepoint',title:'スリーポイントゲーム',icon:'🏀',cat:'息抜き',desc:'タイミングを合わせてシュートを決める',tags:['タイミング','レク']},
+  {id:'shapePuzzle',title:'かたちパズル',icon:'🧩',cat:'認知',desc:'ピースをくみあわせて、かたちを完成させよう！',tags:['空間認知','図形','試行錯誤'],href:'shape_puzzle.html',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'視空間認知・形の構成・試行錯誤'}}
 ];

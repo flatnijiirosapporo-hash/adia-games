@@ -1,7 +1,16 @@
-Ver1.1
-スタート非表示・確認付きもう1回修正
-node_errors: 0
-node_error_detail: []
-link_missing: []
-stop_label_issues: []
-リンク切れなし
+2026-09-01 かたちパズル 自動チェック
+
+[OK] core geometry unit tests
+[OK] 300 puzzle data count/ID tests
+[OK] 300 puzzle solution validator
+[OK] TOP integration static markers
+[OK] five screen/app static markers
+[OK] JavaScript syntax checks
+[OK] 53 games in updated catalog
+[OK] no localStorage/sessionStorage in shape_puzzle_app.js
+[OK] no child-facing word 「失敗」 in shape puzzle runtime files
+[OK] no runtime fetch() dependency
+
+[UNVERIFIED] browser end-to-end due environment policy
+[UNVERIFIED] physical iPad touch
+[UNVERIFIED] A4 print preview one-page measurement

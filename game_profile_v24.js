@@ -19,6 +19,7 @@ const catAim={
  '生活':'お金・買い物・生活スキル'
 };
 for(const g of games){
+  if(g.profile && Number.isInteger(g.profile.difficulty)) continue;
   let difficulty=easy.has(g.id)?1:high.has(g.id)?3:2;
   let age=high.has(g.id)?'高学年〜':mid.has(g.id)?'中学年〜':'低学年〜';
   if(['dice','roulette','bingo','dicetalk','stamp','shapeDrop','story'].includes(g.id)) age='全学年';
