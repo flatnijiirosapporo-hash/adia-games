@@ -42,6 +42,20 @@
     const occupied=new Set(placedCells(puzzle,placed,piece.pieceId).map(cellKey));
     return !hasOverlap(cells,occupied);
   }
+  function nearestValidPlacement(piece,rotation,rawX,rawY,puzzle,placed={},radius=1.25){
+    if(!piece||!puzzle||!Number.isFinite(rawX)||!Number.isFinite(rawY))return null;
+    const maxRadius=Math.max(0,Number(radius)||0);
+    let best=null,bestDistance=Infinity;
+    for(let y=0;y<puzzle.boardHeight;y++){
+      for(let x=0;x<puzzle.boardWidth;x++){
+        const candidate={x,y,rotation:rotation||0};
+        if(!canPlace(piece,candidate,puzzle,placed))continue;
+        const distance=Math.hypot(x-rawX,y-rawY);
+        if(distance<=maxRadius&&distance<bestDistance){best=candidate;bestDistance=distance}
+      }
+    }
+    return best;
+  }
   function isSolved(puzzle,placed={}){
     if(!puzzle||puzzle.pieces.some(p=>!placed[p.pieceId]))return false;
     const keys=placedCells(puzzle,placed).map(cellKey);
@@ -96,5 +110,5 @@
     const perseverance=(summary.attempted||0)>=pr.goodAttempted?'◎':(summary.attempted||0)>=pr.okAttempted?'○':'△';
     return {seeThink,tryRepair,shapeGrasp,perseverance};
   }
-  return {SHAPE_EVAL_RULES,cellKey,normalizeCells,rotateCells,translateCells,isInsideTarget,hasOverlap,canPlace,isSolved,selectFive,createSession,pointToGrid,nextHintLevel,summarizeResults,referenceRatings,cellsForPlacement};
+  return {SHAPE_EVAL_RULES,cellKey,normalizeCells,rotateCells,translateCells,isInsideTarget,hasOverlap,canPlace,nearestValidPlacement,isSolved,selectFive,createSession,pointToGrid,nextHintLevel,summarizeResults,referenceRatings,cellsForPlacement};
 });
