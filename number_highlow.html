@@ -53,6 +53,10 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
 .rule-item{background:#fff;border:1px solid #dbeafe;border-radius:18px;padding:11px 13px;font-size:14px;color:#475569;font-weight:800}
 .sound-pill{display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:#fff;color:#334155;border:2px solid #e2e8f0;border-radius:16px;padding:10px 14px;font-weight:900}
 .sound-pill input{width:18px;height:18px}
+.difficulty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.difficulty-btn{background:#fff!important;color:#334155!important;border:3px solid #dbeafe!important;box-shadow:none!important;border-radius:20px!important;min-height:72px!important;padding:10px 12px!important}
+.difficulty-btn.selected{background:#eef2ff!important;border-color:#6366f1!important;color:#3730a3!important;box-shadow:0 8px 18px rgba(79,70,229,.12)!important}
+.difficulty-btn small{display:block;font-size:.72em;font-weight:900;color:#64748b}
 .light-link{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:12px 18px;border:2px solid #e2e8f0;border-radius:16px;background:#fff;color:#334155;font-weight:900}
 .ok{color:#16a34a}.ng{color:#dc2626}
 @media(max-width:640px){
@@ -64,6 +68,7 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
   .choices{grid-template-columns:1fr;gap:10px}
   .choice-btn{min-height:86px}
   .rule-grid{grid-template-columns:1fr}
+  .difficulty-grid{grid-template-columns:1fr}
   .result-grid{grid-template-columns:1fr}
 }
 @media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
@@ -91,6 +96,8 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
   .next-reveal strong{font-size:28px!important}
   .message{font-size:18px!important;margin:5px 0!important;min-height:28px!important}
   .rule-grid{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;margin-top:6px!important}
+  .difficulty-grid{grid-template-columns:repeat(3,1fr)!important;gap:6px!important;margin:6px 0!important}
+  .difficulty-btn{min-height:46px!important;padding:6px 8px!important;font-size:13px!important}
   .rule-item{font-size:11px!important;padding:6px 8px!important}
   .result-grid{gap:7px!important;margin:6px 0!important}
   .result-item{padding:7px!important}
@@ -109,6 +116,7 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
     <span class="badge">問題 <span id="questionNow">0</span>/10</span>
     <span class="badge">正解 <span id="scoreNow">0</span></span>
     <span class="badge">連続 <span id="streakNow">0</span></span>
+    <span class="badge">むずかしさ <span id="difficultyLabel">かんたん</span></span>
   </div>
   <div class="illust">🔢</div>
   <h1 style="text-align:center">数字ハイアンドロー</h1>
@@ -124,6 +132,11 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
         <div class="rule-item">③ 時間制限なし</div>
         <div class="rule-item">④ ヒントを使ってOK</div>
       </div>
+    </div>
+    <div class="difficulty-grid" role="group" aria-label="むずかしさをえらぶ">
+      <button class="difficulty-btn selected" type="button" data-difficulty="easy" aria-pressed="true">かんたん<small>1〜10</small></button>
+      <button class="difficulty-btn" type="button" data-difficulty="normal" aria-pressed="false">ふつう<small>1〜50</small></button>
+      <button class="difficulty-btn" type="button" data-difficulty="challenge" aria-pressed="false">チャレンジ<small>1〜100</small></button>
     </div>
     <div class="actions">
       <button id="startBtn" class="primary" type="button">スタート</button>
@@ -177,8 +190,130 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
 <script>
 (()=>{
   'use strict';
+  const NIJI_QUESTION_BANK_VERSION='2026-09-02-q500-v1';
+  function fisherYates(values,random=Math.random){
+    const a=values.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j=Math.floor(random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+  
+  function createQuestionBag({storage,gameId,difficulty='all',bankVersion='v1',ids,random=Math.random}){
+    if(!storage||typeof storage.getItem!=='function'||typeof storage.setItem!=='function') throw new Error('storage is required');
+    if(!gameId) throw new Error('gameId is required');
+    const uniqueIds=[...new Set((ids||[]).map(String))];
+    if(!uniqueIds.length) throw new Error('ids must not be empty');
+    const key=`nijifla_qbag_v1:${gameId}:${difficulty}`;
+    const idSet=new Set(uniqueIds);
+  
+    function read(){
+      try{
+        const raw=storage.getItem(key);
+        return raw?JSON.parse(raw):null;
+      }catch{return null;}
+    }
+    function write(state){
+      storage.setItem(key,JSON.stringify(state));
+    }
+    function fresh(){
+      const state={bankVersion,order:fisherYates(uniqueIds,random),cursor:0,knownIds:uniqueIds.slice()};
+      write(state);
+      return state;
+    }
+    function reconcile(state){
+      if(!state||!Array.isArray(state.order)||!Number.isInteger(state.cursor)) return fresh();
+      const oldOrder=state.order.map(String);
+      const oldCursor=Math.max(0,Math.min(state.cursor,oldOrder.length));
+      const consumed=[];
+      const seenConsumed=new Set();
+      for(const id of oldOrder.slice(0,oldCursor)){
+        if(idSet.has(id)&&!seenConsumed.has(id)){seenConsumed.add(id);consumed.push(id);}
+      }
+      const remaining=[];
+      const seenRemaining=new Set();
+      for(const id of oldOrder.slice(oldCursor)){
+        if(idSet.has(id)&&!seenConsumed.has(id)&&!seenRemaining.has(id)){seenRemaining.add(id);remaining.push(id);}
+      }
+      const newIds=uniqueIds.filter(id=>!seenConsumed.has(id)&&!seenRemaining.has(id));
+      const mustRewrite=state.bankVersion!==bankVersion ||
+        !Array.isArray(state.knownIds) ||
+        state.knownIds.length!==uniqueIds.length ||
+        state.knownIds.some(id=>!idSet.has(String(id))) ||
+        newIds.length>0 || consumed.length+remaining.length!==uniqueIds.length;
+      if(!mustRewrite) return state;
+      const tail=fisherYates([...remaining,...newIds],random);
+      const next={bankVersion,order:[...consumed,...tail],cursor:consumed.length,knownIds:uniqueIds.slice()};
+      write(next);
+      return next;
+    }
+  
+    let state=reconcile(read());
+  
+    function rollover(exclude=new Set()){
+      const shuffled=fisherYates(uniqueIds,random);
+      if(exclude.size){
+        const safe=shuffled.filter(id=>!exclude.has(id));
+        const repeated=shuffled.filter(id=>exclude.has(id));
+        state={bankVersion,order:[...safe,...repeated],cursor:0,knownIds:uniqueIds.slice()};
+      }else{
+        state={bankVersion,order:shuffled,cursor:0,knownIds:uniqueIds.slice()};
+      }
+      write(state);
+    }
+  
+    function draw(count=1){
+      const requested=Math.max(0,Math.floor(Number(count)||0));
+      if(!requested) return [];
+      if(requested>uniqueIds.length) throw new Error(`draw count ${requested} exceeds unique bank size ${uniqueIds.length}`);
+      const result=[];
+      const used=new Set();
+      while(result.length<requested){
+        if(state.cursor>=state.order.length) rollover(used);
+        const id=state.order[state.cursor++];
+        if(!idSet.has(id)) continue;
+        if(used.has(id)) continue;
+        result.push(id);
+        used.add(id);
+        write(state);
+      }
+      return result;
+    }
+    function remaining(){return Math.max(0,state.order.length-state.cursor);}
+    function reset(){rollover();return remaining();}
+  
+    return {draw,remaining,reset,key};
+  }
+  
+  /* HIGHLOW_CORE_START */
   const TOTAL_QUESTIONS = 10;
-  const NUMBER_POOL = Array.from({length:20},(_,i)=>i+1);
+  const RANGES={easy:[1,10],normal:[1,50],challenge:[1,100]};
+  function randomInt(min,max,random=Math.random){
+    return min+Math.floor(random()*(max-min+1));
+  }
+  function randomExcept(min,max,exclude,random=Math.random){
+    let value=randomInt(min,max-1,random);
+    if(value>=exclude)value+=1;
+    return value;
+  }
+  function nonEdgeBase(min,max,random=Math.random){
+    return max-min>2?randomInt(min+1,max-1,random):randomInt(min,max,random);
+  }
+  function buildRounds(difficulty='easy',random=Math.random){
+    const [min,max]=RANGES[difficulty]||RANGES.easy;
+    const rounds=[];
+    let current=nonEdgeBase(min,max,random);
+    for(let i=0;i<TOTAL_QUESTIONS;i++){
+      const next=randomExcept(min,max,current,random);
+      rounds.push({current,next});
+      if(i<TOTAL_QUESTIONS-1){
+        current=(next===min||next===max)?nonEdgeBase(min,max,random):next;
+      }
+    }
+    return rounds;
+  }
+  /* HIGHLOW_CORE_END */
   const startScreen = document.getElementById('startScreen');
   const playScreen = document.getElementById('playScreen');
   const resultScreen = document.getElementById('resultScreen');
@@ -203,8 +338,12 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
   const finishedState = document.getElementById('finishedState');
   const finalMessage = document.getElementById('finalMessage');
   const finalDetail = document.getElementById('finalDetail');
+  const difficultyLabelEl = document.getElementById('difficultyLabel');
+  const difficultyButtons = [...document.querySelectorAll('[data-difficulty]')];
 
-  let sequence = [];
+  const DIFFICULTY_LABELS={easy:'かんたん',normal:'ふつう',challenge:'チャレンジ'};
+  let selectedDifficulty='easy';
+  let rounds = [];
   let questionIndex = 0;
   let correct = 0;
   let streak = 0;
@@ -213,13 +352,15 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
   let hintUsed = false;
   let savedRecord = null;
 
-  function shuffle(arr){
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]]=[a[j],a[i]];
-    }
-    return a;
+  function selectDifficulty(difficulty){
+    if(!RANGES[difficulty])return;
+    selectedDifficulty=difficulty;
+    difficultyLabelEl.textContent=DIFFICULTY_LABELS[difficulty];
+    difficultyButtons.forEach(btn=>{
+      const active=btn.dataset.difficulty===difficulty;
+      btn.classList.toggle('selected',active);
+      btn.setAttribute('aria-pressed',active?'true':'false');
+    });
   }
 
   function playTone(type){
@@ -240,12 +381,8 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
     }catch(e){}
   }
 
-  function buildSequence(){
-    sequence = shuffle(NUMBER_POOL).slice(0, TOTAL_QUESTIONS + 1);
-  }
-
   function getPair(){
-    return {current: sequence[questionIndex], next: sequence[questionIndex+1]};
+    return rounds[questionIndex];
   }
 
   function resetChoiceState(){
@@ -261,14 +398,15 @@ button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:n
     answered = false;
   }
 
-  function hintText(n){
-    const range = n <= 10 ? '1〜10' : '11〜20';
-    const parity = n % 2 === 0 ? 'ぐうすう' : 'きすう';
-    const oneDigit = n % 10;
-    const onesHint = oneDigit >= 5 ? '1のくらいは 5いじょう' : '1のくらいは 5より ちいさい';
-    return `ヒント：つぎの数字は「${range}」の中にあるよ。
-${parity}だよ。
-${onesHint}よ。`;
+  function hintText(current){
+    const [min,max]=RANGES[selectedDifficulty];
+    const higherA=current+1;
+    const higherB=Math.min(max,current+2);
+    const lowerA=current-1;
+    const lowerB=Math.max(min,current-2);
+    const higher=higherA===higherB?String(higherA):`${higherA}・${higherB}…`;
+    const lower=lowerA===lowerB?String(lowerA):`${lowerA}・${lowerB}…`;
+    return `ヒント：${current}より大きい数字は ${higher}。\n${current}より小さい数字は ${lower}。\nつぎの数字そのものは、まだひみつだよ。`;
   }
 
   function updateStatus(){
@@ -322,14 +460,16 @@ ${onesHint}よ。`;
 
   function saveResult(){
     const success = correct >= 7;
-    const detail = `10問中 ${correct}問正解。最大連続正解 ${bestStreak}。最後まで取り組めた。`;
+    const detail = `${DIFFICULTY_LABELS[selectedDifficulty]}：10問中 ${correct}問正解。最大連続正解 ${bestStreak}。最後まで取り組めた。`;
     const extra = {
       totalQuestions: TOTAL_QUESTIONS,
       correct,
       bestStreak,
       finished: true,
       hintMode: 'support',
-      game: 'number_highlow'
+      game: 'number_highlow',
+      difficulty:selectedDifficulty,
+      range:RANGES[selectedDifficulty].slice()
     };
     if(window.NIJI_RESULT){
       savedRecord = window.NIJI_RESULT.save({
@@ -377,7 +517,7 @@ ${onesHint}よ。`;
   }
 
   function startGame(){
-    buildSequence();
+    rounds=buildRounds(selectedDifficulty);
     questionIndex = 0;
     correct = 0;
     streak = 0;
@@ -392,10 +532,11 @@ ${onesHint}よ。`;
   hintBtn.addEventListener('click', ()=>{
     if(answered || hintUsed) return;
     hintUsed = true;
-    const {next} = getPair();
-    hintBox.textContent = hintText(next);
+    const {current} = getPair();
+    hintBox.textContent = hintText(current);
     hintBox.classList.remove('hidden');
   });
+  difficultyButtons.forEach(btn=>btn.addEventListener('click',()=>selectDifficulty(btn.dataset.difficulty)));
   highBtn.addEventListener('click', ()=>judge('high'));
   lowBtn.addEventListener('click', ()=>judge('low'));
   nextBtn.addEventListener('click', nextQuestion);
