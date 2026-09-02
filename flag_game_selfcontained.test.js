@@ -1,0 +1,13 @@
+const fs=require('fs'),assert=require('assert'),path=require('path');
+const root=path.resolve(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'flag_game.html'),'utf8');
+assert.doesNotMatch(html,/<link[^>]+flag_game\.css/i,'flag CSS must be embedded');
+assert.doesNotMatch(html,/<script[^>]+src=["'][^"']*flag_game/i,'flag JS must be embedded');
+assert.doesNotMatch(html,/<script[^>]+src=["'][^"']*flags_master/i,'flag master must be embedded');
+assert.match(html,/id=["']flagGameEmbeddedCss["']/,'embedded CSS marker required');
+assert.match(html,/data-embedded-source=["']assets\/flag_game_data\/flags_master\.js["']/,'embedded master marker required');
+assert.match(html,/id=["']flagSpriteEmbedded["']/,'embedded flag sprite required');
+assert.match(html,/id=["']flagWorldMapTemplate["']/,'embedded world map template required');
+assert.match(html,/id=["']flagWorldMap["']/,'world map SVG required');
+assert.match(html,/data-embedded-source=["']assets\/flag_game_app\.js["']/,'embedded app marker required');
+console.log('PASS self-contained flag game');

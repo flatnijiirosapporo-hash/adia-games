@@ -51,5 +51,6 @@ window.NIJI_GAMES = [
   {id:'moneycount',title:'お金を数えよう',icon:'🪙',cat:'生活',desc:'並んだ硬貨の合計金額を答える',tags:['硬貨','計算']},
   {id:'exchange',title:'両替てんびん',icon:'⚖️',cat:'生活',desc:'同じ金額になる硬貨の組み合わせを選ぶ',tags:['両替','等価']},
   {id:'threepoint',title:'スリーポイントゲーム',icon:'🏀',cat:'息抜き',desc:'タイミングを合わせてシュートを決める',tags:['タイミング','レク']},
-  {id:'shapePuzzle',title:'かたちパズル',icon:'🧩',cat:'認知',desc:'ピースをくみあわせて、かたちを完成させよう！',tags:['空間認知','図形','試行錯誤'],href:'shape_puzzle.html?v=20260901-4',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'視空間認知・形の構成・試行錯誤'}}
+  {id:'shapePuzzle',title:'かたちパズル',icon:'🧩',cat:'認知',desc:'ピースをくみあわせて、かたちを完成させよう！',tags:['空間認知','図形','試行錯誤'],href:'shape_puzzle.html?v=20260901-4',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'視空間認知・形の構成・試行錯誤'}},
+  {id:'flagGame',title:'国旗ゲーム',icon:'🌏',cat:'社会',desc:'国旗を見て、覚えて、くらべて、世界の国を楽しく学ぼう！',tags:['国旗','世界','視覚認知'],href:'flag_game.html?v=20260902-1',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'視覚認知・照合・記憶・選択判断'}}
 ];
