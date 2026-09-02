@@ -7,5 +7,6 @@ function need(src,re,msg){if(!re.test(src)){console.error('FAIL:',msg);process.e
 need(html,/\.message-title\s*\{/, '結果判定で使う message-title の共通表示CSSが必要');
 need(html,/\.message-detail\s*\{/, '結果判定で使う message-detail の表示CSSが必要');
 need(catalog,/number_highlow\.html\?v=20260902-2/, '数字ハイアンドローのキャッシュ更新番号を2にする');
-need(index,/assets\/game_catalog\.js\?v=20260902-84/, 'TOPのカタログも新しい更新番号を読む');
+need(index,/id="embeddedGameCatalog"/, 'TOPに最新ゲームカタログを直接埋め込む');
+if(/<script[^>]+src="assets\/game_catalog\.js/i.test(index)){console.error('FAIL: TOPは外部game_catalog.jsに依存しない');process.exit(1)}
 console.log('PASS number highlow cache/message markers');
