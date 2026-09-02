@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>数字ハイアンドロー</title>
+<link rel="icon" href="nijifla_icon.png">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,'Yu Gothic','Hiragino Sans',sans-serif;background:linear-gradient(135deg,#f8fbff,#fff7ed);color:#203044;font-size:18px;line-height:1.7;user-select:none}
+a{text-decoration:none;color:inherit}
+.wrap{width:min(980px,92vw);margin:0 auto}
+.top{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e2e8f0}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-weight:900}
+.pill{background:#eef2ff;color:#3730a3;border-radius:999px;padding:8px 14px}
+h1{font-size:clamp(32px,6vw,54px);line-height:1.15;margin:10px 0 8px}
+.lead{color:#64748b;font-size:clamp(17px,3vw,22px)}
+.panel{background:rgba(255,255,255,.96);border-radius:34px;padding:22px;box-shadow:0 18px 55px rgba(30,41,59,.12);margin:22px 0 38px}
+.status{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;font-weight:800;margin-bottom:12px}
+.badge{padding:8px 14px;border-radius:999px;background:#f1f5f9}
+.illust{font-size:clamp(64px,12vw,92px);text-align:center;margin:0;line-height:1.1}
+.scene{font-size:clamp(22px,4.5vw,32px);font-weight:900;text-align:center;line-height:1.55;white-space:pre-line;margin:10px 0 18px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+button{border:0;border-radius:999px;padding:13px 22px;font-size:20px;font-weight:900;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;box-shadow:0 10px 25px rgba(79,70,229,.22);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button.light{background:#fff;color:#334155;border:2px solid #e2e8f0;box-shadow:none}
+.primary{background:linear-gradient(135deg,#4f46e5,#06b6d4)!important;color:#fff!important}
+.hidden{display:none!important}
+.message{text-align:center;font-size:26px;font-weight:900;min-height:42px;margin:12px 0}
+.message-title{text-align:center;font-size:26px;font-weight:1000;min-height:42px;margin:12px 0}
+.message-detail{text-align:center;color:#64748b;font-weight:800;white-space:pre-line}
+.tip,.report{margin-top:14px;border-radius:26px;padding:18px;background:#f8fafc;border:2px solid #e2e8f0}
+.tip{background:#ecfdf5;border-color:#bbf7d0}
+.report{background:#fff7ed;border-color:#fed7aa}
+.footer{text-align:center;color:#64748b;padding:22px}
+.highlow-number-wrap{display:flex;align-items:center;justify-content:center;min-height:210px;background:#f8fbff;border:2px solid #dbeafe;border-radius:28px;margin:10px auto 14px;max-width:620px}
+.highlow-number{font-size:clamp(92px,18vw,160px);line-height:1;font-weight:1000;color:#3158bc;letter-spacing:-.04em}
+.highlow-label{font-size:15px;color:#64748b;font-weight:900;text-align:center;margin-bottom:3px}
+.highlow-question{font-size:clamp(22px,4vw,31px);font-weight:1000;text-align:center;margin:8px 0 12px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.choice-btn{width:100%;min-height:112px;border:3px solid #dbeafe;border-radius:24px;padding:16px;font-size:clamp(21px,3.4vw,29px);font-weight:1000;text-align:center;background:#fff;color:#1f2937;box-shadow:0 8px 20px rgba(30,41,59,.08);cursor:pointer;touch-action:manipulation}
+.choice-btn.high{border-color:#a7f3d0;background:#f0fdf4;color:#166534}
+.choice-btn.low{border-color:#fecaca;background:#fff1f2;color:#b91c1c}
+.choice-btn.correct{outline:7px solid rgba(34,197,94,.18);border-color:#22c55e!important;background:#dcfce7!important}
+.choice-btn.wrong{outline:7px solid rgba(239,68,68,.13);border-color:#ef4444!important;background:#fee2e2!important}
+.choice-btn:disabled{cursor:default;opacity:.96}
+.next-reveal{display:flex;align-items:center;justify-content:center;gap:10px;min-height:70px;background:#f8fafc;border:2px dashed #cbd5e1;border-radius:20px;margin:12px 0;font-weight:1000;color:#475569}
+.next-reveal strong{font-size:38px;color:#0f766e}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.result-item{background:#fff;border:2px solid #fed7aa;border-radius:20px;padding:14px;text-align:center}
+.result-item strong{display:block;font-size:34px;color:#3158bc;line-height:1.1}
+.result-item span{display:block;font-size:14px;color:#64748b;font-weight:900;margin-top:5px}
+.rule-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.rule-item{background:#fff;border:1px solid #dbeafe;border-radius:18px;padding:11px 13px;font-size:14px;color:#475569;font-weight:800}
+.sound-pill{display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:#fff;color:#334155;border:2px solid #e2e8f0;border-radius:16px;padding:10px 14px;font-weight:900}
+.sound-pill input{width:18px;height:18px}
+.light-link{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:12px 18px;border:2px solid #e2e8f0;border-radius:16px;background:#fff;color:#334155;font-weight:900}
+.ok{color:#16a34a}.ng{color:#dc2626}
+@media(max-width:640px){
+  .top{position:static}
+  .wrap{width:96vw}
+  .panel{border-radius:26px;padding:16px;margin:10px 0 20px}
+  h1{font-size:clamp(28px,8vw,40px);text-align:center}
+  .lead{font-size:16px;text-align:center}
+  .choices{grid-template-columns:1fr;gap:10px}
+  .choice-btn{min-height:86px}
+  .rule-grid{grid-template-columns:1fr}
+  .result-grid{grid-template-columns:1fr}
+}
+@media (min-width:768px) and (max-width:1366px) and (orientation:landscape){
+  html,body{width:100%;min-height:100dvh;overflow-x:hidden}
+  body{font-size:14px}
+  .wrap{width:98vw!important;max-width:1180px!important}
+  .top{position:static!important}
+  .nav{padding:3px 0!important;min-height:auto!important}
+  .panel{margin:6px 0 10px!important;padding:12px 16px!important;border-radius:22px!important}
+  .illust{font-size:34px!important}
+  h1{font-size:28px!important;margin:3px 0 4px!important;text-align:center}
+  .lead{font-size:14px!important;line-height:1.35!important;margin:3px 0 6px!important;text-align:center}
+  .status{margin:4px 0 6px!important;gap:6px!important}
+  .badge,.pill,.nav a{font-size:12px!important;padding:5px 8px!important;line-height:1.1!important}
+  .scene{font-size:18px!important;line-height:1.28!important;margin:5px 0 7px!important}
+  .highlow-number-wrap{min-height:120px!important;max-width:520px!important;margin:4px auto 6px!important;border-radius:20px!important}
+  .highlow-number{font-size:86px!important}
+  .highlow-question{font-size:20px!important;margin:4px 0 6px!important}
+  .choices{gap:8px!important;margin-top:6px!important}
+  .choice-btn{min-height:72px!important;padding:8px 10px!important;font-size:20px!important;border-radius:18px!important}
+  .actions{margin:6px 0!important;gap:8px!important}
+  button,.light-link{min-height:42px!important;padding:8px 12px!important;font-size:15px!important;border-radius:16px!important}
+  .tip,.report{margin-top:6px!important;padding:8px 10px!important;border-radius:18px!important;font-size:13px!important}
+  .next-reveal{min-height:48px!important;margin:6px 0!important}
+  .next-reveal strong{font-size:28px!important}
+  .message{font-size:18px!important;margin:5px 0!important;min-height:28px!important}
+  .rule-grid{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;margin-top:6px!important}
+  .rule-item{font-size:11px!important;padding:6px 8px!important}
+  .result-grid{gap:7px!important;margin:6px 0!important}
+  .result-item{padding:7px!important}
+  .result-item strong{font-size:26px!important}
+  .footer{display:none!important}
+}
+</style>
+<link rel="stylesheet" href="assets/ui_v24.css">
+</head>
+<body class="niji-v24">
+<div class="top"><div class="wrap nav"><a href="index.html">← 戻る</a><span class="pill">にじフラ</span></div></div>
+<main class="wrap">
+<section class="panel">
+  <div class="status">
+    <span class="badge">🔢 数字ハイアンドロー</span>
+    <span class="badge">問題 <span id="questionNow">0</span>/10</span>
+    <span class="badge">正解 <span id="scoreNow">0</span></span>
+    <span class="badge">連続 <span id="streakNow">0</span></span>
+  </div>
+  <div class="illust">🔢</div>
+  <h1 style="text-align:center">数字ハイアンドロー</h1>
+  <p class="lead" style="text-align:center">いまの数字より、つぎの数字は「大きい」？「小さい」？ 数字の大小を楽しく考えます。</p>
+
+  <div id="startScreen">
+    <div class="scene">いまの数字とくらべて、つぎの数字が大きいか小さいか予想しよう。</div>
+    <div class="tip">
+      <strong>あそびかた</strong>
+      <div class="rule-grid">
+        <div class="rule-item">① 1回10問</div>
+        <div class="rule-item">② 同じ数字は出ない</div>
+        <div class="rule-item">③ 時間制限なし</div>
+        <div class="rule-item">④ ヒントを使ってOK</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="startBtn" class="primary" type="button">スタート</button>
+      <label class="light sound-pill"><input type="checkbox" id="soundToggle" checked> 🔊 おと ON</label>
+    </div>
+  </div>
+
+  <div id="playScreen" class="hidden">
+    <div class="highlow-label">いまの数字</div>
+    <div class="highlow-number-wrap"><div id="currentNumber" class="highlow-number">8</div></div>
+    <div class="highlow-question">つぎの数字は、いまの数字より…？</div>
+    <div class="choices">
+      <button id="highBtn" class="choice-btn high" type="button">⬆ HIGH<br>おおきい</button>
+      <button id="lowBtn" class="choice-btn low" type="button">⬇ LOW<br>ちいさい</button>
+    </div>
+    <div class="next-reveal">つぎの数字：<strong id="nextNumber">?</strong></div>
+    <div class="actions">
+      <button id="hintBtn" class="light" type="button">💡 ヒント</button>
+      <button id="nextBtn" class="primary hidden" type="button">つぎへ</button>
+    </div>
+    <div id="hintBox" class="tip hidden"></div>
+    <div class="scene" style="margin-top:10px">
+      <div id="messageTitle" class="message">どっちかな？</div>
+      <div id="messageDetail" style="font-size:15px;color:#64748b;font-weight:800;text-align:center">ヒントがほしいときは「ヒント」を押してね。</div>
+    </div>
+  </div>
+
+  <div id="resultScreen" class="hidden">
+    <div class="report">
+      <h2 style="text-align:center;margin:0 0 6px">10問おわりました</h2>
+      <div class="result-grid">
+        <div class="result-item"><strong id="finalScore">0/10</strong><span>せいかい数</span></div>
+        <div class="result-item"><strong id="bestStreak">0</strong><span>さいだい連続</span></div>
+        <div class="result-item"><strong id="finishedState">○</strong><span>最後まで取り組めた</span></div>
+      </div>
+      <div id="finalMessage" class="message ok">最後までよくがんばったね！</div>
+      <div id="finalDetail" style="text-align:center;color:#64748b;font-weight:800">結果を保存しました。</div>
+    </div>
+    <div class="actions">
+      <button id="reportBtn" class="primary" type="button">A4評価へ</button>
+      <button id="restartBtn" class="light" type="button">もう1回</button>
+      <a href="index.html" class="light-link">TOPにもどる</a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="footer">安心の中で挑戦し、挑戦の中で成長する</footer>
+<script src="assets/result_store.js"></script>
+<script src="assets/universal_report.js"></script>
+<script src="assets/accessibility.js"></script>
+<script>
+(()=>{
+  'use strict';
+  const TOTAL_QUESTIONS = 10;
+  const NUMBER_POOL = Array.from({length:20},(_,i)=>i+1);
+  const startScreen = document.getElementById('startScreen');
+  const playScreen = document.getElementById('playScreen');
+  const resultScreen = document.getElementById('resultScreen');
+  const startBtn = document.getElementById('startBtn');
+  const highBtn = document.getElementById('highBtn');
+  const lowBtn = document.getElementById('lowBtn');
+  const hintBtn = document.getElementById('hintBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  const reportBtn = document.getElementById('reportBtn');
+  const soundToggle = document.getElementById('soundToggle');
+  const currentNumberEl = document.getElementById('currentNumber');
+  const nextNumberEl = document.getElementById('nextNumber');
+  const questionNowEl = document.getElementById('questionNow');
+  const scoreNowEl = document.getElementById('scoreNow');
+  const streakNowEl = document.getElementById('streakNow');
+  const hintBox = document.getElementById('hintBox');
+  const messageTitle = document.getElementById('messageTitle');
+  const messageDetail = document.getElementById('messageDetail');
+  const finalScore = document.getElementById('finalScore');
+  const bestStreakEl = document.getElementById('bestStreak');
+  const finishedState = document.getElementById('finishedState');
+  const finalMessage = document.getElementById('finalMessage');
+  const finalDetail = document.getElementById('finalDetail');
+
+  let sequence = [];
+  let questionIndex = 0;
+  let correct = 0;
+  let streak = 0;
+  let bestStreak = 0;
+  let answered = false;
+  let hintUsed = false;
+  let savedRecord = null;
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+
+  function playTone(type){
+    if(!soundToggle.checked) return;
+    try{
+      const ctx = new (window.AudioContext||window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = type==='ok' ? 660 : 240;
+      gain.gain.value = 0.001;
+      osc.connect(gain); gain.connect(ctx.destination);
+      const now = ctx.currentTime;
+      gain.gain.exponentialRampToValueAtTime(0.12, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + (type==='ok' ? 0.32 : 0.42));
+      osc.start(now); osc.stop(now + (type==='ok' ? 0.34 : 0.44));
+      osc.onended = ()=>ctx.close();
+    }catch(e){}
+  }
+
+  function buildSequence(){
+    sequence = shuffle(NUMBER_POOL).slice(0, TOTAL_QUESTIONS + 1);
+  }
+
+  function getPair(){
+    return {current: sequence[questionIndex], next: sequence[questionIndex+1]};
+  }
+
+  function resetChoiceState(){
+    [highBtn, lowBtn].forEach(btn=>{
+      btn.disabled = false;
+      btn.classList.remove('correct','wrong');
+    });
+    nextBtn.classList.add('hidden');
+    nextNumberEl.textContent = '?';
+    hintBox.classList.add('hidden');
+    hintBox.textContent = '';
+    hintUsed = false;
+    answered = false;
+  }
+
+  function hintText(n){
+    const range = n <= 10 ? '1〜10' : '11〜20';
+    const parity = n % 2 === 0 ? 'ぐうすう' : 'きすう';
+    const oneDigit = n % 10;
+    const onesHint = oneDigit >= 5 ? '1のくらいは 5いじょう' : '1のくらいは 5より ちいさい';
+    return `ヒント：つぎの数字は「${range}」の中にあるよ。
+${parity}だよ。
+${onesHint}よ。`;
+  }
+
+  function updateStatus(){
+    questionNowEl.textContent = String(questionIndex + 1);
+    scoreNowEl.textContent = String(correct);
+    streakNowEl.textContent = String(streak);
+  }
+
+  function showQuestion(){
+    const pair = getPair();
+    currentNumberEl.textContent = String(pair.current);
+    messageTitle.className = 'message-title';
+    messageTitle.textContent = 'どっちかな？';
+    messageDetail.textContent = 'ヒントがほしいときは「ヒントをみる」を押してね。';
+    resetChoiceState();
+    updateStatus();
+  }
+
+  function judge(answer){
+    if(answered) return;
+    answered = true;
+    const {current, next} = getPair();
+    const isHigh = next > current;
+    const chosenHigh = answer === 'high';
+    const ok = isHigh === chosenHigh;
+    nextNumberEl.textContent = String(next);
+    highBtn.disabled = true;
+    lowBtn.disabled = true;
+    if(ok){
+      correct += 1;
+      streak += 1;
+      bestStreak = Math.max(bestStreak, streak);
+      (chosenHigh ? highBtn : lowBtn).classList.add('correct');
+      messageTitle.className = 'message-title ok';
+      messageTitle.textContent = 'せいかい！';
+      messageDetail.textContent = `つぎの数字は ${next}。${next} は ${current} より ${isHigh ? 'おおきい' : 'ちいさい'}ね。`;
+      playTone('ok');
+    }else{
+      streak = 0;
+      (chosenHigh ? highBtn : lowBtn).classList.add('wrong');
+      ((isHigh ? highBtn : lowBtn)).classList.add('correct');
+      messageTitle.className = 'message-title ng';
+      messageTitle.textContent = 'おしい！ つぎもやってみよう';
+      messageDetail.textContent = `つぎの数字は ${next}。${next} は ${current} より ${isHigh ? 'おおきい' : 'ちいさい'}よ。`;
+      playTone('ng');
+    }
+    updateStatus();
+    nextBtn.classList.remove('hidden');
+    nextBtn.textContent = questionIndex === TOTAL_QUESTIONS - 1 ? 'けっかへ' : 'つぎへ';
+  }
+
+  function saveResult(){
+    const success = correct >= 7;
+    const detail = `10問中 ${correct}問正解。最大連続正解 ${bestStreak}。最後まで取り組めた。`;
+    const extra = {
+      totalQuestions: TOTAL_QUESTIONS,
+      correct,
+      bestStreak,
+      finished: true,
+      hintMode: 'support',
+      game: 'number_highlow'
+    };
+    if(window.NIJI_RESULT){
+      savedRecord = window.NIJI_RESULT.save({
+        title:'数字ハイアンドロー',
+        category:'算数',
+        score:`${correct}/${TOTAL_QUESTIONS}`,
+        detail,
+        success,
+        type:'game',
+        source:'number_highlow.html',
+        extra
+      });
+    }
+  }
+
+  function finishGame(){
+    playScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+    finalScore.textContent = `${correct}/${TOTAL_QUESTIONS}`;
+    bestStreakEl.textContent = String(bestStreak);
+    finishedState.textContent = '○';
+    if(correct >= 8){
+      finalMessage.className = 'message-title ok';
+      finalMessage.textContent = 'すごい！ とてもよくできたね！';
+      finalDetail.textContent = '数字の大きい・小さいをよく考えて答えられました。';
+    }else if(correct >= 5){
+      finalMessage.className = 'message-title ok';
+      finalMessage.textContent = '最後までよくがんばったね！';
+      finalDetail.textContent = '落ち着いて考えながら、10問やりきることができました。';
+    }else{
+      finalMessage.className = 'message-title ok';
+      finalMessage.textContent = 'チャレンジ完了！';
+      finalDetail.textContent = 'あきらめずに最後まで取り組めたことが大成功です。';
+    }
+    saveResult();
+  }
+
+  function nextQuestion(){
+    if(questionIndex >= TOTAL_QUESTIONS - 1){
+      finishGame();
+      return;
+    }
+    questionIndex += 1;
+    showQuestion();
+  }
+
+  function startGame(){
+    buildSequence();
+    questionIndex = 0;
+    correct = 0;
+    streak = 0;
+    bestStreak = 0;
+    savedRecord = null;
+    startScreen.classList.add('hidden');
+    resultScreen.classList.add('hidden');
+    playScreen.classList.remove('hidden');
+    showQuestion();
+  }
+
+  hintBtn.addEventListener('click', ()=>{
+    if(answered || hintUsed) return;
+    hintUsed = true;
+    const {next} = getPair();
+    hintBox.textContent = hintText(next);
+    hintBox.classList.remove('hidden');
+  });
+  highBtn.addEventListener('click', ()=>judge('high'));
+  lowBtn.addEventListener('click', ()=>judge('low'));
+  nextBtn.addEventListener('click', nextQuestion);
+  startBtn.addEventListener('click', startGame);
+  restartBtn.addEventListener('click', startGame);
+  reportBtn.addEventListener('click', ()=>{
+    if(savedRecord && window.NIJI_RESULT){
+      window.location.href = window.NIJI_RESULT.reportUrl(savedRecord);
+    }else{
+      window.location.href = 'result_report.html';
+    }
+  });
+})();
+</script>
+<script src="assets/layout_v25.js"></script>
+</body>
+</html>
