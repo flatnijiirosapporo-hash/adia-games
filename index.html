@@ -15,8 +15,7 @@
     <div class="home-brand"><strong>にじフラ チャレンジ</strong><span>学習・SST・ビジョントレーニング</span></div>
     <nav class="home-nav" aria-label="メインメニュー">
       <a href="#allGames">ゲーム</a>
-      <a href="sst.html">SST</a>
-      <a href="records.html">記録</a>
+      <a href="#staffTools">職員・記録</a>
     </nav>
   </div>
 </header>
@@ -27,10 +26,10 @@
     <div>
       <span class="home-kicker">🌈 にじいろクラス フラット札幌　Ver2.5</span>
       <h1>今日は、<br>なにをやる？</h1>
-      <p>最初に目的を選び、そのあと必要なゲームを選べるように整理しました。子どもにも職員にも、次に押す場所が分かりやすい画面です。</p>
+      <p>すべてのゲームを同じカードで一覧表示しています。やりたいゲームを1つ選んで、そのままスタートできます。</p>
     </div>
     <div class="hero-side">
-      <div class="hero-side-card"><strong>迷わないための3ステップ</strong><p>①目的を選ぶ → ②ゲームを選ぶ → ③スタート。終了後は結果・評価記録へ進めます。</p></div>
+      <div class="hero-side-card"><strong>1ゲーム＝1カード</strong><p>フラトレ・運動あそび・危険予知・SST・10分チェック・かたちパズル・国旗ゲームも、すべて同じ一覧から選べます。</p></div>
     </div>
   </section>
 
@@ -45,17 +44,6 @@
     <div class="context-help">※入力内容はこの端末内だけに保存されます。共有端末では利用後に「設定をクリア」してください。</div>
   </section>
 
-  <section class="home-section" aria-labelledby="quickTitle">
-    <div class="home-section-head"><div><h2 id="quickTitle">まず選ぶ</h2><p>よく使う機能を4つに整理</p></div></div>
-    <div class="quick-grid">
-      <a class="quick-card" href="cognitive_check_10min.html"><div class="quick-icon">🧩</div><strong>10分チェック</strong><small>5つの力を短時間で確認する</small><span class="quick-go">はじめる →</span></a>
-      <a class="quick-card" href="sst.html"><div class="quick-icon">💬</div><strong>SST</strong><small>気持ち・伝え方・相手視点を練習する</small><span class="quick-go">SSTを選ぶ →</span></a>
-      <a class="quick-card" href="#allGames"><div class="quick-icon">🎮</div><strong>ゲーム</strong><small>目的別にゲームを選ぶ</small><span class="quick-go">ゲームを見る →</span></a>
-      <a class="quick-card" href="records.html"><div class="quick-icon">📚</div><strong>結果・記録</strong><small>児童別の評価・再印刷・CSV</small><span class="quick-go">記録を見る →</span></a>
-      <a class="quick-card shape-puzzle-quick" href="shape_puzzle.html?v=20260901-4"><div class="quick-icon">🧩</div><strong>かたちパズル</strong><small>ピースをくみあわせて、かたちを完成させよう！</small><span class="quick-go">はじめる →</span></a>
-    </div>
-  </section>
-
   <section class="home-section saved-section" id="favoriteSection" hidden aria-labelledby="favTitle">
     <div class="home-section-head"><div><h2 id="favTitle">★ お気に入り</h2><p>よく使うゲームをここからすぐ開始</p></div></div>
     <div class="home-game-grid saved-grid" id="favoriteGrid"></div>
@@ -67,7 +55,7 @@
   </section>
 
   <section class="home-section" id="allGames" aria-labelledby="gamesTitle">
-    <div class="home-section-head"><div><h2 id="gamesTitle">目的からゲームを選ぶ</h2><p><span id="gameCount">54</span>種類</p></div></div>
+    <div class="home-section-head"><div><h2 id="gamesTitle">ゲームをえらぶ</h2><p><span id="gameCount">59</span>種類</p></div></div>
     <div class="purpose-grid" id="purposeGrid" role="group" aria-label="ゲームカテゴリ"></div>
     <div class="game-tools"><input id="gameSearch" type="search" placeholder="ゲーム名・学習内容で検索" aria-label="ゲームを検索"><button id="clearSearch" type="button">検索をクリア</button></div>
     <div class="filter-row" aria-label="ゲーム絞り込み">
@@ -79,12 +67,9 @@
     <div id="emptyState" style="display:none;text-align:center;padding:28px;color:#64748b;font-weight:800">該当するゲームがありません。</div>
   </section>
 
-  <section class="home-section" aria-labelledby="flatTitle">
-    <div class="home-section-head"><div><h2 id="flatTitle">フラット教材・管理</h2><p>これまでの教材と記録機能</p></div></div>
+  <section class="home-section" id="staffTools" aria-labelledby="staffTitle">
+    <div class="home-section-head"><div><h2 id="staffTitle">職員・記録</h2><p>ゲーム以外の記録・確認機能</p></div></div>
     <div class="flat-grid">
-      <a class="flat-card" href="flatore.html"><div class="f-icon">🧠</div><strong>フラトレ</strong><p>集中・記憶・判断のオリジナルゲーム</p></a>
-      <a class="flat-card" href="movement.html"><div class="f-icon">🏃</div><strong>運動あそび</strong><p>ビジョントレーニングなど</p></a>
-      <a class="flat-card" href="danger_game.html"><div class="f-icon">⚠️</div><strong>危険予知</strong><p>安全行動を考えるトレーニング</p></a>
       <a class="flat-card" href="result_report.html"><div class="f-icon">🖨️</div><strong>A4評価シート</strong><p>直前の結果をA4 1枚で記録・印刷</p></a>
       <a class="flat-card" href="records.html"><div class="f-icon">🗂️</div><strong>記録管理</strong><p>検索・再印刷・CSV・バックアップ</p></a>
       <a class="flat-card" href="child_summary.html"><div class="f-icon">📈</div><strong>児童別の経過</strong><p>職員観察の推移・実施回数を確認</p></a>
@@ -94,9 +79,9 @@
 </main>
 <footer class="home-footer">にじフラ チャレンジ｜安心の中で挑戦し、挑戦の中で成長する</footer>
 <script src="assets/result_store.js"></script>
-<script src="assets/game_catalog.js?v=20260902-54"></script>
+<script src="assets/game_catalog.js?v=20260902-59"></script>
 <script src="assets/game_profile_v24.js"></script>
-<script src="assets/home_v24.js?v=20260901-53"></script>
+<script src="assets/home_v24.js?v=20260902-59"></script>
 <script src="assets/layout_v25.js"></script>
 <script src="assets/context_panel_v25.js"></script>
 <script src="assets/accessibility.js"></script>

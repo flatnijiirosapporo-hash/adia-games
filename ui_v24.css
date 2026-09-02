@@ -123,18 +123,20 @@ body.home-v24{background:#f6f9fc!important}
 .home-v24 .purpose-btn{border:1px solid var(--niji-line);background:#fff;border-radius:17px;padding:13px 10px;min-height:92px;text-align:center;color:var(--niji-ink);font-weight:900;box-shadow:none}
 .home-v24 .purpose-btn .p-icon{display:block;font-size:26px;margin-bottom:5px}.home-v24 .purpose-btn.active{background:#273750;color:#fff;border-color:#273750}
 .home-v24 .game-tools{display:grid;grid-template-columns:1fr auto;gap:9px;margin:12px 0}.home-v24 .game-tools input{width:100%;min-height:48px;background:#fff;border:1.5px solid var(--niji-line);border-radius:15px;padding:10px 14px;font-size:16px}.home-v24 .game-tools button{min-height:48px;border:1px solid var(--niji-line);background:#fff;color:var(--niji-ink);border-radius:15px;padding:9px 15px;font-weight:900}
-.home-v24 .home-game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.home-v24 .home-game-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}
 .home-v24 .home-game-card{background:#fff;border:1px solid var(--niji-line);border-radius:19px;padding:16px;min-height:185px;display:flex;flex-direction:column;box-shadow:var(--niji-shadow-sm);transition:.15s ease}
 .home-v24 .home-game-card:hover{transform:translateY(-2px);border-color:#aebfe0;box-shadow:var(--niji-shadow)}
 .home-v24 .home-game-card .g-icon{font-size:34px;line-height:1}.home-v24 .home-game-card h3{font-size:17px;margin:10px 0 5px;line-height:1.35}.home-v24 .home-game-card p{font-size:13px;color:var(--niji-muted);margin:0;line-height:1.55}.home-v24 .home-game-card .g-foot{margin-top:auto;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:6px}.home-v24 .cat-pill{font-size:11px;background:#f3f6fa;color:#596a81;border-radius:999px;padding:4px 8px;font-weight:900}.home-v24 .play-link{font-size:12px;color:#3158bc;font-weight:950}
 .home-v24 .flat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.home-v24 .flat-card{background:#fff;border:1px solid var(--niji-line);border-radius:19px;padding:16px;min-height:130px;box-shadow:var(--niji-shadow-sm)}.home-v24 .flat-card strong{display:block;font-size:17px;margin:8px 0 3px}.home-v24 .flat-card p{font-size:13px;color:var(--niji-muted);margin:0}.home-v24 .flat-card .f-icon{font-size:30px}.home-v24 .home-footer{text-align:center;color:var(--niji-muted);padding:28px 12px;font-size:12px}
 .home-v24 .file-note{display:none;background:#fff7df;border:1px solid #eed48a;border-radius:16px;padding:11px 14px;margin-bottom:14px;color:#725a20;font-size:13px;line-height:1.55}
 
+@media(max-width:1100px){.home-v24 .home-game-grid{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:900px){
   .home-v24 .home-hero{grid-template-columns:1fr}.home-v24 .hero-side{display:none}
   .home-v24 .quick-grid{grid-template-columns:repeat(2,1fr)}
   .home-v24 .purpose-grid{grid-template-columns:repeat(3,1fr)}
-  .home-v24 .home-game-grid,.home-v24 .flat-grid{grid-template-columns:repeat(2,1fr)}
+  .home-v24 .home-game-grid{grid-template-columns:repeat(4,1fr)}
+  .home-v24 .flat-grid{grid-template-columns:repeat(2,1fr)}
   body.game-body.niji-v24 .play-card{min-height:470px}
 }
 @media(max-width:620px){
@@ -142,7 +144,8 @@ body.home-v24{background:#f6f9fc!important}
   .home-v24 .home-main{padding-top:14px}.home-v24 .home-hero{padding:20px;border-radius:22px}.home-v24 .home-hero h1{font-size:34px}.home-v24 .home-hero p{font-size:15px}
   .home-v24 .quick-grid{grid-template-columns:1fr 1fr;gap:9px}.home-v24 .quick-card{min-height:142px;padding:14px}.home-v24 .quick-card strong{font-size:16px}.home-v24 .quick-card small{font-size:12px}
   .home-v24 .purpose-grid{grid-template-columns:repeat(2,1fr)}
-  .home-v24 .home-game-grid,.home-v24 .flat-grid{grid-template-columns:1fr}.home-v24 .home-game-card{min-height:150px}
+  .home-v24 .home-game-grid{grid-template-columns:repeat(2,1fr)}
+  .home-v24 .flat-grid{grid-template-columns:1fr}.home-v24 .home-game-card{min-height:150px}
   .home-v24 .game-tools{grid-template-columns:1fr}.home-v24 .game-tools button{display:none}
   body.game-body.niji-v24 .game-shell{padding:12px 10px 28px}.site-header .head-inner{padding:8px 10px}.site-header .brand-copy small{display:none}.site-header .head-actions .nav-btn:not(:last-child){display:none}
   body.game-body.niji-v24 .game-head-card{padding:14px;border-radius:20px}.game-body .game-top .nav-btn{display:none}

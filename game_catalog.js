@@ -51,6 +51,11 @@ window.NIJI_GAMES = [
   {id:'moneycount',title:'お金を数えよう',icon:'🪙',cat:'生活',desc:'並んだ硬貨の合計金額を答える',tags:['硬貨','計算']},
   {id:'exchange',title:'両替てんびん',icon:'⚖️',cat:'生活',desc:'同じ金額になる硬貨の組み合わせを選ぶ',tags:['両替','等価']},
   {id:'threepoint',title:'スリーポイントゲーム',icon:'🏀',cat:'息抜き',desc:'タイミングを合わせてシュートを決める',tags:['タイミング','レク']},
+  {id:'flatoreHub',title:'フラトレ',icon:'🧠',cat:'認知',desc:'集中・記憶・判断に取り組む、にじフラのオリジナル療育ゲーム',tags:['フラトレ','集中','記憶','判断'],href:'flatore.html?v=20260902-59',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'実行機能・注意・記憶・判断'}},
+  {id:'movementHub',title:'運動あそび',icon:'🏃',cat:'運動',desc:'見る・反応する・体を動かす活動につながる運動あそび',tags:['運動','ビジョン','反応'],href:'movement.html?v=20260902-59',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'運動・視覚反応・身体コントロール'}},
+  {id:'dangerHub',title:'危険予知',icon:'⚠️',cat:'安全',desc:'身近な場面から安全な行動を考えるトレーニング',tags:['危険予知','安全','判断'],href:'danger_game.html?v=20260902-59',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'危険認知・安全判断・行動選択'}},
+  {id:'cognitiveHub',title:'10分チェック',icon:'🧩',cat:'認知',desc:'短時間の課題で、取り組み方や得意・苦手の傾向を確認',tags:['10分チェック','認知','確認'],href:'cognitive_check_10min.html?v=20260902-59',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'注意・記憶・認知・判断の参考確認'}},
+  {id:'sstHub',title:'SST',icon:'💬',cat:'SST',desc:'気持ち・伝え方・相手の立場・実生活の場面を練習',tags:['SST','気持ち','コミュニケーション'],href:'sst.html?v=20260902-59',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'社会性・感情理解・コミュニケーション'}},
   {id:'shapePuzzle',title:'かたちパズル',icon:'🧩',cat:'認知',desc:'ピースをくみあわせて、かたちを完成させよう！',tags:['空間認知','図形','試行錯誤'],href:'shape_puzzle.html?v=20260901-4',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'視空間認知・形の構成・試行錯誤'}},
   {id:'flagGame',title:'国旗ゲーム',icon:'🌏',cat:'社会',desc:'国旗を見て、覚えて、くらべて、世界の国を楽しく学ぼう！',tags:['国旗','世界','視覚認知'],href:'flag_game.html?v=20260902-1',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'視覚認知・照合・記憶・選択判断'}}
 ];

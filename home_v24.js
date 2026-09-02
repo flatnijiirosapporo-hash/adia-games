@@ -7,7 +7,7 @@ const load=(k,d=[])=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');re
 const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}};
 let favorites=new Set(load(FAV_KEY));
 const recent=load(RECENT_KEY).filter(id=>games.some(g=>g.id===id)).slice(0,8);
-const icons={'すべて':'🌈','じかん・抑制':'⏱️','ビジョン':'👀','SST':'💬','認知':'🧠','息抜き':'🎈','算数':'🔢','国語':'🔤','社会':'🌏','レク':'🎲','生活':'🛒'};
+const icons={'すべて':'🌈','じかん・抑制':'⏱️','ビジョン':'👀','SST':'💬','認知':'🧠','息抜き':'🎈','算数':'🔢','国語':'🔤','社会':'🌏','レク':'🎲','生活':'🛒','運動':'🏃','安全':'⚠️'};
 const cats=['すべて',...new Set(games.map(g=>g.cat))];
 let active='すべて';
 const purpose=document.getElementById('purposeGrid'),grid=document.getElementById('gameGrid'),search=document.getElementById('gameSearch'),empty=document.getElementById('emptyState'),count=document.getElementById('gameCount'),ageFilter=document.getElementById('ageFilter'),difficultyFilter=document.getElementById('difficultyFilter'),timeFilter=document.getElementById('timeFilter');
