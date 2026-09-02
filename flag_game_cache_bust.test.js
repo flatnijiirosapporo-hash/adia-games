@@ -1,0 +1,11 @@
+const fs=require('fs');
+const assert=require('assert');
+const index=fs.readFileSync('index.html','utf8');
+const catalog=fs.readFileSync('assets/game_catalog.js','utf8');
+const NEW='flag_game.html?v=20260902-5';
+const OLD='flag_game.html?v=20260902-1';
+assert(index.includes(NEW),'index.html must point to the new flag game cache-busted URL');
+assert(!index.includes(OLD),'index.html must not contain the stale flag game URL');
+assert(catalog.includes(NEW),'fallback catalog must point to the new flag game cache-busted URL');
+assert(!catalog.includes(OLD),'fallback catalog must not contain the stale flag game URL');
+console.log('PASS flag game cache bust');
