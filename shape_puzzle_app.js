@@ -22,12 +22,23 @@ function setMessage(text=''){const el=$('playMessage');if(el)el.textContent=text
 function markMeaningfulAction(){if(!currentPuzzle||screens.play.hidden)return;clearTimeout(idleTimer);idleTimer=setTimeout(showHintModal,SHAPE_HINT_IDLE_MS)}
 function showHintModal(){$('hintModal').hidden=false;$('hintModalUse').focus()}
 function hideHintModal(){$('hintModal').hidden=true}
+function shapePuzzlePersistentFive(level,pool){
+  const bands=core.difficultyBands(pool,5),version='2026-09-02-q500-v1';
+  if(!window.NIJI_QUESTION_BAG_RUNTIME)return core.selectFive(pool);
+  return bands.map((items,band)=>{
+    const byId=new Map(items.map(p=>[String(p.id),p]));
+    try{
+      const bag=window.NIJI_QUESTION_BAG_RUNTIME.createQuestionBag({storage:localStorage,gameId:`shapePuzzle:${level}:band${band+1}`,difficulty:level,bankVersion:version,ids:[...byId.keys()]});
+      return byId.get(String(bag.draw(1)[0]));
+    }catch{return items[Math.floor(Math.random()*items.length)]}
+  });
+}
 function startSession(){
   const name=$('childNameInput').value.trim();
   if(!name){$('nameError').hidden=false;$('childNameInput').focus();return}
   $('nameError').hidden=true;
   if(!selectedLevel){showScreen('difficulty');return}
-  try{const fresh=core.createSession(name,selectedLevel,pools[selectedLevel]||[]);Object.assign(session,fresh);beginPuzzle()}catch(err){console.error(err);alert('もんだいを よみこめませんでした。\nTOPにもどって、もういちどためしてください。')}
+  try{const pool=pools[selectedLevel]||[],picked=shapePuzzlePersistentFive(selectedLevel,pool),fresh=core.createSessionFromPuzzles(name,selectedLevel,picked);Object.assign(session,fresh);beginPuzzle()}catch(err){console.error(err);alert('もんだいを よみこめませんでした。\nTOPにもどって、もういちどためしてください。')}
 }
 function beginPuzzle(){
   clearTimers();hideHintModal();

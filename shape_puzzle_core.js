@@ -64,20 +64,28 @@
     const set=new Set(keys); if(set.size!==keys.length)return false;
     return targetKeys.every(k=>set.has(k));
   }
-  function selectFive(pool,rng=Math.random){
+  function difficultyBands(pool,count=5){
     const sorted=[...pool].sort((a,b)=>a.difficultyIndex-b.difficultyIndex);
-    return [0,1,2,3,4].map(band=>{
-      const bandItems=sorted.filter(p=>p.difficultyIndex>band*20&&p.difficultyIndex<=(band+1)*20);
-      if(!bandItems.length)throw new Error(`missing difficulty band ${band+1}`);
-      const raw=Number(rng()); const r=Number.isFinite(raw)?Math.min(Math.max(raw,0),0.999999999):0;
-      return bandItems[Math.floor(r*bandItems.length)];
+    if(sorted.length<count)throw new Error('not enough puzzles for bands');
+    return Array.from({length:count},(_,band)=>{
+      const start=Math.floor(band*sorted.length/count),end=Math.floor((band+1)*sorted.length/count),items=sorted.slice(start,end);
+      if(!items.length)throw new Error(`missing difficulty band ${band+1}`);
+      return items;
     });
   }
-  function createSession(childName,difficulty,pool,rng=Math.random){
+  function selectFive(pool,rng=Math.random){
+    return difficultyBands(pool,5).map(items=>{
+      const raw=Number(rng()),r=Number.isFinite(raw)?Math.min(Math.max(raw,0),0.999999999):0;
+      return items[Math.floor(r*items.length)];
+    });
+  }
+  function createSessionFromPuzzles(childName,difficulty,puzzles){
     const name=String(childName||'').trim();
     if(!name)throw new Error('name required');
-    return {childName:name,difficulty,puzzles:selectFive(pool,rng),currentIndex:0,results:[],finalRatings:null,comment:''};
+    if(!Array.isArray(puzzles)||puzzles.length!==5)throw new Error('five puzzles required');
+    return {childName:name,difficulty,puzzles:[...puzzles],currentIndex:0,results:[],finalRatings:null,comment:''};
   }
+  function createSession(childName,difficulty,pool,rng=Math.random){return createSessionFromPuzzles(childName,difficulty,selectFive(pool,rng));}
   function pointToGrid(clientX,clientY,boardRect){
     return [Math.floor((clientX-boardRect.left)/boardRect.cellSize),Math.floor((clientY-boardRect.top)/boardRect.cellSize)];
   }
@@ -110,5 +118,5 @@
     const perseverance=(summary.attempted||0)>=pr.goodAttempted?'◎':(summary.attempted||0)>=pr.okAttempted?'○':'△';
     return {seeThink,tryRepair,shapeGrasp,perseverance};
   }
-  return {SHAPE_EVAL_RULES,cellKey,normalizeCells,rotateCells,translateCells,isInsideTarget,hasOverlap,canPlace,nearestValidPlacement,isSolved,selectFive,createSession,pointToGrid,nextHintLevel,summarizeResults,referenceRatings,cellsForPlacement};
+  return {SHAPE_EVAL_RULES,cellKey,normalizeCells,rotateCells,translateCells,isInsideTarget,hasOverlap,canPlace,nearestValidPlacement,isSolved,difficultyBands,selectFive,createSessionFromPuzzles,createSession,pointToGrid,nextHintLevel,summarizeResults,referenceRatings,cellsForPlacement};
 });
