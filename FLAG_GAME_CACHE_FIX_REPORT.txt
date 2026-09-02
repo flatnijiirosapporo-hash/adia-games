@@ -1,0 +1,19 @@
+国旗ゲーム動作修正レポート
+作業日: 2026-09-02
+
+確認結果:
+- 国旗ゲーム本体のJavaScript構文: PASS
+- 201件マスターデータ: PASS
+- 5モード出題生成: PASS
+- easy / normal / challenge 各1000ラウンドストレステスト: PASS
+- 既存品質テスト: PASS
+
+特定した原因:
+TOPから国旗ゲームへ移動するURLが初回版の flag_game.html?v=20260902-1 のまま固定されていました。
+本体を更新してもURLが変わらないため、ブラウザ/GitHub Pages環境で古い国旗ゲームがキャッシュから開かれる経路が残っていました。
+
+修正:
+- TOP静的カード: flag_game.html?v=20260902-5
+- TOP埋め込みカタログ: flag_game.html?v=20260902-5
+- 予備 game_catalog.js: flag_game.html?v=20260902-5
+- 旧URLは製品ファイルから除去
