@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>月までジャンプ！｜にじフラ チャレンジ</title>
+<style>
+:root{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;color:#0f172a;background:#071127}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;overscroll-behavior:none}body{min-height:100vh;background:linear-gradient(180deg,#e8f6ff 0,#cdeaff 36%,#071127 100%);padding:12px;touch-action:manipulation}
+.page{width:min(900px,100%);margin:auto}.topbar{display:flex;align-items:center;gap:10px;margin-bottom:10px}.back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#fff;color:#15345f;border:2px solid #cbd5e1;border-radius:14px;font-weight:900;padding:10px 14px;box-shadow:0 4px 12px #0001}.title{flex:1;text-align:center;color:#fff;text-shadow:0 2px 4px #0008;margin:0;font-size:clamp(22px,4vw,34px)}
+.game-shell{position:relative;border-radius:24px;overflow:hidden;border:3px solid #fff8;box-shadow:0 14px 45px #0006;background:#06152f}.hud{position:absolute;z-index:5;inset:10px 10px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;pointer-events:none}.hud-card{background:#fffffff2;border:2px solid #dbeafe;border-radius:14px;padding:7px 8px;text-align:center;box-shadow:0 4px 14px #0002}.hud-card b{display:block;font-size:clamp(14px,2.7vw,22px);line-height:1.05}.hud-card small{font-weight:800;color:#475569;font-size:10px}.progress-wrap{position:absolute;z-index:5;left:12px;right:12px;top:84px;height:12px;border-radius:999px;background:#ffffff55;border:1px solid #fff;overflow:hidden;pointer-events:none}.progress{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#c084fc,#fef08a);transition:width .2s linear}.checkpoint{position:absolute;z-index:7;left:50%;top:112px;transform:translate(-50%,-12px);opacity:0;background:#fff7c2;color:#854d0e;border:2px solid #fde047;border-radius:999px;padding:7px 13px;font-weight:900;pointer-events:none;transition:.25s}.checkpoint.show{opacity:1;transform:translate(-50%,0)}
+#gameCanvas{display:block;width:100%;height:min(76vh,760px);min-height:500px;background:#7dd3fc;touch-action:none}.overlay{position:absolute;z-index:10;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:#020617aa;backdrop-filter:blur(3px)}.overlay.hidden{display:none}.panel{width:min(540px,94%);background:#fff;border-radius:28px;padding:24px 20px;text-align:center;box-shadow:0 16px 50px #0006;border:4px solid #dbeafe}.moon-icon{font-size:76px;line-height:1}.panel h2{font-size:clamp(28px,7vw,44px);margin:4px 0 10px}.panel p{margin:7px 0;font-weight:800;color:#334155}.big-rule{font-size:clamp(18px,4.5vw,26px)!important;color:#1d4ed8!important}.tap-prompt{margin-top:16px!important;padding:12px;background:#e0f2fe;border-radius:16px;color:#075985!important;animation:pulse 1.2s ease-in-out infinite alternate}@keyframes pulse{to{transform:scale(1.03)}}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.result-grid div{border-radius:14px;background:#f1f5f9;padding:10px}.result-grid b{display:block;font-size:21px;color:#0f172a}.result-grid small{font-weight:800;color:#64748b}.help{margin-top:10px;background:#fff;border-radius:18px;padding:12px 16px;font-weight:800;color:#334155;line-height:1.6}.help strong{color:#0f57a8}.danger{color:#b91c1c}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:580px){body{padding:6px}.back{padding:8px 10px}.hud{inset:7px 7px auto;gap:4px}.hud-card{padding:6px 4px}.progress-wrap{top:76px}.checkpoint{top:98px}#gameCanvas{height:78vh;min-height:520px}.panel{padding:20px 14px}.moon-icon{font-size:62px}}
+@media(orientation:landscape) and (max-height:650px){#gameCanvas{height:84vh;min-height:420px}.hud-card b{font-size:15px}.progress-wrap{top:67px}.checkpoint{top:85px}.help{display:none}.topbar{margin-bottom:5px}.title{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar"><a class="back" href="index.html">← もどる</a><h1 class="title">🌙 月までジャンプ！</h1><span style="width:72px"></span></div>
+  <div class="game-shell" id="gameShell">
+    <div class="hud" aria-live="polite">
+      <div class="hud-card"><small>進んだ距離</small><b><span id="distanceKm">0</span> km</b></div>
+      <div class="hud-card"><small>月まであと</small><b><span id="remainingKm">384,400</span> km</b></div>
+      <div class="hud-card"><small>1秒で進む</small><b><span id="speedKm">約1,281</span> km</b></div>
+    </div>
+    <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progressBar"></div></div>
+    <div class="checkpoint" id="checkpoint">100,000km 通過！</div>
+    <canvas id="gameCanvas" aria-label="月へ向かって障害物を避けながらジャンプするゲーム"></canvas>
+    <div class="overlay" id="overlay">
+      <div class="panel" id="panel">
+        <div class="moon-icon">🌍 ➜ 🌙</div>
+        <h2>月までジャンプ！</h2>
+        <p>地球から月までの平均距離は<br><strong>約384,400km</strong></p>
+        <p class="big-rule">1秒で約1,281km進む！</p>
+        <p>月まで約5分。左右には自動で動きます。<br><strong>画面をタップするとジャンプ！</strong></p>
+        <p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p>
+        <p class="tap-prompt">👆 画面をタップしてスタート</p>
+      </div>
+    </div>
+    <div id="liveStatus" class="sr-only" aria-live="assertive"></div>
+  </div>
+  <div class="help"><strong>あそびかた：</strong>キャラクターは左右に自動で動きます。足場を見ながら、ジャンプしたいタイミングで画面をタップします。<span class="danger">障害物に触れたらその場でゲームオーバー。</span> 5分間進むと月に到着です。</div>
+</div>
+<script src="assets/moon_jump_core.js?v=20260903-moon1"></script>
+<script>
+(function(){
+'use strict';
+const Core=window.MoonJumpCore;
+const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
+const shell=document.getElementById('gameShell'),overlay=document.getElementById('overlay'),panel=document.getElementById('panel');
+const distanceEl=document.getElementById('distanceKm'),remainingEl=document.getElementById('remainingKm'),speedEl=document.getElementById('speedKm'),progressBar=document.getElementById('progressBar'),checkpointEl=document.getElementById('checkpoint'),liveStatus=document.getElementById('liveStatus');
+let W=720,H=720,DPR=1,state='ready',lastTime=0,elapsed=0,player=null,platforms=[],obstacles=[],stars=[],particles=[],nextObstacleAt=3.4,nextPlatformY=0,lastCheckpoint=0,raf=0;
+const obstacleNames={asteroid:'隕石',satellite:'人工衛星',debris:'宇宙ゴミ'};
+const cfg={gravity:1700,jump:-735,playerW:38,playerH:46,scrollBase:44,scrollMax:72};
+speedEl.textContent='約'+Math.round(Core.KM_PER_SECOND).toLocaleString('ja-JP');
+function resize(){
+  const r=canvas.getBoundingClientRect();DPR=Math.min(2,window.devicePixelRatio||1);W=Math.max(320,r.width);H=Math.max(420,r.height);canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);if(state==='ready')resetWorld();
+}
+function rand(a,b){return a+Math.random()*(b-a)}
+function resetWorld(){
+  elapsed=0;lastCheckpoint=0;nextObstacleAt=3.4;platforms=[];obstacles=[];particles=[];stars=[];
+  for(let i=0;i<90;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:rand(.5,1.8),a:rand(.25,.9)});
+  const pw=Math.max(190,W*.62),startY=H*.79;
+  platforms.push({x:(W-pw)/2,y:startY,w:pw,h:18});
+  let y=startY-105,prevX=(W-pw)/2;
+  while(y>-H*1.5){const w=rand(W*.52,W*.7),maxShift=W*.22,x=Core.clamp(prevX+rand(-maxShift,maxShift),8,W-w-8);platforms.push({x,y,w,h:16});prevX=x;y-=rand(94,118)}
+  nextPlatformY=y;
+  player={x:W*.47,y:startY-cfg.playerH-2,w:cfg.playerW,h:cfg.playerH,vx:Math.max(115,W*.18),vy:0,canJump:true,landY:startY};
+  updateHud();draw();
+}
+function addPlatforms(){
+  let top=Math.min(...platforms.map(p=>p.y));
+  while(top>-180){const prev=platforms.reduce((a,b)=>a.y<b.y?a:b);const w=rand(W*.52,W*.7),x=Core.clamp(prev.x+rand(-W*.22,W*.22),8,W-w-8),y=top-rand(94,118);platforms.push({x,y,w,h:16});top=y}
+}
+function spawnObstacle(){
+  const types=['asteroid','satellite','debris'],type=types[Math.floor(Math.random()*types.length)],size=type==='satellite'?38:rand(26,42);
+  let x=rand(28,W-size-28);const y=-size-20;
+  obstacles.push({type,x,y,w:type==='satellite'?52:size,h:type==='satellite'?28:size,vx:rand(-24,24),spin:rand(0,Math.PI*2),spinV:rand(-1.6,1.6)});
+  nextObstacleAt=elapsed+rand(3.6,6.2);
+}
+function startGame(jumpNow){
+  cancelAnimationFrame(raf);resetWorld();state='running';overlay.classList.add('hidden');lastTime=performance.now();if(jumpNow)jump();raf=requestAnimationFrame(loop);liveStatus.textContent='ゲームスタート';
+}
+function jump(){if(state!=='running'||!player||!player.canJump)return;player.vy=cfg.jump;player.canJump=false;for(let i=0;i<7;i++)particles.push({x:player.x+player.w/2,y:player.y+player.h,vx:rand(-55,55),vy:rand(15,90),life:1})}
+function handleTap(ev){
+  if(ev){ev.preventDefault();}
+  if(state==='ready'){startGame(true);return}
+  if(state==='running'){jump();return}
+  if(state==='gameover'||state==='clear'){state='ready';showReady();startGame(true)}
+}
+shell.addEventListener('pointerdown',handleTap,{passive:false});
+window.addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();handleTap(e)}});
+function updateHud(){
+  const d=Core.distanceAtSeconds(elapsed),r=Core.remainingKmAtSeconds(elapsed),p=Core.progressAtSeconds(elapsed);
+  distanceEl.textContent=Core.formatKm(d);remainingEl.textContent=Core.formatKm(r);progressBar.style.width=p.toFixed(2)+'%';
+  const checkpoints=[100000,200000,300000];for(const cp of checkpoints){if(d>=cp&&lastCheckpoint<cp){lastCheckpoint=cp;showCheckpoint(cp)}}
+}
+function showCheckpoint(km){checkpointEl.textContent=Core.formatKm(km)+'km 通過！';checkpointEl.classList.add('show');setTimeout(()=>checkpointEl.classList.remove('show'),1700)}
+function endGame(reason,obstacle){
+  if(state!=='running')return;state=reason==='clear'?'clear':'gameover';cancelAnimationFrame(raf);updateHud();
+  const d=Core.distanceAtSeconds(elapsed),remain=Core.remainingKmAtSeconds(elapsed),pct=Core.progressAtSeconds(elapsed);
+  if(reason==='clear'){
+    panel.innerHTML='<div class="moon-icon">🌙🚀</div><h2>月に到着！</h2><p class="big-rule">384,400km 到着！</p><p>約5分かけて、地球から月までの長い距離を進みました。</p><div class="result-grid"><div><small>進んだ距離</small><b>384,400km</b></div><div><small>到達率</small><b>100%</b></div></div><p class="tap-prompt">👆 タップしてもう1回</p>';
+    liveStatus.textContent='月に到着しました。384,400キロメートルです。';
+  }else{
+    const why=reason==='obstacle'?(obstacleNames[obstacle&&obstacle.type]||'障害物')+'にぶつかった！':'足場から落ちた！';
+    panel.innerHTML='<div class="moon-icon">💥</div><h2>ゲームオーバー</h2><p class="danger">'+why+'</p><div class="result-grid"><div><small>進んだ距離</small><b>'+Core.formatKm(d)+'km</b></div><div><small>到達率</small><b>'+pct.toFixed(1)+'%</b></div><div><small>月まであと</small><b>'+Core.formatKm(remain)+'km</b></div><div><small>1秒で</small><b>約1,281km</b></div></div><p>月まで384,400km。まだまだ遠い！</p><p class="tap-prompt">👆 タップしてもう1回</p>';
+    liveStatus.textContent='ゲームオーバー。進んだ距離は'+Core.formatKm(d)+'キロメートルです。';
+  }
+  overlay.classList.remove('hidden');draw();
+}
+function showReady(){
+  panel.innerHTML='<div class="moon-icon">🌍 ➜ 🌙</div><h2>月までジャンプ！</h2><p>地球から月までの平均距離は<br><strong>約384,400km</strong></p><p class="big-rule">1秒で約1,281km進む！</p><p>月まで約5分。左右には自動で動きます。<br><strong>画面をタップするとジャンプ！</strong></p><p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p><p class="tap-prompt">👆 画面をタップしてスタート</p>';
+  overlay.classList.remove('hidden');
+}
+function update(dt){
+  elapsed=Math.min(Core.TARGET_SECONDS,elapsed+dt);if(elapsed>=Core.TARGET_SECONDS){endGame('clear');return}
+  const progress=Core.progressAtSeconds(elapsed)/100,scroll=cfg.scrollBase+(cfg.scrollMax-cfg.scrollBase)*progress;
+  const prevBottom=player.y+player.h;
+  player.vy+=cfg.gravity*dt;player.x+=player.vx*dt;player.y+=player.vy*dt;
+  if(player.x<5){player.x=5;player.vx=Math.abs(player.vx)}if(player.x+player.w>W-5){player.x=W-5-player.w;player.vx=-Math.abs(player.vx)}
+  for(const p of platforms)p.y+=scroll*dt;for(const o of obstacles){o.y+=(scroll+18)*dt;o.x+=o.vx*dt;o.spin+=o.spinV*dt;if(o.x<4||o.x+o.w>W-4)o.vx*=-1}
+  for(const s of stars){s.y+=(15+progress*45)*dt;if(s.y>H){s.y=0;s.x=Math.random()*W}}
+  if(player.vy>=0){
+    let landing=null;for(const p of platforms){const newBottom=player.y+player.h;if(prevBottom<=p.y+7&&newBottom>=p.y&&player.x+player.w>p.x+5&&player.x<p.x+p.w-5){if(!landing||p.y<landing.y)landing=p}}
+    if(landing){player.y=landing.y-player.h;player.vy=0;player.canJump=true;player.landY=landing.y}
+  }
+  platforms=platforms.filter(p=>p.y<H+80);obstacles=obstacles.filter(o=>o.y<H+100);addPlatforms();if(elapsed>=nextObstacleAt)spawnObstacle();
+  const hitbox={x:player.x+5,y:player.y+4,w:player.w-10,h:player.h-7};for(const o of obstacles){const box={x:o.x+3,y:o.y+3,w:o.w-6,h:o.h-6};if(Core.rectsOverlap(hitbox,box)){endGame('obstacle',o);return}}
+  if(player.y>H+65){endGame('fall');return}
+  for(const q of particles){q.x+=q.vx*dt;q.y+=q.vy*dt;q.life-=dt*2.2}particles=particles.filter(q=>q.life>0);updateHud();
+}
+function sky(progress){
+  const stops=[[125,211,252],[56,105,160],[18,32,72],[3,7,24]];let a,b,t;if(progress<.3){a=stops[0];b=stops[1];t=progress/.3}else if(progress<.62){a=stops[1];b=stops[2];t=(progress-.3)/.32}else{a=stops[2];b=stops[3];t=(progress-.62)/.38}return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')+')'
+}
+function drawBackground(){
+  const p=Core.progressAtSeconds(elapsed)/100;ctx.fillStyle=sky(p);ctx.fillRect(0,0,W,H);
+  if(p>.18){ctx.globalAlpha=Math.min(1,(p-.18)*2.3);ctx.fillStyle='#fff';for(const s of stars){ctx.globalAlpha=s.a*Math.min(1,(p-.18)*2.3);ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1}
+  const earthR=Math.max(18,150*(1-p*.86)),earthY=H+earthR*.5+p*90;ctx.fillStyle='#2563eb';ctx.beginPath();ctx.arc(W*.16,earthY,earthR,0,Math.PI*2);ctx.fill();ctx.fillStyle='#22c55e';ctx.beginPath();ctx.arc(W*.12,earthY-earthR*.15,earthR*.32,0,Math.PI*2);ctx.arc(W*.22,earthY+earthR*.18,earthR*.25,0,Math.PI*2);ctx.fill();
+  const moonR=26+p*70,moonX=W*.84,moonY=145-p*25;ctx.fillStyle='#f8fafc';ctx.beginPath();ctx.arc(moonX,moonY,moonR,0,Math.PI*2);ctx.fill();ctx.fillStyle='#cbd5e1';ctx.globalAlpha=.65;for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(moonX+Math.sin(i*2.1)*moonR*.45,moonY+Math.cos(i*1.7)*moonR*.4,moonR*(.07+i*.015),0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+}
+function drawPlatform(p){ctx.fillStyle='#e2e8f0';ctx.beginPath();ctx.roundRect(p.x,p.y,p.w,p.h,8);ctx.fill();ctx.fillStyle='#94a3b8';ctx.fillRect(p.x+9,p.y+p.h-4,p.w-18,4)}
+function drawObstacle(o){ctx.save();ctx.translate(o.x+o.w/2,o.y+o.h/2);ctx.rotate(o.spin);if(o.type==='asteroid'){ctx.fillStyle='#78716c';ctx.beginPath();ctx.arc(0,0,o.w*.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#57534e';ctx.beginPath();ctx.arc(-o.w*.14,-o.h*.12,o.w*.1,0,Math.PI*2);ctx.arc(o.w*.16,o.h*.1,o.w*.08,0,Math.PI*2);ctx.fill()}else if(o.type==='satellite'){ctx.fillStyle='#60a5fa';ctx.fillRect(-o.w*.5,-7,o.w*.3,14);ctx.fillRect(o.w*.2,-7,o.w*.3,14);ctx.fillStyle='#d1d5db';ctx.fillRect(-10,-12,20,24);ctx.fillStyle='#facc15';ctx.beginPath();ctx.arc(0,-15,5,0,Math.PI*2);ctx.fill()}else{ctx.fillStyle='#f97316';ctx.beginPath();ctx.moveTo(-o.w*.5,0);ctx.lineTo(-o.w*.12,-o.h*.45);ctx.lineTo(o.w*.45,-o.h*.18);ctx.lineTo(o.w*.3,o.h*.4);ctx.lineTo(-o.w*.2,o.h*.32);ctx.closePath();ctx.fill()}ctx.restore()}
+function drawPlayer(){
+  if(!player)return;const x=player.x,y=player.y;ctx.save();ctx.translate(x+player.w/2,y+player.h/2);if(player.vx<0)ctx.scale(-1,1);ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(-13,-18,26,31,10);ctx.fill();ctx.fillStyle='#ef4444';ctx.beginPath();ctx.moveTo(-13,8);ctx.lineTo(-24,16);ctx.lineTo(-12,16);ctx.closePath();ctx.fill();ctx.fillStyle='#38bdf8';ctx.beginPath();ctx.arc(5,-8,6,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#94a3b8';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-9,14);ctx.lineTo(-12,21);ctx.moveTo(9,14);ctx.lineTo(12,21);ctx.stroke();ctx.restore()
+}
+function draw(){drawBackground();for(const p of platforms)drawPlatform(p);for(const o of obstacles)drawObstacle(o);for(const q of particles){ctx.globalAlpha=Math.max(0,q.life);ctx.fillStyle='#fde68a';ctx.beginPath();ctx.arc(q.x,q.y,3,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;drawPlayer()}
+function loop(now){if(state!=='running')return;const dt=Math.min(.04,Math.max(.001,(now-lastTime)/1000));lastTime=now;update(dt);draw();if(state==='running')raf=requestAnimationFrame(loop)}
+window.addEventListener('resize',resize);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&state==='running')lastTime=performance.now()});
+resize();showReady();
+})();
+</script>
+</body>
+</html>
