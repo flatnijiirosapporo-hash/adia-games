@@ -20,13 +20,13 @@ if(missing.length){
   console.error('Missing TOP game cards:',missing.join(', '));
   process.exit(1);
 }
-if(games.length!==85){
-  console.error(`Expected 85 TOP cards, got ${games.length}`);
+if(games.length!==86){
+  console.error(`Expected 86 TOP cards, got ${games.length}`);
   process.exit(1);
 }
 const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
-if(!index.includes('<span id="gameCount">85</span>')){
-  console.error('index.html gameCount is not 85');
+if(!index.includes('<span id="gameCount">86</span>')){
+  console.error('index.html gameCount is not 86');
   process.exit(1);
 }
-console.log('PASS: all 85 TOP game cards are registered');
+console.log('PASS: all 86 TOP game cards are registered');

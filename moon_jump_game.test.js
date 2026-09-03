@@ -25,7 +25,7 @@ assert.match(html,/id="distanceKm"/,'HUD must show travelled distance');
 assert.match(html,/id="remainingKm"/,'HUD must show remaining distance');
 assert.match(html,/id="speedKm"/,'HUD must show km per second');
 assert.match(html,/1秒で約1,281km/,'player must be told the per-second distance');
-assert.match(html,/addEventListener\(['"]pointerdown['"]/,'gameplay must support tap/pointer input');
+assert.match(html,/addEventListener\(['"]click['"]/,'gameplay must support tap/pointer input');
 assert.match(html,/function\s+handleTap\s*\(/,'tap handler must exist');
 assert.match(html,/endGame\(['"]obstacle['"]\s*,/,'obstacle collision must immediately end the game');
 assert.match(html,/384,400km/,'clear/result copy must communicate full moon distance');

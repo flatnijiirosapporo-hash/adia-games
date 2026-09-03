@@ -9,7 +9,7 @@ vm.createContext(sandbox);
 vm.runInContext(catalog, sandbox);
 const games = sandbox.window.NIJI_GAMES;
 
-assert.strictEqual(games.length, 85, 'TOP main catalog must contain 85 one-card games');
+assert.strictEqual(games.length, 86, 'TOP main catalog must contain 86 one-card games');
 const expected = [
   ['flatoreHub','フラトレ','flatore.html'],
   ['movementHub','運動あそび','movement.html'],
@@ -28,7 +28,7 @@ assert(!index.includes('id="quickTitle"'), 'special quick-pick game section must
 assert(!index.includes('shape-puzzle-quick'), 'shape puzzle special card must be removed');
 assert(!index.includes('id="flatTitle"'), 'mixed flat teaching/game section must be removed');
 assert.match(index,/id="gamesTitle">ゲームをえらぶ</,'main game heading must be unified');
-assert.match(index,/<span id="gameCount">85<\/span>種類/,'visible initial game count must be 85');
+assert.match(index,/<span id="gameCount">86<\/span>種類/,'visible initial game count must be 86');
 assert.match(index,/id="staffTitle">職員・記録</,'non-game tools must be separated into staff/records area');
 assert.match(index,/href="result_report\.html"[\s\S]*href="records\.html"[\s\S]*href="child_summary\.html"[\s\S]*href="parent\.html"/,'staff/records area must keep the four non-game tools');
-console.log('PASS top unified 85 games');
+console.log('PASS top unified 86 games');

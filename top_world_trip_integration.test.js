@@ -1,0 +1,18 @@
+'use strict';
+const assert=require('assert');
+const fs=require('fs');
+const vm=require('vm');
+const catalog=fs.readFileSync('assets/game_catalog.js','utf8');
+const ctx={window:{}};vm.createContext(ctx);vm.runInContext(catalog,ctx);
+const games=ctx.window.NIJI_GAMES||[];
+assert.strictEqual(games.length,86,'catalog must contain 86 games after world trip addition');
+const game=games.find(g=>g.id==='worldTripJump');
+assert.ok(game,'worldTripJump must be registered');
+assert.strictEqual(game.title,'世界一周ジャンプ！');
+assert.ok(game.href.startsWith('world_trip_jump.html?v=20260903-jumpfix1'),'world trip link must be cache-busted');
+assert.strictEqual(game.profile.minutes,'約5分');
+const index=fs.readFileSync('index.html','utf8');
+assert.match(index,/<span id="gameCount">86<\/span>種類/,'TOP must show 86 games');
+assert.match(index,/data-id="worldTripJump"/,'TOP static fallback must include worldTripJump');
+assert.match(index,/href="world_trip_jump\.html\?v=20260903-jumpfix1"/,'TOP must link to the world trip game');
+console.log('PASS world trip TOP integration');
