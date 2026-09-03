@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('assert');
+const fs=require('fs');
+const vm=require('vm');
+const catalog=fs.readFileSync('assets/game_catalog.js','utf8');
+const ctx={window:{}};vm.createContext(ctx);vm.runInContext(catalog,ctx);
+const games=ctx.window.NIJI_GAMES||[];
+const moon=games.find(g=>g.id==='moonJump');
+assert.ok(moon,'moonJump must be registered in game catalog');
+assert.strictEqual(moon.title,'月までジャンプ！');
+assert.ok(moon.href.startsWith('moon_jump.html?v=20260903-moon1'),'moonJump must link to cache-busted moon_jump.html');
+assert.strictEqual(moon.profile.minutes,'約5分');
+const index=fs.readFileSync('index.html','utf8');
+assert.match(index,/<span id="gameCount">85<\/span>種類/,'TOP must show 85 games');
+assert.match(index,/data-id="moonJump"/,'TOP static fallback must include moonJump');
+assert.match(index,/href="moon_jump\.html\?v=20260903-moon1"/,'TOP must use the moon game cache version');
+console.log('PASS moon jump TOP integration');

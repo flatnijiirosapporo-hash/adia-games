@@ -6,7 +6,7 @@ const ctx={window:{}};vm.createContext(ctx);vm.runInContext(catalogSrc,ctx);cons
 for(const g of games){
  const expected=g.href?null:`tkk_games.html?game=${g.id}&v=${V}`;
  if(expected) assert.ok(html.includes(`href="${expected}"`),`${g.id}: static TKK href not q500`);
- if(g.href) assert.ok(g.href.includes(`v=${V}`),`${g.id}: direct href version not q500 (${g.href})`);
+ if(g.href){ const expectedVersion=g.id==='moonJump'?'v=20260903-moon1':`v=${V}`; assert.ok(g.href.includes(expectedVersion),`${g.id}: direct href version unexpected (${g.href})`); }
 }
 assert.ok(home.includes(`&v=${V}`),'home default TKK href version missing');
 assert.ok(html.includes(`&v=${V}`),'embedded home/static q500 version missing');

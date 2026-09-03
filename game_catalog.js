@@ -82,5 +82,6 @@ window.NIJI_GAMES = [
   {id:'feelingChoiceStandalone',title:'気持ち選択',icon:'🙂',cat:'SST',desc:'表情や場面から気持ちの名前を考える',tags:['SST','感情理解','100問'],href:'feeling_choice.html?v=20260902-q500-1',profile:{difficulty:1,age:'全学年',minutes:'5〜10分',aim:'感情理解・表情理解・状況理解'}},
   {id:'turnWaitingStandalone',title:'順番・待つ',icon:'⏳',cat:'SST',desc:'並ぶ・待つ・交代する場面を繰り返し練習',tags:['SST','順番','待つ'],href:'turn_waiting.html?v=20260902-q500-1',profile:{difficulty:1,age:'全学年',minutes:'5〜10分',aim:'順番理解・待機・行動調整'}},
   {id:'troubleResponseStandalone',title:'トラブル対応',icon:'🧩',cat:'SST',desc:'困った場面で安全な行動や相談方法を選ぶ',tags:['SST','トラブル','相談'],href:'trouble_response.html?v=20260902-q500-1',profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'問題解決・安全判断・援助要請'}},
-  {id:'sstReflectionStandalone',title:'今日のふりかえり',icon:'🌱',cat:'SST',desc:'実際にあった出来事から気持ちと次の行動を整理',tags:['SST','振り返り','気持ち'],href:'sst_reflection.html?v=20260902-q500-1',profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'自己理解・他者理解・次の行動の整理'}}
+  {id:'sstReflectionStandalone',title:'今日のふりかえり',icon:'🌱',cat:'SST',desc:'実際にあった出来事から気持ちと次の行動を整理',tags:['SST','振り返り','気持ち'],href:'sst_reflection.html?v=20260902-q500-1',profile:{difficulty:2,age:'全学年',minutes:'5〜10分',aim:'自己理解・他者理解・次の行動の整理'}},
+  {id:'moonJump',title:'月までジャンプ！',icon:'🌙',cat:'ビジョン',desc:'障害物を避けてジャンプしながら、約384,400km先の月を目指す',tags:['ジャンプ','タイミング','宇宙'],href:'moon_jump.html?v=20260903-moon1',noContext:true,profile:{difficulty:2,age:'全学年',minutes:'約5分',aim:'タイミング・持続注意・距離感覚'}}
 ];
