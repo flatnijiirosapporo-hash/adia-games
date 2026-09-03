@@ -4,8 +4,8 @@ const assert = require('assert');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const catalog = fs.readFileSync(path.join(__dirname, '..', 'assets', 'game_catalog.js'), 'utf8');
 for (const href of [
-  'moon_jump.html?v=20260903-jumpfix1',
-  'world_trip_jump.html?v=20260903-jumpfix1',
+  'moon_jump.html?v=20260903-jumptune1',
+  'world_trip_jump.html?v=20260903-jumptune1',
 ]) {
   const count = html.split(href).length - 1;
   assert(count >= 2, `index.html must use ${href} in static card and embedded catalog (found ${count})`);
