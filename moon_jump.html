@@ -32,14 +32,14 @@
         <h2>月までジャンプ！</h2>
         <p>地球から月までの平均距離は<br><strong>約384,400km</strong></p>
         <p class="big-rule">1秒で約1,281km進む！</p>
-        <p>月まで約5分。左右には自動で動きます。<br><strong>画面をタップするとジャンプ！</strong></p>
+        <p>月まで約5分。キャラクターは横に進みます。<br><strong>1回タップ＝左右の方向変更<br>すばやく2回タップ＝ジャンプ！</strong></p>
         <p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p>
         <p class="tap-prompt">👆 画面をタップしてスタート</p>
       </div>
     </div>
     <div id="liveStatus" class="sr-only" aria-live="assertive"></div>
   </div>
-  <div class="help"><strong>あそびかた：</strong>キャラクターは左右に自動で動きます。足場を見ながら、ジャンプしたいタイミングで画面をタップします。<span class="danger">障害物に触れたらその場でゲームオーバー。</span> 5分間進むと月に到着です。</div>
+  <div class="help"><strong>あそびかた：</strong><strong>1回タップで左右の進行方向を切り替え、すばやく2回タップでジャンプ</strong>します。足場と障害物を見ながら月を目指します。<span class="danger">障害物に触れたらその場でゲームオーバー。</span> 5分間進むと月に到着です。</div>
 </div>
 <script>
 (function(root,factory){
@@ -70,7 +70,8 @@ const Core=window.MoonJumpCore;
 const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
 const shell=document.getElementById('gameShell'),overlay=document.getElementById('overlay'),panel=document.getElementById('panel');
 const distanceEl=document.getElementById('distanceKm'),remainingEl=document.getElementById('remainingKm'),speedEl=document.getElementById('speedKm'),progressBar=document.getElementById('progressBar'),checkpointEl=document.getElementById('checkpoint'),liveStatus=document.getElementById('liveStatus');
-let W=720,H=720,DPR=1,state='ready',lastTime=0,elapsed=0,player=null,platforms=[],obstacles=[],stars=[],particles=[],nextObstacleAt=3.4,nextPlatformY=0,lastCheckpoint=0,raf=0;
+let W=720,H=720,DPR=1,state='ready',lastTime=0,elapsed=0,player=null,platforms=[],obstacles=[],stars=[],particles=[],nextObstacleAt=3.4,nextPlatformY=0,lastCheckpoint=0,raf=0,tapTimer=0;
+const TAP_WINDOW_MS=240;
 const obstacleNames={asteroid:'隕石',satellite:'人工衛星',debris:'宇宙ゴミ'};
 const cfg={gravity:1700,jump:-735,playerW:38,playerH:46,scrollBase:44,scrollMax:72};
 speedEl.textContent='約'+Math.round(Core.KM_PER_SECOND).toLocaleString('ja-JP');
@@ -99,18 +100,24 @@ function spawnObstacle(){
   obstacles.push({type,x,y,w:type==='satellite'?52:size,h:type==='satellite'?28:size,vx:rand(-24,24),spin:rand(0,Math.PI*2),spinV:rand(-1.6,1.6)});
   nextObstacleAt=elapsed+rand(3.6,6.2);
 }
+function clearTapTimer(){if(tapTimer){clearTimeout(tapTimer);tapTimer=0;}}
 function startGame(jumpNow){
-  cancelAnimationFrame(raf);resetWorld();state='running';overlay.classList.add('hidden');lastTime=performance.now();if(jumpNow)jump();raf=requestAnimationFrame(loop);liveStatus.textContent='ゲームスタート';
+  clearTapTimer();cancelAnimationFrame(raf);resetWorld();state='running';overlay.classList.add('hidden');lastTime=performance.now();if(jumpNow)jump();raf=requestAnimationFrame(loop);liveStatus.textContent='ゲームスタート。1回タップで方向変更、すばやく2回タップでジャンプ。';
 }
 function jump(){if(state!=='running'||!player||!player.canJump)return;player.vy=cfg.jump;player.canJump=false;for(let i=0;i<7;i++)particles.push({x:player.x+player.w/2,y:player.y+player.h,vx:rand(-55,55),vy:rand(15,90),life:1})}
+function changeDirection(){if(state!=='running'||!player)return;player.vx=-player.vx;liveStatus.textContent=player.vx>0?'右へ進みます':'左へ進みます';}
+function handleGameplayTap(){
+  if(tapTimer){clearTimeout(tapTimer);tapTimer=0;jump();liveStatus.textContent='ジャンプ';return;}
+  tapTimer=setTimeout(()=>{tapTimer=0;if(state==='running')changeDirection();},TAP_WINDOW_MS);
+}
 function handleTap(ev){
   if(ev){ev.preventDefault();}
-  if(state==='ready'){startGame(true);return}
-  if(state==='running'){jump();return}
-  if(state==='gameover'||state==='clear'){state='ready';showReady();startGame(true)}
+  if(state==='ready'){startGame(false);return}
+  if(state==='running'){handleGameplayTap();return}
+  if(state==='gameover'||state==='clear'){state='ready';showReady();startGame(false)}
 }
 shell.addEventListener('click',handleTap);
-window.addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();handleTap(e)}});
+window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(state==='running')jump();else handleTap(e)}else if(e.code==='ArrowLeft'||e.code==='ArrowRight'){e.preventDefault();if(state==='running'&&player){const speed=Math.abs(player.vx);player.vx=e.code==='ArrowRight'?speed:-speed;}}else if(e.code==='Enter'){e.preventDefault();handleTap(e)}});
 function updateHud(){
   const d=Core.distanceAtSeconds(elapsed),r=Core.remainingKmAtSeconds(elapsed),p=Core.progressAtSeconds(elapsed);
   distanceEl.textContent=Core.formatKm(d);remainingEl.textContent=Core.formatKm(r);progressBar.style.width=p.toFixed(2)+'%';
@@ -118,7 +125,7 @@ function updateHud(){
 }
 function showCheckpoint(km){checkpointEl.textContent=Core.formatKm(km)+'km 通過！';checkpointEl.classList.add('show');setTimeout(()=>checkpointEl.classList.remove('show'),1700)}
 function endGame(reason,obstacle){
-  if(state!=='running')return;state=reason==='clear'?'clear':'gameover';cancelAnimationFrame(raf);updateHud();
+  if(state!=='running')return;clearTapTimer();state=reason==='clear'?'clear':'gameover';cancelAnimationFrame(raf);updateHud();
   const d=Core.distanceAtSeconds(elapsed),remain=Core.remainingKmAtSeconds(elapsed),pct=Core.progressAtSeconds(elapsed);
   if(reason==='clear'){
     panel.innerHTML='<div class="moon-icon">🌙🚀</div><h2>月に到着！</h2><p class="big-rule">384,400km 到着！</p><p>約5分かけて、地球から月までの長い距離を進みました。</p><div class="result-grid"><div><small>進んだ距離</small><b>384,400km</b></div><div><small>到達率</small><b>100%</b></div></div><p class="tap-prompt">👆 タップしてもう1回</p>';
@@ -131,7 +138,7 @@ function endGame(reason,obstacle){
   overlay.classList.remove('hidden');draw();
 }
 function showReady(){
-  panel.innerHTML='<div class="moon-icon">🌍 ➜ 🌙</div><h2>月までジャンプ！</h2><p>地球から月までの平均距離は<br><strong>約384,400km</strong></p><p class="big-rule">1秒で約1,281km進む！</p><p>月まで約5分。左右には自動で動きます。<br><strong>画面をタップするとジャンプ！</strong></p><p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p><p class="tap-prompt">👆 画面をタップしてスタート</p>';
+  panel.innerHTML='<div class="moon-icon">🌍 ➜ 🌙</div><h2>月までジャンプ！</h2><p>地球から月までの平均距離は<br><strong>約384,400km</strong></p><p class="big-rule">1秒で約1,281km進む！</p><p>月まで約5分。キャラクターは横に進みます。<br><strong>1回タップ＝左右の方向変更<br>すばやく2回タップ＝ジャンプ！</strong></p><p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p><p class="tap-prompt">👆 画面をタップしてスタート</p>';
   overlay.classList.remove('hidden');
 }
 function update(dt){
