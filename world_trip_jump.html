@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>世界一周ジャンプ！｜にじフラ チャレンジ</title>
+<style>
+:root{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;color:#0f172a;background:#0b2942}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;overscroll-behavior:none}body{min-height:100vh;padding:10px;background:linear-gradient(180deg,#0ea5e9,#0369a1);touch-action:manipulation}.page{width:min(1040px,100%);margin:auto}.topbar{display:flex;align-items:center;gap:10px;margin-bottom:8px}.back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#fff;color:#15345f;border:2px solid #cbd5e1;border-radius:14px;font-weight:900;padding:9px 13px;box-shadow:0 4px 12px #0001}.title{flex:1;text-align:center;color:#fff;text-shadow:0 2px 4px #0008;margin:0;font-size:clamp(21px,4vw,34px)}.game-shell{position:relative;border-radius:24px;overflow:hidden;border:3px solid #fff8;box-shadow:0 14px 45px #0006;background:#7dd3fc}.hud{position:absolute;z-index:5;inset:8px 8px auto;display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:5px;pointer-events:none}.hud-card{background:#fffffff2;border:2px solid #dbeafe;border-radius:13px;padding:6px;text-align:center;box-shadow:0 4px 14px #0002}.hud-card b{display:block;font-size:clamp(13px,2.4vw,20px);line-height:1.05}.hud-card small{font-weight:800;color:#475569;font-size:10px}.place-card b{font-size:clamp(12px,2.2vw,18px)}.progress-wrap{position:absolute;z-index:5;left:10px;right:10px;top:72px;height:12px;border-radius:999px;background:#ffffff70;border:1px solid #fff;overflow:hidden;pointer-events:none}.progress{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#facc15,#f97316,#ef4444);transition:width .15s linear}.place-pop{position:absolute;z-index:7;left:50%;top:94px;transform:translate(-50%,-10px);opacity:0;background:#fff;color:#0f3b67;border:2px solid #7dd3fc;border-radius:18px;padding:7px 13px;font-weight:900;text-align:center;pointer-events:none;transition:.25s;box-shadow:0 5px 18px #0003}.place-pop.show{opacity:1;transform:translate(-50%,0)}#gameCanvas{display:block;width:100%;height:min(73vh,650px);min-height:460px;background:#7dd3fc;touch-action:none}.overlay{position:absolute;z-index:10;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;background:#082f49b8;backdrop-filter:blur(3px)}.overlay.hidden{display:none}.panel{width:min(590px,95%);background:#fff;border-radius:28px;padding:22px 18px;text-align:center;box-shadow:0 16px 50px #0006;border:4px solid #dbeafe}.world-icon{font-size:68px;line-height:1}.panel h2{font-size:clamp(27px,6vw,42px);margin:5px 0 8px}.panel p{margin:7px 0;font-weight:800;color:#334155}.big-rule{font-size:clamp(18px,4vw,25px)!important;color:#0369a1!important}.tap-prompt{margin-top:14px!important;padding:11px;background:#e0f2fe;border-radius:16px;color:#075985!important;animation:pulse 1.2s ease-in-out infinite alternate}@keyframes pulse{to{transform:scale(1.03)}}.danger{color:#b91c1c!important}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:13px 0}.result-grid div{border-radius:14px;background:#f1f5f9;padding:9px}.result-grid b{display:block;font-size:20px}.result-grid small{font-weight:800;color:#64748b}.help{margin-top:9px;background:#fff;border-radius:17px;padding:11px 14px;font-weight:800;color:#334155;line-height:1.55}.help strong{color:#0369a1}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:600px){body{padding:5px}.back{padding:8px 9px}.hud{inset:5px 5px auto;gap:3px}.hud-card{padding:5px 2px}.progress-wrap{top:65px}.place-pop{top:83px}#gameCanvas{height:78vh;min-height:500px}.panel{padding:18px 12px}.world-icon{font-size:58px}.help{font-size:13px}}
+@media(orientation:landscape) and (max-height:650px){#gameCanvas{height:84vh;min-height:390px}.hud-card b{font-size:14px}.progress-wrap{top:59px}.place-pop{top:76px}.help{display:none}.title{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar"><a class="back" href="index.html">← もどる</a><h1 class="title">🌍 世界一周ジャンプ！</h1><span style="width:70px"></span></div>
+  <div class="game-shell" id="gameShell">
+    <div class="hud" aria-live="polite">
+      <div class="hud-card"><small>進んだ距離</small><b><span id="distanceKm">0</span> km</b></div>
+      <div class="hud-card"><small>東京まであと</small><b><span id="remainingKm">40,075</span> km</b></div>
+      <div class="hud-card place-card"><small>いまいる場所</small><b id="placeName">浅草・雷門</b></div>
+    </div>
+    <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progressBar"></div></div>
+    <div class="place-pop" id="placePop">🇯🇵 浅草からスタート！</div>
+    <canvas id="gameCanvas" aria-label="浅草から世界を一周してスカイツリーを目指し、障害物をジャンプで避けるゲーム"></canvas>
+    <div class="overlay" id="overlay"><div class="panel" id="panel">
+      <div class="world-icon">⛩️🌍🗼</div><h2>世界一周ジャンプ！</h2>
+      <p><strong>東京・浅草</strong>からスタートして、地球を一周！<br>ゴールは<strong>東京スカイツリー</strong>です。</p>
+      <p class="big-rule">地球一周 約40,075km<br>1秒で約134km進む！</p>
+      <p>自動で右へ進みます。<strong>画面をタップするとジャンプ！</strong></p>
+      <p class="danger">⚠️ 車・船・人・鳥など、その土地の障害物にぶつかるとゲームオーバー</p>
+      <p class="tap-prompt">👆 画面をタップしてスタート</p>
+    </div></div>
+    <div id="liveStatus" class="sr-only" aria-live="assertive"></div>
+  </div>
+  <div class="help"><strong>あそびかた：</strong>浅草を出発し、背景に現れる世界の風景を見ながら右へ進みます。タップでジャンプして障害物を避け、約5分で地球一周。<span class="danger">障害物に触れたら即ゲームオーバー。</span></div>
+</div>
+<script>
+(function(root,factory){
+  if(typeof module==='object'&&module.exports){module.exports=factory();}
+  else{root.WorldTripCore=factory();}
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const EARTH_CIRCUMFERENCE_KM=40075;
+  const TARGET_SECONDS=300;
+  const KM_PER_SECOND=EARTH_CIRCUMFERENCE_KM/TARGET_SECONDS;
+  const ROUTE_SCENES=[
+    {id:'asakusa',start:0,name:'浅草・雷門',country:'日本・東京',landmark:'sensoji',theme:'city',obstacles:['人','自転車','タクシー']},
+    {id:'pacific1',start:5,name:'太平洋',country:'日本から東へ',landmark:'ocean',theme:'ocean',obstacles:['船','カモメ','飛び魚']},
+    {id:'hawaii',start:10,name:'ハワイ・ダイヤモンドヘッド',country:'アメリカ',landmark:'diamondhead',theme:'tropical',obstacles:['サーファー','カモメ','ボート']},
+    {id:'sanfrancisco',start:16,name:'サンフランシスコ',country:'アメリカ',landmark:'goldengate',theme:'city',obstacles:['車','ケーブルカー','カモメ']},
+    {id:'grandcanyon',start:22,name:'グランドキャニオン',country:'アメリカ',landmark:'canyon',theme:'desert',obstacles:['ワシ','車','コヨーテ']},
+    {id:'newyork',start:28,name:'ニューヨーク・自由の女神',country:'アメリカ',landmark:'liberty',theme:'city',obstacles:['黄色いタクシー','人','ハト']},
+    {id:'rio',start:35,name:'リオデジャネイロ',country:'ブラジル',landmark:'christ',theme:'tropical',obstacles:['人','オウム','車']},
+    {id:'africa',start:42,name:'アフリカ・サバンナ',country:'アフリカ',landmark:'kilimanjaro',theme:'savanna',obstacles:['シマウマ','ダチョウ','サファリカー']},
+    {id:'paris',start:49,name:'パリ・エッフェル塔',country:'フランス',landmark:'eiffel',theme:'city',obstacles:['自転車','車','ハト']},
+    {id:'egypt',start:56,name:'ギザのピラミッド',country:'エジプト',landmark:'pyramids',theme:'desert',obstacles:['ラクダ','車','鳥']},
+    {id:'dubai',start:62,name:'ドバイ・ブルジュ・ハリファ',country:'UAE',landmark:'burj',theme:'desertCity',obstacles:['車','人','ハヤブサ']},
+    {id:'india',start:68,name:'アグラ・タージマハル',country:'インド',landmark:'taj',theme:'warm',obstacles:['リキシャ','牛','鳥']},
+    {id:'angkor',start:74,name:'アンコールワット',country:'カンボジア',landmark:'angkor',theme:'jungle',obstacles:['トゥクトゥク','人','鳥']},
+    {id:'china',start:80,name:'万里の長城',country:'中国',landmark:'greatwall',theme:'mountain',obstacles:['自転車','人','鳥']},
+    {id:'fuji',start:87,name:'富士山',country:'日本',landmark:'fuji',theme:'japan',obstacles:['登山者','車','鳥']},
+    {id:'tokyo',start:93,name:'東京へ帰ってきた！',country:'日本・東京',landmark:'tokyo',theme:'city',obstacles:['人','自転車','タクシー']},
+    {id:'skytree',start:98,name:'東京スカイツリー',country:'日本・東京',landmark:'skytree',theme:'city',obstacles:['人','車','鳥']}
+  ];
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+  function distanceAtSeconds(seconds){return Math.round(clamp(Number(seconds)||0,0,TARGET_SECONDS)*KM_PER_SECOND);}
+  function remainingKmAtSeconds(seconds){return Math.max(0,EARTH_CIRCUMFERENCE_KM-distanceAtSeconds(seconds));}
+  function progressAtSeconds(seconds){return clamp((Number(seconds)||0)/TARGET_SECONDS*100,0,100);}
+  function sceneAtProgress(progress){
+    const p=clamp(Number(progress)||0,0,100);
+    let scene=ROUTE_SCENES[0];
+    for(const candidate of ROUTE_SCENES){if(p>=candidate.start)scene=candidate;else break;}
+    return scene;
+  }
+  function sceneIndexAtProgress(progress){return ROUTE_SCENES.indexOf(sceneAtProgress(progress));}
+  function localSceneProgress(progress){
+    const p=clamp(Number(progress)||0,0,100),i=sceneIndexAtProgress(p),a=ROUTE_SCENES[i].start,b=i<ROUTE_SCENES.length-1?ROUTE_SCENES[i+1].start:100;
+    return b===a?1:clamp((p-a)/(b-a),0,1);
+  }
+  function rectsOverlap(a,b){return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;}
+  function formatKm(value){return Math.max(0,Math.round(value)).toLocaleString('ja-JP');}
+  return {EARTH_CIRCUMFERENCE_KM,TARGET_SECONDS,KM_PER_SECOND,ROUTE_SCENES,clamp,distanceAtSeconds,remainingKmAtSeconds,progressAtSeconds,sceneAtProgress,sceneIndexAtProgress,localSceneProgress,rectsOverlap,formatKm};
+});
+</script>
+<script>
+(function(){
+'use strict';
+const Core=window.WorldTripCore;
+const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d'),shell=document.getElementById('gameShell'),overlay=document.getElementById('overlay'),panel=document.getElementById('panel');
+const distanceEl=document.getElementById('distanceKm'),remainingEl=document.getElementById('remainingKm'),placeName=document.getElementById('placeName'),progressBar=document.getElementById('progressBar'),placePop=document.getElementById('placePop'),liveStatus=document.getElementById('liveStatus');
+let W=900,H=560,DPR=1,state='ready',lastTime=0,elapsed=0,player=null,obstacles=[],particles=[],raf=0,nextObstacleAt=3.4,lastSceneId='',scrollX=0;
+const cfg={gravity:1850,jump:-760,groundRatio:.79,playerW:42,playerH:50};
+const obstacleEmoji={'人':'🚶','歩行者':'🚶','自転車':'🚲','タクシー':'🚕','黄色いタクシー':'🚕','車':'🚗','サファリカー':'🚙','ケーブルカー':'🚋','船':'🚢','ボート':'🛥️','カモメ':'🕊️','鳥':'🐦','ハト':'🐦','ワシ':'🦅','ハヤブサ':'🦅','オウム':'🦜','飛び魚':'🐟','サーファー':'🏄','コヨーテ':'🐕','シマウマ':'🦓','ダチョウ':'🐦','ラクダ':'🐪','リキシャ':'🛺','牛':'🐄','トゥクトゥク':'🛺','登山者':'🥾'};
+function rand(a,b){return a+Math.random()*(b-a)}
+function resize(){const r=canvas.getBoundingClientRect();DPR=Math.min(2,window.devicePixelRatio||1);W=Math.max(320,r.width);H=Math.max(390,r.height);canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);if(state==='ready')resetWorld();}
+function resetWorld(){elapsed=0;obstacles=[];particles=[];nextObstacleAt=3.4;lastSceneId='';scrollX=0;const ground=H*cfg.groundRatio;player={x:Math.max(58,W*.2),y:ground-cfg.playerH,w:cfg.playerW,h:cfg.playerH,vy:0,onGround:true};updateHud(true);draw();}
+function startGame(jumpNow){cancelAnimationFrame(raf);resetWorld();state='running';overlay.classList.add('hidden');lastTime=performance.now();if(jumpNow)jump();liveStatus.textContent='浅草から世界一周スタート';raf=requestAnimationFrame(loop);}
+function jump(){if(state!=='running'||!player||!player.onGround)return;player.vy=cfg.jump;player.onGround=false;for(let i=0;i<7;i++)particles.push({x:player.x+14,y:player.y+player.h,vx:rand(-70,20),vy:rand(-30,50),life:1});}
+function handleTap(ev){if(ev)ev.preventDefault();if(state==='ready'){startGame(true);return;}if(state==='running'){jump();return;}if(state==='gameover'||state==='clear'){state='ready';showReady();startGame(true);}}
+shell.addEventListener('click',handleTap);window.addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();handleTap(e);}});
+function showPlace(scene){placePop.textContent='📍 '+scene.country+'｜'+scene.name;placePop.classList.add('show');setTimeout(()=>placePop.classList.remove('show'),1800);liveStatus.textContent=scene.name+'に到着';}
+function updateHud(force){const d=Core.distanceAtSeconds(elapsed),r=Core.remainingKmAtSeconds(elapsed),p=Core.progressAtSeconds(elapsed),scene=Core.sceneAtProgress(p);distanceEl.textContent=Core.formatKm(d);remainingEl.textContent=Core.formatKm(r);progressBar.style.width=p.toFixed(2)+'%';placeName.textContent=scene.name;if(force||scene.id!==lastSceneId){lastSceneId=scene.id;showPlace(scene);}}
+function spawnObstacle(){const p=Core.progressAtSeconds(elapsed),scene=Core.sceneAtProgress(p),name=scene.obstacles[Math.floor(Math.random()*scene.obstacles.length)],air=/鳥|カモメ|ハト|ワシ|ハヤブサ|オウム|飛び魚/.test(name),size=air?38:46,ground=H*cfg.groundRatio;obstacles.push({name,x:W+60,y:air?ground-rand(90,145):ground-size+5,w:size,h:size,air,speed:rand(225,285)+(p*.55)});const density=3.5-Math.min(1.2,p/100*1.2);nextObstacleAt=elapsed+rand(density,density+1.8);}
+function endGame(reason,obstacle){if(state!=='running')return;state=reason==='clear'?'clear':'gameover';cancelAnimationFrame(raf);updateHud(false);const d=Core.distanceAtSeconds(elapsed),remain=Core.remainingKmAtSeconds(elapsed),pct=Core.progressAtSeconds(elapsed),scene=Core.sceneAtProgress(pct);if(reason==='clear'){panel.innerHTML='<div class="world-icon">🌍🎉🗼</div><h2>世界一周クリア！</h2><p class="big-rule">40,075km 到着！</p><p>浅草から地球を一周して、<strong>東京スカイツリー</strong>まで帰ってきました！</p><div class="result-grid"><div><small>進んだ距離</small><b>40,075km</b></div><div><small>到達率</small><b>100%</b></div></div><p class="tap-prompt">👆 タップしてもう1回</p>';liveStatus.textContent='地球一周クリア。東京スカイツリーに到着しました。';}else{const why=(obstacle&&obstacle.name?obstacle.name:'障害物')+'にぶつかった！';panel.innerHTML='<div class="world-icon">💥🌍</div><h2>ゲームオーバー</h2><p class="danger">'+why+'</p><p>ここまで来た場所：<strong>'+scene.name+'</strong></p><div class="result-grid"><div><small>進んだ距離</small><b>'+Core.formatKm(d)+'km</b></div><div><small>到達率</small><b>'+pct.toFixed(1)+'%</b></div><div><small>東京まであと</small><b>'+Core.formatKm(remain)+'km</b></div><div><small>1秒で</small><b>約134km</b></div></div><p class="tap-prompt">👆 タップしてもう1回</p>';liveStatus.textContent='ゲームオーバー。'+scene.name+'まで進みました。';}overlay.classList.remove('hidden');draw();}
+function showReady(){panel.innerHTML='<div class="world-icon">⛩️🌍🗼</div><h2>世界一周ジャンプ！</h2><p><strong>東京・浅草</strong>からスタートして、地球を一周！<br>ゴールは<strong>東京スカイツリー</strong>です。</p><p class="big-rule">地球一周 約40,075km<br>1秒で約134km進む！</p><p>自動で右へ進みます。<strong>画面をタップするとジャンプ！</strong></p><p class="danger">⚠️ 車・船・人・鳥など、その土地の障害物にぶつかるとゲームオーバー</p><p class="tap-prompt">👆 画面をタップしてスタート</p>';overlay.classList.remove('hidden');}
+function update(dt){elapsed=Math.min(Core.TARGET_SECONDS,elapsed+dt);if(elapsed>=Core.TARGET_SECONDS){endGame('clear');return;}scrollX+=dt*(115+Core.progressAtSeconds(elapsed)*.5);const ground=H*cfg.groundRatio;player.vy+=cfg.gravity*dt;player.y+=player.vy*dt;if(player.y+player.h>=ground){player.y=ground-player.h;player.vy=0;player.onGround=true;}for(const o of obstacles)o.x-=o.speed*dt;obstacles=obstacles.filter(o=>o.x+o.w>-70);if(elapsed>=nextObstacleAt)spawnObstacle();const hit={x:player.x+7,y:player.y+5,w:player.w-13,h:player.h-8};for(const o of obstacles){const box={x:o.x+5,y:o.y+5,w:o.w-10,h:o.h-10};if(Core.rectsOverlap(hit,box)){endGame('obstacle',o);return;}}for(const q of particles){q.x+=q.vx*dt;q.y+=q.vy*dt;q.life-=dt*2.3;}particles=particles.filter(q=>q.life>0);updateHud(false);}
+function sceneColors(theme){const map={city:['#7dd3fc','#e0f2fe','#64748b'],ocean:['#38bdf8','#dbeafe','#0284c7'],tropical:['#67e8f9','#fef3c7','#22c55e'],desert:['#fcd34d','#ffedd5','#c08457'],savanna:['#fbbf24','#fef3c7','#84cc16'],desertCity:['#60a5fa','#fde68a','#d97706'],warm:['#7dd3fc','#fef3c7','#84cc16'],jungle:['#86efac','#dcfce7','#15803d'],mountain:['#93c5fd','#e0f2fe','#64748b'],japan:['#7dd3fc','#f8fafc','#22c55e']};return map[theme]||map.city;}
+function drawClouds(speed){ctx.fillStyle='#ffffffb8';for(let i=0;i<5;i++){const x=((i*230-scrollX*speed)%(W+300)+W+300)%(W+300)-120,y=100+(i%3)*48;ctx.beginPath();ctx.arc(x,y,25,0,Math.PI*2);ctx.arc(x+28,y-8,33,0,Math.PI*2);ctx.arc(x+62,y,24,0,Math.PI*2);ctx.fill();}}
+function drawLandmark(scene,local){const cx=W*(.74-local*.55),ground=H*cfg.groundRatio;ctx.save();ctx.translate(cx,0);ctx.lineWidth=5;ctx.lineCap='round';ctx.lineJoin='round';switch(scene.landmark){case'sensoji':ctx.fillStyle='#b91c1c';ctx.fillRect(-75,ground-135,150,100);ctx.fillStyle='#111827';ctx.beginPath();ctx.moveTo(-95,ground-135);ctx.lineTo(0,ground-190);ctx.lineTo(95,ground-135);ctx.closePath();ctx.fill();ctx.fillStyle='#dc2626';ctx.beginPath();ctx.arc(0,ground-83,28,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='900 15px sans-serif';ctx.textAlign='center';ctx.fillText('雷 門',0,ground-78);break;case'ocean':ctx.fillStyle='#fff';ctx.font='58px sans-serif';ctx.fillText('🚢',0,ground-40);break;case'diamondhead':ctx.fillStyle='#65a30d';ctx.beginPath();ctx.moveTo(-120,ground);ctx.quadraticCurveTo(-25,ground-115,95,ground);ctx.fill();ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.arc(90,120,38,0,Math.PI*2);ctx.fill();break;case'goldengate':ctx.strokeStyle='#dc2626';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(-105,ground);ctx.lineTo(-105,ground-150);ctx.moveTo(105,ground);ctx.lineTo(105,ground-150);ctx.moveTo(-130,ground-105);ctx.lineTo(130,ground-105);ctx.stroke();ctx.lineWidth=3;for(let x=-100;x<=100;x+=25){ctx.beginPath();ctx.moveTo(x,ground-105);ctx.lineTo(x,ground-50);ctx.stroke();}break;case'canyon':for(let i=0;i<4;i++){ctx.fillStyle=['#c2410c','#ea580c','#fb923c','#fdba74'][i];ctx.fillRect(-140+i*25,ground-40-i*28,280-i*50,40+i*28);}break;case'liberty':ctx.fillStyle='#5eead4';ctx.fillRect(-28,ground-135,56,100);ctx.beginPath();ctx.arc(0,ground-155,26,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#5eead4';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(18,ground-155);ctx.lineTo(48,ground-210);ctx.stroke();ctx.fillStyle='#facc15';ctx.beginPath();ctx.arc(51,ground-220,8,0,Math.PI*2);ctx.fill();break;case'christ':ctx.strokeStyle='#e5e7eb';ctx.lineWidth=18;ctx.beginPath();ctx.moveTo(0,ground-160);ctx.lineTo(0,ground-55);ctx.moveTo(-70,ground-125);ctx.lineTo(70,ground-125);ctx.stroke();ctx.fillStyle='#e5e7eb';ctx.beginPath();ctx.arc(0,ground-184,20,0,Math.PI*2);ctx.fill();break;case'kilimanjaro':ctx.fillStyle='#64748b';ctx.beginPath();ctx.moveTo(-145,ground);ctx.lineTo(0,ground-185);ctx.lineTo(145,ground);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-38,ground-136);ctx.lineTo(0,ground-185);ctx.lineTo(40,ground-134);ctx.fill();break;case'eiffel':ctx.strokeStyle='#374151';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(-65,ground);ctx.lineTo(0,ground-210);ctx.lineTo(65,ground);ctx.moveTo(-42,ground-70);ctx.lineTo(42,ground-70);ctx.moveTo(-25,ground-130);ctx.lineTo(25,ground-130);ctx.stroke();break;case'pyramids':ctx.fillStyle='#d97706';ctx.beginPath();ctx.moveTo(-125,ground);ctx.lineTo(-35,ground-150);ctx.lineTo(55,ground);ctx.fill();ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.moveTo(5,ground);ctx.lineTo(85,ground-115);ctx.lineTo(155,ground);ctx.fill();break;case'burj':ctx.fillStyle='#94a3b8';ctx.beginPath();ctx.moveTo(-25,ground);ctx.lineTo(-12,ground-180);ctx.lineTo(0,ground-260);ctx.lineTo(12,ground-180);ctx.lineTo(28,ground);ctx.fill();break;case'taj':ctx.fillStyle='#f8fafc';ctx.fillRect(-100,ground-100,200,100);ctx.beginPath();ctx.arc(0,ground-110,58,Math.PI,Math.PI*2);ctx.fill();for(const x of[-90,90])ctx.fillRect(x-8,ground-155,16,155);break;case'angkor':ctx.fillStyle='#57534e';ctx.fillRect(-110,ground-90,220,90);for(const x of[-75,0,75]){ctx.beginPath();ctx.moveTo(x-25,ground-90);ctx.lineTo(x,ground-155);ctx.lineTo(x+25,ground-90);ctx.fill();}break;case'greatwall':ctx.strokeStyle='#a16207';ctx.lineWidth=22;ctx.beginPath();ctx.moveTo(-150,ground-35);ctx.quadraticCurveTo(-60,ground-135,15,ground-70);ctx.quadraticCurveTo(80,ground-20,150,ground-95);ctx.stroke();break;case'fuji':ctx.fillStyle='#64748b';ctx.beginPath();ctx.moveTo(-150,ground);ctx.lineTo(0,ground-210);ctx.lineTo(150,ground);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-45,ground-147);ctx.lineTo(0,ground-210);ctx.lineTo(48,ground-144);ctx.fill();break;case'tokyo':ctx.fillStyle='#475569';for(let i=-3;i<=3;i++)ctx.fillRect(i*38,ground-(80+(i%3)*35),30,80+(i%3)*35);ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(80,ground-145,22,0,Math.PI*2);ctx.fill();break;case'skytree':ctx.strokeStyle='#64748b';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(-45,ground);ctx.lineTo(0,ground-265);ctx.lineTo(45,ground);ctx.moveTo(-30,ground-85);ctx.lineTo(30,ground-85);ctx.moveTo(-18,ground-160);ctx.lineTo(18,ground-160);ctx.stroke();ctx.fillStyle='#60a5fa';ctx.fillRect(-33,ground-180,66,14);break;}ctx.restore();}
+function drawBackground(){const p=Core.progressAtSeconds(elapsed),scene=Core.sceneAtProgress(p),local=Core.localSceneProgress(p),colors=sceneColors(scene.theme);const grad=ctx.createLinearGradient(0,0,0,H);grad.addColorStop(0,colors[0]);grad.addColorStop(.65,colors[1]);grad.addColorStop(1,colors[2]);ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);drawClouds(.18);if(scene.theme==='ocean'||scene.theme==='tropical'){ctx.fillStyle='#0284c7';ctx.fillRect(0,H*.66,W,H*.34);ctx.strokeStyle='#bae6fd';ctx.lineWidth=3;for(let i=0;i<9;i++){const x=((i*150-scrollX*.8)%(W+180)+W+180)%(W+180)-100;ctx.beginPath();ctx.arc(x,H*.72+(i%2)*25,35,Math.PI,Math.PI*2);ctx.stroke();}}drawLandmark(scene,local);const ground=H*cfg.groundRatio;if(scene.theme==='ocean'){ctx.fillStyle='#f8fafc';ctx.fillRect(0,ground,W,10);ctx.fillStyle='#38bdf8';ctx.fillRect(0,ground+10,W,H-ground-10);}else{ctx.fillStyle=scene.theme==='desert'||scene.theme==='desertCity'?'#c08457':'#475569';ctx.fillRect(0,ground,W,H-ground);ctx.strokeStyle='#f8fafc';ctx.lineWidth=4;ctx.setLineDash([28,22]);ctx.beginPath();ctx.moveTo(-scrollX%50,ground+32);ctx.lineTo(W,ground+32);ctx.stroke();ctx.setLineDash([]);}}
+function drawObstacle(o){const emoji=obstacleEmoji[o.name]||'⚠️';ctx.save();ctx.font=Math.round(o.w*.9)+'px "Apple Color Emoji","Segoe UI Emoji",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(emoji,o.x+o.w/2,o.y+o.h/2);ctx.restore();}
+function drawPlayer(){if(!player)return;ctx.save();ctx.translate(player.x+player.w/2,player.y+player.h/2);ctx.font='42px "Apple Color Emoji","Segoe UI Emoji",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🏃',0,0);ctx.restore();}
+function draw(){drawBackground();for(const o of obstacles)drawObstacle(o);for(const q of particles){ctx.globalAlpha=Math.max(0,q.life);ctx.fillStyle='#fef08a';ctx.beginPath();ctx.arc(q.x,q.y,3,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;drawPlayer();}
+function loop(now){if(state!=='running')return;const dt=Math.min(.04,Math.max(.001,(now-lastTime)/1000));lastTime=now;update(dt);draw();if(state==='running')raf=requestAnimationFrame(loop);}
+window.addEventListener('resize',resize);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&state==='running')lastTime=performance.now();});resize();showReady();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+月までジャンプ！／世界一周ジャンプ！ プレイ不能 修正レポート
+日付: 2026-09-03
+
+【確認した原因】
+1. 2ゲームだけ開始・ジャンプ操作が pointerdown のみに依存していた。
+   既存の安定ゲームは click を使用しており、iPad/Safari/WebView系で pointerdown が反応しない環境では開始できない構造だった。
+2. 両ゲームが assets/moon_jump_core.js / assets/world_trip_core.js の外部読込に依存していた。
+   GitHub Pagesで新規asset未反映・キャッシュ不整合・部分アップロードが起きると Core が未定義になり、画面だけ表示されてゲーム処理が停止する。
+3. 月までジャンプ！が CanvasRenderingContext2D.roundRect() を直接使用していた。
+   roundRect非対応の旧Safari/iPad環境を模した実行テストで初期描画時 TypeError を再現した。
+4. TOPと内部ゲームカタログのURLが旧キャッシュ番号のままだったため、修正版をアップロードしても旧ページを再利用する可能性があった。
+
+【修正】
+- 月／世界一周とも操作イベントを click に統一し、タップ操作との互換性を向上。
+- 2ゲームの計算Coreを各HTMLへ直接内包し、HTML単体で起動できる自己完結型へ変更。
+- 月ゲームの角丸描画を roundRect 非依存の互換パス描画へ変更。
+- TOP静的カード、TOP埋め込みカタログ、assets/game_catalog.js の2ゲームURLを v=20260903-jumpfix1 へ更新。
+- roundRectが存在しない旧Canvas環境を模したNode VM実行テストで、両ゲームともclick開始しoverlayが閉じることを検証。
+
+【維持した仕様】
+- 月までジャンプ！: 384,400km / 300秒 / 約1,281km毎秒 / 障害物接触で即ゲームオーバー
+- 世界一周ジャンプ！: 40,075km / 300秒 / 約134km毎秒 / 浅草スタート / スカイツリーゴール / 地域別背景・障害物
+- TOP: 86ゲーム
+
+【作業版検証】
+- Nodeテスト: 40/40 PASS
+- JSファイル構文: 77ファイル PASS
+- HTMLインラインJS構文: 49 HTML / 87 scripts PASS
+- ローカルHTML参照: 403件 / 欠損0
+- 旧Canvas(roundRectなし)模擬実行: 月・世界一周とも click でゲーム開始 PASS
