@@ -380,3 +380,11 @@ SSTを「問題に正解する」だけで終わらせず、次の4段階で実�
 - 「加速」をタップすると加速状態、「ブレーキ」をタップすると制動状態になり、同じボタンを再タップすると惰行へ戻る。
 - iPad/Safariでも `click` で操作できるため、PointerEvent長押し依存を解消。
 - TOP/カタログのURLを `train_driver.html?v=20260904-trainfix1` に更新し、旧キャッシュを回避。
+
+## 2026-09-04 全国・電車運転 黒背景対策
+- ゲーム開始直後にCanvasを同期描画し、requestAnimationFrame待ちで黒画面が残らないよう修正。
+- `#gameScreen` と `#trainCanvas` に明るいCSSフォールバック背景を設定。
+- 地域背景画像の読込前・読込失敗時にも、明るいCanvasフォールバック背景を常時描画。
+- 地域背景画像の `load` / `error` の両方で再描画。
+- `drawImage` 失敗時もフォールバック背景へ戻るよう保護。
+- GitHub Pagesキャッシュ回避URLを `v=20260904-trainfix2` に更新。
