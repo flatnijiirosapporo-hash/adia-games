@@ -19,8 +19,8 @@ assert.equal(elements.regionMap.children.length,8,'regions rendered');
 assert.equal(elements.courseGrid.children.length,3,'courses rendered');
 assert.equal(elements.vehicleGrid.children.length,6,'vehicles rendered');
 elements.prepareBtn.onclick();assert(elements.departStartBtn&&typeof elements.departStartBtn.onclick==='function','depart button wired');
-elements.departStartBtn.onclick();assert.equal(elements.gameScreen.classList.contains('hidden'),false,'game screen shown');assert.equal(elements.selectScreen.classList.contains('hidden'),true,'select hidden');
+elements.departStartBtn.onclick();assert.equal(elements.gameScreen.classList.contains('hidden'),false,'game screen shown');assert.equal(elements.selectScreen.classList.contains('hidden'),true,'select hidden');const initialClock=elements.clockHud.textContent;
 elements.powerBtn.onclick();assert.equal(elements.powerBtn.textContent,'加速中','tap enters power state');
 for(let i=0;i<600;i++){const cb=rafQueue.shift();assert(cb,'raf callback exists');now+=1000/60;cb(now)}
-const speed=parseFloat(elements.speedHud.textContent);assert(speed>5,'speed rises after tap, got '+speed);assert(drawCalls>100,'canvas drawing occurred');
-console.log('train_ui_smoke: PASS speed='+speed+' drawCalls='+drawCalls);
+const speed=parseFloat(elements.speedHud.textContent);assert(speed>5,'speed rises after tap, got '+speed);assert.notEqual(elements.clockHud.textContent,initialClock,'game clock must advance');assert(drawCalls>100,'canvas drawing occurred');
+console.log('train_ui_smoke: PASS speed='+speed+' clock='+elements.clockHud.textContent+' drawCalls='+drawCalls);

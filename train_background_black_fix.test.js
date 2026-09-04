@@ -14,6 +14,8 @@ assert(html.includes("im.onload=()=>{if(state&&state.course&&state.course.region
   'loaded region image must trigger a redraw');
 assert(html.includes("im.onerror=()=>{if(state&&state.course&&state.course.region===r)draw()};"),
   'failed region image must still trigger fallback redraw');
-assert(html.includes('updateEasyButtons();resize();draw();updateHud();'),
-  'startGame must draw synchronously before HUD/RAF so the canvas never opens black');
+assert(html.includes("try{draw()}catch(e)"),
+  'startGame must still attempt an immediate synchronous draw so the canvas never opens black');
+assert(html.indexOf('raf=scheduleFrame(loop)') < html.indexOf("try{draw()}catch(e)"),
+  'loop scheduling must be protected before initial draw');
 console.log('train_background_black_fix: PASS');

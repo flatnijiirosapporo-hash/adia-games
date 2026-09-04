@@ -1,0 +1,10 @@
+const fs=require('fs');
+const assert=require('assert');
+const version='v=20260904-worlddouble1';
+const index=fs.readFileSync('index.html','utf8');
+const catalog=fs.readFileSync('assets/game_catalog.js','utf8');
+assert.ok(index.includes(`world_trip_jump.html?${version}`),'index static/embedded links must use fresh world double-jump cache version');
+assert.ok(catalog.includes(`world_trip_jump.html?${version}`),'catalog link must use fresh world double-jump cache version');
+assert.ok(!index.includes('world_trip_jump.html?v=20260904-jump3min1'),'index must not keep old world-trip cache version');
+assert.ok(!catalog.includes('world_trip_jump.html?v=20260904-jump3min1'),'catalog must not keep old world-trip cache version');
+console.log('world_double_jump_cache: PASS');
