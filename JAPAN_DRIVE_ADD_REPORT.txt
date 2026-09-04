@@ -1,0 +1,25 @@
+日本一周ドライブ 追加検証レポート
+Date: 2026-09-04
+Base: nijifla_Ver2.5_86games_JUMP_3MIN_RECORDS_REALBG_2026-09-04.zip
+
+追加ゲーム: 日本一周ドライブ
+TOP: 86 -> 87 games
+Route: 宗谷岬 START -> 東北 -> 関東 -> 中部 -> 関西 -> 中国 -> 四国 -> 九州 -> 中国 -> 関西 -> 中部 -> 関東 -> 東北 -> 北海道 -> 札幌・大通公園 GOAL
+Game distance/time: 3,000 km (game setting) / 180 seconds
+Control: 3 lanes, horizontal swipe / mouse drag
+Collision: one hit = game over
+Safe-path invariant: at least one lane remains available in generated patterns
+Best record key: nijifla_japan_drive_best_v1
+Backgrounds: 14 local WebP assets
+
+Verification:
+- japan_drive_core.test.js: PASS
+- japan_drive_integration.test.js: PASS
+- JavaScript files syntax: 23 PASS
+- HTML files checked: 50
+- Inline JavaScript blocks syntax: 88 PASS
+- Local static references: 401 checked / 0 missing (tools template files excluded from playable-page audit)
+- Game counts: static cards 87 / embedded catalog 87 / assets/game_catalog.js 87
+
+Device note:
+- Real iPad/browser gameplay was NOT tested in this environment.

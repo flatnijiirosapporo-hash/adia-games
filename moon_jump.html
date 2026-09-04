@@ -9,7 +9,7 @@
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;overscroll-behavior:none}body{min-height:100vh;background:linear-gradient(180deg,#e8f6ff 0,#cdeaff 36%,#071127 100%);padding:12px;touch-action:manipulation}
 .page{width:min(900px,100%);margin:auto}.topbar{display:flex;align-items:center;gap:10px;margin-bottom:10px}.back{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#fff;color:#15345f;border:2px solid #cbd5e1;border-radius:14px;font-weight:900;padding:10px 14px;box-shadow:0 4px 12px #0001}.title{flex:1;text-align:center;color:#fff;text-shadow:0 2px 4px #0008;margin:0;font-size:clamp(22px,4vw,34px)}
 .game-shell{position:relative;border-radius:24px;overflow:hidden;border:3px solid #fff8;box-shadow:0 14px 45px #0006;background:#06152f}.hud{position:absolute;z-index:5;inset:10px 10px auto;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;pointer-events:none}.hud-card{background:#fffffff2;border:2px solid #dbeafe;border-radius:14px;padding:7px 8px;text-align:center;box-shadow:0 4px 14px #0002}.hud-card b{display:block;font-size:clamp(14px,2.7vw,22px);line-height:1.05}.hud-card small{font-weight:800;color:#475569;font-size:10px}.progress-wrap{position:absolute;z-index:5;left:12px;right:12px;top:84px;height:12px;border-radius:999px;background:#ffffff55;border:1px solid #fff;overflow:hidden;pointer-events:none}.progress{height:100%;width:0;background:linear-gradient(90deg,#38bdf8,#c084fc,#fef08a);transition:width .2s linear}.checkpoint{position:absolute;z-index:7;left:50%;top:112px;transform:translate(-50%,-12px);opacity:0;background:#fff7c2;color:#854d0e;border:2px solid #fde047;border-radius:999px;padding:7px 13px;font-weight:900;pointer-events:none;transition:.25s}.checkpoint.show{opacity:1;transform:translate(-50%,0)}
-#gameCanvas{display:block;width:100%;height:min(76vh,760px);min-height:500px;background:#7dd3fc;touch-action:none}.overlay{position:absolute;z-index:10;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:#020617aa;backdrop-filter:blur(3px)}.overlay.hidden{display:none}.panel{width:min(540px,94%);background:#fff;border-radius:28px;padding:24px 20px;text-align:center;box-shadow:0 16px 50px #0006;border:4px solid #dbeafe}.moon-icon{font-size:76px;line-height:1}.panel h2{font-size:clamp(28px,7vw,44px);margin:4px 0 10px}.panel p{margin:7px 0;font-weight:800;color:#334155}.big-rule{font-size:clamp(18px,4.5vw,26px)!important;color:#1d4ed8!important}.tap-prompt{margin-top:16px!important;padding:12px;background:#e0f2fe;border-radius:16px;color:#075985!important;animation:pulse 1.2s ease-in-out infinite alternate}@keyframes pulse{to{transform:scale(1.03)}}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.result-grid div{border-radius:14px;background:#f1f5f9;padding:10px}.result-grid b{display:block;font-size:21px;color:#0f172a}.result-grid small{font-weight:800;color:#64748b}.help{margin-top:10px;background:#fff;border-radius:18px;padding:12px 16px;font-weight:800;color:#334155;line-height:1.6}.help strong{color:#0f57a8}.danger{color:#b91c1c}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#gameCanvas{display:block;width:100%;height:min(76vh,760px);min-height:500px;background:#7dd3fc;touch-action:none}.overlay{position:absolute;z-index:10;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:#020617aa;backdrop-filter:blur(3px)}.overlay.hidden{display:none}.panel{width:min(540px,94%);background:#fff;border-radius:28px;padding:24px 20px;text-align:center;box-shadow:0 16px 50px #0006;border:4px solid #dbeafe}.moon-icon{font-size:76px;line-height:1}.panel h2{font-size:clamp(28px,7vw,44px);margin:4px 0 10px}.panel p{margin:7px 0;font-weight:800;color:#334155}.big-rule{font-size:clamp(18px,4.5vw,26px)!important;color:#1d4ed8!important}.tap-prompt{margin-top:16px!important;padding:12px;background:#e0f2fe;border-radius:16px;color:#075985!important;animation:pulse 1.2s ease-in-out infinite alternate}@keyframes pulse{to{transform:scale(1.03)}}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.result-grid div{border-radius:14px;background:#f1f5f9;padding:10px}.result-grid b{display:block;font-size:21px;color:#0f172a}.result-grid small{font-weight:800;color:#64748b}.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.result-btn{border:0;border-radius:15px;padding:13px 12px;font:900 18px/1.1 inherit;cursor:pointer;box-shadow:0 5px 12px #0002}.retry-btn{background:#2563eb;color:#fff}.finish-btn{background:#e2e8f0;color:#0f172a}.record-new{color:#dc2626;font-weight:900}.help{margin-top:10px;background:#fff;border-radius:18px;padding:12px 16px;font-weight:800;color:#334155;line-height:1.6}.help strong{color:#0f57a8}.danger{color:#b91c1c}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:580px){body{padding:6px}.back{padding:8px 10px}.hud{inset:7px 7px auto;gap:4px}.hud-card{padding:6px 4px}.progress-wrap{top:76px}.checkpoint{top:98px}#gameCanvas{height:78vh;min-height:520px}.panel{padding:20px 14px}.moon-icon{font-size:62px}}
 @media(orientation:landscape) and (max-height:650px){#gameCanvas{height:84vh;min-height:420px}.hud-card b{font-size:15px}.progress-wrap{top:67px}.checkpoint{top:85px}.help{display:none}.topbar{margin-bottom:5px}.title{font-size:22px}}
 </style>
@@ -21,7 +21,7 @@
     <div class="hud" aria-live="polite">
       <div class="hud-card"><small>進んだ距離</small><b><span id="distanceKm">0</span> km</b></div>
       <div class="hud-card"><small>月まであと</small><b><span id="remainingKm">384,400</span> km</b></div>
-      <div class="hud-card"><small>1秒で進む</small><b><span id="speedKm">約1,281</span> km</b></div>
+      <div class="hud-card"><small>1秒で進む</small><b><span id="speedKm">約2,136</span> km</b></div>
     </div>
     <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progressBar"></div></div>
     <div class="checkpoint" id="checkpoint">100,000km 通過！</div>
@@ -31,15 +31,15 @@
         <div class="moon-icon">🌍 ➜ 🌙</div>
         <h2>月までジャンプ！</h2>
         <p>地球から月までの平均距離は<br><strong>約384,400km</strong></p>
-        <p class="big-rule">1秒で約1,281km進む！</p>
-        <p>月まで約5分。キャラクターは横に進みます。<br><strong>1回タップ＝左右の方向変更<br>すばやく2回タップ＝ジャンプ！</strong></p>
+        <p class="big-rule">1秒で約2,136km進む！</p>
+        <p>月まで約3分。キャラクターは横に進みます。<br><strong>1回タップ＝左右の方向変更<br>すばやく2回タップ＝ジャンプ！</strong></p>
         <p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p>
         <p class="tap-prompt">👆 画面をタップしてスタート</p>
       </div>
     </div>
     <div id="liveStatus" class="sr-only" aria-live="assertive"></div>
   </div>
-  <div class="help"><strong>あそびかた：</strong><strong>1回タップで左右の進行方向を切り替え、すばやく2回タップでジャンプ</strong>します。足場と障害物を見ながら月を目指します。<span class="danger">障害物に触れたらその場でゲームオーバー。</span> 5分間進むと月に到着です。</div>
+  <div class="help"><strong>あそびかた：</strong><strong>1回タップで左右の進行方向を切り替え、すばやく2回タップでジャンプ</strong>します。足場と障害物を見ながら月を目指します。<span class="danger">障害物に触れたらその場でゲームオーバー。</span> 3分間進むと月に到着です。</div>
 </div>
 <script>
 (function(root,factory){
@@ -48,7 +48,7 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
   const MOON_DISTANCE_KM=384400;
-  const TARGET_SECONDS=300;
+  const TARGET_SECONDS=180;
   const KM_PER_SECOND=MOON_DISTANCE_KM/TARGET_SECONDS;
   function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
   function distanceAtSeconds(seconds){
@@ -74,6 +74,11 @@ let W=720,H=720,DPR=1,state='ready',lastTime=0,elapsed=0,player=null,platforms=[
 const TAP_WINDOW_MS=240;
 const obstacleNames={asteroid:'隕石',satellite:'人工衛星',debris:'宇宙ゴミ'};
 const cfg={gravity:1700,jump:-735,playerW:38,playerH:46,scrollBase:44,scrollMax:72};
+const BEST_KEY='nijifla_moon_jump_best_km_v1';
+function readBest(){try{return Math.max(0,Number(localStorage.getItem(BEST_KEY))||0)}catch(_){return 0}}
+function writeBest(km){try{localStorage.setItem(BEST_KEY,String(Math.max(0,Math.round(km))))}catch(_){}}
+function formatTime(seconds){const total=Math.max(0,Math.round(Number(seconds)||0)),m=Math.floor(total/60),sec=total%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
+function resultActions(){return '<div class="result-actions"><button class="result-btn retry-btn" type="button" data-action="retry">もう一度</button><button class="result-btn finish-btn" type="button" data-action="finish">おわり</button></div>';}
 speedEl.textContent='約'+Math.round(Core.KM_PER_SECOND).toLocaleString('ja-JP');
 function resize(){
   const r=canvas.getBoundingClientRect();DPR=Math.min(2,window.devicePixelRatio||1);W=Math.max(320,r.width);H=Math.max(420,r.height);canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);if(state==='ready')resetWorld();
@@ -111,11 +116,18 @@ function handleGameplayTap(){
   tapTimer=setTimeout(()=>{tapTimer=0;if(state==='running')changeDirection();},TAP_WINDOW_MS);
 }
 function handleTap(ev){
-  if(ev){ev.preventDefault();}
+  if(ev){ev.preventDefault();if(ev.target&&ev.target.closest&&ev.target.closest('[data-action]'))return;}
   if(state==='ready'){startGame(false);return}
   if(state==='running'){handleGameplayTap();return}
-  if(state==='gameover'||state==='clear'){state='ready';showReady();startGame(false)}
 }
+function handlePanelAction(ev){
+  const btn=ev.target&&ev.target.closest?ev.target.closest('[data-action]'):null;if(!btn)return;
+  ev.preventDefault();ev.stopPropagation();
+  const action=btn.getAttribute('data-action');
+  if(action==='retry'){state='ready';showReady();startGame(false);return;}
+  if(action==='finish'){window.location.href='index.html';}
+}
+panel.addEventListener('click',handlePanelAction);
 shell.addEventListener('click',handleTap);
 window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();if(state==='running')jump();else handleTap(e)}else if(e.code==='ArrowLeft'||e.code==='ArrowRight'){e.preventDefault();if(state==='running'&&player){const speed=Math.abs(player.vx);player.vx=e.code==='ArrowRight'?speed:-speed;}}else if(e.code==='Enter'){e.preventDefault();handleTap(e)}});
 function updateHud(){
@@ -126,19 +138,22 @@ function updateHud(){
 function showCheckpoint(km){checkpointEl.textContent=Core.formatKm(km)+'km 通過！';checkpointEl.classList.add('show');setTimeout(()=>checkpointEl.classList.remove('show'),1700)}
 function endGame(reason,obstacle){
   if(state!=='running')return;clearTapTimer();state=reason==='clear'?'clear':'gameover';cancelAnimationFrame(raf);updateHud();
-  const d=Core.distanceAtSeconds(elapsed),remain=Core.remainingKmAtSeconds(elapsed),pct=Core.progressAtSeconds(elapsed);
+  const d=reason==='clear'?Core.MOON_DISTANCE_KM:Core.distanceAtSeconds(elapsed),remain=Math.max(0,Core.MOON_DISTANCE_KM-d),pct=d/Core.MOON_DISTANCE_KM*100,playTime=Math.min(Core.TARGET_SECONDS,elapsed);
+  const previousBest=readBest(),best=Math.max(previousBest,d),isNew=d>previousBest;if(isNew)writeBest(best);
+  const bestPct=best/Core.MOON_DISTANCE_KM*100;
   if(reason==='clear'){
-    panel.innerHTML='<div class="moon-icon">🌙🚀</div><h2>月に到着！</h2><p class="big-rule">384,400km 到着！</p><p>約5分かけて、地球から月までの長い距離を進みました。</p><div class="result-grid"><div><small>進んだ距離</small><b>384,400km</b></div><div><small>到達率</small><b>100%</b></div></div><p class="tap-prompt">👆 タップしてもう1回</p>';
+    panel.innerHTML='<div class="moon-icon">🌙🚀</div><h2>月に到着！</h2><p class="big-rule">384,400km 到着！</p><p>約3分かけて、地球から月までの長い距離を進みました。</p><div class="result-grid"><div><small>今回の記録</small><b>384,400km</b></div><div><small>到達率</small><b>100%</b></div><div><small>プレイ時間</small><b>'+formatTime(playTime)+'</b></div><div><small>過去の最高記録</small><b>'+Core.formatKm(best)+'km</b><small>'+bestPct.toFixed(1)+'%'+(isNew?' <span class="record-new">NEW!</span>':'')+'</small></div></div>'+resultActions();
     liveStatus.textContent='月に到着しました。384,400キロメートルです。';
   }else{
     const why=reason==='obstacle'?(obstacleNames[obstacle&&obstacle.type]||'障害物')+'にぶつかった！':'足場から落ちた！';
-    panel.innerHTML='<div class="moon-icon">💥</div><h2>ゲームオーバー</h2><p class="danger">'+why+'</p><div class="result-grid"><div><small>進んだ距離</small><b>'+Core.formatKm(d)+'km</b></div><div><small>到達率</small><b>'+pct.toFixed(1)+'%</b></div><div><small>月まであと</small><b>'+Core.formatKm(remain)+'km</b></div><div><small>1秒で</small><b>約1,281km</b></div></div><p>月まで384,400km。まだまだ遠い！</p><p class="tap-prompt">👆 タップしてもう1回</p>';
+    panel.innerHTML='<div class="moon-icon">💥</div><h2>ゲームオーバー</h2><p class="danger">'+why+'</p><div class="result-grid"><div><small>今回の記録</small><b>'+Core.formatKm(d)+'km</b></div><div><small>到達率</small><b>'+pct.toFixed(1)+'%</b></div><div><small>プレイ時間</small><b>'+formatTime(playTime)+'</b></div><div><small>過去の最高記録</small><b>'+Core.formatKm(best)+'km</b><small>'+bestPct.toFixed(1)+'%'+(isNew?' <span class="record-new">NEW!</span>':'')+'</small></div></div><p>月まであと <strong>'+Core.formatKm(remain)+'km</strong></p>'+resultActions();
     liveStatus.textContent='ゲームオーバー。進んだ距離は'+Core.formatKm(d)+'キロメートルです。';
   }
   overlay.classList.remove('hidden');draw();
 }
 function showReady(){
-  panel.innerHTML='<div class="moon-icon">🌍 ➜ 🌙</div><h2>月までジャンプ！</h2><p>地球から月までの平均距離は<br><strong>約384,400km</strong></p><p class="big-rule">1秒で約1,281km進む！</p><p>月まで約5分。キャラクターは横に進みます。<br><strong>1回タップ＝左右の方向変更<br>すばやく2回タップ＝ジャンプ！</strong></p><p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p><p class="tap-prompt">👆 画面をタップしてスタート</p>';
+  const best=readBest(),bestText=best>0?'<p>🏆 過去の最高記録：<strong>'+Core.formatKm(best)+'km</strong></p>':'';
+  panel.innerHTML='<div class="moon-icon">🌍 ➜ 🌙</div><h2>月までジャンプ！</h2><p>地球から月までの平均距離は<br><strong>約384,400km</strong></p><p class="big-rule">1秒で約'+Math.round(Core.KM_PER_SECOND).toLocaleString('ja-JP')+'km進む！</p><p>月まで約3分。キャラクターは横に進みます。<br><strong>1回タップ＝左右の方向変更<br>すばやく2回タップ＝ジャンプ！</strong></p>'+bestText+'<p class="danger">⚠️ 隕石・人工衛星・宇宙ゴミにぶつかるとゲームオーバー</p><p class="tap-prompt">👆 画面をタップしてスタート</p>';
   overlay.classList.remove('hidden');
 }
 function update(dt){

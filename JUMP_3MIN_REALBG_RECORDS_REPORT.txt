@@ -1,0 +1,50 @@
+にじフラ 86ゲーム版
+ジャンプゲーム 3分化・記録・リアル背景 更新レポート
+日付: 2026-09-04
+
+[月までジャンプ]
+- TARGET_SECONDS: 180秒
+- 月までの距離: 384,400km
+- 1秒あたり: 約2,136km
+- 1回タップ: 左右方向変更
+- 2回タップ: ジャンプ
+- ゲームオーバー/クリア画面:
+  * 今回の記録
+  * 到達率
+  * プレイ時間
+  * 過去の最高記録
+  * もう一度
+  * おわり
+- 最高記録をlocalStorageへ保存
+
+[世界一周ジャンプ]
+- TARGET_SECONDS: 180秒
+- 地球一周: 40,075km
+- 1秒あたり: 約223km
+- 障害物基本出現間隔: 0.7〜1.6秒
+- 8種類の障害物配置パターン
+- 高さ/大きさ/速度を個別ランダム化
+- 地上/空中/連続/高低差/速度差/3個構成を実装
+- リアル寄り横長背景を4枚同梱
+  * assets/world_trip_bg/tokyo_asakusa.png
+  * assets/world_trip_bg/americas_pacific.png
+  * assets/world_trip_bg/europe_africa.png
+  * assets/world_trip_bg/asia_middleeast.png
+- 進行度に応じて背景を切替/横パン表示
+- ゲームオーバー/クリア画面:
+  * 今回の記録
+  * 到達率
+  * プレイ時間
+  * 過去の最高記録
+  * もう一度
+  * おわり
+- 最高記録をlocalStorageへ保存
+
+[キャッシュ]
+- moon_jump.html?v=20260904-jump3min1
+- world_trip_jump.html?v=20260904-jump3min1
+- index.html と assets/game_catalog.js の両方を同期
+
+[注意]
+- リアル背景は生成したゲーム専用画像をパッケージ内に同梱。外部通信不要。
+- 実機iPadでの最終操作感はこの実行環境では確認していません。

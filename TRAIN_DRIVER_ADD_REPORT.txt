@@ -1,0 +1,77 @@
+全国・電車運転ゲーム / 日本一周ドライブ 88ゲーム版 最終検証レポート
+Date: 2026-09-04
+Base: nijifla_Ver2.5_86games_JUMP_3MIN_RECORDS_REALBG_2026-09-04.zip
+
+[87] 日本一周ドライブ
+- 宗谷岬 START -> 北海道南下 -> 東北 -> 関東 -> 中部 -> 関西 -> 中国 -> 四国 -> 九州 -> 中国 -> 関西 -> 中部 -> 関東 -> 東北 -> 北海道帰還 -> 札幌・大通公園 GOAL
+- Game setting: 3,000 km / 180 seconds
+- Top-view 3-lane road, horizontal swipe / mouse drag
+- Automatic speed increase; one collision = game over
+- Safe-lane invariant: every generated obstacle pattern leaves at least one safe lane
+- Regional road events include vehicles, construction, lane closure, merge, tunnel, toll gate, wet/snow road states
+- 14 local WebP backgrounds
+- Result: distance / progress / region / play time / best record / retry / end
+- Best key: nijifla_japan_drive_best_v1
+
+[88] 全国・電車運転
+- 8 regions x 3 difficulties = 24 courses, all selectable from the start
+- Easy control: 加速 / ブレーキ
+- Expert control: one-handle P5-P1 / N / B1-B7 / EB
+- Forward pseudo-3D view; automatic platform / stop-line view at 200 m before station
+- 100-point deduction system; 80+ pass; S/A/B/C/D ranks
+- Arrival and departure both penalize early/late timing
+- Stop-position scoring and stop-line overrun handling
+- Multi-aspect signals: G / Y / YY / YR / R with advisory warning
+- Red overrun: -30 + automatic emergency brake
+- Station pass: -30 + automatic brake, then continue
+- Opposing / lead / passing trains; challenge-only disruptions and recovery running
+- Weather changes braking; six vehicle archetypes have different acceleration / max speed / brake / grade / weather stability
+- TTS station announcements when SpeechSynthesis is available
+- Six original local WAV SFX: chime / door open / door close / departure bell / speed warning / emergency
+- Per-course BEST stores score + rank only in nijifla_train_driver_best_v1
+- Schedules, distances, speed limits and signal placement are game-only compressed settings and are not reproductions of real operating data
+
+24 course/station sequences implemented:
+北海道 easy 函館本線: 札幌 -> 桑園 -> 琴似
+北海道 normal 千歳線: 白石 -> 新札幌 -> 北広島 -> 恵庭
+北海道 challenge 宗谷本線: 旭川 -> 旭川四条 -> 新旭川 -> 永山 -> 北永山
+東北 easy 東北本線: 仙台 -> 長町 -> 太子堂
+東北 normal 仙山線: 仙台 -> 東照宮 -> 北仙台 -> 北山
+東北 challenge 奥羽本線: 山形 -> 北山形 -> 羽前千歳 -> 南出羽 -> 漆山
+関東 easy 山手線: 東京 -> 神田 -> 秋葉原
+関東 normal 中央本線: 東京 -> 神田 -> 御茶ノ水 -> 四ツ谷
+関東 challenge 東海道本線: 東京 -> 新橋 -> 品川 -> 川崎 -> 横浜
+中部 easy 東海道本線: 名古屋 -> 尾頭橋 -> 金山
+中部 normal 中央本線: 名古屋 -> 金山 -> 鶴舞 -> 千種
+中部 challenge 高山本線: 岐阜 -> 長森 -> 那加 -> 蘇原 -> 各務ケ原
+関西 easy 大阪環状線: 大阪 -> 福島 -> 野田
+関西 normal 東海道本線: 京都 -> 西大路 -> 桂川 -> 向日町
+関西 challenge 山陽本線: 神戸 -> 兵庫 -> 新長田 -> 鷹取 -> 須磨海浜公園
+中国 easy 山陽本線: 広島 -> 新白島 -> 横川
+中国 normal 呉線: 海田市 -> 矢野 -> 坂 -> 水尻
+中国 challenge 伯備線: 倉敷 -> 清音 -> 総社 -> 豪渓 -> 日羽
+四国 easy 予讃線: 高松 -> 香西 -> 鬼無
+四国 normal 高徳線: 高松 -> 昭和町 -> 栗林公園北口 -> 栗林
+四国 challenge 土讃線: 多度津 -> 金蔵寺 -> 善通寺 -> 琴平 -> 塩入
+九州 easy 鹿児島本線: 博多 -> 竹下 -> 笹原
+九州 normal 長崎本線: 佐賀 -> 鍋島 -> 久保田 -> 牛津
+九州 challenge 日豊本線: 小倉 -> 西小倉 -> 南小倉 -> 城野 -> 安部山公園
+
+Official reference families checked 2026-09-04:
+- JR北海道: https://www.jrhokkaido.co.jp/
+- JR東日本: https://timetables.jreast.co.jp/
+- JR東海: https://railway.jr-central.co.jp/
+- JR西日本: https://www.train-guide.westjr.co.jp/ and https://timetable.jr-odekake.net/
+- JR四国: https://www.jr-shikoku.co.jp/01_trainbus/jikoku/
+- JR九州: https://www.jrkyushu.co.jp/railway/station/
+- 長崎本線 normal course uses permanent stations 佐賀 -> 鍋島 -> 久保田 -> 牛津; temporary バルーンさが is not used.
+
+Regional train backgrounds:
+- 8 local WebP files, all 1600x900
+- Hokkaido / Tohoku / Kanto / Chubu / Kansai / Chugoku / Shikoku / Kyushu
+- UI-bearing generated images were not used in the game package
+- Backgrounds are scenery layers; track, signals, stop marker and playable train are Canvas-rendered
+
+Environment note:
+- A Chromium headless screenshot attempt was made but the container browser failed to initialize cleanly because its DBus/zygote environment is unavailable.
+- Real iPad gameplay was NOT tested in this environment.

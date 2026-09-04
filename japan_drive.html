@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>日本一周ドライブ｜にじフラ チャレンジ</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;color:#10243b;background:#08131f}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07111d}button{font:inherit}
+#app{position:relative;width:100%;height:100%;max-width:760px;margin:auto;background:#0b1d2d;overflow:hidden;touch-action:none}
+canvas{display:block;width:100%;height:100%;touch-action:none;background:#16293b}
+.hud{position:absolute;left:10px;right:10px;top:max(10px,env(safe-area-inset-top));display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:7px;pointer-events:none}
+.hudBox{background:rgba(2,12,24,.76);color:white;border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:7px 9px;backdrop-filter:blur(4px);min-width:0}
+.hudBox b{display:block;font-size:12px;color:#9fe5ff;white-space:nowrap}.hudBox strong{display:block;font-size:clamp(12px,3.2vw,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hudWide{grid-column:span 2}
+.progressBar{height:7px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden;margin-top:5px}.progressBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#54ddff,#fff06a)}
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,10,20,.55),rgba(2,8,16,.92));display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}
+.panel{width:min(94vw,560px);max-height:94vh;overflow:auto;background:rgba(255,255,255,.96);border-radius:24px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.35)}
+h1{font-size:clamp(28px,7vw,44px);margin:0 0 8px}.lead{font-weight:800;color:#1b67a5;margin:0 0 12px}.note{font-size:13px;color:#526373;line-height:1.65}.route{font-size:13px;background:#eef7ff;border-radius:14px;padding:11px;line-height:1.75;margin:12px 0}.primary,.secondary{width:100%;min-height:52px;border:0;border-radius:14px;font-weight:900;font-size:18px;margin-top:10px;cursor:pointer}.primary{background:#136fe8;color:#fff}.secondary{background:#e7edf4;color:#15314c}.resultGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.stat{background:#f2f7fb;border-radius:14px;padding:12px}.stat b{display:block;font-size:12px;color:#5d7183}.stat strong{font-size:20px}.goal{color:#057d50}.danger{color:#c92b3a}.mini{font-size:12px;color:#678}.hidden{display:none!important}.swipeHint{position:absolute;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:rgba(0,0,0,.62);color:#fff;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:800;pointer-events:none;transition:opacity .3s}.live{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="gameCanvas" width="760" height="1350" aria-label="日本一周ドライブゲーム"></canvas>
+<div class="hud" id="hud" hidden>
+ <div class="hudBox"><b>現在地</b><strong id="hudRegion">宗谷岬</strong></div>
+ <div class="hudBox"><b>走行距離</b><strong id="hudKm">0 km</strong></div>
+ <div class="hudBox"><b>経過時間</b><strong id="hudTime">0:00</strong></div>
+ <div class="hudBox hudWide"><b>次の地域まで</b><strong id="hudNext">東北</strong><div class="progressBar"><i id="routeBar"></i></div></div>
+ <div class="hudBox"><b>日本一周</b><strong id="hudProgress">0%</strong></div>
+</div>
+<div class="swipeHint" id="swipeHint" hidden>← 左右にスワイプして車線変更 →</div>
+<div class="overlay" id="startOverlay">
+ <div class="panel">
+  <div class="lead">宗谷岬 START → 札幌・大通公園 GOAL</div>
+  <h1>🚗 日本一周ドライブ</h1>
+  <p><b>3車線を左右スワイプ</b>して、車・バス・貨物車・バイク・道路障害物をよけよう！</p>
+  <div class="route">宗谷岬 → 東北 → 関東 → 中部 → 関西 → 中国 → 四国 → 九州 → 中国 → 関西 → 中部 → 関東 → 東北 → 北海道 → <b>札幌・大通公園</b></div>
+  <p class="note">約3分でゴールを目指します。ゲーム内の約3,000kmは遊びやすくするために設定した距離で、実際の道路距離を再現したものではありません。障害物に1回でも接触するとゲームオーバーです。</p>
+  <button class="primary" id="startBtn">スタート</button>
+  <button class="secondary" id="backBtn">おわり</button>
+ </div>
+</div>
+<div class="overlay hidden" id="resultOverlay">
+ <div class="panel">
+  <div class="lead" id="resultLead">今回の記録</div><h1 id="resultTitle">ゲームオーバー</h1>
+  <div class="resultGrid">
+   <div class="stat"><b>今回の走行距離</b><strong id="resultKm">0 km</strong></div>
+   <div class="stat"><b>日本一周</b><strong id="resultProgress">0%</strong></div>
+   <div class="stat"><b>到達地域</b><strong id="resultRegion">宗谷岬</strong></div>
+   <div class="stat"><b>プレイ時間</b><strong id="resultTime">0:00</strong></div>
+  </div>
+  <div class="stat"><b>過去最高</b><strong id="bestRecord">0 km</strong><div class="mini" id="bestRegion">まだ記録がありません</div></div>
+  <button class="primary" id="retryBtn">もう一度</button>
+  <button class="secondary" id="finishBtn">おわり</button>
+ </div>
+</div>
+<div class="live" id="liveStatus" aria-live="polite"></div>
+</div>
+<script id="japanDriveGame">
+(()=>{
+'use strict';
+const TOTAL_SECONDS=180,TOTAL_KM=3000,STORAGE_KEY='nijifla_japan_drive_best_v1',SAFE_LOOKAHEAD_MS=850;
+const ROUTE=[
+{id:'hokkaido-start',name:'宗谷岬',nextName:'東北',from:0,to:.08,bg:'assets/japan_drive/hokkaido_start.webp',road:'wide',weather:'clear',period:'day'},
+{id:'tohoku-out',name:'東北',nextName:'関東',from:.08,to:.15,bg:'assets/japan_drive/tohoku_out.webp',road:'rural',weather:'cloudy',period:'day'},
+{id:'kanto-out',name:'関東',nextName:'中部',from:.15,to:.23,bg:'assets/japan_drive/kanto_out.webp',road:'urban',weather:'clear',period:'day'},
+{id:'chubu-out',name:'中部',nextName:'関西',from:.23,to:.31,bg:'assets/japan_drive/chubu_out.webp',road:'mountain',weather:'clear',period:'day'},
+{id:'kansai-out',name:'関西',nextName:'中国',from:.31,to:.39,bg:'assets/japan_drive/kansai_out.webp',road:'urban',weather:'clear',period:'day'},
+{id:'chugoku-out',name:'中国',nextName:'四国',from:.39,to:.47,bg:'assets/japan_drive/chugoku_out.webp',road:'tunnel',weather:'cloudy',period:'day'},
+{id:'shikoku',name:'四国',nextName:'九州',from:.47,to:.55,bg:'assets/japan_drive/shikoku.webp',road:'bridge',weather:'clear',period:'day'},
+{id:'kyushu',name:'九州',nextName:'中国',from:.55,to:.63,bg:'assets/japan_drive/kyushu.webp',road:'coast',weather:'clear',period:'afternoon'},
+{id:'chugoku-back',name:'中国',nextName:'関西',from:.63,to:.70,bg:'assets/japan_drive/chugoku_back.webp',road:'mountain',weather:'rain',period:'evening'},
+{id:'kansai-back',name:'関西',nextName:'中部',from:.70,to:.77,bg:'assets/japan_drive/kansai_back.webp',road:'urban',weather:'rain',period:'evening'},
+{id:'chubu-back',name:'中部',nextName:'関東',from:.77,to:.84,bg:'assets/japan_drive/chubu_back.webp',road:'coast',weather:'clear',period:'evening'},
+{id:'kanto-back',name:'関東',nextName:'東北',from:.84,to:.90,bg:'assets/japan_drive/kanto_back.webp',road:'urban',weather:'clear',period:'night'},
+{id:'tohoku-back',name:'東北',nextName:'北海道',from:.90,to:.96,bg:'assets/japan_drive/tohoku_back.webp',road:'rural',weather:'rain',period:'night'},
+{id:'hokkaido-goal',name:'北海道',nextName:'札幌・大通公園',from:.96,to:1,bg:'assets/japan_drive/hokkaido_goal.webp',road:'city',weather:'clear',period:'night'}
+];
+const VEHICLE_SPEED={car:1,kei:.95,taxi:1.04,bus:.82,tourBus:.78,heavyTruck:.72,cargoTruck:.76,van:.92,bike:1.15,workTruck:.68,brokenCar:.35,slowCar:.55};
+const VEHICLES=Object.keys(VEHICLE_SPEED),STATICS=['cone','barrier','debris','crate','tire','puddle','snow','ice'];
+const ROAD_EVENTS=['none','leftClosed','rightClosed','twoLane','mergeLeft','mergeRight','tunnel','bridge','toll','narrow','curve'];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const clampLane=lane=>Math.max(0,Math.min(2,Math.round(lane)));
+const progressAtSeconds=sec=>clamp(sec/TOTAL_SECONDS,0,1);
+const kmAtSeconds=sec=>Math.round(progressAtSeconds(sec)*TOTAL_KM);
+const segmentAtProgress=p=>ROUTE.find(x=>p>=x.from&&p<x.to)||ROUTE[ROUTE.length-1];
+const speedFactorAtSeconds=sec=>1+.45*progressAtSeconds(sec);
+function resolveSwipe(startX,endX,currentLane,thresholdPx=42){const dx=endX-startX;if(Math.abs(dx)<thresholdPx)return{lane:currentLane,changed:false,direction:'none'};const dir=dx<0?'left':'right';const lane=clampLane(currentLane+(dir==='left'?-1:1));return{lane,changed:lane!==currentLane,direction:lane!==currentLane?dir:'none'};}
+function seeded(seed){let x=(seed|0)>>>0;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296;};}
+function buildSpawnPattern(seedState,difficulty,roadState){
+ const rnd=seeded((seedState&&seedState.seed)||1),d=clamp(Number(difficulty)||0,0,1),lanes=[0,1,2];
+ let closed=[]; const ev=roadState&&roadState.event||'none'; if(ev==='leftClosed'||ev==='mergeRight')closed=[0]; if(ev==='rightClosed'||ev==='mergeLeft')closed=[2]; if(ev==='twoLane')closed=[rnd()<.5?0:2];
+ let possible=lanes.filter(l=>!closed.includes(l)); if(!possible.length)possible=[1]; const safe=possible[Math.floor(rnd()*possible.length)];
+ const maxBlocked=Math.min(2,Math.max(1,Math.floor(1+d*1.4))); const others=possible.filter(l=>l!==safe).sort(()=>rnd()-.5); const blocked=[...closed];
+ for(let i=0;i<Math.min(maxBlocked,others.length);i++) if(rnd()<.72+d*.22&&!blocked.includes(others[i])) blocked.push(others[i]);
+ if(blocked.length>=3)blocked.pop(); const safeLanes=lanes.filter(l=>!blocked.includes(l));
+ const objects=[]; for(const lane of blocked){const moving=rnd()>.32;const kind=moving?VEHICLES[Math.floor(rnd()*VEHICLES.length)]:STATICS[Math.floor(rnd()*STATICS.length)];objects.push({lane,kind,moving,offset:rnd()*.22,speed:moving?VEHICLE_SPEED[kind]*(.88+rnd()*.24):0});}
+ if(d>.55&&objects.length<2&&safeLanes.length>1&&rnd()>.45){const lane=safeLanes.find(l=>l!==safe);if(lane!=null){const kind=VEHICLES[Math.floor(rnd()*VEHICLES.length)];objects.push({lane,kind,moving:true,offset:.28+rnd()*.18,speed:VEHICLE_SPEED[kind]*(.88+rnd()*.24)});if(!blocked.includes(lane))blocked.push(lane);}}
+ const finalSafe=lanes.filter(l=>!blocked.includes(l)); if(!finalSafe.length){blocked.pop();}
+ const guaranteed=lanes.filter(l=>!blocked.includes(l)); const nextDelay=Math.max(.72,1.55-d*.62+rnd()*.22);
+ return{objects,blockedLanes:blocked.sort(),safeLanes:guaranteed,nextDelay,safeLookaheadMs:SAFE_LOOKAHEAD_MS};
+}
+function betterRecord(a,b){if(!a)return b;if(!b)return a;return Number(a.km||0)>=Number(b.km||0)?a:b;}
+let memoryBest=null;
+function readBest(){try{const raw=window.localStorage&&window.localStorage.getItem(STORAGE_KEY);return raw?JSON.parse(raw):memoryBest;}catch(e){return memoryBest;}}
+function writeBest(record){const best=betterRecord(readBest(),record);memoryBest=best;try{window.localStorage&&window.localStorage.setItem(STORAGE_KEY,JSON.stringify(best));}catch(e){}return best;}
+window.__NIJI_JAPAN_DRIVE_TEST__={TOTAL_SECONDS,TOTAL_KM,ROUTE,clampLane,progressAtSeconds,kmAtSeconds,segmentAtProgress,speedFactorAtSeconds,resolveSwipe,buildSpawnPattern,betterRecord,readBest,writeBest,ROAD_EVENTS,VEHICLE_SPEED};
+
+const canvas=document.getElementById('gameCanvas'); if(!canvas||!canvas.getContext)return; const ctx=canvas.getContext('2d');
+const $=id=>document.getElementById(id); const hud=$('hud'),startOverlay=$('startOverlay'),resultOverlay=$('resultOverlay'),swipeHint=$('swipeHint');
+const bgImages={}; ROUTE.forEach(s=>{try{const img=new Image();img.src=s.bg;bgImages[s.id]=img;}catch(e){}});
+let running=false,startMs=0,lastMs=0,elapsed=0,lane=1,targetLane=1,playerX=0,spawnTimer=.7,obstacles=[],roadEvent='none',eventUntil=0,roadScroll=0,swipeStart=null,raf=0,lastSegmentId='';
+function resize(){const r=canvas.getBoundingClientRect?canvas.getBoundingClientRect():{width:760,height:1350};const dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.max(320,Math.floor((r.width||760)*dpr));canvas.height=Math.max(560,Math.floor((r.height||1350)*dpr));ctx.setTransform&&ctx.setTransform(dpr,0,0,dpr,0,0);canvas._w=(r.width||760);canvas._h=(r.height||1350);}
+function dims(){return{w:canvas._w||760,h:canvas._h||1350};}
+function roadGeom(){const {w,h}=dims();const rw=Math.min(w*.78,520);return{x:(w-rw)/2,w:rw,h,laneW:rw/3};}
+function laneCenter(l){const g=roadGeom();return g.x+g.laneW*(l+.5);}
+function updateHUD(p,seg){$('hudRegion').textContent=seg.name;$('hudKm').textContent=kmAtSeconds(elapsed)+' km';$('hudTime').textContent=formatTime(elapsed);$('hudProgress').textContent=Math.floor(p*100)+'%';const segP=clamp((p-seg.from)/(seg.to-seg.from),0,1);const kmLeft=Math.max(0,Math.round((seg.to-p)*TOTAL_KM));$('hudNext').textContent=seg.nextName+'まで 約'+kmLeft+'km';$('routeBar').style.width=(segP*100)+'%';}
+function formatTime(s){const n=Math.max(0,Math.floor(s));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');}
+function periodTint(period){return period==='night'?'rgba(5,12,30,.44)':period==='evening'?'rgba(255,120,50,.10)':'rgba(0,0,0,0)';}
+function drawBackground(seg){const {w,h}=dims(),img=bgImages[seg.id];if(img&&img.complete&&img.naturalWidth){try{const scale=Math.max(w/img.naturalWidth,h/img.naturalHeight);const iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;const y=(roadScroll*.08)%(Math.max(1,ih-h));ctx.drawImage(img,(w-iw)/2,-y,iw,ih);}catch(e){fallbackBg(seg,w,h);}}else fallbackBg(seg,w,h);ctx.fillStyle=periodTint(seg.period);ctx.fillRect(0,0,w,h);}
+function fallbackBg(seg,w,h){const grad=ctx.createLinearGradient?ctx.createLinearGradient(0,0,0,h):null;if(grad){grad.addColorStop(0,seg.period==='night'?'#0b1730':'#79bce0');grad.addColorStop(1,seg.weather==='rain'?'#526777':'#77a85d');ctx.fillStyle=grad;}else ctx.fillStyle='#4f7a8e';ctx.fillRect(0,0,w,h);}
+function drawRoad(seg){const g=roadGeom(),{h}=dims();ctx.fillStyle='rgba(20,24,29,.90)';ctx.fillRect(g.x,0,g.w,h);ctx.fillStyle='rgba(255,255,255,.92)';ctx.fillRect(g.x-4,0,4,h);ctx.fillRect(g.x+g.w,0,4,h);ctx.lineWidth=3;ctx.setLineDash&&ctx.setLineDash([26,26]);ctx.strokeStyle='rgba(255,255,255,.72)';for(let i=1;i<3;i++){ctx.beginPath();ctx.moveTo(g.x+g.laneW*i,-50+(roadScroll%52));ctx.lineTo(g.x+g.laneW*i,h);ctx.stroke();}ctx.setLineDash&&ctx.setLineDash([]);
+ if(seg.weather==='rain'){ctx.fillStyle='rgba(130,190,220,.18)';ctx.fillRect(g.x,0,g.w,h);} if(seg.weather==='cloudy'){ctx.fillStyle='rgba(70,85,100,.09)';ctx.fillRect(g.x,0,g.w,h);} drawRoadEvent(g,h);
+}
+function drawRoadEvent(g,h){if(roadEvent==='none')return;const closed=roadEvent==='leftClosed'||roadEvent==='mergeRight'?0:roadEvent==='rightClosed'||roadEvent==='mergeLeft'?2:roadEvent==='twoLane'?0:null;if(closed!=null){ctx.fillStyle='rgba(245,170,20,.16)';ctx.fillRect(g.x+g.laneW*closed,0,g.laneW,h);for(let y=(roadScroll%90)-90;y<h;y+=90)drawCone(g.x+g.laneW*(closed+.5),y,18);}if(roadEvent==='tunnel'){ctx.fillStyle='rgba(0,0,0,.22)';ctx.fillRect(0,0,g.x,h);ctx.fillRect(g.x+g.w,0,g.x,h);}if(roadEvent==='toll'){ctx.fillStyle='rgba(35,70,95,.75)';ctx.fillRect(g.x,80,g.w,54);ctx.fillStyle='#fff';for(let i=0;i<3;i++)ctx.fillRect(g.x+g.laneW*i+10,96,g.laneW-20,8);}}
+function drawCone(x,y,s){ctx.fillStyle='#ff7a00';ctx.beginPath();ctx.moveTo(x,y-s);ctx.lineTo(x-s*.65,y+s);ctx.lineTo(x+s*.65,y+s);ctx.closePath();ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(x-s*.43,y+s*.1,s*.86,s*.24);}
+function vehicleSize(kind){if(kind==='bike')return{w:30,h:58};if(kind==='bus'||kind==='tourBus')return{w:66,h:132};if(kind.includes('Truck')||kind==='workTruck')return{w:68,h:124};if(kind==='van')return{w:58,h:98};return{w:56,h:92};}
+function colorFor(kind){return kind==='taxi'?'#24a35b':kind==='bus'?'#f4d045':kind==='tourBus'?'#54a8e8':kind.includes('Truck')?'#8794a3':kind==='bike'?'#e94d5b':kind==='brokenCar'?'#8b6b61':'#d9e3ef';}
+function drawVehicle(o){const g=roadGeom(),s=vehicleSize(o.kind),x=laneCenter(o.lane),y=o.y;ctx.save();ctx.translate(x,y);ctx.fillStyle='rgba(0,0,0,.28)';ctx.fillRect(-s.w*.43,-s.h*.38,s.w*.86,s.h*.86);ctx.fillStyle=colorFor(o.kind);roundRect(-s.w/2,-s.h/2,s.w,s.h,Math.max(5,s.w*.14));ctx.fill();ctx.fillStyle='#bde5ff';ctx.fillRect(-s.w*.32,-s.h*.28,s.w*.64,s.h*.2);ctx.fillStyle='#1a2430';ctx.fillRect(-s.w*.36,s.h*.12,s.w*.72,s.h*.17);ctx.restore();}
+function drawStatic(o){const x=laneCenter(o.lane),y=o.y;if(o.kind==='cone'){drawCone(x,y,22);return;}ctx.save();ctx.translate(x,y);if(o.kind==='puddle'||o.kind==='ice'){ctx.fillStyle=o.kind==='ice'?'rgba(190,230,255,.72)':'rgba(40,100,150,.60)';ctx.beginPath();ctx.ellipse&&ctx.ellipse(0,0,34,15,0,0,Math.PI*2);ctx.fill();}else if(o.kind==='barrier'){ctx.fillStyle='#ff8d00';ctx.fillRect(-44,-12,88,24);ctx.fillStyle='#fff';for(let i=-35;i<36;i+=28)ctx.fillRect(i,-12,12,24);}else{ctx.fillStyle=o.kind==='tire'?'#181b20':'#9d7144';ctx.fillRect(-25,-22,50,44);}ctx.restore();}
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+function drawPlayer(){const {h}=dims(),x=playerX||laneCenter(lane),y=h*.82;ctx.save();ctx.translate(x,y);ctx.fillStyle='rgba(0,0,0,.32)';ctx.fillRect(-30,-49,60,102);ctx.fillStyle='#1476e8';roundRect(-31,-51,62,102,12);ctx.fill();ctx.fillStyle='#bde8ff';ctx.fillRect(-21,-33,42,25);ctx.fillStyle='#f7f7f7';ctx.fillRect(-22,24,14,9);ctx.fillRect(8,24,14,9);ctx.restore();}
+function playerRect(){const {h}=dims(),x=playerX||laneCenter(lane);return{x:x-25,y:h*.82-43,w:50,h:86};}
+function objRect(o){const s=o.moving?vehicleSize(o.kind):{w:52,h:44};return{x:laneCenter(o.lane)-s.w*.45,y:o.y-s.h*.45,w:s.w*.9,h:s.h*.9};}
+function hit(a,b){const px=a.w*.1,py=a.h*.1;return a.x+px<b.x+b.w&&a.x+a.w-px>b.x&&a.y+py<b.y+b.h&&a.y+a.h-py>b.y;}
+function maybeEvent(p){if(elapsed<eventUntil)return;const idx=Math.floor(p*ROAD_EVENTS.length*1.7)%ROAD_EVENTS.length;roadEvent=ROAD_EVENTS[idx];eventUntil=elapsed+5.5;}
+function spawn(){const p=progressAtSeconds(elapsed),plan=buildSpawnPattern({seed:(Math.random()*0x7fffffff)|0},p,{lanes:3,event:roadEvent});const {h}=dims();plan.objects.forEach(o=>obstacles.push({...o,y:-80-o.offset*h*.25}));spawnTimer=plan.nextDelay;}
+function update(dt){elapsed+=(dt/1000);if(elapsed>=TOTAL_SECONDS){elapsed=TOTAL_SECONDS;endGame('clear');return;}const p=progressAtSeconds(elapsed),seg=segmentAtProgress(p);maybeEvent(p);roadScroll+=dt*.36*speedFactorAtSeconds(elapsed);playerX+=(laneCenter(targetLane)-playerX)*Math.min(1,dt/135);lane=targetLane;spawnTimer-=dt/1000;if(spawnTimer<=0)spawn();const base=300*speedFactorAtSeconds(elapsed);for(const o of obstacles){const rel=o.moving?(1.35-o.speed*.36):1.35;o.y+=base*rel*(dt/1000);}obstacles=obstacles.filter(o=>o.y<dims().h+180);const pr=playerRect();for(const o of obstacles){if(hit(pr,objRect(o))){endGame('collision',o);return;}}updateHUD(p,seg);if(seg.id!==lastSegmentId){lastSegmentId=seg.id;$('liveStatus').textContent='現在地 '+seg.name;}}
+function draw(){const p=progressAtSeconds(elapsed),seg=segmentAtProgress(p);drawBackground(seg);drawRoad(seg);for(const o of obstacles)o.moving?drawVehicle(o):drawStatic(o);drawPlayer();}
+function loop(now){if(!running)return;const dt=Math.min(50,Math.max(0,now-lastMs||16));lastMs=now;update(dt);draw();if(running)raf=requestAnimationFrame(loop);}
+function resetGame(){running=false;elapsed=0;lane=targetLane=1;obstacles=[];spawnTimer=.7;roadEvent='none';eventUntil=0;roadScroll=0;lastSegmentId='';playerX=laneCenter(1);resultOverlay.classList.add('hidden');startOverlay.classList.add('hidden');hud.hidden=false;swipeHint.hidden=false;updateHUD(0,ROUTE[0]);draw();}
+function startGame(){resetGame();running=true;startMs=performance.now?performance.now():0;lastMs=startMs;raf=requestAnimationFrame(loop);setTimeout(()=>{if(swipeHint)swipeHint.style.opacity='.28';},3500);}
+function recordFor(kind){const p=kind==='clear'?1:progressAtSeconds(elapsed),seg=kind==='clear'?ROUTE[ROUTE.length-1]:segmentAtProgress(p);return{km:kind==='clear'?TOTAL_KM:kmAtSeconds(elapsed),progress:Math.round(p*100),regionId:seg.id,regionName:kind==='clear'?'札幌・大通公園':seg.name,updatedAt:new Date().toISOString()};}
+function endGame(kind){if(!running&&kind!=='clear')return;running=false;if(raf)cancelAnimationFrame(raf);const rec=recordFor(kind),best=writeBest(rec);hud.hidden=true;swipeHint.hidden=true;$('resultTitle').textContent=kind==='clear'?'札幌・大通公園 到着！':'ゲームオーバー';$('resultTitle').className=kind==='clear'?'goal':'danger';$('resultLead').textContent=kind==='clear'?'日本一周クリア！':'今回の記録';$('resultKm').textContent=rec.km.toLocaleString()+' km';$('resultProgress').textContent=rec.progress+'%';$('resultRegion').textContent=rec.regionName;$('resultTime').textContent=formatTime(elapsed);$('bestRecord').textContent=(best?best.km:0).toLocaleString()+' km';$('bestRegion').textContent=best?'最高到達：'+best.regionName:'まだ記録がありません';resultOverlay.classList.remove('hidden');}
+function finish(){window.location.href='index.html';}
+function onDown(e){if(!running)return;swipeStart={x:e.clientX??0,y:e.clientY??0};try{canvas.setPointerCapture&&canvas.setPointerCapture(e.pointerId);}catch(err){}}
+function onUp(e){if(!running||!swipeStart)return;const endX=e.clientX??swipeStart.x,dy=Math.abs((e.clientY??swipeStart.y)-swipeStart.y),dx=Math.abs(endX-swipeStart.x);if(dx>dy*.65){const r=resolveSwipe(swipeStart.x,endX,targetLane,Math.max(36,dims().w*.055));targetLane=r.lane;if(r.changed)$('liveStatus').textContent=r.direction==='left'?'左へ車線変更':'右へ車線変更';}swipeStart=null;}
+canvas.addEventListener&&canvas.addEventListener('pointerdown',onDown);canvas.addEventListener&&canvas.addEventListener('pointerup',onUp);canvas.addEventListener&&canvas.addEventListener('pointercancel',()=>swipeStart=null);
+$('startBtn').addEventListener&&$('startBtn').addEventListener('click',startGame);$('backBtn').addEventListener&&$('backBtn').addEventListener('click',finish);$('retryBtn').addEventListener&&$('retryBtn').addEventListener('click',startGame);$('finishBtn').addEventListener&&$('finishBtn').addEventListener('click',finish);window.addEventListener&&window.addEventListener('resize',()=>{resize();playerX=laneCenter(targetLane);draw();});resize();playerX=laneCenter(1);draw();
+})();
+</script>
+</body>
+</html>
