@@ -1,0 +1,12 @@
+const assert=require('assert');
+const fs=require('fs');
+const html=fs.readFileSync('japan_drive.html','utf8');
+for(const name of ['現在地','次の地域まで','走行距離','日本一周','経過時間','今回の走行距離','過去最高','もう一度','おわり','nijifla_japan_drive_best_v1']) assert(html.includes(name),name);
+for(const file of ['hokkaido_start.webp','tohoku_out.webp','kanto_out.webp','chubu_out.webp','kansai_out.webp','chugoku_out.webp','shikoku.webp','kyushu.webp','chugoku_back.webp','kansai_back.webp','chubu_back.webp','kanto_back.webp','tohoku_back.webp','hokkaido_goal.webp']) assert(fs.existsSync('assets/japan_drive/'+file),file);
+const index=fs.readFileSync('index.html','utf8');
+const catalog=fs.readFileSync('assets/game_catalog.js','utf8');
+assert(index.includes('<span id="gameCount">88</span>'));
+assert.equal((index.match(/data-id="japanDrive"/g)||[]).length,1);
+assert(index.includes("id:'japanDrive'")); assert(catalog.includes("id:'japanDrive'"));
+assert(index.includes('japan_drive.html?v=20260904-jdrive1')); assert(catalog.includes('japan_drive.html?v=20260904-jdrive1'));
+console.log('japan_drive_integration: PASS');
