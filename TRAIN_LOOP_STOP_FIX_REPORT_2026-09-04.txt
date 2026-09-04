@@ -1,0 +1,26 @@
+全国・電車運転 ゲームループ停止 修正レポート
+日付: 2026-09-04
+
+症状:
+- 加速・ブレーキを押しても進まない
+- 本格マスコンも進まない
+- 現在時刻も進まない
+
+根本原因:
+1. startGame() が初回 draw() の後に requestAnimationFrame(loop) を予約していた。
+   iPad/WebView 側で初回Canvas描画が1回でも例外になると、ゲームループが開始されない。
+2. loop() も updatePhysics -> updateHud -> draw の後で次フレームを予約していた。
+   実行中に描画等が1回でも例外になると、その後の時間・速度・距離計算がすべて停止する単一障害点になっていた。
+
+修正:
+- startGame() で先に scheduleFrame(loop) を確保してから初回描画を実施。
+- 初回 resize/draw/updateHud を個別try/catchで隔離。
+- loop() は次フレームを先に予約し、physics/HUD/renderを個別例外隔離。
+- requestAnimationFrame がない場合は setTimeout(16ms) へフォールバック。
+- performance.now が使えない場合は Date.now へフォールバック。
+- キャッシュ版を v=20260904-trainfix3 に更新。
+
+ドア操作:
+- 今回の停止原因ではない。
+- 本格モードのリアリティ用で、速度・時刻・停止位置のゲーム性には必須ではない。
+- 自動開閉へ変更する場合は別の仕様変更として対応可能。
