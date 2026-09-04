@@ -1,0 +1,10 @@
+const assert=require('assert');
+const {load}=require('./train_test_loader');
+const {T,html}=load();
+assert.equal(typeof T.trackMotionPhase,'function','trackMotionPhase must be exported');
+assert.equal(T.trackMotionPhase(0,8),0);
+assert(T.trackMotionPhase(4,8)>0.49 && T.trackMotionPhase(4,8)<0.51);
+assert.equal(T.trackMotionPhase(8,8),0);
+assert.notEqual(T.trackMotionPhase(2,8),T.trackMotionPhase(3,8));
+assert(html.includes('trackMotionPhase(state.position,8)'),'forward scene must use traveled position for motion');
+console.log('train_motion_fix: PASS');

@@ -1,0 +1,12 @@
+const assert=require('assert');
+const {load}=require('./train_test_loader');
+const {T,html}=load();
+assert.equal(typeof T.nextEasyControlMode,'function','nextEasyControlMode must be exported');
+assert.equal(T.nextEasyControlMode('coast','power'),'power');
+assert.equal(T.nextEasyControlMode('power','power'),'coast');
+assert.equal(T.nextEasyControlMode('power','brake'),'brake');
+assert.equal(T.nextEasyControlMode('brake','power'),'power');
+assert.equal(T.nextEasyControlMode('brake','brake'),'coast');
+assert(html.includes("$('powerBtn').onclick"),'power button must support tap/click');
+assert(html.includes("$('brakeBtn').onclick"),'brake button must support tap/click');
+console.log('train_easy_tap_fix: PASS');
