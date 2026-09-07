@@ -11,7 +11,7 @@
 canvas{display:block;width:100%;height:100%;touch-action:none;background:#16293b}
 .hud{position:absolute;left:10px;right:10px;top:max(10px,env(safe-area-inset-top));display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:7px;pointer-events:none}
 .hudBox{background:rgba(2,12,24,.76);color:white;border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:7px 9px;backdrop-filter:blur(4px);min-width:0}
-.hudBox b{display:block;font-size:12px;color:#9fe5ff;white-space:nowrap}.hudBox strong{display:block;font-size:clamp(12px,3.2vw,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hudWide{grid-column:span 2}
+.hudBox b{display:block;font-size:12px;color:#9fe5ff;white-space:nowrap}.hudBox strong{display:block;font-size:clamp(12px,3.2vw,17px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lifeStrong{letter-spacing:2px;color:#ff7d8f!important}.hudWide{grid-column:span 2}
 .progressBar{height:7px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden;margin-top:5px}.progressBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#54ddff,#fff06a)}
 .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,10,20,.55),rgba(2,8,16,.92));display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}
 .panel{width:min(94vw,560px);max-height:94vh;overflow:auto;background:rgba(255,255,255,.96);border-radius:24px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.35)}
@@ -27,15 +27,16 @@ h1{font-size:clamp(28px,7vw,44px);margin:0 0 8px}.lead{font-weight:800;color:#1b
  <div class="hudBox"><b>経過時間</b><strong id="hudTime">0:00</strong></div>
  <div class="hudBox hudWide"><b>次の地域まで</b><strong id="hudNext">東北</strong><div class="progressBar"><i id="routeBar"></i></div></div>
  <div class="hudBox"><b>日本一周</b><strong id="hudProgress">0%</strong></div>
+ <div class="hudBox"><b>ライフ</b><strong id="hudLives" class="lifeStrong">♥♥♥</strong></div>
 </div>
-<div class="swipeHint" id="swipeHint" hidden>← 左右にスワイプして車線変更 →</div>
+<div class="swipeHint" id="swipeHint" hidden>← 左右スワイプ / ← →キーで車線変更 →</div>
 <div class="overlay" id="startOverlay">
  <div class="panel">
   <div class="lead">宗谷岬 START → 札幌・大通公園 GOAL</div>
   <h1>🚗 日本一周ドライブ</h1>
-  <p><b>3車線を左右スワイプ</b>して、車・バス・貨物車・バイク・道路障害物をよけよう！</p>
+  <p><b>左右に車線変更</b>して、前を走る車や工事の障害物をよけ、札幌まで走ろう！</p>
   <div class="route">宗谷岬 → 東北 → 関東 → 中部 → 関西 → 中国 → 四国 → 九州 → 中国 → 関西 → 中部 → 関東 → 東北 → 北海道 → <b>札幌・大通公園</b></div>
-  <p class="note">約3分でゴールを目指します。ゲーム内の約3,000kmは遊びやすくするために設定した距離で、実際の道路距離を再現したものではありません。障害物に1回でも接触するとゲームオーバーです。</p>
+  <p class="note">約3分でゴールを目指します。ライフは3つ。ぶつかってもすぐには終わらず、3回目でゲームオーバーです。通行止めの車線には入らず、必ず空いている車線を選びましょう。ゲーム内の約3,000kmは遊びやすくするための設定です。</p>
   <button class="primary" id="startBtn">スタート</button>
   <button class="secondary" id="backBtn">おわり</button>
  </div>
@@ -77,27 +78,38 @@ const ROUTE=[
 {id:'hokkaido-goal',name:'北海道',nextName:'札幌・大通公園',from:.96,to:1,bg:'assets/japan_drive/hokkaido_goal.webp',road:'city',weather:'clear',period:'night'}
 ];
 const VEHICLE_SPEED={car:1,kei:.95,taxi:1.04,bus:.82,tourBus:.78,heavyTruck:.72,cargoTruck:.76,van:.92,bike:1.15,workTruck:.68,brokenCar:.35,slowCar:.55};
-const VEHICLES=Object.keys(VEHICLE_SPEED),STATICS=['cone','barrier','debris','crate','tire','puddle','snow','ice'];
+const VEHICLES=Object.keys(VEHICLE_SPEED),STATICS=['cone','barrier','debris','crate','tire'];
 const ROAD_EVENTS=['none','leftClosed','rightClosed','twoLane','mergeLeft','mergeRight','tunnel','bridge','toll','narrow','curve'];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const clampLane=lane=>Math.max(0,Math.min(2,Math.round(lane)));
 const progressAtSeconds=sec=>clamp(sec/TOTAL_SECONDS,0,1);
 const kmAtSeconds=sec=>Math.round(progressAtSeconds(sec)*TOTAL_KM);
 const segmentAtProgress=p=>ROUTE.find(x=>p>=x.from&&p<x.to)||ROUTE[ROUTE.length-1];
-const speedFactorAtSeconds=sec=>1+.45*progressAtSeconds(sec);
+const speedFactorAtSeconds=sec=>1+.20*progressAtSeconds(sec);
 function resolveSwipe(startX,endX,currentLane,thresholdPx=42){const dx=endX-startX;if(Math.abs(dx)<thresholdPx)return{lane:currentLane,changed:false,direction:'none'};const dir=dx<0?'left':'right';const lane=clampLane(currentLane+(dir==='left'?-1:1));return{lane,changed:lane!==currentLane,direction:lane!==currentLane?dir:'none'};}
 function seeded(seed){let x=(seed|0)>>>0;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296;};}
 function buildSpawnPattern(seedState,difficulty,roadState){
  const rnd=seeded((seedState&&seedState.seed)||1),d=clamp(Number(difficulty)||0,0,1),lanes=[0,1,2];
- let closed=[]; const ev=roadState&&roadState.event||'none'; if(ev==='leftClosed'||ev==='mergeRight')closed=[0]; if(ev==='rightClosed'||ev==='mergeLeft')closed=[2]; if(ev==='twoLane')closed=[rnd()<.5?0:2];
- let possible=lanes.filter(l=>!closed.includes(l)); if(!possible.length)possible=[1]; const safe=possible[Math.floor(rnd()*possible.length)];
- const maxBlocked=Math.min(2,Math.max(1,Math.floor(1+d*1.4))); const others=possible.filter(l=>l!==safe).sort(()=>rnd()-.5); const blocked=[...closed];
- for(let i=0;i<Math.min(maxBlocked,others.length);i++) if(rnd()<.72+d*.22&&!blocked.includes(others[i])) blocked.push(others[i]);
- if(blocked.length>=3)blocked.pop(); const safeLanes=lanes.filter(l=>!blocked.includes(l));
- const objects=[]; for(const lane of blocked){const moving=rnd()>.32;const kind=moving?VEHICLES[Math.floor(rnd()*VEHICLES.length)]:STATICS[Math.floor(rnd()*STATICS.length)];objects.push({lane,kind,moving,offset:rnd()*.22,speed:moving?VEHICLE_SPEED[kind]*(.88+rnd()*.24):0});}
- if(d>.55&&objects.length<2&&safeLanes.length>1&&rnd()>.45){const lane=safeLanes.find(l=>l!==safe);if(lane!=null){const kind=VEHICLES[Math.floor(rnd()*VEHICLES.length)];objects.push({lane,kind,moving:true,offset:.28+rnd()*.18,speed:VEHICLE_SPEED[kind]*(.88+rnd()*.24)});if(!blocked.includes(lane))blocked.push(lane);}}
- const finalSafe=lanes.filter(l=>!blocked.includes(l)); if(!finalSafe.length){blocked.pop();}
- const guaranteed=lanes.filter(l=>!blocked.includes(l)); const nextDelay=Math.max(.72,1.55-d*.62+rnd()*.22);
+ const ev=roadState&&roadState.event||'none';
+ let closed=[];
+ if(ev==='leftClosed'||ev==='mergeRight'||ev==='twoLane')closed=[0];
+ if(ev==='rightClosed'||ev==='mergeLeft')closed=[2];
+ const open=lanes.filter(l=>!closed.includes(l));
+ const maxHazards=d<.17?1:(d<.58?1:Math.min(2,open.length-1));
+ const wanted=maxHazards<=1?1:(rnd()<.55?1:2);
+ const shuffled=[...open].sort(()=>rnd()-.5);
+ const safe=shuffled.shift();
+ const hazardLanes=shuffled.slice(0,Math.min(wanted,Math.max(0,open.length-1)));
+ const objects=[];
+ for(const lane of hazardLanes){
+   const moving=rnd()>.28;
+   const kind=moving?VEHICLES[Math.floor(rnd()*VEHICLES.length)]:STATICS[Math.floor(rnd()*STATICS.length)];
+   objects.push({lane,kind,moving,offset:rnd()*.18,speed:moving?VEHICLE_SPEED[kind]*(.90+rnd()*.16):0});
+ }
+ const blocked=[...closed,...hazardLanes];
+ const guaranteed=lanes.filter(l=>!blocked.includes(l));
+ if(!guaranteed.length&&safe!=null)guaranteed.push(safe);
+ const nextDelay=Math.max(1.4,1.90-d*.35+rnd()*.24);
  return{objects,blockedLanes:blocked.sort(),safeLanes:guaranteed,nextDelay,safeLookaheadMs:SAFE_LOOKAHEAD_MS};
 }
 function betterRecord(a,b){if(!a)return b;if(!b)return a;return Number(a.km||0)>=Number(b.km||0)?a:b;}
@@ -109,12 +121,12 @@ window.__NIJI_JAPAN_DRIVE_TEST__={TOTAL_SECONDS,TOTAL_KM,ROUTE,clampLane,progres
 const canvas=document.getElementById('gameCanvas'); if(!canvas||!canvas.getContext)return; const ctx=canvas.getContext('2d');
 const $=id=>document.getElementById(id); const hud=$('hud'),startOverlay=$('startOverlay'),resultOverlay=$('resultOverlay'),swipeHint=$('swipeHint');
 const bgImages={}; ROUTE.forEach(s=>{try{const img=new Image();img.src=s.bg;bgImages[s.id]=img;}catch(e){}});
-let running=false,startMs=0,lastMs=0,elapsed=0,lane=1,targetLane=1,playerX=0,spawnTimer=.7,obstacles=[],roadEvent='none',eventUntil=0,roadScroll=0,swipeStart=null,raf=0,lastSegmentId='';
+let running=false,startMs=0,lastMs=0,elapsed=0,lane=1,targetLane=1,playerX=0,spawnTimer=.9,obstacles=[],roadEvent='none',eventUntil=0,roadScroll=0,swipeStart=null,raf=0,lastSegmentId='',lives=3,invulnerableUntil=0;
 function resize(){const r=canvas.getBoundingClientRect?canvas.getBoundingClientRect():{width:760,height:1350};const dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.max(320,Math.floor((r.width||760)*dpr));canvas.height=Math.max(560,Math.floor((r.height||1350)*dpr));ctx.setTransform&&ctx.setTransform(dpr,0,0,dpr,0,0);canvas._w=(r.width||760);canvas._h=(r.height||1350);}
 function dims(){return{w:canvas._w||760,h:canvas._h||1350};}
 function roadGeom(){const {w,h}=dims();const rw=Math.min(w*.78,520);return{x:(w-rw)/2,w:rw,h,laneW:rw/3};}
 function laneCenter(l){const g=roadGeom();return g.x+g.laneW*(l+.5);}
-function updateHUD(p,seg){$('hudRegion').textContent=seg.name;$('hudKm').textContent=kmAtSeconds(elapsed)+' km';$('hudTime').textContent=formatTime(elapsed);$('hudProgress').textContent=Math.floor(p*100)+'%';const segP=clamp((p-seg.from)/(seg.to-seg.from),0,1);const kmLeft=Math.max(0,Math.round((seg.to-p)*TOTAL_KM));$('hudNext').textContent=seg.nextName+'まで 約'+kmLeft+'km';$('routeBar').style.width=(segP*100)+'%';}
+function updateHUD(p,seg){$('hudRegion').textContent=seg.name;$('hudKm').textContent=kmAtSeconds(elapsed)+' km';$('hudTime').textContent=formatTime(elapsed);$('hudProgress').textContent=Math.floor(p*100)+'%';const segP=clamp((p-seg.from)/(seg.to-seg.from),0,1);const kmLeft=Math.max(0,Math.round((seg.to-p)*TOTAL_KM));$('hudNext').textContent=seg.nextName+'まで 約'+kmLeft+'km';$('routeBar').style.width=(segP*100)+'%';$('hudLives').textContent='♥'.repeat(lives)+'♡'.repeat(3-lives);}
 function formatTime(s){const n=Math.max(0,Math.floor(s));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');}
 function periodTint(period){return period==='night'?'rgba(5,12,30,.44)':period==='evening'?'rgba(255,120,50,.10)':'rgba(0,0,0,0)';}
 function drawBackground(seg){const {w,h}=dims(),img=bgImages[seg.id];if(img&&img.complete&&img.naturalWidth){try{const scale=Math.max(w/img.naturalWidth,h/img.naturalHeight);const iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;const y=(roadScroll*.08)%(Math.max(1,ih-h));ctx.drawImage(img,(w-iw)/2,-y,iw,ih);}catch(e){fallbackBg(seg,w,h);}}else fallbackBg(seg,w,h);ctx.fillStyle=periodTint(seg.period);ctx.fillRect(0,0,w,h);}
@@ -129,22 +141,25 @@ function colorFor(kind){return kind==='taxi'?'#24a35b':kind==='bus'?'#f4d045':ki
 function drawVehicle(o){const g=roadGeom(),s=vehicleSize(o.kind),x=laneCenter(o.lane),y=o.y;ctx.save();ctx.translate(x,y);ctx.fillStyle='rgba(0,0,0,.28)';ctx.fillRect(-s.w*.43,-s.h*.38,s.w*.86,s.h*.86);ctx.fillStyle=colorFor(o.kind);roundRect(-s.w/2,-s.h/2,s.w,s.h,Math.max(5,s.w*.14));ctx.fill();ctx.fillStyle='#bde5ff';ctx.fillRect(-s.w*.32,-s.h*.28,s.w*.64,s.h*.2);ctx.fillStyle='#1a2430';ctx.fillRect(-s.w*.36,s.h*.12,s.w*.72,s.h*.17);ctx.restore();}
 function drawStatic(o){const x=laneCenter(o.lane),y=o.y;if(o.kind==='cone'){drawCone(x,y,22);return;}ctx.save();ctx.translate(x,y);if(o.kind==='puddle'||o.kind==='ice'){ctx.fillStyle=o.kind==='ice'?'rgba(190,230,255,.72)':'rgba(40,100,150,.60)';ctx.beginPath();ctx.ellipse&&ctx.ellipse(0,0,34,15,0,0,Math.PI*2);ctx.fill();}else if(o.kind==='barrier'){ctx.fillStyle='#ff8d00';ctx.fillRect(-44,-12,88,24);ctx.fillStyle='#fff';for(let i=-35;i<36;i+=28)ctx.fillRect(i,-12,12,24);}else{ctx.fillStyle=o.kind==='tire'?'#181b20':'#9d7144';ctx.fillRect(-25,-22,50,44);}ctx.restore();}
 function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
-function drawPlayer(){const {h}=dims(),x=playerX||laneCenter(lane),y=h*.82;ctx.save();ctx.translate(x,y);ctx.fillStyle='rgba(0,0,0,.32)';ctx.fillRect(-30,-49,60,102);ctx.fillStyle='#1476e8';roundRect(-31,-51,62,102,12);ctx.fill();ctx.fillStyle='#bde8ff';ctx.fillRect(-21,-33,42,25);ctx.fillStyle='#f7f7f7';ctx.fillRect(-22,24,14,9);ctx.fillRect(8,24,14,9);ctx.restore();}
+function drawPlayer(){const {h}=dims(),x=playerX||laneCenter(lane),y=h*.82;ctx.save();if((performance.now?performance.now():0)<invulnerableUntil&&Math.floor((performance.now?performance.now():0)/110)%2===0)ctx.globalAlpha=.38;ctx.translate(x,y);ctx.fillStyle='rgba(0,0,0,.32)';ctx.fillRect(-30,-49,60,102);ctx.fillStyle='#1476e8';roundRect(-31,-51,62,102,12);ctx.fill();ctx.fillStyle='#bde8ff';ctx.fillRect(-21,-33,42,25);ctx.fillStyle='#f7f7f7';ctx.fillRect(-22,24,14,9);ctx.fillRect(8,24,14,9);ctx.restore();}
 function playerRect(){const {h}=dims(),x=playerX||laneCenter(lane);return{x:x-25,y:h*.82-43,w:50,h:86};}
 function objRect(o){const s=o.moving?vehicleSize(o.kind):{w:52,h:44};return{x:laneCenter(o.lane)-s.w*.45,y:o.y-s.h*.45,w:s.w*.9,h:s.h*.9};}
 function hit(a,b){const px=a.w*.1,py=a.h*.1;return a.x+px<b.x+b.w&&a.x+a.w-px>b.x&&a.y+py<b.y+b.h&&a.y+a.h-py>b.y;}
+function applyCollisionState(currentLives,now,currentInvulnerableUntil){if(now<currentInvulnerableUntil)return{lives:currentLives,gameOver:false,invulnerableUntil:currentInvulnerableUntil,hit:false};const next=Math.max(0,currentLives-1);return{lives:next,gameOver:next<=0,invulnerableUntil:now+1350,hit:true};}
 function maybeEvent(p){if(elapsed<eventUntil)return;const idx=Math.floor(p*ROAD_EVENTS.length*1.7)%ROAD_EVENTS.length;roadEvent=ROAD_EVENTS[idx];eventUntil=elapsed+5.5;}
 function spawn(){const p=progressAtSeconds(elapsed),plan=buildSpawnPattern({seed:(Math.random()*0x7fffffff)|0},p,{lanes:3,event:roadEvent});const {h}=dims();plan.objects.forEach(o=>obstacles.push({...o,y:-80-o.offset*h*.25}));spawnTimer=plan.nextDelay;}
-function update(dt){elapsed+=(dt/1000);if(elapsed>=TOTAL_SECONDS){elapsed=TOTAL_SECONDS;endGame('clear');return;}const p=progressAtSeconds(elapsed),seg=segmentAtProgress(p);maybeEvent(p);roadScroll+=dt*.36*speedFactorAtSeconds(elapsed);playerX+=(laneCenter(targetLane)-playerX)*Math.min(1,dt/135);lane=targetLane;spawnTimer-=dt/1000;if(spawnTimer<=0)spawn();const base=300*speedFactorAtSeconds(elapsed);for(const o of obstacles){const rel=o.moving?(1.35-o.speed*.36):1.35;o.y+=base*rel*(dt/1000);}obstacles=obstacles.filter(o=>o.y<dims().h+180);const pr=playerRect();for(const o of obstacles){if(hit(pr,objRect(o))){endGame('collision',o);return;}}updateHUD(p,seg);if(seg.id!==lastSegmentId){lastSegmentId=seg.id;$('liveStatus').textContent='現在地 '+seg.name;}}
+function update(dt){elapsed+=(dt/1000);if(elapsed>=TOTAL_SECONDS){elapsed=TOTAL_SECONDS;endGame('clear');return;}const p=progressAtSeconds(elapsed),seg=segmentAtProgress(p);maybeEvent(p);roadScroll+=dt*.36*speedFactorAtSeconds(elapsed);playerX+=(laneCenter(targetLane)-playerX)*Math.min(1,dt/135);lane=targetLane;spawnTimer-=dt/1000;if(spawnTimer<=0)spawn();const base=285*speedFactorAtSeconds(elapsed);for(const o of obstacles){const rel=o.moving?(1.35-o.speed*.36):1.35;o.y+=base*rel*(dt/1000);}obstacles=obstacles.filter(o=>o.y<dims().h+180);const pr=playerRect(),now=(performance.now?performance.now():0);for(let i=0;i<obstacles.length;i++){const o=obstacles[i];if(hit(pr,objRect(o))){const state=applyCollisionState(lives,now,invulnerableUntil);if(state.hit){lives=state.lives;invulnerableUntil=state.invulnerableUntil;obstacles.splice(i,1);$('liveStatus').textContent=state.gameOver?'ライフがなくなりました':'ぶつかりました。あと'+lives+'回';updateHUD(p,seg);if(state.gameOver){endGame('collision');return;}}break;}}updateHUD(p,seg);if(seg.id!==lastSegmentId){lastSegmentId=seg.id;$('liveStatus').textContent='現在地 '+seg.name;}}
 function draw(){const p=progressAtSeconds(elapsed),seg=segmentAtProgress(p);drawBackground(seg);drawRoad(seg);for(const o of obstacles)o.moving?drawVehicle(o):drawStatic(o);drawPlayer();}
 function loop(now){if(!running)return;const dt=Math.min(50,Math.max(0,now-lastMs||16));lastMs=now;update(dt);draw();if(running)raf=requestAnimationFrame(loop);}
-function resetGame(){running=false;elapsed=0;lane=targetLane=1;obstacles=[];spawnTimer=.7;roadEvent='none';eventUntil=0;roadScroll=0;lastSegmentId='';playerX=laneCenter(1);resultOverlay.classList.add('hidden');startOverlay.classList.add('hidden');hud.hidden=false;swipeHint.hidden=false;updateHUD(0,ROUTE[0]);draw();}
+function resetGame(){running=false;elapsed=0;lane=targetLane=1;obstacles=[];spawnTimer=.9;roadEvent='none';eventUntil=0;roadScroll=0;lastSegmentId='';lives=3;invulnerableUntil=0;playerX=laneCenter(1);resultOverlay.classList.add('hidden');startOverlay.classList.add('hidden');hud.hidden=false;swipeHint.hidden=false;updateHUD(0,ROUTE[0]);draw();}
 function startGame(){resetGame();running=true;startMs=performance.now?performance.now():0;lastMs=startMs;raf=requestAnimationFrame(loop);setTimeout(()=>{if(swipeHint)swipeHint.style.opacity='.28';},3500);}
 function recordFor(kind){const p=kind==='clear'?1:progressAtSeconds(elapsed),seg=kind==='clear'?ROUTE[ROUTE.length-1]:segmentAtProgress(p);return{km:kind==='clear'?TOTAL_KM:kmAtSeconds(elapsed),progress:Math.round(p*100),regionId:seg.id,regionName:kind==='clear'?'札幌・大通公園':seg.name,updatedAt:new Date().toISOString()};}
 function endGame(kind){if(!running&&kind!=='clear')return;running=false;if(raf)cancelAnimationFrame(raf);const rec=recordFor(kind),best=writeBest(rec);hud.hidden=true;swipeHint.hidden=true;$('resultTitle').textContent=kind==='clear'?'札幌・大通公園 到着！':'ゲームオーバー';$('resultTitle').className=kind==='clear'?'goal':'danger';$('resultLead').textContent=kind==='clear'?'日本一周クリア！':'今回の記録';$('resultKm').textContent=rec.km.toLocaleString()+' km';$('resultProgress').textContent=rec.progress+'%';$('resultRegion').textContent=rec.regionName;$('resultTime').textContent=formatTime(elapsed);$('bestRecord').textContent=(best?best.km:0).toLocaleString()+' km';$('bestRegion').textContent=best?'最高到達：'+best.regionName:'まだ記録がありません';resultOverlay.classList.remove('hidden');}
 function finish(){window.location.href='index.html';}
 function onDown(e){if(!running)return;swipeStart={x:e.clientX??0,y:e.clientY??0};try{canvas.setPointerCapture&&canvas.setPointerCapture(e.pointerId);}catch(err){}}
 function onUp(e){if(!running||!swipeStart)return;const endX=e.clientX??swipeStart.x,dy=Math.abs((e.clientY??swipeStart.y)-swipeStart.y),dx=Math.abs(endX-swipeStart.x);if(dx>dy*.65){const r=resolveSwipe(swipeStart.x,endX,targetLane,Math.max(36,dims().w*.055));targetLane=r.lane;if(r.changed)$('liveStatus').textContent=r.direction==='left'?'左へ車線変更':'右へ車線変更';}swipeStart=null;}
+function onKeyDown(e){if(!running)return;if(e.key==='ArrowLeft'){targetLane=clampLane(targetLane-1);e.preventDefault&&e.preventDefault();$('liveStatus').textContent='左へ車線変更';}else if(e.key==='ArrowRight'){targetLane=clampLane(targetLane+1);e.preventDefault&&e.preventDefault();$('liveStatus').textContent='右へ車線変更';}}
+window.addEventListener&&window.addEventListener('keydown',onKeyDown);
 canvas.addEventListener&&canvas.addEventListener('pointerdown',onDown);canvas.addEventListener&&canvas.addEventListener('pointerup',onUp);canvas.addEventListener&&canvas.addEventListener('pointercancel',()=>swipeStart=null);
 $('startBtn').addEventListener&&$('startBtn').addEventListener('click',startGame);$('backBtn').addEventListener&&$('backBtn').addEventListener('click',finish);$('retryBtn').addEventListener&&$('retryBtn').addEventListener('click',startGame);$('finishBtn').addEventListener&&$('finishBtn').addEventListener('click',finish);window.addEventListener&&window.addEventListener('resize',()=>{resize();playerX=laneCenter(targetLane);draw();});resize();playerX=laneCenter(1);draw();
 })();
