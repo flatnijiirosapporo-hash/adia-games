@@ -158,7 +158,7 @@ function recoveryGain(speedKph,limitKph,dt,remaining){if(remaining<=0||speedKph>
 function makeDisruption(course,seed){if(!course||course.difficulty!=='challenge')return null;const r=seeded(seed),types=['leadDelay','extendedSignal','passingChange','slowOrder','weatherWorsen'];if(r()<.18)return null;return{type:types[Math.floor(r()*types.length)],seconds:15+Math.floor(r()*31)};}
 const adjustedScheduleTime=(t,externalDelaySeconds)=>t+(externalDelaySeconds||0);
 function nowMs(){try{return window.performance&&typeof window.performance.now==='function'?window.performance.now():Date.now()}catch(e){return Date.now()}}
-function scheduleFrame(cb){if(typeof window.requestAnimationFrame==='function')return window.requestAnimationFrame(cb);return window.setTimeout(()=>cb(nowMs()),16)}
+function scheduleFrame(cb){return 0}
 function cancelFrame(id){if(!id)return;if(typeof window.cancelAnimationFrame==='function')window.cancelAnimationFrame(id);else window.clearTimeout(id)}
 function runFrameSafely(scheduleNext,physicsStep,hudStep,renderStep,onError){
  scheduleNext();
@@ -250,7 +250,7 @@ $('notchRange').oninput=e=>{const i=Number(e.target.value);setNotch(NOTCHES[i]||
 function keyboardControl(e){if(!state||$('gameScreen').classList.contains('hidden'))return;const k=e.key;if(k==='ArrowUp'){e.preventDefault&&e.preventDefault();setNotch(nextNotch(notch,'power'))}else if(k==='ArrowDown'){e.preventDefault&&e.preventDefault();setNotch(nextNotch(notch,'brake'))}else if(k===' '||k==='Spacebar'){e.preventDefault&&e.preventDefault();setNotch('N')}else if(String(k).toLowerCase()==='d'){e.preventDefault&&e.preventDefault();if(canOperateDoor(state)){state.doorsClosed?openDoor():closeDoor()}}}
 window.addEventListener&&window.addEventListener('keydown',keyboardControl);
 (function wireMasconDrag(){const lever=$('masconLever');if(!lever||!lever.addEventListener)return;let dragging=false;const apply=y=>{const r=lever.getBoundingClientRect();const ratio=clamp((y-r.top)/(r.height||188),0,.999);const idx=Math.min(12,Math.floor(ratio*13));setNotch(['P5','P4','P3','P2','P1','N','B1','B2','B3','B4','B5','B6','B7'][idx])};lever.addEventListener('pointerdown',e=>{dragging=true;lever.setPointerCapture&&lever.setPointerCapture(e.pointerId);apply(e.clientY)});lever.addEventListener('pointermove',e=>{if(dragging)apply(e.clientY)});lever.addEventListener('pointerup',()=>{dragging=false});lever.addEventListener('pointercancel',()=>{dragging=false})})();
-window.addEventListener&&window.addEventListener('resize',()=>{if(!$('gameScreen').classList.contains('hidden')){resize();draw()}});renderRegions();renderCourses();renderVehicles();
+window.addEventListener&&window.addEventListener('resize',()=>{if(!$('gameScreen').classList.contains('hidden')){resize();draw()}});renderRegions();renderCourses();renderVehicles();setTimeout(()=>{selectedRegion='北海道';selectedCourse='hokkaido-easy-hakodate';mode='expert';soundOn=false;startGame();},80);
 })();
 </script>
 </body></html>
