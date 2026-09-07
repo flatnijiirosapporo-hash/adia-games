@@ -12,7 +12,7 @@ const document={getElementById:id=>elements[id]||null,createElement:tag=>el('dyn
 const store={};const localStorage={getItem:k=>store[k]??null,setItem:(k,v)=>store[k]=String(v)};
 function Image(){this.complete=false;this.naturalWidth=0;this.naturalHeight=0;}
 function Audio(){this.currentTime=0;this.play=()=>Promise.resolve();}
-const window={localStorage,devicePixelRatio:1,location:{href:''},speechSynthesis:null,addEventListener(){}};
+const handlers={};const window={localStorage,devicePixelRatio:1,location:{href:''},speechSynthesis:null,addEventListener(type,cb){handlers[type]=cb}};
 const sandbox={window,document,localStorage,Image,Audio,SpeechSynthesisUtterance:function(){},console,Math,Date,JSON,performance:{now:()=>now},requestAnimationFrame:cb=>{rafQueue.push(cb);return rafQueue.length},cancelAnimationFrame(){},setTimeout:cb=>{cb();return 1},clearTimeout(){}};window.window=window;window.document=document;window.Image=Image;window.Audio=Audio;window.performance=sandbox.performance;window.requestAnimationFrame=sandbox.requestAnimationFrame;window.cancelAnimationFrame=sandbox.cancelAnimationFrame;window.setTimeout=sandbox.setTimeout;
 vm.runInNewContext(m[1],sandbox,{filename:'train_driver.html'});
 assert.equal(elements.regionMap.children.length,8,'regions rendered');
@@ -20,7 +20,7 @@ assert.equal(elements.courseGrid.children.length,3,'courses rendered');
 assert.equal(elements.vehicleGrid.children.length,6,'vehicles rendered');
 elements.prepareBtn.onclick();assert(elements.departStartBtn&&typeof elements.departStartBtn.onclick==='function','depart button wired');
 elements.departStartBtn.onclick();assert.equal(elements.gameScreen.classList.contains('hidden'),false,'game screen shown');assert.equal(elements.selectScreen.classList.contains('hidden'),true,'select hidden');const initialClock=elements.clockHud.textContent;
-elements.powerBtn.onclick();assert.equal(elements.powerBtn.textContent,'加速中','tap enters power state');
+assert.equal(typeof handlers.keydown,'function','keyboard handler wired');handlers.keydown({key:'ArrowUp',preventDefault(){}});assert.equal(elements.notchNow.textContent,'P1','ArrowUp moves N to P1');
 for(let i=0;i<600;i++){const cb=rafQueue.shift();assert(cb,'raf callback exists');now+=1000/60;cb(now)}
 const speed=parseFloat(elements.speedHud.textContent);assert(speed>5,'speed rises after tap, got '+speed);assert.notEqual(elements.clockHud.textContent,initialClock,'game clock must advance');assert(drawCalls>100,'canvas drawing occurred');
 console.log('train_ui_smoke: PASS speed='+speed+' clock='+elements.clockHud.textContent+' drawCalls='+drawCalls);
